@@ -1,6 +1,6 @@
 package com.eminyidle.auth.redis;
 
-import com.welcome.tteoksang.game.dto.user.UserProductInfo;
+import com.eminyidle.auth.game.dto.user.UserProductInfo;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/tourlist.iml" filepath="$PROJECT_DIR$/.idea/tourlist.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tourlist_auth.main.iml" filepath="$PROJECT_DIR$/.idea/modules/tourlist_auth.main.iml" />
     </modules>
   </component>
 </project>
