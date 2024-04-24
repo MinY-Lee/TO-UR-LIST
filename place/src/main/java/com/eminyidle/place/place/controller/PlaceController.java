@@ -8,6 +8,5 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 @RequiredArgsConstructor
 public class PlaceController {
-
-
+    
 }
