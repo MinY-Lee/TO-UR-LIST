@@ -13,7 +13,7 @@ import java.util.List;
 public interface MemberService {
 
     //TODO - user서비스에서 해야 하는지 확인...
-    List<User> searchUserListByNickname(String userNickname);
+//    List<User> searchUserListByNickname(String userNickname);
 
     void createMember(String userId, TourMember tourMember);
 
