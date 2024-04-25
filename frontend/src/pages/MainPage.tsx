@@ -24,7 +24,14 @@ export default function MainPage() {
         });
 
         tourList.map((tour) => {
-            const now = new Date();
+            const nowTime = new Date();
+
+            const now = new Date(
+                `${nowTime.getFullYear()}-${
+                    nowTime.getMonth() + 1
+                }-${nowTime.getDate()}`
+            );
+
             const startDate = new Date(tour.startDate);
             const endDate = new Date(tour.endDate);
             if (startDate > now) {

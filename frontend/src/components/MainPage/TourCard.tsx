@@ -8,18 +8,26 @@ export default function TourCard(props: PropType) {
     const tour = props.tourInfo;
 
     //mode -> 진행중 : 0, 다가오는 : 1, 지난 : 2
-    const now = new Date();
+    const nowTime = new Date();
+
+    const now = new Date(
+        `${nowTime.getFullYear()}-${
+            nowTime.getMonth() + 1
+        }-${nowTime.getDate()}`
+    );
+
     const startDate = new Date(tour.startDate);
+
     const endDate = new Date(tour.endDate);
     let mode = 0;
     let dayElement = (
         <>
             <div className="text-[4vw]">Day</div>
             <div className="text-[10vw]">
-                {Math.floor(
+                {Math.ceil(
                     (now.getTime() - startDate.getTime()) /
                         (1000 * 60 * 60 * 24)
-                )}
+                ) + 1}
             </div>
         </>
     );
