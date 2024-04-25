@@ -32,16 +32,15 @@ public class AuthController {
     private final JWTUtil jwtUtil;
 
     @GetMapping("/login")
-    public void redirectToGoogleOAuth2(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void redirectToGoogleOAuth2(HttpServletRequest request, HttpServletResponse response)
+        throws IOException {
         // 사용자 정의 경로로 OAuth2 로그인 페이지로 리디렉션
         String redirectUrl = request.getContextPath() + "/oauth2/authorization/google";
         response.sendRedirect(redirectUrl);
     }
 
     @GetMapping("/logout")
-    public void logout(HttpServletRequest request,
-                       HttpServletResponse response,
-                       @AuthenticationPrincipal User user) {
+    public void logout(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal User user) {
         // 레디스 정보 제거
         authService.logoutUser(user.getUserId());
         // 쿠키 지우기
@@ -60,14 +59,15 @@ public class AuthController {
             // refreshToken 같으면 token 재발급
             if (refreshToken != null && refreshToken.equals(inputRefreshToken)) {
                 String accessToken = jwtUtil.createJwt(userId, 1000 * 60 * 60L);
-                String newRefreshToken = jwtUtil.regenerateRefreshJwt(userId, refreshToken, 1000 * 60 * 60 * 24 * 14L, 1000 * 60 * 60 * 24 * 7L);
+                String newRefreshToken = jwtUtil.regenerateRefreshJwt(userId, refreshToken,
+                    1000 * 60 * 60 * 24 * 14L, 1000 * 60 * 60 * 24 * 7L);
                 redisService.setValues(refreshTokenKey, newRefreshToken);
 
                 return ResponseEntity.ok().body(TokenRes
-                        .builder()
-                        .accessToken(accessToken)
-                        .refreshToken(newRefreshToken)
-                        .build()
+                    .builder()
+                    .accessToken(accessToken)
+                    .refreshToken(newRefreshToken)
+                    .build()
                 );
             }
         }

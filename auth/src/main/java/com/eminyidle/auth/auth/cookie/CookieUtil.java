@@ -9,6 +9,11 @@ import jakarta.servlet.http.HttpServletResponse;
  * 쿠키 정보 가져오기
  */
 public class CookieUtil {
+
+    private CookieUtil() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static TokenCookie resolveToken(HttpServletRequest request) {
         Cookie accessTokenCookie = null, refreshTokenCookie = null;
         Cookie[] cookies = request.getCookies();
@@ -22,9 +27,9 @@ public class CookieUtil {
             }
         }
         return TokenCookie.builder()
-                .accessTokenCookie(accessTokenCookie)
-                .refreshTokenCookie(refreshTokenCookie)
-                .build();
+            .accessTokenCookie(accessTokenCookie)
+            .refreshTokenCookie(refreshTokenCookie)
+            .build();
     }
 
     public static Cookie searchCookie(String cookieName, HttpServletRequest request) {
@@ -41,16 +46,18 @@ public class CookieUtil {
     }
 
     public static void deleteTokenCookie(HttpServletRequest request,
-                                         HttpServletResponse response) {
+        HttpServletResponse response) {
         TokenCookie tokenCookie = CookieUtil.resolveToken(request);
 
         Cookie accessTokenCookie = tokenCookie.getAccessTokenCookie();
         Cookie refreshTokenCookie = tokenCookie.getRefreshTokenCookie();
 
-        if(accessTokenCookie != null)
+        if (accessTokenCookie != null) {
             deleteCookie(accessTokenCookie, response);
-        if(refreshTokenCookie != null)
+        }
+        if (refreshTokenCookie != null) {
             deleteCookie(refreshTokenCookie, response);
+        }
     }
 
     public static void deleteCookie(Cookie currentCookie, HttpServletResponse response) {
