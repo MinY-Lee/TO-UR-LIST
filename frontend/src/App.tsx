@@ -1,3 +1,4 @@
+//router
 import { Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
@@ -22,6 +23,9 @@ import FeedPage from './pages/Feed/FeedPage';
 import FeedDetailPage from './pages/Feed/FeedDetailPage';
 import FeedWritePage from './pages/Feed/FeedWritePage';
 import FeedEditPage from './pages/Feed/FeedEditPage';
+
+//css
+import './App.css';
 
 export default function App() {
     return (

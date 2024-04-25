@@ -1,31 +1,37 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="ico" href="icons/tourlist.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#5FAAD9" />
-    <link rel="manifest" href="/manifest.json" />
-    <title>TO-UR-LIST</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <!-- 서비스워커 실행 스크립트 -->
-    <script>
-      if ("serviceWorker" in navigator){
-        //register service worker
-        navigator.serviceWorker
-        .register("/sw.js")
-        .then((registration) => {
-          console.log("Service worker registration succeeded:", registration);
-        })
-        .catch((err)=>{
-          console.log("Service worker registration failed:", error);
-        });
-      } else {
-        console.log("Service workers are not supported");
-      }
-    </script>
-  </body>
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="ico" href="icons/tourlist.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#5FAAD9" />
+        <link rel="manifest" href="/manifest.json" />
+        <title>TO-UR-LIST</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="module" src="/src/main.tsx"></script>
+        <!-- 서비스워커 실행 스크립트 -->
+        <script>
+            if ('serviceWorker' in navigator) {
+                //register service worker
+                navigator.serviceWorker
+                    .register('/sw.js')
+                    .then((registration) => {
+                        console.log(
+                            'Service worker registration succeeded:',
+                            registration
+                        );
+                    })
+                    .catch((err) => {
+                        console.log(
+                            'Service worker registration failed:',
+                            error
+                        );
+                    });
+            } else {
+                console.log('Service workers are not supported');
+            }
+        </script>
+    </body>
 </html>
