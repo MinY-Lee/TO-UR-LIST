@@ -1,0 +1,67 @@
+[
+    {
+        "feedId": 21,
+        "feedTitle": "무계획 유럽여행",
+        "feedContent": "내가 무슨 짓을 한거지???",
+        "userNickname": "여행초보",
+        "feedThemeTagList": ["식도락"],
+        "feedMateTag": "친구랑",
+        "createdAt": "2023-08-11",
+        "startDate": "2023-08-01",
+        "endDate": "2023-08-06",
+        "cityList": [
+            {
+                "countryName": "영국",
+                "cityName": "런던"
+            },
+            {
+                "countryName": "프랑스",
+                "cityName": "파리"
+            }
+        ],
+        "copyCount": 23,
+        "likeCount": 82
+    },
+    {
+        "feedId": 115,
+        "feedTitle": "서울에서의 하룻밤",
+        "feedContent": "시간도, 돈도 없는 이들을 위한 서울 당일치기 투어. 가끔은 국내도 괜찮잖아요.",
+        "userNickname": "힐링의 신",
+        "feedThemeTagList": ["힐링", "액티비티"],
+        "feedMateTag": "혼자서",
+        "createdAt": "2023-11-02",
+        "startDate": "2023-11-02",
+        "endDate": "2023-11-02",
+        "cityList": [
+            {
+                "countryName": "대한민국",
+                "cityName": "서울"
+            }
+        ],
+        "copyCount": 80,
+        "likeCount": 117
+    },
+    {
+        "feedId": 223,
+        "feedTitle": "개발자특:이렇게 여행함",
+        "feedContent": "순수 개발자 감수성에 의거한 미국 여행 코스",
+        "userNickname": "코딩조아",
+        "feedThemeTagList": ["액티비티"],
+        "feedMateTag": "친구랑",
+        "createdAt": "2024-02-11",
+        "startDate": "2024-01-29",
+        "endDate": "2024-02-09",
+        "cityList": [
+            {
+                "countryName": "미국",
+                "cityName": "캘리포니아"
+            },
+            {
+                "countryName": "미국",
+                "cityName": "뉴욕"
+            }
+        ],
+        "copyCount": 21,
+        "likeCount": 32
+    }
+]

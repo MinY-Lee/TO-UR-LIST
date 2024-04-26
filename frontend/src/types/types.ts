@@ -21,3 +21,24 @@ export interface City {
     countryCode: string;
     cityName: string;
 }
+
+//피드 관련
+export interface Feed {
+    feedId: number;
+    feedTitle: string;
+    feedContent: string;
+    userNickname: string;
+    feedThemeTagList: string[];
+    feedMateTag: string;
+    createdAt: string;
+    startDate: string;
+    endDate: string;
+    cityList: FeedCity[];
+    copyCount: number;
+    likeCount: number;
+}
+
+export interface FeedCity {
+    countryName: string;
+    cityName: string;
+}
