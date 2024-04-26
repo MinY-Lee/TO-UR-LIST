@@ -1,0 +1,83 @@
+:root {
+    --color-blue-1: #559bd9;
+    --color-blue-2: #5faad9;
+    --color-blue-3: #94cef2;
+    --color-blue-4: #d5e7f2;
+    --color-blue-5: #a2dcf2;
+}
+
+/* text color */
+.color-text-blue-1 {
+    color: var(--color-blue-1);
+}
+
+.color-text-blue-2 {
+    color: var(--color-blue-2);
+}
+
+.color-text-blue-3 {
+    color: var(--color-blue-3);
+}
+
+.color-text-blue-4 {
+    color: var(--color-blue-4);
+}
+
+.color-text-blue-5 {
+    color: var(--color-blue-5);
+}
+
+/* background color */
+.color-bg-blue-1 {
+    background-color: var(--color-blue-1);
+}
+
+.color-bg-blue-2 {
+    background-color: var(--color-blue-2);
+}
+
+.color-bg-blue-3 {
+    background-color: var(--color-blue-3);
+}
+
+.color-bg-blue-4 {
+    background-color: var(--color-blue-4);
+}
+
+.color-bg-blue-5 {
+    background-color: var(--color-blue-5);
+}
+
+/* border color */
+.color-border-blue-1 {
+    border-color: var(--color-blue-1);
+}
+
+.color-border-blue-2 {
+    border-color: var(--color-blue-2);
+}
+
+.color-border-blue-3 {
+    border-color: var(--color-blue-3);
+}
+
+.color-border-blue-4 {
+    border-color: var(--color-blue-4);
+}
+
+.color-border-blue-5 {
+    border-color: var(--color-blue-5);
+}
+
+/* font weight 여부 */
+.weight-text-regular {
+    font-family: 'Freesentation-4Regular';
+}
+
+.weight-text-medium {
+    font-family: 'Freesentation-5Medium';
+}
+
+.weight-text-semibold {
+    font-family: 'Freesentation-6SemiBold';
+}
