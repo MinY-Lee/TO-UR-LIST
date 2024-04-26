@@ -58,6 +58,7 @@ public class PlaceServiceImpl implements PlaceService{
                     SearchPlaceListRes searchPlaceRes = SearchPlaceListRes.builder()
                             .placeId(place.getId())
                             .placeName(place.getDisplayName().getText())
+                            .placePrimaryType(place.getPrimaryType())
                             .placePhotoList(place.getPhotos() == null ? new ArrayList<>() : place.getPhotos().stream().map(photo -> photo.getName()).toList())
                             .build();
                     return searchPlaceRes;
