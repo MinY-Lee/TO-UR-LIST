@@ -7,16 +7,13 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
-import java.util.List;
-
-import static lombok.AccessLevel.PROTECTED;
 import static org.springframework.data.neo4j.core.schema.Relationship.Direction.OUTGOING;
 
 
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 @Node("city")
 public class City {
 

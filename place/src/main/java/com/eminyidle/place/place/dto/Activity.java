@@ -8,12 +8,10 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 @Node("activity")
 public class Activity {
 

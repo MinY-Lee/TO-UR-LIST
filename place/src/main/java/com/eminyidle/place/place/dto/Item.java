@@ -9,13 +9,12 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
-import static lombok.AccessLevel.PROTECTED;
 import static org.springframework.data.neo4j.core.schema.Relationship.Direction.INCOMING;
 
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 @Node("item")
 public class Item {
 
