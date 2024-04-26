@@ -1,8 +1,13 @@
+import MyInfoCard from '../../components/MyPage/MyInfoCard';
+import TabBarMain from '../../components/TabBar/TabBarMain';
+
 export default function MyPage() {
     return (
         <>
-            <h1>마이페이지</h1>
-            <p>내 정보를 확인 가능한 페이지입니다.</p>
+            <section className="w-full h-full p-[5vw] flex flex-col items-center">
+                <MyInfoCard />
+                <TabBarMain tabMode={2} />
+            </section>
         </>
     );
 }

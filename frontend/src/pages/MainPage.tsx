@@ -4,13 +4,45 @@ import TabBarMain from '../components/TabBar/TabBarMain';
 
 //dummy data(api완료 시 삭제 요망)
 import tourList from '../dummy-data/get_tour.json';
-import { TourCardInfo } from '../types/types';
+import user from '../dummy-data/get_user.json';
+
+import { TourCardInfo, UserInfo } from '../types/types';
+import { useDispatch } from 'react-redux';
+import { userWholeState } from '../util/reduxSlices/userSlice';
 
 export default function MainPage() {
     const [nowTourList, setNowTourList] = useState<TourCardInfo[]>([]);
     const [comingTourList, setComingTourList] = useState<TourCardInfo[]>([]);
     const [passTourList, setPassTourList] = useState<TourCardInfo[]>([]);
 
+    const [today, setToday] = useState<string>('1111-11-11');
+
+    const dispatch = useDispatch();
+
+    //유저 정보 불러오기
+    //redux에 저장 + main페이지에서는 새로 불러오기
+    useEffect(() => {
+        const userInfo: UserInfo = {
+            userId: '',
+            userNickname: '',
+            userName: '',
+            userBirth: '',
+            userGender: 0,
+            userProfileImageId: '',
+        };
+        //불러와서 저장
+        userInfo.userId = user.userId;
+        userInfo.userNickname = user.userNickname;
+        userInfo.userName = user.userName;
+        userInfo.userBirth = user.userBirth;
+        userInfo.userGender = user.userGender;
+        // if(user.userProfileImageId){
+        //     userInfo.userProfileImageId = user.userProfileImageId
+        // }
+        dispatch(userWholeState(userInfo));
+    }, []);
+
+    //시간 설정, 여행 정보 불러오기
     useEffect(() => {
         const tempNow: TourCardInfo[] = [];
         const tempCome: TourCardInfo[] = [];
@@ -49,10 +81,39 @@ export default function MainPage() {
         setNowTourList(tempNow);
         setComingTourList(tempCome);
         setPassTourList(tempPass);
+
+        //set now date
+        const today = new Date();
+        setToday(dateToString(today));
     }, []);
+
+    /**date -> YYYY-MM-DD */
+    const dateToString = (val: Date) => {
+        const year = val.getFullYear();
+        const month = val.getMonth() + 1;
+        const day = val.getDate();
+        return `${year}-${month >= 10 ? month : '0' + month}-${
+            day >= 10 ? day : '0' + day
+        }`;
+    };
 
     return (
         <section className="w-full h-[90%] overflow-y-scroll flex flex-col flex-nowrap items-center">
+            <div className="w-[90%] h-[30%] flex items-center justify-between py-[1vh]">
+                <div className="text-[6vw] h-full flex flex-col justify-center items-start">
+                    <p>
+                        <span className="text-[7vw] weight-text-semibold mr-[1vw]">
+                            {user.userNickname}
+                        </span>
+                        님의
+                    </p>
+                    <p>TO-UR-LIST</p>
+                </div>
+                <div className="text-[#5B5B5B] text-[4vw] h-full flex flex-col justify-center items-end">
+                    <p>TODAY</p>
+                    <p>{today}</p>
+                </div>
+            </div>
             <p className="w-[90%] text-[5vw] my-[0.5vh]">진행 중인 여행</p>
             {nowTourList.map((tour) => {
                 return <TourCard key={tour.tourId} tourInfo={tour} />;
@@ -65,7 +126,7 @@ export default function MainPage() {
             {passTourList.map((tour) => {
                 return <TourCard key={tour.tourId} tourInfo={tour} />;
             })}
-            <TabBarMain />
+            <TabBarMain tabMode={1} />
         </section>
     );
 }

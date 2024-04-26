@@ -38,6 +38,17 @@ export const userSlice = createSlice({
         userProfileImageIdState: (state, action) => {
             state.userProfileImageId = action.payload;
         },
+        //유저 정보 전체 저장
+        userWholeState: (state, action) => {
+            state.userId = action.payload.userId;
+            state.userNickname = action.payload.userNickname;
+            state.userName = action.payload.userName;
+            state.userBirth = action.payload.userBirth;
+            state.userGender = action.payload.userGender;
+            if (action.payload.userProfileImageId !== '') {
+                state.userProfileImageId = action.payload.userProfileImageId;
+            }
+        },
     },
 });
 
@@ -48,6 +59,7 @@ export const {
     userBirthState,
     userGenderState,
     userProfileImageIdState,
+    userWholeState,
 } = userSlice.actions;
 
 export default userSlice.reducer;

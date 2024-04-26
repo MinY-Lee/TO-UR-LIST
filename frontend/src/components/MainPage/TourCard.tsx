@@ -71,6 +71,12 @@ export default function TourCard(props: PropType) {
                         ? 'color-bg-blue-4'
                         : 'bg-[#DADADA]'
                 }`}
+                style={{
+                    boxShadow: '#EBEBEB 1vw 1vw ',
+                }}
+                onClick={() => {
+                    window.location.href = `/tour/${tour.tourId}`;
+                }}
             >
                 {/* 날짜 표시 */}
                 <div
