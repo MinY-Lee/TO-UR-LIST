@@ -46,6 +46,7 @@ public class TourServiceImpl implements TourService, UserService {
         //있다면 그거 챙겨온다
         //없다면 유저주라! 한 뒤 유저노드 만들기
         log.debug(createTourReq.toString());
+        log.debug(user.toString());
         Tour tour = Tour.builder()
                 .tourId(UUID.randomUUID().toString())
                 .tourTitle(createTourReq.getTourTitle())

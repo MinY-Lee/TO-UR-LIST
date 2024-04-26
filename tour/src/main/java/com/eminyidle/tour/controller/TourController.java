@@ -31,6 +31,7 @@ public class TourController {
                 .userId(header.get("userid"))
                 .userNickname(URLDecoder.decode(header.get("usernickname"),"UTF-8"))
                 .userName(URLDecoder.decode(header.get("username"),"UTF-8"))
+                .tourList(new ArrayList<>())
                 .build();
         tourService.createTour(user,createTourReq);
         return;
