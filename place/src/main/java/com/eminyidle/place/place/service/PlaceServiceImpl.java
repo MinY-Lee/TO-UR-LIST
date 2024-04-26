@@ -39,7 +39,8 @@ public class PlaceServiceImpl implements PlaceService{
         headers.setContentType(MediaType.APPLICATION_JSON); // Json 형식으로 받겠다
         headers.set("X-Goog-Api-Key", googleMapKey);    // 발급받은 Google Api key 설정
         headers.set("X-Goog-FieldMask", "places.id,places.displayName,places.photos," +
-                "places.types,places.googleMapsUri,places.primaryType,places.addressComponents");   // 받아 올 정보
+                "places.types,places.googleMapsUri,places.primaryType,places.addressComponents," +
+                "places.shortFormattedAddress,places.subDestinations,places.location");   // 받아 올 정보
         String requestBody = "{ \"textQuery\" : \"" + keyword + "\" }";
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
@@ -59,6 +60,9 @@ public class PlaceServiceImpl implements PlaceService{
                             .placeId(place.getId())
                             .placeName(place.getDisplayName().getText())
                             .placePrimaryType(place.getPrimaryType())
+                            .placeLatitude(place.getLocation().getLatitude())
+                            .placeLongitude(place.getLocation().getLongitude())
+                            .placeAddress(place.getShortFormattedAddress())
                             .placePhotoList(place.getPhotos() == null ? new ArrayList<>() : place.getPhotos().stream().map(photo -> photo.getName()).toList())
                             .build();
                     return searchPlaceRes;
