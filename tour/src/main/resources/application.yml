@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: tour
+  neo4j:
+    authentication:
+      username: neo4j
+      password: eminyidle
+    uri: bolt://localhost:7687
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          neo4j: DEBUG
+    com:
+      eminyidle:
+        tour: DEBUG
