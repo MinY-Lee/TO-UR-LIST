@@ -6,15 +6,15 @@ spring:
     import:
       - optional:file:.env[.properties]
   datasource:
-    url: ${DB_URL}
-    username: ${USER_NAME}
-    password: ${USER_PASSWORD}
+    url: ${AUTH_DB_URL}
+    username: ${AUTH_USER_NAME}
+    password: ${AUTH_USER_PASSWORD}
     driver-class-name: org.mariadb.jdbc.Driver
     hikari:
       driver-class-name: org.mariadb.jdbc.Driver
-      jdbc-url: ${DB_URL}
-      username: ${USER_NAME}
-      password: ${USER_PASSWORD}
+      jdbc-url: ${AUTH_DB_URL}
+      username: ${AUTH_USER_NAME}
+      password: ${AUTH_USER_PASSWORD}
       maximum-pool-size: 50
       minimum-idle: 10
       connection-timeout: 5000
@@ -35,9 +35,9 @@ spring:
         use_sql_comments: true
   data:
     redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
-      password: ${REDIS_PASSWORD}
+      host: ${AUTH_REDIS_HOST}
+      port: ${AUTH_REDIS_PORT}
+      password: ${AUTH_REDIS_PASSWORD}
   servlet:
     multipart:
       max-file-size: 100MB
@@ -60,7 +60,7 @@ logging:
         SQL: info
     com:
       eminyidle:
-        auth: info
+        auth: debug
     org.springframework.security: info
 
 social:

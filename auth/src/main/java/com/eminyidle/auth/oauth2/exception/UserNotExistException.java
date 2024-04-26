@@ -1,4 +1,4 @@
-package com.eminyidle.auth.user.exception;
+package com.eminyidle.auth.oauth2.exception;
 
 import lombok.experimental.StandardException;
 

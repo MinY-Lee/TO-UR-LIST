@@ -29,8 +29,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableRedisRepositories
 @Slf4j
 public class RedisConfiguration {
-  @Value("${spring.data.redis.timeout}")
-  private Duration redisCommandTimeout;
 
   private final RedisProperties redisProperties;
 

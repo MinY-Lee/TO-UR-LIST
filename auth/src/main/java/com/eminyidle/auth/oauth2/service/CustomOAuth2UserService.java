@@ -2,17 +2,12 @@ package com.eminyidle.auth.oauth2.service;
 
 import com.eminyidle.auth.oauth2.dto.CustomOAuth2User;
 import com.eminyidle.auth.oauth2.dto.GoogleResponse;
+import com.eminyidle.auth.oauth2.dto.OAuth2AuthorizedClient;
 import com.eminyidle.auth.oauth2.dto.OAuth2Response;
-import com.eminyidle.auth.resource.dto.ProfileFrame;
-import com.eminyidle.auth.resource.dto.ProfileIcon;
-import com.eminyidle.auth.resource.dto.Theme;
-import com.eminyidle.auth.resource.dto.Title;
-import com.eminyidle.auth.resource.repository.ProfileFrameRepository;
-import com.eminyidle.auth.resource.repository.ProfileIconRepository;
-import com.eminyidle.auth.resource.repository.ThemeRepository;
-import com.eminyidle.auth.resource.repository.TitleRepository;
-import com.eminyidle.auth.user.dto.*;
-import com.eminyidle.auth.user.repository.*;
+import com.eminyidle.auth.oauth2.dto.Userinfo;
+import com.eminyidle.auth.oauth2.exception.UserNotExistException;
+import com.eminyidle.auth.oauth2.repository.GoogleRepository;
+import com.eminyidle.auth.oauth2.repository.UserinfoRepository;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     //DefaultOAuth2UserService는 OAuth2UserService의 구현체
 
-    private final UserRepository userRepository;
+    private final UserinfoRepository userinfoRepository;
 
     /**
      * 네이버나 구글의 사용자 정보를 파라미터로 받아오는 메서드
@@ -48,42 +43,21 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             return null;
         }
 
-        // 구글에서 아이디 추출
         String userGoogleId = oAuth2Response.getProviderId();
-        Optional<User> existData = userRepository.findByUserGoogleId(userGoogleId);
-        // 구글에서 이메일 추출
-        String userEmail = oAuth2Response.getEmail();
-//        Optional<User> existData = userRepository.findByUserEmailAndDeletedAtIsNull(userEmail);
+        Optional<Userinfo> existData = userinfoRepository.findById(userGoogleId);
+        CustomOAuth2User customOAuth2User = new CustomOAuth2User();
+        customOAuth2User.setUserEmail(oAuth2Response.getEmail());
+        customOAuth2User.setName(oAuth2Response.getName());
 
-        //회원가입(첫 로그인)
-        if (existData.isEmpty()) {
-            // 초기 프레임, 초기 아이콘 설정
-            Optional<ProfileIcon> profileIcon = profileIconRepository.findById(1); // ID에 해당하는 ProfileIcon 조회
-            Optional<ProfileFrame> profileFrame = profileFrameRepository.findById(1); // ID에 해당하는 ProfileFrame 조회
-            Optional<Theme> theme = themeRepository.findById(1);
-            Optional<Title> title = titleRepository.findById(1);
-
-            User user = User.builder()
-                    .userGoogleId(oAuth2Response.getProviderId())
-                    .userEmail(oAuth2Response.getEmail())
-                    .userGoogleName(oAuth2Response.getName())
-                    .userNickname(oAuth2Response.getName())
-                    .profileIcon(profileIcon.get()) // 조회한 ProfileIcon 사용
-                    .profileFrame(profileFrame.get()) // 조회한 ProfileFrame 사용
-                    .theme(theme.get())
-                    .title(title.get())
-                    .career(0)
-                    .build();
-
-            userRepository.save(user);
-        }
-        //탈퇴한 회원
-        else if (existData.get().getDeletedAt() != null) {
-            User userToUpdate = existData.get();
-            userToUpdate.setDeletedAt(null); // 업데이트할 값 설정
-            userRepository.save(userToUpdate);
+        if(existData.isEmpty()) {
+            Userinfo newUser = new Userinfo();
+            newUser.setUserGoogleId(userGoogleId);
+            userinfoRepository.save(newUser);
+            customOAuth2User.setUserId(newUser.getUserId());
+        } else {
+            customOAuth2User.setUserId(existData.get().getUserId());
         }
 
-        return new CustomOAuth2User(oAuth2Response);
+        return customOAuth2User;
     }
 }

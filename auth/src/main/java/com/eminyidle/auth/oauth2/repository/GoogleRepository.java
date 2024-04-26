@@ -2,12 +2,10 @@ package com.eminyidle.auth.oauth2.repository;
 
 
 import com.eminyidle.auth.oauth2.dto.GoogleRepoId;
-import com.eminyidle.auth.oauth2.dto.OAuth2AuthorizedClientEntity;
-import java.util.Optional;
+import com.eminyidle.auth.oauth2.dto.OAuth2AuthorizedClient;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GoogleRepository extends JpaRepository<OAuth2AuthorizedClientEntity, GoogleRepoId> {
-    void delete(OAuth2AuthorizedClientEntity entity);
+public interface GoogleRepository extends JpaRepository<OAuth2AuthorizedClient, GoogleRepoId> {
 
-    Optional<OAuth2AuthorizedClientEntity> findBy
+    void delete(OAuth2AuthorizedClient entity);
 }

@@ -6,10 +6,10 @@ import com.eminyidle.auth.oauth2.CustomAuthorizationRequestResolver;
 import com.eminyidle.auth.oauth2.CustomClientRegistrationRepo;
 import com.eminyidle.auth.oauth2.OAuth2MemberFailureHandler;
 import com.eminyidle.auth.oauth2.OAuth2MemberSuccessHandler;
+import com.eminyidle.auth.oauth2.repository.UserinfoRepository;
 import com.eminyidle.auth.oauth2.service.CustomOAuth2AuthorizedClientService;
 import com.eminyidle.auth.oauth2.service.CustomOAuth2UserService;
 import com.eminyidle.auth.redis.RedisService;
-import com.eminyidle.auth.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,7 +40,7 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
-    private final UserRepository userRepository;
+    private final UserinfoRepository userinfoRepository;
     private final RedisService redisService;
     private final CustomOAuth2UserService customOAuth2UserService; // OAuth2UserService가 정의된 서비스
     private final CustomClientRegistrationRepo customClientRegistrationRepo;
@@ -56,40 +56,40 @@ public class SecurityConfig {
     //AuthenticationManager Bean 등록
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
-            throws Exception {
+        throws Exception {
         return configuration.getAuthenticationManager();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // csrf 보호는 세션 기반 인증에 활용하는 것을 추천
-                .csrf(CsrfConfigurer::disable)
-                .formLogin(FormLoginConfigurer::disable)
-                .httpBasic(HttpBasicConfigurer::disable);
+            // csrf 보호는 세션 기반 인증에 활용하는 것을 추천
+            .csrf(CsrfConfigurer::disable)
+            .formLogin(FormLoginConfigurer::disable)
+            .httpBasic(HttpBasicConfigurer::disable);
 
         // 소셜 로그인 등록
         http
-                .oauth2Login(oauth2 -> oauth2
+            .oauth2Login(oauth2 -> oauth2
 //                        .loginPage("auth/login")
 //                .successHandler(new OAuth2MemberSuccessHandler(userRepository, jwtUtil, redisService))
-                        .successHandler(new OAuth2MemberSuccessHandler(userRepository, jwtUtil, redisService, mainPage))
-                        .failureHandler(new OAuth2MemberFailureHandler())
-                        .authorizationEndpoint(authorizationEndpointConfig -> authorizationEndpointConfig
-                                .authorizationRequestResolver(
-                                        new CustomAuthorizationRequestResolver(clientRegistrationRepository))
-                        )
-                        .clientRegistrationRepository(
-                                customClientRegistrationRepo.clientRegistrationRepository())
-                        .authorizedClientService(
-                                customOAuth2AuthorizedClientService.oAuth2AuthorizedClientService(jdbcTemplate,
-                                        customClientRegistrationRepo.clientRegistrationRepository()))
-                        .userInfoEndpoint(
-                                userInfoEndpointConfig -> userInfoEndpointConfig //data를 받을 수 있는 UserDetailsService를 등록해주는 endpoint
-                                        .userService(customOAuth2UserService)))
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(authenticationEntryPoint)
-                );
+                .successHandler(new OAuth2MemberSuccessHandler(jwtUtil, redisService, mainPage))
+                .failureHandler(new OAuth2MemberFailureHandler())
+                .authorizationEndpoint(authorizationEndpointConfig -> authorizationEndpointConfig
+                    .authorizationRequestResolver(
+                        new CustomAuthorizationRequestResolver(clientRegistrationRepository))
+                )
+                .clientRegistrationRepository(
+                    customClientRegistrationRepo.clientRegistrationRepository())
+                .authorizedClientService(
+                    customOAuth2AuthorizedClientService.oAuth2AuthorizedClientService(jdbcTemplate,
+                        customClientRegistrationRepo.clientRegistrationRepository()))
+                .userInfoEndpoint(
+                    userInfoEndpointConfig -> userInfoEndpointConfig //data를 받을 수 있는 UserDetailsService를 등록해주는 endpoint
+                        .userService(customOAuth2UserService)))
+            .exceptionHandling(exceptionHandling -> exceptionHandling
+                .authenticationEntryPoint(authenticationEntryPoint)
+            );
 
 //        http.logout(logout -> logout
 //                .logoutUrl("/auth/logout")
@@ -104,23 +104,24 @@ public class SecurityConfig {
 
         // 인증 경로 설정
         http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()  // 인증 및 토큰 재발급 허용
-                        .requestMatchers("/resources/**").permitAll() //리소스 불러오기 허용
-                        .requestMatchers("/error/**").permitAll() // 에러메세지 처리
-                        .requestMatchers("/js/**").permitAll()
-                        .requestMatchers("/test/**").permitAll()
-                        .anyRequest().authenticated());
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/auth/**").permitAll()  // 인증 및 토큰 재발급 허용
+                .requestMatchers("/resources/**").permitAll() //리소스 불러오기 허용
+                .requestMatchers("/error/**").permitAll() // 에러메세지 처리
+                .requestMatchers("/js/**").permitAll()
+                .requestMatchers("/test/**").permitAll()
+                .anyRequest().authenticated());
 
         //JWTFilter 등록
         http
-                .addFilterAfter(new JWTFilter(jwtUtil, redisService, userRepository),
-                        UsernamePasswordAuthenticationFilter.class);
+            .addFilterAfter(new JWTFilter(jwtUtil, redisService, userinfoRepository),
+                UsernamePasswordAuthenticationFilter.class);
 
         // session 설정
         http
-                .sessionManagement((session) -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            .sessionManagement((session) -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }

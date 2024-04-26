@@ -5,9 +5,9 @@ import com.eminyidle.auth.auth.dto.req.TokenReq;
 import com.eminyidle.auth.auth.dto.res.TokenRes;
 import com.eminyidle.auth.auth.jwt.JWTUtil;
 import com.eminyidle.auth.auth.service.AuthService;
+import com.eminyidle.auth.oauth2.dto.CustomOAuth2User;
 import com.eminyidle.auth.redis.RedisPrefix;
 import com.eminyidle.auth.redis.RedisService;
-import com.eminyidle.auth.user.dto.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public void logout(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal User user) {
+    public void logout(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal CustomOAuth2User user) {
         // 레디스 정보 제거
         authService.logoutUser(user.getUserId());
         // 쿠키 지우기
@@ -74,5 +74,10 @@ public class AuthController {
 
         // 리프레시 토큰 만료 또는 불일치 하는 경우
         return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<CustomOAuth2User> test(@AuthenticationPrincipal CustomOAuth2User user) {
+        return ResponseEntity.ok().body(user);
     }
 }

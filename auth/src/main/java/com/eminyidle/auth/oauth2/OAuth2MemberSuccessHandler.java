@@ -2,10 +2,9 @@ package com.eminyidle.auth.oauth2;
 
 import com.eminyidle.auth.auth.jwt.JWTUtil;
 import com.eminyidle.auth.oauth2.dto.CustomOAuth2User;
+import com.eminyidle.auth.oauth2.repository.UserinfoRepository;
 import com.eminyidle.auth.redis.RedisPrefix;
 import com.eminyidle.auth.redis.RedisService;
-import com.eminyidle.auth.user.dto.User;
-import com.eminyidle.auth.user.repository.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +20,6 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 @Slf4j
 public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final UserRepository userRepository;
     private final JWTUtil jwtUtil;
     private final RedisService redisService;
     private final String mainPage;
@@ -34,13 +32,11 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
         // 사용자 이메일 가져오기
-        String userEmail = oAuth2User.getUserEmail();
-        User user = userRepository.findByUserEmailAndDeletedAtIsNull(userEmail).get();
-        String userId = user.getUserId();
-        String key = RedisPrefix.REFRESH_TOKEN.prefix() + user.getUserId();
+        String userId = oAuth2User.getUserId();
+        String key = RedisPrefix.REFRESH_TOKEN.prefix() + userId;
 
         //accessToken 생성
-        String accessToken = jwtUtil.createJwt(user.getUserId(), 1000 * 60 * 60L * 3);
+        String accessToken = jwtUtil.createJwt(userId, 1000 * 60 * 60L * 3);
 
         //refreshToken 생성
         String refreshToken =
@@ -48,7 +44,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                         (String) redisService.getValues(key),
                         1000 * 60 * 60 * 24 * 14L,
                         1000 * 60 * 60 * 24 * 7L)
-                        : jwtUtil.createJwt(user.getUserId(), 1000 * 60 * 60 * 24 * 14L);
+                        : jwtUtil.createJwt(userId, 1000 * 60 * 60 * 24 * 14L);
 
         //만료시간
         Long expiredMillis = jwtUtil.getExpiredDate(refreshToken);
@@ -58,21 +54,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         redisService.setValues(key, refreshToken, expiredTime);
         log.debug("RefreshToken: {}", redisService.getValues(key));
 
-//        //response에 토큰 담아서 반환
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        // content -type
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("utf-8");
-//
-//        LoginRes loginRes = new LoginRes();
-//        loginRes.setAccessToken(accessToken);
-//        loginRes.setRefreshToken(refreshToken);
-//
-//        // JSON 형태로 변환하기
-//        // {"accessToken" : "12344", "refreshToken" : "dasgfdsa"}
-//        String result = objectMapper.writeValueAsString(loginRes);
-//
-//        response.getWriter().write(result);
         int expiredSeconds = (int) (expiredMillis / 1000);
         // 쿠키에 데이터 저장
         Cookie accessTokenCookie = new Cookie("accessToken", accessToken);

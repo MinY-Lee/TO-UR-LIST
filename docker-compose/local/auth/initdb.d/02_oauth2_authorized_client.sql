@@ -10,6 +10,5 @@ CREATE TABLE IF NOT EXISTS oauth2_authorized_client
     refresh_token_value     LONGBLOB      DEFAULT NULL,
     refresh_token_issued_at TIMESTAMP,
     created_at              TIMESTAMP     DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    user_id                 CHAR(36)                                not null,
     PRIMARY KEY (client_registration_id, principal_name)
 );
