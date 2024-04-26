@@ -95,7 +95,7 @@ public class JWTFilter extends OncePerRequestFilter {
         //user를 생성하여 값 set
 //        User user = userRepository.findByUserIdAndDeletedAtIsNull(userId).orElseThrow(UserNotExistException::new);
         CustomOAuth2User user = new CustomOAuth2User();
-        Userinfo userinfo = userinfoRepository.findById(userId)
+        Userinfo userinfo = userinfoRepository.findByUserId(userId)
             .orElseThrow(UserNotExistException::new);
         user.setUserId(userinfo.getUserId());
         //스프링 시큐리티 인증 토큰 생성 - 우리가 사용할 내용은 유저 객체
