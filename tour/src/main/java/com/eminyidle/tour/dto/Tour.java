@@ -21,8 +21,8 @@ public class Tour {
     //제목, 기간, 도시
     @Id
     String tourId;
-    String tourTitle;
     @Property(readOnly = true)
+    String tourTitle;
     LocalDateTime startDate;
     @Property
     LocalDateTime endDate;

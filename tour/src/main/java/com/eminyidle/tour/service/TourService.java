@@ -2,6 +2,7 @@ package com.eminyidle.tour.service;
 
 import com.eminyidle.tour.dto.Tour;
 import com.eminyidle.tour.dto.TourDetail;
+import com.eminyidle.tour.dto.User;
 import com.eminyidle.tour.dto.req.CreateTourReq;
 import com.eminyidle.tour.dto.req.UpdateTourCityReq;
 import com.eminyidle.tour.dto.req.UpdateTourPeriodReq;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public interface TourService {
 
-    Tour createTour(String userId, CreateTourReq createTourReq);
+    Tour createTour(User user, CreateTourReq createTourReq);
 
     void deleteTour(String tourId);
 
@@ -21,6 +22,7 @@ public interface TourService {
 
     void updateTourCity(String userId, UpdateTourCityReq updateTourCityReq);
 
+    Tour searchTour(String userId, String tourId);
     TourDetail searchTourDetail(String userId, String tourId);
 
     List<Tour> searchTourList(String userId);

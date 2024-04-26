@@ -10,8 +10,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -20,24 +23,22 @@ import java.util.List;
 public class TourController {
 
     private final TourService tourService;
-    private final UserService userService;
-    @GetMapping("/{userId}")
-    public void createTour(@PathVariable String userId, @RequestBody CreateTourReq createTourReq){
+    @GetMapping()
+    public void createTour(@RequestBody CreateTourReq createTourReq, @RequestHeader Map<String,String> header) throws UnsupportedEncodingException {
         log.debug("createTour");
-        tourService.createTour(userId,createTourReq);
+        log.debug(">>"+header);
+        User user= User.builder()
+                .userId(header.get("userid"))
+                .userNickname(URLDecoder.decode(header.get("usernickname"),"UTF-8"))
+                .userName(URLDecoder.decode(header.get("username"),"UTF-8"))
+                .build();
+        tourService.createTour(user,createTourReq);
         return;
     }
 
-    @GetMapping("user/{userId}")
-    public void createUser(@PathVariable String userId){
-        log.debug("createUser");
-
-
-        userService.createUser(User.builder()
-                        .userId(userId)
-                        .userName("TESTMAN")
-                        .userNickname("haha")
-                .build());
-        return;
+    @GetMapping("/{tourId}")
+    public void searchTour(@PathVariable String tourId){
+        log.debug("searchTour");
+        log.debug(tourService.searchTour("", tourId).toString());
     }
 }

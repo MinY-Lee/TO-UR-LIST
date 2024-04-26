@@ -41,7 +41,7 @@ public class TourServiceImpl implements TourService, UserService {
 
     //TODO - User로 받으면 좋겠다! 애초에 닉네임, 네임 넣어두도록!!
     @Override
-    public Tour createTour(String userId, CreateTourReq createTourReq) {
+    public Tour createTour(User user, CreateTourReq createTourReq) {
         //만약 내 DB에 user있는지 확인
         //있다면 그거 챙겨온다
         //없다면 유저주라! 한 뒤 유저노드 만들기
@@ -58,12 +58,9 @@ public class TourServiceImpl implements TourService, UserService {
                 .build();
         tourRepository.save(tour);
 
-        User user = userRepository.findById(userId).orElse(User.builder().userId(userId)
-                .userNickname("By1")
-                .userName("만들어짐")
-                .tourList(new ArrayList<>())
-                .build()
-        );
+        userRepository.findById(user.getUserId()).ifPresent((dbUser)->{
+            user.setTourList(dbUser.getTourList());
+        });
 
         user.getTourList().add(Attend.builder()
                 .tourTitle(createTourReq.getTourTitle())
@@ -78,12 +75,12 @@ public class TourServiceImpl implements TourService, UserService {
 
     @Override
     public void deleteTour(String tourId) {
-
+        // host여야 삭제 가능. 삭제 시, 연결된 모든 tourActivity도 지워져야 한다
     }
 
     @Override
     public void updateTourTitle(String userId, UpdateTourTitleReq updateTourTitleReq) {
-
+        //ATTEND관계에서 제목 업데이트
     }
 
     @Override
@@ -93,21 +90,29 @@ public class TourServiceImpl implements TourService, UserService {
 
     @Override
     public void updateTourCity(String userId, UpdateTourCityReq updateTourCityReq) {
-
+        //DB에 도시 있으면 그 도시와 연결하고.. 없으면 새로운 도시 노드 만들어서 맞는 국가랑 연결..
     }
-
+    @Override
+    public Tour searchTour(String userId, String tourId) {
+        return tourRepository.findById(tourId).orElse(new Tour());
+    }
     @Override
     public TourDetail searchTourDetail(String userId, String tourId) {
+        System.out.println(searchTour(userId,tourId));
         return null;
     }
 
     @Override
     public List<Tour> searchTourList(String userId) {
+        //userId가 attend 중인 모든 관계
         return null;
     }
 
     @Override
     public void quitTour(String userId, String tourId) {
-
+        // user-Tour 관계(attend) 삭제!
+        // host 아닌 것 확인 필수
+        // tour에 연결된 모든 attend관계가 사라졌을 때 delete처리
+        // 여행 완료된 상태가 아니라면, member관계도 삭제
     }
 }

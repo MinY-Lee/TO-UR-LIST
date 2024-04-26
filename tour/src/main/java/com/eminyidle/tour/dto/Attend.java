@@ -12,7 +12,7 @@ import org.springframework.data.neo4j.core.schema.*;
 public class Attend {
     @Id
     @GeneratedValue
-    Long id;
+    private String id;
     @Property
     private String tourTitle;
 
