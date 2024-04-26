@@ -39,6 +39,12 @@ public class TourController {
         log.debug(tourService.searchTour(header.get("userid"), tourId).toString());
     }
 
+    @DeleteMapping("/{tourId}")
+    public void deleteTour(@PathVariable String tourId, @RequestHeader Map<String,String> header){
+        log.debug("deleteTour "+tourId);
+        tourService.deleteTour(header.get("userid"), tourId);
+    }
+
     private User getUserFromHeader(Map<String,String> header){
         try {
             return User.builder()

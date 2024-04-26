@@ -8,6 +8,8 @@ import com.eminyidle.tour.dto.req.CreateTourReq;
 import com.eminyidle.tour.dto.req.UpdateTourCityReq;
 import com.eminyidle.tour.dto.req.UpdateTourPeriodReq;
 import com.eminyidle.tour.dto.req.UpdateTourTitleReq;
+import com.eminyidle.tour.exception.NoHostPrivilegesException;
+import com.eminyidle.tour.exception.TourNotFoundException;
 import com.eminyidle.tour.repository.CityRepository;
 import com.eminyidle.tour.repository.TourRepository;
 import com.eminyidle.tour.repository.UserRepository;
@@ -74,9 +76,20 @@ public class TourServiceImpl implements TourService, UserService {
         return tour;
     }
 
+    private boolean isHost(String userId, String tourId){
+        //TODO-host 여부 확인-> memberType 통해
+        Tour tour=tourRepository.findById(tourId).orElseThrow(TourNotFoundException::new);
+        return true;
+    }
+
     @Override
-    public void deleteTour(String tourId) {
-        // host여야 삭제 가능. 삭제 시, 연결된 모든 tourActivity도 지워져야 한다
+    public void deleteTour(String userId, String tourId) {
+        log.debug(userId+" "+tourId);
+        //host가 아니면 삭제 불가
+        if(!isHost(userId,tourId)) throw new NoHostPrivilegesException();
+
+        tourRepository.deleteById(tourId);
+        //TODO - 연결된 모든 tourActivity도 지워져야 한다
     }
 
     @Override
