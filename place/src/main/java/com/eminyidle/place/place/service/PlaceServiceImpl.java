@@ -40,12 +40,9 @@ public class PlaceServiceImpl implements PlaceService{
         headers.set("X-Goog-Api-Key", googleMapKey);    // 발급받은 Google Api key 설정
         headers.set("X-Goog-FieldMask", "places.id,places.displayName,places.photos," +
                 "places.types,places.googleMapsUri,places.primaryType,places.addressComponents");   // 받아 올 정보
-        String requestBody = "{ \"textQuery\" : \"keyword\" }";
+        String requestBody = "{ \"textQuery\" : \"" + keyword + "\" }";
 
-//        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-        Sample sample = new Sample();
-        sample.textQuery = keyword;
-        HttpEntity<Sample> requestEntity = new HttpEntity<>(sample, headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
         log.info(requestEntity.toString());
         ResponseEntity<Places> responseEntity = restTemplate.exchange(
                 baseUrl,
@@ -53,14 +50,9 @@ public class PlaceServiceImpl implements PlaceService{
                 requestEntity,
                 Places.class
         );
-        log.info(responseEntity.getStatusCode().toString());
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            log.info(responseEntity.toString());
-//            List<Places> places = responseEntity.getBody();
-//            if (places != null) {
-//                return places;
-//            }
+            // 사진이 없는 경우는 빈 리스트로 대체하여 반환
             if(responseEntity != null) {
                 return responseEntity.getBody().getPlaces().stream().map(place -> {
                     SearchPlaceListRes searchPlaceRes = SearchPlaceListRes.builder()
@@ -75,18 +67,5 @@ public class PlaceServiceImpl implements PlaceService{
         // 에러가 발생했거나 응답이 없는 경우 빈 리스트 반환
         log.info(responseEntity.toString());
         return Collections.emptyList();
-    }
-//    @Override
-//    public List<SearchPlaceListRes> searchPlaceList() {
-//
-//
-//        return null;
-//    }
-
-    @Setter
-    @Getter
-    @NoArgsConstructor
-    public class Sample{
-        private String textQuery;
     }
 }
