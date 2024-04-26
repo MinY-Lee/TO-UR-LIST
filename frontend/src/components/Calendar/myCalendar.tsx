@@ -113,9 +113,9 @@ export default function myCalendar() {
                                     className={`
                                         col-span-1 h-[14vw]
                                         ${day === 0 ? ' invisible ' : ''}
-                                        ${isBetween || isStartOrEnd ? 'bg-gray-100' : ''}
-                                        ${selectedDate.getTime() === startDate?.getTime() ? 'rounded-tl-full rounded-bl-full bg-gray-100' : ''}
-                                        ${selectedDate.getTime() === endDate?.getTime() ? 'rounded-tr-full rounded-br-full bg-gray-100' : ''}
+                                        ${isBetween || isStartOrEnd ? 'color-bg-blue-4' : ''}
+                                        ${selectedDate.getTime() === startDate?.getTime() ? 'rounded-tl-full rounded-bl-full' : ''}
+                                        ${selectedDate.getTime() === endDate?.getTime() ? 'rounded-tr-full rounded-br-full' : ''}
                                     `}
                                     key={day}
                                 >
