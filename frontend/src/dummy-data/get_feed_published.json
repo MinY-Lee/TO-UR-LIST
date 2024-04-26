@@ -1,0 +1,71 @@
+[
+    {
+        "feedId": 5,
+        "feedTitle": "나의 첫 해외여행",
+        "feedContent": "정말 즐거웠어요. 다음에도 꼭 오면 좋겠어요.",
+        "userNickname": "여행가고싶다",
+        "feedThemeTagList": ["액티비티", "힐링"],
+        "feedMateTag": "가족끼리",
+        "createdAt": "2023-07-09",
+        "startDate": "2023-07-01",
+        "endDate": "2023-07-07",
+        "cityList": [
+            {
+                "countryName": "미국",
+                "cityName": "하와이"
+            }
+        ],
+        "copyCount": 11,
+        "likeCount": 23
+    },
+    {
+        "feedId": 72,
+        "feedTitle": "친구와의 대만 여행",
+        "feedContent": "추억과 낭만 가득한 여행",
+        "userNickname": "여행가고싶다",
+        "feedThemeTagList": ["낭만", "쇼핑"],
+        "feedMateTag": "친구랑",
+        "createdAt": "2023-12-02",
+        "startDate": "2023-11-20",
+        "endDate": "2023-11-23",
+        "cityList": [
+            {
+                "countryName": "대만",
+                "cityName": "타이베이"
+            },
+            {
+                "countryName": "대만",
+                "cityName": "가오슝"
+            }
+        ],
+        "copyCount": 50,
+        "likeCount": 85
+    },
+    {
+        "feedId": 198,
+        "feedTitle": "각잡고 한 일본 간사이 여행",
+        "feedContent": "먹고 놀고 보고, 정말 풀코스로 즐겼습니다.",
+        "userNickname": "여행가고싶다",
+        "feedThemeTagList": ["식도락", "액티비티"],
+        "feedMateTag": "혼자서",
+        "createdAt": "2024-01-24",
+        "startDate": "2024-01-20",
+        "endDate": "2024-01-02",
+        "cityList": [
+            {
+                "countryName": "일본",
+                "cityName": "오사카"
+            },
+            {
+                "countryName": "일본",
+                "cityName": "교토"
+            },
+            {
+                "countryName": "일본",
+                "cityName": "나라"
+            }
+        ],
+        "copyCount": 120,
+        "likeCount": 174
+    }
+]

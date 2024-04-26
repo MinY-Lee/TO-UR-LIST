@@ -1,0 +1,78 @@
+[
+    {
+        "tourId": "11111",
+        "tourTitle": "나 홀로 도쿄 여행",
+        "cityList": [
+            {
+                "countryCode": "JP",
+                "cityName": "도쿄"
+            },
+            {
+                "countryCode": "JP",
+                "cityName": "치바현"
+            }
+        ],
+        "startDate": "2024-04-22",
+        "endDate": "2024-04-28"
+    },
+    {
+        "tourId": "11112",
+        "tourTitle": "실리콘밸리 투어",
+        "cityList": [
+            {
+                "countryCode": "US",
+                "cityName": "캘리포니아"
+            }
+        ],
+        "startDate": "2024-05-23",
+        "endDate": "2024-05-28"
+    },
+    {
+        "tourId": "22342",
+        "tourTitle": "family in 대만",
+        "cityList": [
+            {
+                "countryCode": "TW",
+                "cityName": "타이베이"
+            },
+            {
+                "countryCode": "TW",
+                "cityName": "가오슝"
+            }
+        ],
+        "startDate": "2024-02-21",
+        "endDate": "2024-02-25"
+    },
+    {
+        "tourId": "23564",
+        "tourTitle": "유럽에서의 여름방학",
+        "cityList": [
+            {
+                "countryCode": "GB",
+                "cityName": "런던"
+            },
+            {
+                "countryCode": "FR",
+                "cityName": "파리"
+            },
+            {
+                "countryCode": "DE",
+                "cityName": "베를린"
+            }
+        ],
+        "startDate": "2024-06-24",
+        "endDate": "2024-07-05"
+    },
+    {
+        "tourId": "36378",
+        "tourTitle": "집에 가고 싶다.",
+        "cityList": [
+            {
+                "countryCode": "KR",
+                "cityName": "서울"
+            }
+        ],
+        "startDate": "2024-04-20",
+        "endDate": "2024-04-21"
+    }
+]
