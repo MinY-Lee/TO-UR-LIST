@@ -95,9 +95,11 @@ public class TourServiceImpl implements TourService, UserService {
     }
     @Override
     public Tour searchTour(String userId, String tourId) {
+        //만약 userId -ATTEND-> tourId 가 아니면 에러!
         return tourRepository.findById(tourId).orElse(new Tour());
     }
     @Override
+
     public TourDetail searchTourDetail(String userId, String tourId) {
         System.out.println(searchTour(userId,tourId));
         return null;

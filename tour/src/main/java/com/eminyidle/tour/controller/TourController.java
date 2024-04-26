@@ -3,6 +3,7 @@ package com.eminyidle.tour.controller;
 import com.eminyidle.tour.dto.Attend;
 import com.eminyidle.tour.dto.User;
 import com.eminyidle.tour.dto.req.CreateTourReq;
+import com.eminyidle.tour.exception.UserInfoInRequestNotFoundException;
 import com.eminyidle.tour.service.TourService;
 import com.eminyidle.tour.service.TourServiceImpl;
 import com.eminyidle.tour.service.UserService;
@@ -23,23 +24,31 @@ import java.util.Map;
 public class TourController {
 
     private final TourService tourService;
+
     @GetMapping()
-    public void createTour(@RequestBody CreateTourReq createTourReq, @RequestHeader Map<String,String> header) throws UnsupportedEncodingException {
+    public void createTour(@RequestBody CreateTourReq createTourReq, @RequestHeader Map<String,String> header) {
         log.debug("createTour");
         log.debug(">>"+header);
-        User user= User.builder()
-                .userId(header.get("userid"))
-                .userNickname(URLDecoder.decode(header.get("usernickname"),"UTF-8"))
-                .userName(URLDecoder.decode(header.get("username"),"UTF-8"))
-                .tourList(new ArrayList<>())
-                .build();
+        User user= getUserFromHeader(header);
         tourService.createTour(user,createTourReq);
-        return;
     }
 
     @GetMapping("/{tourId}")
-    public void searchTour(@PathVariable String tourId){
+    public void searchTour(@PathVariable String tourId, @RequestHeader Map<String,String> header){
         log.debug("searchTour");
-        log.debug(tourService.searchTour("", tourId).toString());
+        log.debug(tourService.searchTour(header.get("userid"), tourId).toString());
+    }
+
+    private User getUserFromHeader(Map<String,String> header){
+        try {
+            return User.builder()
+                    .userId(header.get("userid"))
+                    .userNickname(URLDecoder.decode(header.get("usernickname"),"UTF-8"))
+                    .userName(URLDecoder.decode(header.get("username"),"UTF-8"))
+                    .tourList(new ArrayList<>())
+                    .build();
+        } catch (UnsupportedEncodingException | NullPointerException e) {
+            throw new UserInfoInRequestNotFoundException(e.getMessage());
+        }
     }
 }
