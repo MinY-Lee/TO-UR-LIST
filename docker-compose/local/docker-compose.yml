@@ -30,6 +30,18 @@ services:
     ports:
       - "6379:6379"
 
+  place-neo4j:
+    image: neo4j:5.19.0-community
+    container_name: auth-neo4j
+    restart: unless-stopped
+    volumes:
+      - place-neo4j-data:/data
+    environment:
+      TZ: 'Asia/Seoul'
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+
 volumes:
   auth-redis-data:
   auth-mariadb-data:
