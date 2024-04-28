@@ -45,6 +45,7 @@ services:
 volumes:
   auth-redis-data:
   auth-mariadb-data:
+  place-neo4j-data:
 
 networks:
   default:
