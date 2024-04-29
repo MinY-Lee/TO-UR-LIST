@@ -8,6 +8,7 @@ import com.eminyidle.tour.dto.req.CreateTourReq;
 import com.eminyidle.tour.dto.req.UpdateTourCityReq;
 import com.eminyidle.tour.dto.req.UpdateTourPeriodReq;
 import com.eminyidle.tour.dto.req.UpdateTourTitleReq;
+import com.eminyidle.tour.exception.AbnormalTourDateException;
 import com.eminyidle.tour.exception.NoHostPrivilegesException;
 import com.eminyidle.tour.exception.NoSuchTourException;
 import com.eminyidle.tour.repository.CityRepository;
@@ -102,7 +103,13 @@ public class TourServiceImpl implements TourService, UserService {
 
     @Override
     public void updateTourPeriod(String userId, UpdateTourPeriodReq updateTourPeriodReq) {
-
+        Tour tour=tourRepository.findByUserIdAndTourId(userId,updateTourPeriodReq.getTourId()).orElseThrow(NoSuchTourException::new);
+        if(updateTourPeriodReq.getStartDate().isAfter(updateTourPeriodReq.getEndDate())){
+            throw new AbnormalTourDateException();
+        }
+        tour.setStartDate(updateTourPeriodReq.getStartDate());
+        tour.setEndDate(updateTourPeriodReq.getEndDate());
+        tourRepository.save(tour);
     }
 
     @Override
