@@ -1,0 +1,80 @@
+version: '3.7'
+
+services:
+  auth-mariadb:
+    image: mariadb:10.11.7
+    container_name: auth-mariadb
+    restart: unless-stopped
+    volumes:
+      - auth-mariadb-data:/lib/var/mysql
+      - ./auth/initdb.d:/docker-entrypoint-initdb.d
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MARIADB_DATABASE: ${AUTH_DB_NAME}
+      MARIADB_USER: ${AUTH_USER_NAME}
+      MARIADB_PASSWORD: ${AUTH_USER_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${AUTH_DB_ROOT_PASSWORD}
+      TZ: 'Asia/Seoul'
+    ports:
+      - "3306:3306"
+  auth-radis:
+    image: redis:7.2.4
+    container_name: auth-radis
+    restart: unless-stopped
+    environment:
+      REDIS_PASSWORD: ${AUTH_REDIS_PASSWORD}
+    volumes:
+      - auth-redis-data:/data
+    ports:
+      - "6379:6379"
+
+  place-neo4j:
+    image: neo4j:5.19.0-community
+    container_name: auth-neo4j
+    restart: unless-stopped
+    volumes:
+      - place-neo4j-data:/data
+    environment:
+      TZ: 'Asia/Seoul'
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+
+  TourlistMongoDB:
+    image: mongo:7.0
+    container_name: TourlistMongoDB
+    restart: unless-stopped
+    volumes:
+      - mongodb-dev-data:/data
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_ROOT_USER_NAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_ROOT_USER_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    ports:
+      - "27017:27017"
+
+  mongo-express-dev:
+    image: mongo-express
+    container_name: TourlistMongoExpressDev
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_DB_ROOT_USER_NAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_DB_ROOT_USER_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: TourlistMongoDB
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USER_NAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_USER_PASSWORD}
+
+volumes:
+  auth-redis-data:
+  auth-mariadb-data:
+  place-neo4j-data:
+  mongodb-dev-data:
+
+networks:
+  default:
+    external: true
+    name: TourlistNetwork
