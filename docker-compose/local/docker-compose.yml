@@ -19,9 +19,9 @@ services:
       TZ: 'Asia/Seoul'
     ports:
       - "3306:3306"
-  auth-radis:
+  auth-redis:
     image: redis:7.2.4
-    container_name: auth-radis
+    container_name: auth-redis
     restart: unless-stopped
     environment:
       REDIS_PASSWORD: ${AUTH_REDIS_PASSWORD}
@@ -42,10 +42,37 @@ services:
       - "7474:7474"
       - "7687:7687"
 
+  payment-mongoDB:
+    image: mongo:7.0
+    container_name: payment-mongoDB
+    restart: unless-stopped
+    volumes:
+      - payment-mongodb-data:/data
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_ROOT_USER_NAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_ROOT_USER_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    ports:
+      - "27017:27017"
+
+  mongo-express:
+    image: mongo-express
+    container_name: payment-MongoExpress
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_DB_ROOT_USER_NAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_DB_ROOT_USER_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: payment-mongoDB
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USER_NAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_USER_PASSWORD}
+
 volumes:
   auth-redis-data:
   auth-mariadb-data:
   place-neo4j-data:
+  payment-mongodb-data:
 
 networks:
   default:
