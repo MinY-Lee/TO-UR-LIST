@@ -44,9 +44,17 @@ public class TourController {
     @GetMapping("/{tourId}")
     public ResponseEntity<SearchTourDetailRes> searchTourDetail(@PathVariable String tourId, @RequestHeader Map<String,String> header){
         log.debug("searchTour");
-        log.debug(tourService.searchTour(header.get("userid"), tourId).toString());
-        return ResponseEntity.ok().build();
-    } //    TourDetail searchTourDetail(String userId, String tourId);
+        TourDetail tourDetail=tourService.searchTourDetail(header.get("userid"), tourId);
+        return ResponseEntity.ok(
+                SearchTourDetailRes.builder()
+                        .tourTitle(tourDetail.getTourTitle())
+                        .startDate(tourDetail.getStartDate())
+                        .endDate(tourDetail.getEndDate())
+                        .cityList(tourDetail.getCityList())
+                        .memberList(tourDetail.getMemberList())
+                        .build()
+        );
+    }
 
     @DeleteMapping("/{tourId}")
     public ResponseEntity<Void> deleteTour(@PathVariable String tourId, @RequestHeader Map<String,String> header){
