@@ -79,6 +79,7 @@ public class TourServiceImpl implements TourService, UserService {
     private boolean isHost(String userId, String tourId){
         //TODO-host 여부 확인-> memberType 통해
         Tour tour=tourRepository.findById(tourId).orElseThrow(TourNotFoundException::new);
+
         return true;
     }
 

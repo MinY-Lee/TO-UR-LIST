@@ -6,7 +6,7 @@ import com.eminyidle.tour.dto.Member;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class SearchTourDetailDto {
+public class SearchTourDetailRes {
     String tourTitle;
     LocalDateTime startDate;
     LocalDateTime endDate;
