@@ -5,12 +5,12 @@ import getCalendar from './getCalendar';
 export default function myCalendar() {
     const { weekCalendarList, currentDate, setCurrentDate, weekDayList } = getCalendar();
     
-    // const [select, setSelect] = useState<number[]>([]);
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
     
     
     // 펴고 접는 버전 만들 때 쓸 예정
+    // const [select, setSelect] = useState<number[]>([]);
     
     // const [show, setShow] = useState<boolean>(false);
     
@@ -60,8 +60,8 @@ export default function myCalendar() {
     };
 
     return (
-        <div id='calendar-container' className='flex flex-col items-center justify-center w-full'>
-            <div id='move-container' className='flex justify-between w-[70%]'>
+        <div id='calendar-container' className='flex flex-col items-center justify-center w-full mb-10'>
+            <div id='move-container' className='flex justify-between w-[70%] m-5'>
                 <button
                     onClick={() => {
                         setCurrentDate(subMonths(currentDate, 1));
@@ -69,7 +69,7 @@ export default function myCalendar() {
                 >
                     &lt;
                 </button>
-                <div>
+                <div className='text-lg'>
                     {currentDate.toLocaleDateString('ko-KR', {
                         year: 'numeric',
                         month: 'long',
@@ -132,8 +132,8 @@ export default function myCalendar() {
                     </div>
                 ))}
             </div>
-            <div>시작일 : {startDate?.toLocaleDateString()}</div>
-            <div>종료일 : {endDate?.toLocaleDateString()}</div>
+            {/* <div>시작일 : {startDate?.toLocaleDateString()}</div>
+            <div>종료일 : {endDate?.toLocaleDateString()}</div> */}
         </div>
     );
 }
