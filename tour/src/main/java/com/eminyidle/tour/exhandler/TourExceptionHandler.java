@@ -1,4 +1,4 @@
-package com.eminyidle.tour;
+package com.eminyidle.tour.exhandler;
 
 import com.eminyidle.tour.exception.NoHostPrivilegesException;
 import org.springframework.http.ResponseEntity;
