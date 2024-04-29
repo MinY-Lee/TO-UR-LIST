@@ -61,8 +61,6 @@ export default function TourCreatePage(props: ParentProps) {
             endDate: endDate?.toISOString(),
         });
 
-        console.log(newTour);
-
     }, [step, title]);
 
 

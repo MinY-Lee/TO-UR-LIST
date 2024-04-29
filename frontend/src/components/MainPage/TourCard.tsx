@@ -35,7 +35,7 @@ export default function TourCard(props: PropType) {
         mode = 1;
         dayElement = (
             <>
-                <div className="text-[6vw]">
+                <div className="text-[6vw] font-bold">
                     D-
                     {Math.floor(
                         (startDate.getTime() - now.getTime()) /
@@ -51,7 +51,6 @@ export default function TourCard(props: PropType) {
 
     /**date string -> YYYY.MM.DD */
     const dateStringToString = (val: string) => {
-        console.log(val)
         const date = val.split('T')[0];
         const dSplit = date.split('-');
         const year = dSplit[0];
@@ -65,7 +64,7 @@ export default function TourCard(props: PropType) {
     return (
         <>
             <div
-                className={`box-border w-[90%] h-[20%] m-[2vw] rounded-[2vw] flex items-center flex-shrink-0 ${
+                className={`box-border w-[90%] h-[20%] m-[2vw] p-[1vw] rounded-[2vw] flex items-center flex-shrink-0 ${
                     mode === 0
                         ? 'color-bg-blue-3'
                         : mode === 1
@@ -79,6 +78,7 @@ export default function TourCard(props: PropType) {
                     window.location.href = `/tour/${tour.tourId}`;
                 }}
             >
+                
                 {/* 날짜 표시 */}
                 <div
                     className={`${
@@ -95,10 +95,10 @@ export default function TourCard(props: PropType) {
                     <p className="text-[7vw] weight-text-semibold">
                         {tour.tourTitle}
                     </p>
-                    <p className="text-[5vw]">{`${dateStringToString(
+                    <p className="text-[4vw]">{`${dateStringToString(
                         tour.startDate
                     )}~${dateStringToString(tour.endDate)}`}</p>
-                    <div className="text-[6vw] flex items-center">
+                    <div className="text-[5vw] flex items-center">
                         <span className="material-symbols-outlined mr-[1vw]">
                             location_on
                         </span>
