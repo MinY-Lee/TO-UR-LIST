@@ -30,7 +30,14 @@ public interface TourRepository extends Neo4jRepository<Tour, String> {
     void updateTourTitle(String userId, String tourId, String tourTitle);
 
     @Query("MATCH (:User{userId: $userId})-[:ATTEND]->(t:Tour{tourId: $tourId}) RETURN t")
+//    @Query("MATCH (:User{userId: $userId})-[r:ATTEND]->(t:Tour{tourId: $tourId}) " +
+//            "OPTIONAL MATCH p=(t)-[:TO]->(c:City) " +
+//            "RETURN r.tourTitle AS tourTitle, p")
     Optional<Tour> findByUserIdAndTourId(String userId, String tourId);
+
+    //FIXME -
+    @Query("MATCH (:Tour{tourId: $tourId})-[r]->(:City{cityName:$cityName}) delete r")
+    void deleteTourCityRelationshipByTourIdAndCityName(String tourId, String cityName);
 
 }
 

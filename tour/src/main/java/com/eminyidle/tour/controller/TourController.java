@@ -80,7 +80,8 @@ public class TourController {
     @PutMapping("/city")
     public ResponseEntity<Void> updateTourCity(@RequestBody UpdateTourCityReq updateTourCityReq, @RequestHeader Map<String,String> header){
         log.debug("updateTourCity ");
-
+        User user=getUserFromHeader(header);
+        tourService.updateTourCity(user.getUserId(), updateTourCityReq);
         return ResponseEntity.ok().build();
     }
     @GetMapping()

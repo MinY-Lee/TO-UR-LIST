@@ -1,9 +1,6 @@
 package com.eminyidle.tour.service;
 
-import com.eminyidle.tour.dto.Attend;
-import com.eminyidle.tour.dto.Tour;
-import com.eminyidle.tour.dto.TourDetail;
-import com.eminyidle.tour.dto.User;
+import com.eminyidle.tour.dto.*;
 import com.eminyidle.tour.dto.req.CreateTourReq;
 import com.eminyidle.tour.dto.req.UpdateTourCityReq;
 import com.eminyidle.tour.dto.req.UpdateTourPeriodReq;
@@ -18,8 +15,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -115,6 +115,23 @@ public class TourServiceImpl implements TourService, UserService {
     @Override
     public void updateTourCity(String userId, UpdateTourCityReq updateTourCityReq) {
         //DB에 도시 있으면 그 도시와 연결하고.. 없으면 새로운 도시 노드 만들어서 맞는 국가랑 연결..
+        Tour tour=tourRepository.findByUserIdAndTourId(userId,updateTourCityReq.getTourId()).orElseThrow(NoSuchTourException::new);
+        log.debug(tour.toString());
+        Set<City> citySet=updateTourCityReq.getCityList().stream().map(
+                (city) ->
+                        cityRepository.findCity(city.getCityName(), city.getCountryCode()).orElse(city)
+        ).collect(Collectors.toSet());
+        cityRepository.findCitiesByTourId(updateTourCityReq.getTourId()).stream().forEach(
+                (city)->{
+                    if(!citySet.contains(city)){
+                        tourRepository.deleteTourCityRelationshipByTourIdAndCityName(updateTourCityReq.getTourId(), city.getCityName());
+                        log.debug("deleted "+city.getCityName());
+                    }
+                }
+        );
+        tour.setCityList(citySet.stream().toList());
+
+        tourRepository.save(tour);
     }
 
     @Override
