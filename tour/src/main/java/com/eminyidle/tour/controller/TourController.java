@@ -66,7 +66,8 @@ public class TourController {
     @PutMapping("/title")
     public ResponseEntity<Void> updateTourTitle(@RequestBody UpdateTourTitleReq updateTourTitleReq, @RequestHeader Map<String,String> header){
         log.debug("updateTourTitle ");
-
+        User user=getUserFromHeader(header);
+        tourService.updateTourTitle(user.getUserId(), updateTourTitleReq);
         return ResponseEntity.ok().build();
     }
     @PutMapping("/period")

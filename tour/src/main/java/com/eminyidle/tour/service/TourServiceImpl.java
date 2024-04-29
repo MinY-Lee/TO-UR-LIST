@@ -97,6 +97,7 @@ public class TourServiceImpl implements TourService, UserService {
     @Override
     public void updateTourTitle(String userId, UpdateTourTitleReq updateTourTitleReq) {
         //ATTEND관계에서 제목 업데이트
+        tourRepository.updateTourTitle(userId,updateTourTitleReq.getTourId(), updateTourTitleReq.getTourTitle());
     }
 
     @Override

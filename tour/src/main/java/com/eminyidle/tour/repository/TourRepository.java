@@ -25,5 +25,9 @@ public interface TourRepository extends Neo4jRepository<Tour, String> {
             "RETURN r.tourTitle AS tourTitle, p")
     List<Tour> findAllToursByUserId(String userId);
 
+    //TODO - 현재 관계가 없으면 그냥 아무일도 벌어지지 않는다.. 체크!
+    @Query("MATCH (:User{userId: $userId})-[r:ATTEND]->(:Tour{tourId: $tourId}) set r.tourTitle=$tourTitle")
+    void updateTourTitle(String userId, String tourId, String tourTitle);
+
 }
 
