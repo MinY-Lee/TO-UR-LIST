@@ -101,7 +101,7 @@ export default function TourCard(props: PropType) {
                         <span className="material-symbols-outlined mr-[1vw]">
                             location_on
                         </span>
-                        <p>{`${tour.cityList[0].cityName} ${
+                        <p>{`${tour.cityList[0].countryCode}, ${tour.cityList[0].cityName} ${
                             tour.cityList.length >= 2
                                 ? '(+' + (tour.cityList.length - 1) + ')'
                                 : ''

@@ -6,6 +6,8 @@ import HeaderBar from "../components/HeaderBar/HeaderBar";
 import SetPlace from '../components/CreatePage/setPlace';
 import SetDate from '../components/CreatePage/setDate';
 import SetTitle from '../components/CreatePage/setTitle';
+import CreateDone from '../components/CreatePage/createDone';
+import { City } from '../types/types';
 
 interface ParentProps {
     onChange: (data: string[]) => void;
@@ -16,7 +18,7 @@ export default function TourCreatePage(props: ParentProps) {
     const [selectedCity, setSelectedCity] = useState<string[]>([]);
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
-    const [title, setTitle] = useState<String>("");
+    const [title, setTitle] = useState<string>("");
 
     // setPlace 로부터 데이터 받기
     const handleCityData = (data: string[]) => {
@@ -46,6 +48,10 @@ export default function TourCreatePage(props: ParentProps) {
             setStep(step+1);
         }
         if (step == 3) {
+            if (title == "") {
+                console.log("비었음")
+                setTitle(`${selectedCity} 여행`);
+            }
             console.log(title);
             setStep(step+1);
         }
@@ -64,25 +70,32 @@ export default function TourCreatePage(props: ParentProps) {
             currentComponent =  <SetTitle onChangeTitle={handleTitleData}/>;
             break;
         case 4:
-            currentComponent = <h1>4단계</h1>;
-            break;
-        default:
-            currentComponent = "";
+            currentComponent = <CreateDone cityList={selectedCity} startDate={startDate} endDate={endDate} title={title}  />;
             break;
     }
 
     return (
-        <section className="m-5 flex flex-col justify-between h-[95vh]">
-            <header className="">
+        <section className="m-5 grid grid-rows-12 h-[95vh]">
+            <header className="row-span-3">
                 <HeaderBar/>
                 <h1 className="m-3 text-3xl font-bold">
                     여행 만들기
                 </h1>
             </header>
-            <div className="m-5 gap-3 flex flex-col justify-center items-center">
+            <div className="gap-3 row-span-8 text-center">
                 {currentComponent}
             </div>
-            <MyButton type="full" text="선택완료" isSelected={false} onClick={handleStep}/>
+            <div className='row-span-1'>
+                {step != 4 ? 
+                    <MyButton 
+                        type="full" 
+                        text={step != 3 ? "선택완료" : "입력완료"} 
+                        isSelected={false} 
+                        onClick={handleStep}
+                    /> :
+                    <div/>
+                }
+            </div>
         </section>
     );
 }

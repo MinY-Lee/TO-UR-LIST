@@ -99,7 +99,8 @@ export default function myCalendar(props: ChildProps) {
                     </div>
                 ))}
             </div>
-            <div id='day-container' className='w-full'>
+            <div id='day-container' className='w-full'
+            >
                 {weekCalendarList.map((item) => (
                     <div className="grid grid-cols-7 w-full h-[14vw] text-center" key={Math.random()}>
                         {item.map((day, index) => {

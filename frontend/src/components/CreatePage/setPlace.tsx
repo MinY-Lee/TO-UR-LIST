@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import SearchBar from "../../components/SearchBar/mySearchBar";
 import MyButton from "../../components/Buttons/myButton";
 
+import { City } from '../../types/types';
+
 import CountryList from '../../dummy-data/get_country.json';
 import CityList from '../../dummy-data/get_city.json';
 
@@ -34,7 +36,7 @@ export default function SetPlace(props) {
             // 코드로 도시 검색 및 결과 포맷팅
             const cityListWithCountryName: string[] = CityList
                 .find(country => country.countryCode === foundCountry.countryCode)?.cityList
-                ?.map(city => `${foundCountry.countryName}, ${city}`) || [];
+                ?.map(city => `${foundCountry.countryCode}, ${city}`) || [];
 
             setSearchList(cityListWithCountryName);
             // 선택된 도시가 있을 때 결과를 업데이트
@@ -45,6 +47,7 @@ export default function SetPlace(props) {
     
     // 여행할 도시 선택 또는 해제
     const handleCitySelect = (city: string) => {
+        console.log(city);
         const index = selectedCity.indexOf(city);
 
         if (index === -1) {
@@ -58,12 +61,12 @@ export default function SetPlace(props) {
     };
 
     return (
-        <>
-            <div className="text-2xl font-bold">어디로 떠나시나요?</div>
-            <div id='search-container' className="w-full shadow-md border border-black rounded-lg">
+        <div className='flex flex-col items-center'>
+            <div className="text-2xl font-bold m-3">어디로 떠나시나요?</div>
+            <div id='search-container' className="w-[90%] shadow-md border border-black rounded-lg">
                 <SearchBar onChange={handleDataFromChild}/>
             </div>
-            <div id='city-list-container' className="h-[40vh] overflow-scroll w-[90%]">
+            <div id='city-list-container' className="m-2 h-[40vh] overflow-scroll w-[90%]">
                 {selectedCity.length > 0 && selectedCity.map((res) => (
                     <div key={res} className="flex justify-between m-2">
                         <div className="text-lg">{res}</div>
@@ -91,6 +94,7 @@ export default function SetPlace(props) {
                     ))
                 )}
             </div>
-        </>
+        </div>
+        
     );
 }

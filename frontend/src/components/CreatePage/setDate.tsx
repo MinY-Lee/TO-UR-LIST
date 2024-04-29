@@ -19,7 +19,6 @@ export default function SetDate(props) {
         setStartDate(data[0]);
         setEndDate(data[1]);
     };
-    
 
     return (
         <>
