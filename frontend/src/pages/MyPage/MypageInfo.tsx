@@ -1,6 +1,9 @@
 import { useSelector } from 'react-redux';
 import { UserInfo } from '../../types/types';
 import { BaseSyntheticEvent, useEffect, useState } from 'react';
+import GenderSelectBox from '../../components/MyPage/GenderSelectBox';
+import TabBarMain from '../../components/TabBar/TabBarMain';
+import { useNavigate } from 'react-router-dom';
 
 export default function MypageInfo() {
     const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
@@ -13,6 +16,10 @@ export default function MypageInfo() {
         userInfo.userBirth.replaceAll('-', '.')
     );
 
+    const [userGender, setUserGender] = useState<number>(0);
+    //0 : selectbox close, 1: selectbox open
+    const [selectBoxMode, setSelectBoxMode] = useState<number>(0);
+
     //유효성 검사
     const [isValidName, setIsValidName] = useState<boolean>(false);
     const [isValidNickname, setIsValidNickname] = useState<boolean>(false);
@@ -20,6 +27,11 @@ export default function MypageInfo() {
         useState<boolean>(false);
     const [nicknameMsg, setNicknameMsg] = useState<string>('');
     const [isValidBirthday, setIsValidBirthDay] = useState<boolean>(false);
+
+    const [isChangePossible, setIsChangePossible] = useState<boolean>(false);
+
+    //navigator
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (userName.length >= 2 && userName.length <= 8) {
@@ -93,6 +105,16 @@ export default function MypageInfo() {
         setIsValidBirthDay(true);
     }, [userBirthDay]);
 
+    //전체 유효성 검사
+    useEffect(() => {
+        setIsChangePossible(
+            isNicknameDupleChecked &&
+                isValidBirthday &&
+                isValidName &&
+                isValidNickname
+        );
+    }, [isNicknameDupleChecked, isValidBirthday, isValidName, isValidNickname]);
+
     /**
     nameChanged(event)
     이름의 변경을 감지해 업데이트 해주는 함수다.
@@ -140,9 +162,29 @@ export default function MypageInfo() {
         setUserBirthDay(tempString);
     };
 
+    /**selectGender(a : number) 현재 선택된 성별을 수정한다.*/
+    const selectGender = (a: number) => {
+        setUserGender(a);
+    };
+
+    /**submitChange() 수정을 완료한다. */
+    const submitChange = () => {
+        //api호출
+        //전송 후 올바르게 변형되면 redux 반영
+
+        navigate(`/mypage`);
+    };
+
     return (
         <>
-            <section className="w-full h-[60%] py-[1vw] flex flex-col justify-between items-center">
+            <section
+                className="w-full h-full py-[1vw] flex flex-col justify-between items-center"
+                onClick={() => {
+                    if (selectBoxMode === 1) {
+                        setSelectBoxMode(0);
+                    }
+                }}
+            >
                 {/* 제목 */}
                 <div className="w-[90%] flex flex-col items-start pt-[3vw] flex-grow-0 flex-shrink-0">
                     <h1 className="text-[7vw] weight-text-semibold">
@@ -239,7 +281,52 @@ export default function MypageInfo() {
                             )}
                         </div>
                     </div>
+
+                    {/* 성별 설정 */}
+                    <div className="w-full h-[17vw] flex justify-between items-start">
+                        <div className="w-[20%] my-[1vw]">성별 *</div>
+                        <div className="w-[80%] relative">
+                            <GenderSelectBox
+                                isSelected={userGender}
+                                select={selectGender}
+                                selectBoxMode={selectBoxMode}
+                                setSelectBoxMode={setSelectBoxMode}
+                            />
+                        </div>
+                    </div>
+
+                    {/* 버튼 */}
+                    <div className="w-full flex justify-between items-center">
+                        {isChangePossible ? (
+                            <div
+                                className="w-[48%] color-bg-blue-2 text-white flex justify-center items-center py-[2vw]"
+                                style={{ borderRadius: '1vw' }}
+                                onClick={submitChange}
+                            >
+                                수정완료
+                            </div>
+                        ) : (
+                            <div
+                                className="w-[48%] bg-[#D9D9D9] text-[#646464] flex justify-center items-center py-[2vw]"
+                                style={{ borderRadius: '1vw' }}
+                            >
+                                수정 조건 미충족
+                            </div>
+                        )}
+
+                        <div
+                            className="w-[48%] bg-[#D9D9D9] text-[#646464] flex justify-center items-center py-[2vw]"
+                            style={{ borderRadius: '1vw' }}
+                            onClick={() => {
+                                navigate(`/mypage`);
+                            }}
+                        >
+                            취소
+                        </div>
+                    </div>
                 </div>
+
+                <TabBarMain tabMode={2} />
             </section>
         </>
     );
