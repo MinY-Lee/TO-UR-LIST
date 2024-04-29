@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import MyButton from "../components/Buttons/myButton";
 import HeaderBar from "../components/HeaderBar/HeaderBar";
@@ -7,7 +7,7 @@ import SetPlace from '../components/CreatePage/setPlace';
 import SetDate from '../components/CreatePage/setDate';
 import SetTitle from '../components/CreatePage/setTitle';
 import CreateDone from '../components/CreatePage/createDone';
-import { City } from '../types/types';
+import { City, TourCardInfo } from '../types/types';
 
 interface ParentProps {
     onChange: (data: string[]) => void;
@@ -19,6 +19,8 @@ export default function TourCreatePage(props: ParentProps) {
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
     const [title, setTitle] = useState<string>("");
+    const [newTour, setNewTour] = useState<TourCardInfo>(); // 정보들로 만들 객체
+
 
     // setPlace 로부터 데이터 받기
     const handleCityData = (data: string[]) => {
@@ -32,9 +34,36 @@ export default function TourCreatePage(props: ParentProps) {
     };
 
     // setTitle 로부터 데이터 받기
-    const handleTitleData = (data: String) => {
+    const handleTitleData = (data: string) => {
         setTitle(data);
     };
+
+    // TourInfoCard 객체화
+    useEffect(() => {
+        // 여행 생성 api 로 tourId 받아와야 함
+
+        // City 객체를 담을 배열
+        const cities: City[] = [];
+
+        // cityList를 순회하면서 각 요소를 처리
+        selectedCity.forEach(item => {
+            const [countryCode, cityName] = item.split(', ');
+            const city = { countryCode: countryCode, cityName: cityName };
+            cities.push(city);
+        });
+
+
+        setNewTour({
+            tourId: "0", // 임시
+            tourTitle: title,
+            cityList: cities,
+            startDate: startDate?.toISOString(),
+            endDate: endDate?.toISOString(),
+        });
+
+        console.log(newTour);
+
+    }, [step, title]);
 
 
     const handleStep = () => {
@@ -70,7 +99,7 @@ export default function TourCreatePage(props: ParentProps) {
             currentComponent =  <SetTitle onChangeTitle={handleTitleData}/>;
             break;
         case 4:
-            currentComponent = <CreateDone cityList={selectedCity} startDate={startDate} endDate={endDate} title={title}  />;
+            currentComponent = <CreateDone tourCardInfo={newTour} />;
             break;
     }
 

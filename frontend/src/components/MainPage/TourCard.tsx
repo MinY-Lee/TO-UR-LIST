@@ -51,6 +51,7 @@ export default function TourCard(props: PropType) {
 
     /**date string -> YYYY.MM.DD */
     const dateStringToString = (val: string) => {
+        console.log(val)
         const date = val.split('T')[0];
         const dSplit = date.split('-');
         const year = dSplit[0];
