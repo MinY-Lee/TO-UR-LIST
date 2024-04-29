@@ -5,9 +5,10 @@ import HeaderBar from "../components/HeaderBar/HeaderBar";
 
 import SetPlace from '../components/CreatePage/setPlace';
 import SetDate from '../components/CreatePage/setDate';
+import SetTitle from '../components/CreatePage/setTitle';
 
 interface ParentProps {
-    onChange: (data: string) => void;
+    onChange: (data: string[]) => void;
 }
 
 export default function TourCreatePage(props: ParentProps) {
@@ -15,32 +16,37 @@ export default function TourCreatePage(props: ParentProps) {
     const [selectedCity, setSelectedCity] = useState<string[]>([]);
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
+    const [title, setTitle] = useState<String>("");
 
     // setPlace 로부터 데이터 받기
     const handleCityData = (data: string[]) => {
         setSelectedCity(data);
-        console.log(selectedCity);
     };
 
     // setDate 로부터 데이터 받기
     const handleDateData = (data: Date[]) => {
         setStartDate(data[0]);
         setEndDate(data[1]);
-        console.log(startDate);
-        console.log(endDate);
+    };
+
+    // setTitle 로부터 데이터 받기
+    const handleTitleData = (data: String) => {
+        setTitle(data);
     };
 
 
     const handleStep = () => {
         if (step == 1 && selectedCity.length > 0) {
-            console.log(selectedCity)
+            console.log(selectedCity);
             setStep(step+1);
         }
-        if (step == 2) {
+        if (step == 2 && startDate && endDate) {
+            console.log(startDate);
+            console.log(endDate);
             setStep(step+1);
         }
         if (step == 3) {
-            console.log(selectedCity)
+            console.log(title);
             setStep(step+1);
         }
     }
@@ -55,7 +61,7 @@ export default function TourCreatePage(props: ParentProps) {
             currentComponent = <SetDate onChangeDate={handleDateData}/>;
             break;
         case 3:
-            currentComponent = <h1>3단계</h1>;
+            currentComponent =  <SetTitle onChangeTitle={handleTitleData}/>;
             break;
         case 4:
             currentComponent = <h1>4단계</h1>;

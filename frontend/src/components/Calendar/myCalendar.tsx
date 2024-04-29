@@ -1,14 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { subMonths } from 'date-fns';
 import getCalendar from './getCalendar';
 
-export default function myCalendar() {
+interface ChildProps {
+    onChange: (data: Date[]) => void;
+}
+
+export default function myCalendar(props: ChildProps) {
     const { weekCalendarList, currentDate, setCurrentDate, weekDayList } = getCalendar();
     
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
     
-    
+    useEffect(() => {
+        props.onChange([startDate, endDate]);
+    }, [startDate, endDate]);
+
     // 펴고 접는 버전 만들 때 쓸 예정
     // const [select, setSelect] = useState<number[]>([]);
     
@@ -59,6 +66,8 @@ export default function myCalendar() {
         }
     };
 
+    
+
     return (
         <div id='calendar-container' className='flex flex-col items-center justify-center w-full mb-10'>
             <div id='move-container' className='flex justify-between w-[70%] m-5'>
@@ -84,8 +93,8 @@ export default function myCalendar() {
                 </button>
             </div>
             <div id='weekday-container' className='grid grid-cols-7 w-full'>
-                {weekDayList.map((weekday) => (
-                    <div key={weekday} className='col-span-1 text-center'>
+                {weekDayList.map((weekday, index) => (
+                    <div key={index} className='col-span-1 text-center'>
                         {weekday}
                     </div>
                 ))}
@@ -117,7 +126,7 @@ export default function myCalendar() {
                                         ${selectedDate.getTime() === startDate?.getTime() ? 'rounded-tl-full rounded-bl-full' : ''}
                                         ${selectedDate.getTime() === endDate?.getTime() ? 'rounded-tr-full rounded-br-full' : ''}
                                     `}
-                                    key={day}
+                                    key={index}
                                 >
                                     <div className={`
                                         ${index === 0 ? 'text-red-500' : ''}

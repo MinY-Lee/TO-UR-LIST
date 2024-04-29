@@ -33,7 +33,7 @@ export default function searchBar(props: ChildProps) {
                     type="search"
                     value={query}
                     onChange={handleInputChange}
-                      onKeyDown={handleKeyDown} // 엔터 키 입력 감지
+                    onKeyDown={handleKeyDown} // 엔터 키 입력 감지
                     className="relative m-0 -mr-0.5 w-[1px] flex-auto bg-transparent bg-clip-padding px-3 py-[0.25rem] font-normal outline-none"
                     placeholder="나라 이름을 검색해보세요"
                     aria-label="Search"
