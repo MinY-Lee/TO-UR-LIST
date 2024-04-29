@@ -18,5 +18,8 @@ public class City {
     @Property
     private String cityName;
 
-
+    public City(String cityName, String countryCode){
+        setCityName(cityName);
+        setCountryCode(countryCode);
+    }
 }

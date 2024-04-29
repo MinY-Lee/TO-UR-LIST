@@ -2,11 +2,17 @@ package com.eminyidle.tour.dto.res;
 
 import com.eminyidle.tour.dto.City;
 import com.eminyidle.tour.dto.Member;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class SearchTourDetailDto {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class SearchTourDetailRes {
     String tourTitle;
     LocalDateTime startDate;
     LocalDateTime endDate;
