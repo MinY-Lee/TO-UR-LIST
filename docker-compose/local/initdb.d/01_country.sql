@@ -7,7 +7,7 @@ create table if not exists country
     language varchar(50),
     utc double,
     voltage varchar(20),
-    plug_type varchar(20)
+    plug_type varchar(50)
 );
 
 LOAD DATA INFILE '/docker-entrypoint-initdb.d/country_info_final_updated.csv'

@@ -1,4 +1,4 @@
-country_code,country_name_eng,country_name_kor,climate,language,utc,voltage, plug_type
+country_code,country_name_eng,country_name_kor,climate,language,utc,voltage,plug_type
 GHA,Ghana,가나,"연평균 기온은 27℃, 강수량은 1500mm 내외, 열대 기후가 특징이며, 습도가 높아 습하고 더운 날씨. 열대 기후로 남동해안은 온난 건조, 남서해안은 고온 다습하며 북부지방은 고온 건조한 편.","영어, 아칸 언어",0.0,230 V,"D, G"
 GAB,Gabon,가봉,"연평균 기온은 25℃, 강수량은 북쪽이 3000mm 이상으로 비가 자주 오는 반면, 남쪽은 900mm 정도로 건조. 열대 기후로 연중 덥고 습하며, 장마철과 건조한 계절이 분명히 나뉘어 짐",프랑스어,1.0,220 V,C
 GUY,Guyana,가이아나,"연평균 기온은 26℃, 강수량은 2300mm, 열대 기후로 대체로 습하고 비가 많이 내리는 편",영어,-4.0,240 V,"A, B, D, G"
