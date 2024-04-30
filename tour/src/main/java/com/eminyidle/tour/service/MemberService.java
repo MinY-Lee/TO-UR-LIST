@@ -15,17 +15,17 @@ public interface MemberService {
     //TODO - user서비스에서 해야 하는지 확인...
 //    List<User> searchUserListByNickname(String userNickname);
 
-    void createMember(String userId, TourMember tourMember);
+    void createMember(String hostId, TourMember tourMember);
 
-    void createGhostMember(String userId, CreateGhostMemberReq
+    void createGhostMember(String hostId, CreateGhostMemberReq
             createGhostMemberReq
     );
 
     List<Member> searchMemberList(String tourId);
 
-    void updateGhostToGuest(String userId, UpdateGhostToGuestReq updateGhostToGuestReq);
+    void updateGhostToGuest(String hostId, UpdateGhostToGuestReq updateGhostToGuestReq);
 
-    void updateHost(String userId, TourMember tourMember);
+    void updateHost(String hostId, TourMember tourMember);
 
-    void deleteMember(String userId, DeleteMemberReq deleteMemberReq);
+    void deleteMember(String hostId, DeleteMemberReq deleteMemberReq);
 }

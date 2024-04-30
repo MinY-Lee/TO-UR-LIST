@@ -15,9 +15,6 @@ public interface TourRepository extends Neo4jRepository<Tour, String> {
             "RETURN t.tourId AS tourId, t.startDate AS startDate, t.endDate AS endDate, at.tourTitle AS tourTitle")
     TourDetail findTourDetailByUserIdAndTourId(String userId, String tourId);
 
-    @Query("MATCH (u:User{userId: $userId})-[:ATTEND]->(t:Tour{tourId: $tourId}) create (t)-[rel:MEMBER {memberType: $memberType}]->(u)")
-    void createMemberRelationship(String userId, String tourId, String memberType);
-
     @Query("MATCH (:User{userId: $userId})<-[:MEMBER{memberType:'host'}]-(t:Tour{tourId: $tourId}) return t")
     Optional<Tour> findHostedTourByUserIdAndTourId(String userId, String tourId);
     @Query("MATCH (:User{userId: $userId})-[r:ATTEND]->(t:Tour) " +
