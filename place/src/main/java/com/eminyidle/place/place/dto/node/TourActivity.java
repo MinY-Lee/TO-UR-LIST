@@ -1,7 +1,8 @@
-package com.eminyidle.place.place.dto;
+package com.eminyidle.place.place.dto.node;
 
+import com.eminyidle.place.place.dto.node.Activity;
+import com.eminyidle.place.place.dto.node.Tour;
 import lombok.*;
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
@@ -11,7 +12,7 @@ import java.util.UUID;
 import static org.springframework.data.neo4j.core.schema.Relationship.Direction.INCOMING;
 import static org.springframework.data.neo4j.core.schema.Relationship.Direction.OUTGOING;
 
-@Node
+@Node("TOUR_ACTIVITY")
 @Getter
 @Setter
 @AllArgsConstructor

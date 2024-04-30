@@ -1,6 +1,5 @@
-package com.eminyidle.place.place.dto;
+package com.eminyidle.place.place.dto.node;
 
-import jakarta.persistence.Entity;
 import lombok.*;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -14,7 +13,7 @@ import static org.springframework.data.neo4j.core.schema.Relationship.Direction.
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Node("city")
+@Node("CITY")
 public class City {
 
     @Id

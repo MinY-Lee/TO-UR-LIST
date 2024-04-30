@@ -1,6 +1,6 @@
 package com.eminyidle.place.place.service;
 
-import com.eminyidle.place.place.dto.Activity;
+import com.eminyidle.place.place.dto.node.Activity;
 import com.eminyidle.place.place.repository.ActivityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

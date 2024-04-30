@@ -1,5 +1,7 @@
-package com.eminyidle.place.place.dto;
+package com.eminyidle.place.place.dto.node;
 
+import com.eminyidle.place.place.dto.Do;
+import com.eminyidle.place.place.dto.node.City;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +19,7 @@ import static org.springframework.data.neo4j.core.schema.Relationship.Direction.
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Node
+@Node("TOUR")
 public class Tour {
     @Id
     private String tourId;

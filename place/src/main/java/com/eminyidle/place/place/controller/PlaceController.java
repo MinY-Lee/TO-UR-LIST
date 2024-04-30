@@ -1,6 +1,5 @@
 package com.eminyidle.place.place.controller;
 
-import com.eminyidle.place.place.dto.Activity;
 import com.eminyidle.place.place.dto.TourPlace;
 import com.eminyidle.place.place.dto.TourPlaceMessageInfo;
 import com.eminyidle.place.place.dto.req.TourPlaceReq;
@@ -12,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.*;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,12 +41,13 @@ public class PlaceController {
         return ResponseEntity.ok().body(placeService.searchPlaceList(keyword));
     }
 
+
     // 장소 상세 정보 조회
 //    @GetMapping("/tour/place/{tourId}/{tourDay}/{placeId}")
 //    public ResponseEntity
 
 
-    // 장소 관련 Message
+    // 장소 추가
     @MessageMapping("/place/{tourId}")  // 클라이언트에서 보낸 메시지 받을 메서드
     @SendTo("/topic/place/{tourId}")    // 메서드가 처리한 결과 보낼 목적지
     public TourPlaceRes sendMessage(@DestinationVariable("tourId") String tourId,

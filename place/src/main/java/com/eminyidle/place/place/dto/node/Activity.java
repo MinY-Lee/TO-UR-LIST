@@ -1,4 +1,4 @@
-package com.eminyidle.place.place.dto;
+package com.eminyidle.place.place.dto.node;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import org.springframework.data.neo4j.core.schema.Property;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Node("Activity")
+@Node("ACTIVITY")
 public class Activity {
 
     @Id

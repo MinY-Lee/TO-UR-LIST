@@ -1,8 +1,8 @@
 package com.eminyidle.place.place.dto;
 
+import com.eminyidle.place.place.dto.node.TourActivity;
 import lombok.*;
 import org.springframework.data.neo4j.core.schema.*;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 @RelationshipProperties
 @Getter

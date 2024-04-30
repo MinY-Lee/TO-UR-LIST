@@ -1,15 +1,12 @@
 package com.eminyidle.place.place.service;
 
 import com.eminyidle.place.place.dto.*;
+import com.eminyidle.place.place.dto.node.TourActivity;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
 import com.eminyidle.place.place.exception.PlaceAddFailException;
 import com.eminyidle.place.place.repository.PlaceRepository;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
