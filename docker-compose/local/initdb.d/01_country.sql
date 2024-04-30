@@ -16,6 +16,6 @@ LOAD DATA INFILE '/docker-entrypoint-initdb.d/country_info_final_updated.csv'
     TERMINATED BY ','
     OPTIONALLY ENCLOSED BY '"' ESCAPED BY '"'
     LINES
-    TERMINATED BY '\n'
+    TERMINATED BY '\r\n'
     STARTING BY ''
     ignore 1 rows;
