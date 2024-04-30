@@ -1,5 +1,6 @@
 package com.eminyidle.user.adapter.out.persistence;
 
+import com.eminyidle.user.adapter.dto.UserEntity;
 import com.eminyidle.user.domain.User;
 import org.springframework.stereotype.Component;
 

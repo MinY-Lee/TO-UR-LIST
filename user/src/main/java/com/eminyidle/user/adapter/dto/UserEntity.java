@@ -1,4 +1,4 @@
-package com.eminyidle.user.adapter.out.persistence;
+package com.eminyidle.user.adapter.dto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
