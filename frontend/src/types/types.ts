@@ -30,12 +30,22 @@ export interface TourInfoDetail {
     cityList: City[];
     startDate: string;
     endDate: string;
-    memberList: memberInfo[];
+    memberList: MemberInfo[];
 }
 
 export interface City {
     countryCode: string;
     cityName: string;
+}
+
+export interface CountryInfo {
+    countryCode: string; // 나중에 없앨거임
+    language: string;
+    currencyUnit: string;
+    voltage: string;
+    plug_type: string;
+    climate: string;
+    KST: string
 }
 
 //피드 관련

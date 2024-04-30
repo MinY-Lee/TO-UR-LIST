@@ -4,12 +4,16 @@
         "tourTitle": "나 홀로 도쿄 여행",
         "cityList": [
             {
-                "countryCode": "JP",
+                "countryCode": "JPN",
                 "cityName": "도쿄"
             },
             {
-                "countryCode": "JP",
+                "countryCode": "JPN",
                 "cityName": "치바현"
+            },
+            {
+                "countryCode": "TWN",
+                "cityName": "타이베이"
             }
         ],
         "startDate": "2024-04-22",
@@ -38,7 +42,7 @@
         "tourTitle": "실리콘밸리 투어",
         "cityList": [
             {
-                "countryCode": "US",
+                "countryCode": "USA",
                 "cityName": "캘리포니아"
             }
         ],
@@ -68,11 +72,11 @@
         "tourTitle": "family in 대만",
         "cityList": [
             {
-                "countryCode": "TW",
+                "countryCode": "TWN",
                 "cityName": "타이베이"
             },
             {
-                "countryCode": "TW",
+                "countryCode": "TWN",
                 "cityName": "가오슝"
             }
         ],
@@ -102,15 +106,15 @@
         "tourTitle": "유럽에서의 여름방학",
         "cityList": [
             {
-                "countryCode": "GB",
+                "countryCode": "GBR",
                 "cityName": "런던"
             },
             {
-                "countryCode": "FR",
+                "countryCode": "FRA",
                 "cityName": "파리"
             },
             {
-                "countryCode": "DE",
+                "countryCode": "DEU",
                 "cityName": "베를린"
             }
         ],
@@ -140,7 +144,7 @@
         "tourTitle": "집에 가고 싶다.",
         "cityList": [
             {
-                "countryCode": "KR",
+                "countryCode": "KOR",
                 "cityName": "서울"
             }
         ],
