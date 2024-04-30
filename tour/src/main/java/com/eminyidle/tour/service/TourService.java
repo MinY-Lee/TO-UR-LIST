@@ -14,7 +14,7 @@ public interface TourService {
 
     Tour createTour(User user, CreateTourReq createTourReq);
 
-    void deleteTour(String tourId);
+    void deleteTour(String userId, String tourId);
 
     void updateTourTitle(String userId, UpdateTourTitleReq updateTourTitleReq);
 
