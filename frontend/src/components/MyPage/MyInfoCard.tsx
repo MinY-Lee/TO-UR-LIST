@@ -1,8 +1,13 @@
 import { useSelector } from 'react-redux';
 import { UserInfo } from '../../types/types';
+import { logout } from '../../util/api/auth';
+import { httpStatusCode } from '../../util/api/http-status';
+import CheckModal from '../CheckModal';
+import { useState } from 'react';
 
 export default function MyInfoCard() {
     const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
+    const [checkModalActive, setIsCheckModalActive] = useState<boolean>(false);
 
     let gender: string = '';
     switch (userInfo.userGender) {
@@ -20,53 +25,79 @@ export default function MyInfoCard() {
             break;
     }
 
+    const logoutProceed = () => {
+        logout().then((res) => {
+            if (res.status === httpStatusCode.OK) {
+                window.location.href = '/';
+            }
+        });
+    };
+
+    const closeModal = () => {
+        setIsCheckModalActive(false);
+    };
+
     return (
-        <div
-            className="w-[90%] h-[30%] flex flex-col items-center px-[1vw] py-[4vw] my-[1vw] border-[0.5vw] border-black"
-            style={{
-                borderRadius: '7vw',
-            }}
-        >
-            {/* 닉네임 */}
-            <p className="text-[6vw] h-[20%] weight-text-semibold mb-[1vw]">
-                <span className="text-[7vw] mr-[1vw]">
-                    {userInfo.userNickname}
-                </span>
-                님
-            </p>
-            <div className="w-[90%] h-[0.5vw] bg-[#929292]"></div>
-            <div className="w-[90%] h-[60%] flex">
-                <div className="w-[30%] h-full weight-text-semibold text-[5vw] flex flex-col justify-center items-start">
-                    <p>이름</p>
-                    <p>생년월일</p>
-                    <p>성별</p>
+        <>
+            {checkModalActive ? (
+                <CheckModal
+                    mainText="로그아웃 하시겠습니까?"
+                    subText=""
+                    OKText="확인"
+                    CancelText="취소"
+                    clickOK={logoutProceed}
+                    clickCancel={closeModal}
+                />
+            ) : (
+                <></>
+            )}
+            <div
+                className="w-[90%] h-[30%] flex flex-col items-center px-[1vw] py-[4vw] my-[1vw] border-[0.5vw] border-black"
+                style={{
+                    borderRadius: '7vw',
+                }}
+            >
+                {/* 닉네임 */}
+                <p className="text-[6vw] h-[20%] weight-text-semibold mb-[1vw]">
+                    <span className="text-[7vw] mr-[1vw]">
+                        {userInfo.userNickname}
+                    </span>
+                    님
+                </p>
+                <div className="w-[90%] h-[0.5vw] bg-[#929292]"></div>
+                <div className="w-[90%] h-[60%] flex">
+                    <div className="w-[30%] h-full weight-text-semibold text-[5vw] flex flex-col justify-center items-start">
+                        <p>이름</p>
+                        <p>생년월일</p>
+                        <p>성별</p>
+                    </div>
+                    <div className="w-[70%] h-full text-[5vw] flex flex-col justify-center items-start">
+                        <p>{userInfo.userName}</p>
+                        <p>{userInfo.userBirth.replaceAll('-', '.')}</p>
+                        <p>{gender}</p>
+                    </div>
                 </div>
-                <div className="w-[70%] h-full text-[5vw] flex flex-col justify-center items-start">
-                    <p>{userInfo.userName}</p>
-                    <p>{userInfo.userBirth.replaceAll('-', '.')}</p>
-                    <p>{gender}</p>
+                <div className="w-[90%] h-[20%] flex justify-between items-center">
+                    <div
+                        className="w-[45%] h-full color-bg-blue-2 text-white text-[5vw] weight-text-semibold flex justify-center items-center"
+                        style={{ borderRadius: '3vw' }}
+                        onClick={() => {
+                            window.location.href = '/mypage/info';
+                        }}
+                    >
+                        정보수정
+                    </div>
+                    <div
+                        className="w-[45%] h-full bg-[#D9D9D9] text-[#646464] text-[5vw] weight-text-semibold flex justify-center items-center"
+                        style={{ borderRadius: '3vw' }}
+                        onClick={() => {
+                            setIsCheckModalActive(true);
+                        }}
+                    >
+                        로그아웃
+                    </div>
                 </div>
             </div>
-            <div className="w-[90%] h-[20%] flex justify-between items-center">
-                <div
-                    className="w-[45%] h-full color-bg-blue-2 text-white text-[5vw] weight-text-semibold flex justify-center items-center"
-                    style={{ borderRadius: '3vw' }}
-                    onClick={() => {
-                        window.location.href = '/mypage/info';
-                    }}
-                >
-                    정보수정
-                </div>
-                <div
-                    className="w-[45%] h-full bg-[#D9D9D9] text-[#646464] text-[5vw] weight-text-semibold flex justify-center items-center"
-                    style={{ borderRadius: '3vw' }}
-                    onClick={() => {
-                        window.location.href = '/';
-                    }}
-                >
-                    로그아웃
-                </div>
-            </div>
-        </div>
+        </>
     );
 }

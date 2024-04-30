@@ -1,5 +1,5 @@
 //router
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import InfoPage from './pages/InfoPage';
@@ -26,89 +26,97 @@ import FeedEditPage from './pages/Feed/FeedEditPage';
 
 //css
 import './App.css';
+import LoginCheck from './pages/AuthCheck/LoginCheck';
 
 export default function App() {
     return (
         <Routes>
             {/* 로그인 페이지 */}
             <Route path="/" element={<LoginPage />} />
-            {/* 유저 메인 페이지 */}
-            <Route path="/main" element={<MainPage />} />
-            {/* 초기정보 세팅 페이지 */}
-            <Route path="/info" element={<InfoPage />} />
-            {/* 여행 정보 보기 페이지 */}
-            <Route path="/tour/:tourid" element={<TourPage />} />
-            {/* 여행 생성 페이지 */}
-            <Route path="/create" element={<TourCreatePage />} />
-            {/* 마이페이지 관련 */}
-            {/* 마이페이지 */}
-            <Route path="/mypage" element={<MyPage />} />
-            {/* 개인정보 수정 페이지 */}
-            <Route path="/mypage/info" element={<MypageInfo />} />
-            {/* 내가 올린 피드 리스트 */}
-            <Route path="/mypage/myfeed" element={<MypageMyfeed />} />
-            {/* 내가 좋아요한 피드 리스트 */}
-            <Route path="/mypage/like" element={<MypageLike />} />
 
-            {/* 여행 일정 관련 */}
-            {/* 여행 일정 페이지 */}
-            <Route
-                path="/tour/:tourid/schedule"
-                element={<TourSchedulePage />}
-            />
-            {/* 장소 추가 페이지 */}
-            <Route
-                path="/tour/:tourid/schedule/add"
-                element={<PlaceAddPage />}
-            />
-            {/* 일정 변경 페이지 */}
-            <Route
-                path="/tour/:tourid/schedule/edit"
-                element={<TourScheduleEditPage />}
-            />
+            {/* 로그인 여부 체크 */}
+            <Route element={<LoginCheck />}>
+                {/* 유저 메인 페이지 */}
+                <Route path="/main" element={<MainPage />} />
+                {/* 초기정보 세팅 페이지 */}
+                <Route path="/info" element={<InfoPage />} />
+                {/* 여행 정보 보기 페이지 */}
+                <Route path="/tour/:tourid" element={<TourPage />} />
+                {/* 여행 생성 페이지 */}
+                <Route path="/create" element={<TourCreatePage />} />
+                {/* 마이페이지 관련 */}
+                {/* 마이페이지 */}
+                <Route path="/mypage" element={<MyPage />} />
+                {/* 개인정보 수정 페이지 */}
+                <Route path="/mypage/info" element={<MypageInfo />} />
+                {/* 내가 올린 피드 리스트 */}
+                <Route path="/mypage/myfeed" element={<MypageMyfeed />} />
+                {/* 내가 좋아요한 피드 리스트 */}
+                <Route path="/mypage/like" element={<MypageLike />} />
 
-            {/* 체크리스트 관련 */}
-            {/* 체크리스트 보기 */}
-            <Route path="/tour/:tourid/checklist" element={<ChecklistPage />} />
-            {/* 체크리스트 전체 수정 */}
-            <Route
-                path="/tour/:tourid/checklist/all"
-                element={<ChecklistEditAllPage />}
-            />
-            {/* 체크리스트 일정별 보기 수정 */}
-            <Route
-                path="/tour/:tourid/checklist/day"
-                element={<ChecklistEditDayPage />}
-            />
+                {/* 여행 일정 관련 */}
+                {/* 여행 일정 페이지 */}
+                <Route
+                    path="/tour/:tourid/schedule"
+                    element={<TourSchedulePage />}
+                />
+                {/* 장소 추가 페이지 */}
+                <Route
+                    path="/tour/:tourid/schedule/add"
+                    element={<PlaceAddPage />}
+                />
+                {/* 일정 변경 페이지 */}
+                <Route
+                    path="/tour/:tourid/schedule/edit"
+                    element={<TourScheduleEditPage />}
+                />
 
-            {/* 가계부 관련 */}
-            {/* 가계부 보기 */}
-            <Route path="/tour/:tourid/account" element={<AccountPage />} />
-            {/* 가계부 정산 보기 */}
-            <Route
-                path="/tour/:tourid/account/total"
-                element={<AccountTotalPage />}
-            />
-            {/* 여행 지출 추가 */}
-            <Route
-                path="/tour/:tourid/account/add"
-                element={<AccountAddPage />}
-            />
-            {/* 여행 지출 수정 */}
-            <Route
-                path="/tour/:tourid/account/:payid"
-                element={<AccountEditPage />}
-            />
+                {/* 체크리스트 관련 */}
+                {/* 체크리스트 보기 */}
+                <Route
+                    path="/tour/:tourid/checklist"
+                    element={<ChecklistPage />}
+                />
+                {/* 체크리스트 전체 수정 */}
+                <Route
+                    path="/tour/:tourid/checklist/all"
+                    element={<ChecklistEditAllPage />}
+                />
+                {/* 체크리스트 일정별 보기 수정 */}
+                <Route
+                    path="/tour/:tourid/checklist/day"
+                    element={<ChecklistEditDayPage />}
+                />
 
-            {/* 피드 관련 */}
-            {/* 피드 목록 페이지 */}
-            <Route path="/feed" element={<FeedPage />} />
-            {/* 피드 상세보기 페이지 */}
-            <Route path="/feed/:feedid" element={<FeedDetailPage />} />
-            {/* 피드 추가 페이지 */}
-            <Route path="/feed/write" element={<FeedWritePage />} />
-            {/* 피드 수정 페이지 */}
-            <Route path="/feed/:feedid/edit" element={<FeedEditPage />} />
+                {/* 가계부 관련 */}
+                {/* 가계부 보기 */}
+                <Route path="/tour/:tourid/account" element={<AccountPage />} />
+                {/* 가계부 정산 보기 */}
+                <Route
+                    path="/tour/:tourid/account/total"
+                    element={<AccountTotalPage />}
+                />
+                {/* 여행 지출 추가 */}
+                <Route
+                    path="/tour/:tourid/account/add"
+                    element={<AccountAddPage />}
+                />
+                {/* 여행 지출 수정 */}
+                <Route
+                    path="/tour/:tourid/account/:payid"
+                    element={<AccountEditPage />}
+                />
+
+                {/* 피드 관련 */}
+                {/* 피드 목록 페이지 */}
+                <Route path="/feed" element={<FeedPage />} />
+                {/* 피드 상세보기 페이지 */}
+                <Route path="/feed/:feedid" element={<FeedDetailPage />} />
+                {/* 피드 추가 페이지 */}
+                <Route path="/feed/write" element={<FeedWritePage />} />
+                {/* 피드 수정 페이지 */}
+                <Route path="/feed/:feedid/edit" element={<FeedEditPage />} />
+            </Route>
         </Routes>
     );
 }
