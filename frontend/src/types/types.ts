@@ -17,6 +17,22 @@ export interface TourCardInfo {
     endDate: string;
 }
 
+export interface MemberInfo {
+    userId : string,
+    userNickname : string,
+    userName : string,
+    memberType : string,
+}
+
+export interface TourInfoDetail {
+    tourId: string; // 나중에는 없어도 됨
+    tourTitle: string;
+    cityList: City[];
+    startDate: string;
+    endDate: string;
+    memberList: memberInfo[];
+}
+
 export interface City {
     countryCode: string;
     cityName: string;
