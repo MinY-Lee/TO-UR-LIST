@@ -17,7 +17,7 @@ import static org.springframework.data.neo4j.core.schema.Relationship.Direction.
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Node("TOUR")
+@Node
 public class Tour {
     @Id
     private String tourId;

@@ -3,6 +3,7 @@ package com.eminyidle.place.place.service;
 import com.eminyidle.place.place.dto.*;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
 import com.eminyidle.place.place.exception.PlaceAddFailException;
+import com.eminyidle.place.place.repository.PlaceRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,8 @@ import java.util.*;
 public class PlaceServiceImpl implements PlaceService{
 
     private final RestTemplate restTemplate;
+
+    private final PlaceRepository placeRepository;
 
 //    @Value("${spring.googleMap.key}")
 //    private String googleMapKey;
@@ -74,6 +77,7 @@ public class PlaceServiceImpl implements PlaceService{
     // 장소 추가
     @Override
     public TourPlaceMessageInfo addPlace(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> headers) {
+        // 받아 온 body = requestbody
         Object responseBody = body;
         boolean isSuccess = false;
         String userId = (String) (headers.get("userId"));
@@ -87,6 +91,16 @@ public class PlaceServiceImpl implements PlaceService{
             log.error(e.getMessage());
         }
         log.info(headers.toString());
+
+        TourActivity tourActivity = TourActivity.builder().build();
+        placeRepository.save(tourActivity);
+
+        // DO 관계 생성해주기
+        // TourActivity의 Id는 저장된 값을 불러온다
+        placeRepository.createDoRelationship((String) body.get("tourId"), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourActivity.getTourActivityId());
+        // String tourId, String placeId, String placeName, Integer tourDay, String tourActivityId
+
+
         return TourPlaceMessageInfo.builder()
                 .body(responseBody)
                 .isSuccess(isSuccess)
