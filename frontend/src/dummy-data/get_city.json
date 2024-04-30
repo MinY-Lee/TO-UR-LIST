@@ -1,0 +1,17 @@
+[
+    {
+        "countryCode" : "JPN",
+        "cityList" : [
+            "오사카",
+            "후쿠오카",
+            "오키나와"
+        ]
+    },
+    {
+        "countryCode" : "TWN",
+        "cityList" : [
+            "타이페이",
+            "가오슝"
+        ]
+    }
+]

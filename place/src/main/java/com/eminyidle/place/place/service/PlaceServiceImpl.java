@@ -1,8 +1,8 @@
 package com.eminyidle.place.place.service;
 
-import com.eminyidle.place.place.dto.Place;
-import com.eminyidle.place.place.dto.Places;
+import com.eminyidle.place.place.dto.*;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
+import com.eminyidle.place.place.exception.PlaceAddFailException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +13,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -39,13 +36,11 @@ public class PlaceServiceImpl implements PlaceService{
         headers.setContentType(MediaType.APPLICATION_JSON); // Json 형식으로 받겠다
         headers.set("X-Goog-Api-Key", googleMapKey);    // 발급받은 Google Api key 설정
         headers.set("X-Goog-FieldMask", "places.id,places.displayName,places.photos," +
-                "places.types,places.googleMapsUri,places.primaryType,places.addressComponents");   // 받아 올 정보
-        String requestBody = "{ \"textQuery\" : \"keyword\" }";
+                "places.types,places.googleMapsUri,places.primaryType,places.addressComponents," +
+                "places.shortFormattedAddress,places.subDestinations,places.location");   // 받아 올 정보
+        String requestBody = "{ \"textQuery\" : \"" + keyword + "\" }";
 
-//        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-        Sample sample = new Sample();
-        sample.textQuery = keyword;
-        HttpEntity<Sample> requestEntity = new HttpEntity<>(sample, headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
         log.info(requestEntity.toString());
         ResponseEntity<Places> responseEntity = restTemplate.exchange(
                 baseUrl,
@@ -53,20 +48,19 @@ public class PlaceServiceImpl implements PlaceService{
                 requestEntity,
                 Places.class
         );
-        log.info(responseEntity.getStatusCode().toString());
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            log.info(responseEntity.toString());
-//            List<Places> places = responseEntity.getBody();
-//            if (places != null) {
-//                return places;
-//            }
+            // 사진이 없는 경우는 빈 리스트로 대체하여 반환
             if(responseEntity != null) {
                 return responseEntity.getBody().getPlaces().stream().map(place -> {
                     SearchPlaceListRes searchPlaceRes = SearchPlaceListRes.builder()
                             .placeId(place.getId())
                             .placeName(place.getDisplayName().getText())
-                            .placePhotoList(place.getPhotos().stream().map(photo -> photo.getName()).toList())
+                            .placePrimaryType(place.getPrimaryType())
+                            .placeLatitude(place.getLocation().getLatitude())
+                            .placeLongitude(place.getLocation().getLongitude())
+                            .placeAddress(place.getShortFormattedAddress())
+                            .placePhotoList(place.getPhotos() == null ? new ArrayList<>() : place.getPhotos().stream().map(photo -> photo.getName()).toList())
                             .build();
                     return searchPlaceRes;
                 }).toList();
@@ -76,17 +70,25 @@ public class PlaceServiceImpl implements PlaceService{
         log.info(responseEntity.toString());
         return Collections.emptyList();
     }
-//    @Override
-//    public List<SearchPlaceListRes> searchPlaceList() {
-//
-//
-//        return null;
-//    }
 
-    @Setter
-    @Getter
-    @NoArgsConstructor
-    public class Sample{
-        private String textQuery;
+    @Override
+    public TourPlaceMessageInfo addPlace(LinkedHashMap<String, Object> body, String tourId) {
+        Object responseBody = body;
+        boolean isSuccess = false;
+//        try {
+//            responseBody = AddPlaceInfo.builder()
+//                    .userNicknae()
+//        } catch (PlaceAddFailException e) {
+//            log.error(e.getMessage());
+//        }
+        return null;
+    }
+
+
+    @Override
+    public List<TourPlace> searchTourPlace(String tourId) {
+        // tourId를 받아서 해당 아이디와 DO로 연결된 TourActivity를 전부 가져오기
+        // Tour-DO-TourActivity 를 모두 한번에 가져옵니다...
+        return null;
     }
 }
