@@ -71,17 +71,26 @@ public class PlaceServiceImpl implements PlaceService{
         return Collections.emptyList();
     }
 
+    // 장소 추가
     @Override
-    public TourPlaceMessageInfo addPlace(LinkedHashMap<String, Object> body, String tourId) {
+    public TourPlaceMessageInfo addPlace(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> headers) {
         Object responseBody = body;
         boolean isSuccess = false;
-//        try {
-//            responseBody = AddPlaceInfo.builder()
-//                    .userNicknae()
-//        } catch (PlaceAddFailException e) {
-//            log.error(e.getMessage());
-//        }
-        return null;
+        String userId = (String) (headers.get("userId"));
+        String userName = (String) (headers.get("userName"));
+        String userNickname = (String) (headers.get("userNickname"));
+        try {
+            responseBody = AddPlaceInfo.builder()
+                    .userNickname(userNickname)
+                    .build();
+        } catch (PlaceAddFailException e) {
+            log.error(e.getMessage());
+        }
+        log.info(headers.toString());
+        return TourPlaceMessageInfo.builder()
+                .body(responseBody)
+                .isSuccess(isSuccess)
+                .build();
     }
 
 

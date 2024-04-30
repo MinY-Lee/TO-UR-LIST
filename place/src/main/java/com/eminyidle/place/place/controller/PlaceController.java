@@ -11,10 +11,7 @@ import com.eminyidle.place.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.handler.annotation.*;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -55,7 +53,8 @@ public class PlaceController {
     @SendTo("/topic/place/{tourId}")    // 메서드가 처리한 결과 보낼 목적지
     public TourPlaceRes sendMessage(@DestinationVariable("tourId") String tourId,
                                     @Payload TourPlaceReq tourPlaceReq,
-                                    SimpMessageHeaderAccessor headerAccessor) {
+                                    @Header("simpSessionAttributes") Map<String, Object> simpSessionAttributes) {
+//                                    SimpMessageHeaderAccessor headerAccessor) {
         /*
         @DestinationVariable: 메시지의 목적지에서 변수를 추출
         @Payload: 메시지 본문(body)의 내용을 메서드의 인자로 전달할 때 사용
@@ -72,7 +71,7 @@ public class PlaceController {
         switch (tourPlaceReq.getType()){
             // 장소 추가
             case ADD_PLACE: {
-                tourPlaceMessageInfo = placeService.addPlace(body, tourId);
+                tourPlaceMessageInfo = placeService.addPlace(body, tourId, simpSessionAttributes);
                 responseBody = tourPlaceMessageInfo.getBody();
                 isSuccess = tourPlaceMessageInfo.getIsSuccess();
                 break;
@@ -80,7 +79,11 @@ public class PlaceController {
         }
 
         // 바로 반환하지 말고 변수로 받았다가 반환해주기
-        return null;
+        return TourPlaceRes.builder()
+                .type(tourPlaceReq.getType())
+                .isSuccess(isSuccess)
+                .body(responseBody)
+                .build();
     }
 
 
