@@ -1,5 +1,7 @@
 package com.eminyidle.user.application.port.out;
 
-public interface SaveUserPort {
+import com.eminyidle.user.domain.User;
 
+public interface SaveUserPort {
+	void save(User user);
 }
