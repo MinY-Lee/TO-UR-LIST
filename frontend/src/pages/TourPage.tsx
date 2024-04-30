@@ -38,7 +38,7 @@ export default function TourPage() {
                     <TourBasicInfo data={data}/>
                 </div>
                  <div>
-                    <TourCheckList/>
+                    <TourCheckList tourId={data?.tourId}/>
                 </div>
             </div>
         </>
