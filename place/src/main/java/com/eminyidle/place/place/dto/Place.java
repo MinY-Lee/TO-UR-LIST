@@ -13,16 +13,14 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Place {
     // Google Place API에서 바로 받아오는 부분
-//    private String placeId;
-//    private String placeName;
-//    private List<String> placePhotoList;
     private String id;
     private List<String> types;
     private List<AddressComponent> addressComponents;
     private String googleMapsUri;
     private DisplayName displayName;
     private String primaryType;
-    //    private List<Photo> photos;
+    private Location location;
+    private String shortFormattedAddress;
     private List<Photo> photos;
 
 
@@ -46,6 +44,16 @@ public class Place {
     public static class DisplayName { // 장소 이름
         private String text;
         private String languageCode;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Location {
+        private double latitude;
+        private double longitude;
     }
 
     @Getter
