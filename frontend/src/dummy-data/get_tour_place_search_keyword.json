@@ -1,0 +1,18 @@
+[
+    {
+        "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
+        "placeName": "도톤보리",
+        "placePrimaryType": "tourist_attraction",
+        "placePhotoList": [
+            "https://rimage.gnst.jp/livejapan.com/public/article/detail/a/20/00/a2000483/img/basic/a2000483_main.png?20230714155500&q=80"
+        ]
+    },
+    {
+        "placeId": "ChIJ7b9MGI3mAGARufc_HWvT3M0",
+        "placeName": "우메다",
+        "placePrimaryType": "train_station",
+        "placePhotoList": [
+            "https://rimage.gnst.jp/livejapan.com/public/article/detail/a/20/00/a2000483/img/basic/a2000483_main.png?20230714155500&q=80"
+        ]
+    }
+]

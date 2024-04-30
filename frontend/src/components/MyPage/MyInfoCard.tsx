@@ -3,7 +3,6 @@ import { UserInfo } from '../../types/types';
 
 export default function MyInfoCard() {
     const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
-    console.log(userInfo);
 
     let gender: string = '';
     switch (userInfo.userGender) {
@@ -23,13 +22,13 @@ export default function MyInfoCard() {
 
     return (
         <div
-            className="w-[90%] h-[30%] flex flex-col items-center px-[1vw] py-[4vw] border-[0.5vw] border-black"
+            className="w-[90%] h-[30%] flex flex-col items-center px-[1vw] py-[4vw] my-[1vw] border-[0.5vw] border-black"
             style={{
                 borderRadius: '7vw',
             }}
         >
             {/* 닉네임 */}
-            <p className="text-[6vw] h-[20%] weight-text-semibold">
+            <p className="text-[6vw] h-[20%] weight-text-semibold mb-[1vw]">
                 <span className="text-[7vw] mr-[1vw]">
                     {userInfo.userNickname}
                 </span>
