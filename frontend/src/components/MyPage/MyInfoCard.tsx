@@ -1,13 +1,16 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { UserInfo } from '../../types/types';
 import { logout } from '../../util/api/auth';
 import { httpStatusCode } from '../../util/api/http-status';
 import CheckModal from '../CheckModal';
 import { useState } from 'react';
+import { userWholeState } from '../../util/reduxSlices/userSlice';
 
 export default function MyInfoCard() {
     const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
     const [checkModalActive, setIsCheckModalActive] = useState<boolean>(false);
+
+    const dispatch = useDispatch();
 
     let gender: string = '';
     switch (userInfo.userGender) {
@@ -28,6 +31,16 @@ export default function MyInfoCard() {
     const logoutProceed = () => {
         logout().then((res) => {
             if (res.status === httpStatusCode.OK) {
+                //redux에서 유저 정보 초기화
+                const userInfo: UserInfo = {
+                    userId: '',
+                    userNickname: '',
+                    userName: '',
+                    userBirth: '',
+                    userGender: 0,
+                    userProfileImageId: '',
+                };
+                dispatch(userWholeState(userInfo));
                 window.location.href = '/';
             }
         });

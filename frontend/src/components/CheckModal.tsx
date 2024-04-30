@@ -12,7 +12,7 @@ export default function CheckModal(props: Proptype) {
         <>
             <div className="absolute w-full h-full top-0 left-0 z-20 bg-black opacity-50"></div>
             <div
-                className="absolute w-[80%] h-[20%] left-[10%] top-[40%] z-30 bg-white flex flex-col justify-around items-center"
+                className="absolute w-[80%] h-[20%] left-[10%] top-[40%] z-30 bg-white flex flex-col justify-around items-center border-[0.5vw] color-border-blue-2"
                 style={{ borderRadius: '2vw' }}
             >
                 <div className="w-[60%] h-[30%] flex flex-col justify-center items-center">
