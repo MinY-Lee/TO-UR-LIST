@@ -1,8 +1,8 @@
 package com.eminyidle.place.place.service;
 
-import com.eminyidle.place.place.dto.Place;
-import com.eminyidle.place.place.dto.Places;
+import com.eminyidle.place.place.dto.*;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
+import com.eminyidle.place.place.exception.PlaceAddFailException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +13,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -72,5 +69,26 @@ public class PlaceServiceImpl implements PlaceService{
         // 에러가 발생했거나 응답이 없는 경우 빈 리스트 반환
         log.info(responseEntity.toString());
         return Collections.emptyList();
+    }
+
+    @Override
+    public TourPlaceMessageInfo addPlace(LinkedHashMap<String, Object> body, String tourId) {
+        Object responseBody = body;
+        boolean isSuccess = false;
+//        try {
+//            responseBody = AddPlaceInfo.builder()
+//                    .userNicknae()
+//        } catch (PlaceAddFailException e) {
+//            log.error(e.getMessage());
+//        }
+        return null;
+    }
+
+
+    @Override
+    public List<TourPlace> searchTourPlace(String tourId) {
+        // tourId를 받아서 해당 아이디와 DO로 연결된 TourActivity를 전부 가져오기
+        // Tour-DO-TourActivity 를 모두 한번에 가져옵니다...
+        return null;
     }
 }

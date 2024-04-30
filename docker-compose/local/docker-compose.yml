@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+  auth-mariadb:
+    image: mariadb:10.11.7
+    container_name: auth-mariadb
+    restart: unless-stopped
+    volumes:
+      - auth-mariadb-data:/lib/var/mysql
+      - ./auth/initdb.d:/docker-entrypoint-initdb.d
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MARIADB_DATABASE: ${AUTH_DB_NAME}
+      MARIADB_USER: ${AUTH_USER_NAME}
+      MARIADB_PASSWORD: ${AUTH_USER_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${AUTH_DB_ROOT_PASSWORD}
+      TZ: 'Asia/Seoul'
+    ports:
+      - "3306:3306"
+  auth-radis:
+    image: redis:7.2.4
+    container_name: auth-radis
+    restart: unless-stopped
+    environment:
+      REDIS_PASSWORD: ${AUTH_REDIS_PASSWORD}
+    volumes:
+      - auth-redis-data:/data
+    ports:
+      - "6379:6379"
+
+  place-neo4j:
+    image: neo4j:5.19.0-community
+    container_name: auth-neo4j
+    restart: unless-stopped
+    volumes:
+      - place-neo4j-data:/data
+    environment:
+      TZ: 'Asia/Seoul'
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+
+volumes:
+  auth-redis-data:
+  auth-mariadb-data:
+  place-neo4j-data:
+
+networks:
+  default:
+    external: true
+    name: TourlistNetwork
