@@ -12,7 +12,7 @@ import org.springframework.data.neo4j.core.schema.Property;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Node("activity")
+@Node("Activity")
 public class Activity {
 
     @Id
