@@ -1,0 +1,3462 @@
+city_id,country_code,city_name_eng,city_name_kor
+1,AFG,Kabul,카불
+2,AFG,Qandahar,칸다하르
+3,AFG,Herat,헤라트
+4,AFG,Mazar-e-Sharif,마자르이샤리프
+5,NLD,Amsterdam,암스테르담
+6,NLD,Rotterdam,로테르담
+7,NLD,Haag,덴하그
+8,NLD,Utrecht,위트레흐트
+9,NLD,Eindhoven,에인트호벤
+10,NLD,Tilburg,틸부르흐
+11,NLD,Groningen,그로닝겐
+12,NLD,Breda,브레다
+13,NLD,Apeldoorn,아펠도른
+14,NLD,Nijmegen,네이메헌
+15,NLD,Enschede,엔스헤데
+16,NLD,Haarlem,하를렘
+17,NLD,Almere,알메르
+18,NLD,Arnhem,아른헴
+19,NLD,Zaanstad,잔스타트
+20,NLD,´s-Hertogenbosch,스헤르토겐보스
+21,NLD,Amersfoort,아메르스포르트
+22,NLD,Maastricht,마스트리히트
+23,NLD,Dordrecht,도르드레흐트
+24,NLD,Leiden,레이덴
+25,NLD,Haarlemmermeer,할렘머메어
+26,NLD,Zoetermeer,주테르메이르
+27,NLD,Emmen,에먼
+28,NLD,Zwolle,즈볼러
+29,NLD,Ede,에더
+30,NLD,Delft,델프트
+31,NLD,Heerlen,헬렌
+32,NLD,Alkmaar,알크마르
+33,ALB,Tirana,티라나
+34,DZA,Alger,알제
+35,DZA,Oran,오랑
+36,DZA,Constantine,콘스탄틴
+37,DZA,Annaba,안나바
+38,DZA,Batna,바트나
+39,DZA,Sétif,세티프
+40,DZA,Sidi Bel Abbès,씨디벨아베스
+41,DZA,Skikda,스킥다
+42,DZA,Biskra,비스크라
+43,DZA,Blida (el-Boulaida),블리다
+44,DZA,Béjaïa,베자이아
+45,DZA,Mostaganem,모스타가넴
+46,DZA,Tébessa,테베사
+47,DZA,Tlemcen (Tilimsen),틀렘센
+48,DZA,Béchar,베샤르
+49,DZA,Tiaret,티아레
+50,DZA,Ech-Chleff (el-Asnam),츨레프
+51,DZA,Ghardaïa,가르다이아
+52,AND,Andorra la Vella,안도라라베야
+53,AGO,Luanda,루안다
+54,AGO,Huambo,우암부
+55,AGO,Lobito,로비투
+56,AGO,Benguela,벵겔라
+57,AGO,Namibe,나미브
+58,ATG,Saint John´s,세인트 존스
+59,ARE,Dubai,두바이
+60,ARE,Abu Dhabi,아부다비
+61,ARE,Sharja,샤르자
+62,ARE,al-Ayn,알아인
+63,ARE,Ajman,아지만
+64,ARG,Buenos Aires,부에노스아이레스
+65,ARG,Córdoba,코르도바
+66,ARG,Rosario,로사리오
+67,ARG,Lomas de Zamora,로마스데사모라
+68,ARG,Quilmes,킬메스
+69,ARG,La Plata,라플라타
+70,ARG,Mar del Plata,마르델플라타
+71,ARG,San Miguel de Tucumán,산미겔데투쿠만
+72,ARG,Lanús,라누스
+73,ARG,Merlo,메를로
+74,ARG,General San Martín,산마르틴
+75,ARG,Salta,살타
+76,ARG,Moreno,모레노
+77,ARG,Santa Fé,산타페
+78,ARG,Avellaneda,아베야네다
+79,ARG,Morón,모론
+80,ARG,Florencio Varela,플로렌시오 바렐라
+81,ARG,Tigre,티그레
+82,ARG,Vicente López,비센테 로페즈
+83,ARG,Berazategui,베라사테기
+84,ARG,Corrientes,코리엔테스
+85,ARG,Bahía Blanca,바이아블랑카
+86,ARG,Resistencia,레시스텐시아
+87,ARG,José C. Paz,호세 C. 파즈
+88,ARG,Paraná,파라나
+89,ARG,Godoy Cruz,고도이크루스
+90,ARG,Posadas,포사다스
+91,ARG,Santiago del Estero,산티아고델에스테로
+92,ARG,San Salvador de Jujuy,산살바도르데후후이
+93,ARG,Hurlingham,헐링햄
+94,ARG,Neuquén,네우껜
+95,ARG,Ituzaingó,이투사잉구
+96,ARG,San Fernando,샌퍼넌도
+97,ARG,Formosa,포르모자
+98,ARG,La Rioja,라리오자
+99,ARG,San Fernando del Valle de Cata,까타마르까
+100,ARG,Río Cuarto,리오쿠아르토
+101,ARG,Comodoro Rivadavia,코모도로리바다비아
+102,ARG,Mendoza,멘도사
+103,ARG,San Nicolás de los Arroyos,산 니콜라스 데 로스 아로요스
+104,ARG,San Juan,산후안
+105,ARG,Concordia,콘코디아
+106,ARG,Pilar,필라
+107,ARG,San Luis,산루이스
+108,ARG,San Rafael,샌 라파엘
+109,ARG,Tandil,탄딜
+110,ARM,Yerevan,예레반
+111,ARM,Gjumri,규므리
+112,ARM,Vanadzor,바나조르
+113,AUS,Sydney,시드니
+114,AUS,Melbourne,멜버른
+115,AUS,Brisbane,브리즈번
+116,AUS,Perth,퍼스
+117,AUS,Adelaide,애들레이드
+118,AUS,Canberra,캔버라
+119,AUS,Gold Coast,골드코스트
+120,AUS,Newcastle,뉴캐슬
+121,AUS,Central Coast,센트럴 코스트
+122,AUS,Wollongong,울런공
+123,AUS,Hobart,호바트
+124,AUS,Geelong,절롱
+125,AUS,Townsville,타운스빌 시티
+126,AUS,Cairns,케언스
+127,AZE,Bakı,소바키겐
+128,AZE,Gəncə,간자
+129,AZE,Sumqayıt,숨가이트
+130,AZE,Mingəçevir,민게체비르
+131,BHS,Nassau,나사우
+132,BHR,al-Manama,마나마
+133,BGD,Dhaka,다카
+134,BGD,Chittagong,치타공
+135,BGD,Khulna,쿨나
+136,BGD,Rajshahi,라지샤히
+137,BGD,Narayanganj,나라양간지
+138,BGD,Rangpur,랑푸르
+139,BGD,Mymensingh,마이멘싱
+140,BGD,Barisal,바리살
+141,BGD,Tungi,툰기
+142,BGD,Jessore,조쇼르
+143,BGD,Comilla,코밀리아
+144,BGD,Bogra,보그라
+145,BGD,Sylhet,실렛
+146,BGD,Brahmanbaria,브라만바리아
+147,BGD,Jamalpur,자말푸르
+148,BRB,Bridgetown,브리지타운
+149,BEL,Antwerpen,안트베르펜
+150,BEL,Gent,헨트
+151,BEL,Charleroi,샤를루아
+152,BEL,Liège,리에주
+153,BEL,Bruxelles [Brussel],브뤼셀
+154,BEL,Brugge,브뤼허
+155,BEL,Schaerbeek,스하르베크
+156,BEL,Namur,나무르
+157,BEL,Mons,몽스
+158,BLZ,Belize City,벨리즈시티
+159,BLZ,Belmopan,벨모판
+160,BEN,Cotonou,코토누
+161,BEN,Porto-Novo,포르토노보
+162,BEN,Djougou,주구
+163,BEN,Parakou,파라쿠
+164,BTN,Thimphu,팀부
+165,BOL,Santa Cruz de la Sierra,산타크루즈
+166,BOL,La Paz,라파스
+167,BOL,El Alto,엘알토
+168,BOL,Cochabamba,코차밤바
+169,BOL,Oruro,오루로
+170,BOL,Sucre,몽슈크레
+171,BOL,Potosí,포토시
+172,BOL,Tarija,타리하
+173,BIH,Sarajevo,사라예보
+174,BIH,Banja Luka,바냐루카
+175,BIH,Zenica,제니차
+176,BWA,Gaborone,가보로네
+177,BWA,Francistown,프랜시스타운
+178,BRA,São Paulo,상파울로
+179,BRA,Rio de Janeiro,리우데자네이루
+180,BRA,Salvador,엘살바도르
+181,BRA,Belo Horizonte,벨루오리존치
+182,BRA,Fortaleza,포르탈레자
+183,BRA,Brasília,브라질리아
+184,BRA,Curitiba,쿠리티바
+185,BRA,Recife,레시페
+186,BRA,Porto Alegre,뽀르뚜 알레그리
+187,BRA,Manaus,마나우스
+188,BRA,Belém,산타마리아드벨렝
+189,BRA,Guarulhos,과룰류스
+190,BRA,Goiânia,고이아니아
+191,BRA,Campinas,캄피나스
+192,BRA,São Gonçalo,상곤살루
+193,BRA,Nova Iguaçu,노바이구아수
+194,BRA,São Luís,상루이스
+195,BRA,Maceió,마세이오
+196,BRA,Duque de Caxias,두끼 지 까시아스
+197,BRA,São Bernardo do Campo,상베르나르두두캄푸
+198,BRA,Teresina,테레시나
+199,BRA,Osasco,오사스꼬
+200,BRA,Campo Grande,캄푸그란데
+201,BRA,Santo André,산또 안드레
+202,BRA,João Pessoa,주앙페소아
+203,BRA,Contagem,꽁따젱
+204,BRA,São José dos Campos,사호 호세도스 캄포스
+205,BRA,Uberlândia,우베를란지아
+206,BRA,Feira de Santana,페이라데산타나
+207,BRA,Ribeirão Preto,히베이랑프레투
+208,BRA,Sorocaba,소로카바
+209,BRA,Niterói,니테로이
+210,BRA,Cuiabá,쿠이아바
+211,BRA,Juiz de Fora,주이스지포라
+212,BRA,Aracaju,아라카주
+213,BRA,São João de Meriti,상주앙지메리치
+214,BRA,Londrina,론드리나
+215,BRA,Joinville,조인빌리
+216,BRA,Belford Roxo,벨포드 로소
+217,BRA,Santos,산토스
+218,BRA,Ananindeua,아나닌데우아
+219,BRA,Mauá,마우아
+220,BRA,Carapicuíba,카라피쿠이바
+221,BRA,Olinda,올린다
+222,BRA,Campina Grande,캄피나그란지
+223,BRA,São José do Rio Preto,상조제두히우프레투
+224,BRA,Caxias do Sul,카시아스두술
+225,BRA,Moji das Cruzes,모지다스크루지스
+226,BRA,Diadema,디아데마
+227,BRA,Aparecida de Goiânia,아파레시다지고이아니아
+228,BRA,Piracicaba,피라시카바
+229,BRA,Vila Velha,빌라벨랴
+230,BRA,Pelotas,펠로타스
+231,BRA,Bauru,바우루
+232,BRA,Porto Velho,포르투벨류
+233,BRA,Betim,베칭
+234,BRA,Jundíaí,준지아이
+235,BRA,São Vicente,상비센치
+236,BRA,Maringá,마링가
+237,BRA,Montes Claros,몬치스클라루스
+238,BRA,Florianópolis,플로리아노폴리스
+239,BRA,Petrópolis,페트로폴리스
+240,BRA,Vitória,비토리아
+241,BRA,Foz do Iguaçu,포스두이구아수
+242,BRA,Macapá,마카파
+243,BRA,Ilhéus,일례우스
+244,BRA,Vitória da Conquista,비토리아다콩키스타
+245,BRA,Paulista,폴리스타
+246,BRA,Limeira,리메이라
+247,BRA,Blumenau,블루메나우
+248,BRA,Caruaru,카루아루
+249,BRA,Santarém,산타렝 군
+250,BRA,Volta Redonda,보우타헤돈다
+251,BRA,Novo Hamburgo,노부암부르구
+252,BRA,Caucaia,카우카야
+253,BRA,Santa Maria,산타 마리아
+254,BRA,Guarujá,구아루자
+255,BRA,Governador Valadares,고베르나도르발라다레스
+256,BRA,Taubaté,타우바테
+257,BRA,Imperatriz,임페라트리스
+258,BRA,Embu,엠부
+259,BRA,Mossoró,모소로
+260,BRA,Petrolina,페트롤리나
+261,BRA,Barueri,바루에리
+262,BRA,Viamão,비아망
+263,BRA,Ipatinga,이파칭가
+264,BRA,São José dos Pinhais,상조세두스피냐이스
+265,BRA,Magé,마제
+266,BRA,Suzano,수자누
+267,BRA,São Leopoldo,상레오폴두
+268,BRA,Marília,마릴리아
+269,BRA,São Carlos,상카를루스
+270,BRA,Sumaré,수마레
+271,BRA,Presidente Prudente,프레지덴치프루덴치
+272,BRA,Divinópolis,지비노폴리스
+273,BRA,Sete Lagoas,세치라고아스
+274,BRA,Rio Grande,리오 그랜드 시티
+275,BRA,Itabuna,이타부나
+276,BRA,Jequié,제키에
+277,BRA,Arapiraca,아라피라카
+278,BRA,Colombo,콜롬보
+279,BRA,Americana,아메리카나 앳 브랜드
+280,BRA,Alvorada,알보라다
+281,BRA,Araraquara,아라라쿠아라
+282,BRA,Itaboraí,이타보라이
+283,BRA,Nova Friburgo,노바 프리부르구
+284,BRA,Jacareí,자카리
+285,BRA,Araçatuba,아라사투바
+286,BRA,Barra Mansa,바라 만사
+287,BRA,Praia Grande,프라이아 그란데
+288,BRA,Marabá,마라바
+289,BRA,Criciúma,크리시우마
+290,BRA,Boa Vista,보아비스타
+291,BRA,Passo Fundo,파소 풍두
+292,BRA,Dourados,도우라두스
+293,BRA,Santa Luzia,산타루시아
+294,BRA,Rio Claro,리오 클라로
+295,BRA,Maracanaú,마라카나우
+296,BRA,Rondonópolis,혼도노폴리스
+297,BRA,São José,상조제
+298,BRA,Cachoeiro de Itapemirim,카쇼에이루지이타페미링
+299,BRA,Nilópolis,닐로폴리스
+300,BRA,Itapevi,이타페비
+301,BRA,Cabo de Santo Agostinho,카보데산토아고스틴호
+302,BRA,Camaçari,카마사리
+303,BRA,Itajaí,이타자이
+304,BRA,Chapecó,샤페코
+305,BRA,Cotia,코치아
+306,BRA,Lages,라지스
+307,BRA,Indaiatuba,인다이아투바
+308,BRA,Hortolândia,올토랜디아
+309,BRA,Caxias,카시아스
+310,BRA,São Caetano do Sul,상카에타누두술
+311,BRA,Itu,이투
+312,BRA,Nossa Senhora do Socorro,노사 센호라
+313,BRA,Parnaíba,파르나이바
+314,BRA,Poços de Caldas,포수스지카우다스
+315,BRA,Teresópolis,테레조폴리스
+316,BRA,Barreiras,바헤이라스
+317,BRA,Alagoinhas,알라구이냐스
+318,BRA,Itapecerica da Serra,이타페세리카 다 세라
+319,BRA,Uruguaiana,우루구아이아나
+320,BRA,Paranaguá,파라나구아
+321,BRA,Ibirité,이비리테
+322,BRA,Timon,티몬
+323,BRA,Luziânia,루지아니아
+324,BRA,Macaé,마카에
+325,BRA,Teófilo Otoni,테오필루오토니
+326,BRA,Palmas,파우마스
+327,BRA,Pindamonhangaba,삔다모냥가바
+328,BRA,Francisco Morato,프란시스코 모라토
+329,BRA,Bagé,바제
+330,BRA,Sapucaia do Sul,사푸카이아 도 술
+331,BRA,Patos de Minas,파토스 데 미나스
+332,BRA,Camaragibe,카마라지베
+333,BRA,Bragança Paulista,브라간사파울리스타
+334,BRA,Queimados,케이마도스
+335,BRA,Araguaína,아라구아이나
+336,BRA,Garanhuns,가라늉스
+337,BRA,Vitória de Santo Antão,비토리아지산투안탕
+338,BRA,Barbacena,바르바세나
+339,BRA,Abaetetuba,아베테투바
+340,BRA,Jaú,자우
+341,BRA,Franco da Rocha,프랑코 다 로차
+342,BRA,Teixeira de Freitas,테세이라 드 프레이타스
+343,BRA,Varginha,바르지냐
+344,BRA,Ribeirão Pires,히베로 피레스
+345,BRA,Catanduva,카탄두바
+346,BRA,Rio Verde,리오 베르데
+347,BRA,Botucatu,보투카투
+348,BRA,Santa Cruz do Sul,산타크루수두술
+349,BRA,Apucarana,아푸카라나
+350,BRA,Barretos,바레투스
+351,BRA,Cachoeirinha,카슈이리냐
+352,BRA,Codó,코도
+353,BRA,Cubatão,쿠바탕
+354,BRA,Itabira,이타비라
+355,BRA,Araras,아라라스
+356,BRA,Resende,헤젠지
+357,BRA,Atibaia,아치바이아
+358,BRA,Pouso Alegre,포주알레그리
+359,BRA,Toledo,톨레도
+360,BRA,Crato,크라토
+361,BRA,Passos,파수스
+362,BRA,Sertãozinho,세르타오지노
+363,BRA,Conselheiro Lafaiete,콘셀례이루라파이에치
+364,BRA,Paulo Afonso,파울루 아폰수
+365,BRA,Angra dos Reis,앙그라도스헤이스
+366,BRA,Ourinhos,오리뇨스
+367,BRA,Coronel Fabriciano,코로네우파브리시아누
+368,BRA,Tatuí,타투이
+369,BRA,Ji-Paraná,지-파라나
+370,BRA,Bacabal,바카바우
+371,BRA,Cametá,카메타
+372,BRA,São Lourenço da Mata,상루렌수다마타
+373,BRA,Santana do Livramento,산타나두리브라멘투
+374,BRA,Campo Largo,캄포 라고
+375,BRA,Patos,파토스
+376,BRA,Ituiutaba,이투이우타바
+377,BRA,Corumbá,코룸바
+378,BRA,Palhoça,팔료사
+379,BRA,Bento Gonçalves,벤투곤사우베스
+380,BRA,Águas Lindas de Goiás,아구아스 린다스 데 고이아스
+381,GBR,London,런던
+382,GBR,Birmingham,버밍엄
+383,GBR,Glasgow,글래스고
+384,GBR,Liverpool,리버풀
+385,GBR,Edinburgh,에든버러
+386,GBR,Sheffield,셰필드
+387,GBR,Manchester,맨체스터
+388,GBR,Leeds,리즈
+389,GBR,Bristol,브리스톨
+390,GBR,Cardiff,카디프
+391,GBR,Coventry,코번트리
+392,GBR,Leicester,레스터
+393,GBR,Bradford,브래드퍼드
+394,GBR,Belfast,벨파스트
+395,GBR,Nottingham,노팅엄
+396,GBR,Kingston upon Hull,킹스턴어폰헐
+397,GBR,Plymouth,플리머스
+398,GBR,Stoke-on-Trent,스토크온트렌트
+399,GBR,Wolverhampton,울버햄프턴
+400,GBR,Derby,더비
+401,GBR,Swansea,스완지
+402,GBR,Southampton,사우샘프턴
+403,GBR,Aberdeen,애버딘
+404,GBR,Northampton,노샘프턴
+405,GBR,Dudley,더들리
+406,GBR,Portsmouth,포츠머스
+407,GBR,Newcastle upon Tyne,뉴캐슬어폰타인
+408,GBR,Sunderland,선더랜드
+409,GBR,Luton,루턴
+410,GBR,Swindon,스윈던
+411,GBR,Southend-on-Sea,사우스엔드온시
+412,GBR,Walsall,월솔
+413,GBR,Bournemouth,본머스
+414,GBR,Peterborough,피터버러
+415,GBR,Brighton,브라이튼 여의도
+416,GBR,Blackpool,블랙풀
+417,GBR,Dundee,던디
+418,GBR,West Bromwich,웨스트브로미치
+419,GBR,Reading,레딩
+420,GBR,Oldbury/Smethwick (Warley),월리
+421,GBR,Middlesbrough,미들즈브러
+422,GBR,Huddersfield,허더즈필드
+423,GBR,Oxford,옥스퍼드
+424,GBR,Poole,풀
+425,GBR,Bolton,볼튼
+426,GBR,Blackburn,블랙번
+427,GBR,Newport,뉴포트
+428,GBR,Preston,프레스턴
+429,GBR,Stockport,스톡포트
+430,GBR,Norwich,노리치
+431,GBR,Rotherham,로더럼
+432,GBR,Cambridge,케임브리지
+433,GBR,Watford,왓퍼드
+434,GBR,Ipswich,입스위치
+435,GBR,Slough,슬라우
+436,GBR,Exeter,엑서터
+437,GBR,Cheltenham,첼트넘
+438,GBR,Gloucester,글로스터
+439,GBR,Saint Helens,세인트헬렌스 산
+440,GBR,Sutton Coldfield,서턴콜드필드
+441,GBR,York,요크
+442,GBR,Oldham,올덤
+443,GBR,Basildon,배질던
+444,GBR,Worthing,워딩
+445,GBR,Chelmsford,첼름스퍼드
+446,GBR,Colchester,콜체스터
+447,GBR,Crawley,크롤리
+448,GBR,Gillingham,길링엄
+449,GBR,Solihull,솔리훌
+450,GBR,Rochdale,로치데일
+451,GBR,Birkenhead,비컨헤드
+452,GBR,Worcester,우스터
+453,GBR,Hartlepool,하트풀
+454,GBR,Woking/Byfleet,바이플릿
+455,GBR,Southport,사우스포트
+456,GBR,Maidstone,메이드스톤
+457,GBR,Eastbourne,이스트본
+458,GBR,Grimsby,그림즈비
+459,GBR,Saint Helier,세인트헬리어
+460,GBR,Douglas,더글라스 하우스
+461,BRN,Bandar Seri Begawan,반다르세리베가완
+462,BGR,Sofija,소피아
+463,BGR,Plovdiv,플로브디프
+464,BGR,Varna,바르나
+465,BGR,Burgas,부르가스
+466,BGR,Ruse,루세
+467,BGR,Stara Zagora,스타라자고라
+468,BGR,Pleven,플레벤
+469,BGR,Sliven,슬리벤
+470,BGR,Dobric,도브리치 주
+471,BGR,Šumen,슈멘
+472,BFA,Ouagadougou,와가두구
+473,BFA,Bobo-Dioulasso,보보디울라소
+474,BFA,Koudougou,쿠두구
+475,BDI,Bujumbura,부줌부라
+476,CHL,Santiago de Chile,산티아고
+477,CHL,Puente Alto,푸엔테알토
+478,CHL,Viña del Mar,비냐델마르
+479,CHL,Valparaíso,발파라조
+480,CHL,Talcahuano,탈카우아노
+481,CHL,Antofagasta,안토파가스타
+482,CHL,Temuco,테무코
+483,CHL,Concepción,콘셉시온
+484,CHL,Rancagua,랑카과
+485,CHL,Arica,아리카
+486,CHL,Talca,탈카
+487,CHL,Chillán,치얀
+488,CHL,Iquique,이키케
+489,CHL,Los Angeles,로스앤젤레스
+490,CHL,Puerto Montt,푸에르토몬트
+491,CHL,Coquimbo,코킴보
+492,CHL,Osorno,오소르노
+493,CHL,La Serena,라세레나
+494,CHL,Calama,카라마
+495,CHL,Valdivia,발디비아
+496,CHL,Punta Arenas,푼타아레나스
+497,CHL,Copiapó,코피아포
+498,CHL,Quilpué,킬푸에
+499,CHL,Curicó,쿠리코
+500,CHL,Ovalle,오바예
+501,CHL,San Pedro de la Paz,산페드로데라파스
+502,CHL,Melipilla,멜리피야
+503,COK,Avarua,아바루아
+504,CRI,San José,산호세
+505,DJI,Djibouti,지부티
+506,DMA,Roseau,로조
+507,DOM,Santiago de los Caballeros,산티아고
+508,DOM,La Romana,라 로마나
+509,DOM,San Pedro de Macorís,산페드로데마코리스
+510,DOM,San Francisco de Macorís,산프란시스코데마코리스
+511,DOM,San Felipe de Puerto Plata,푸에르토플라타
+512,ECU,Guayaquil,과야킬
+513,ECU,Quito,키토
+514,ECU,Cuenca,쿠엥카
+515,ECU,Machala,마찰라
+516,ECU,Santo Domingo de los Colorados,산토도밍고
+517,ECU,Portoviejo,포르토비에호
+518,ECU,Ambato,암바토
+519,ECU,Manta,만타
+520,ECU,Duran [Eloy Alfaro],두란
+521,ECU,Ibarra,이바라
+522,ECU,Quevedo,퀘베도
+523,ECU,Loja,로하
+524,ECU,Ríobamba,리오밤바
+525,ECU,Esmeraldas,에스메랄다스
+526,EGY,Cairo,카이로
+527,EGY,Alexandria,알랙산드리아
+528,EGY,Giza,기자
+529,EGY,Shubra al-Khayma,슈브라 엘 케이마
+530,EGY,Port Said,포트사이드
+531,EGY,Suez,수에즈
+532,EGY,al-Mahallat al-Kubra,마할라알쿠브라
+533,EGY,Tanta,탄타
+534,EGY,al-Mansura,엘 만수라
+535,EGY,Luxor,룩소르
+536,EGY,Asyut,아슈트
+537,EGY,Zagazig,자가지그
+538,EGY,al-Faiyum,알 파이움
+539,EGY,Ismailia,이스마일리아
+540,EGY,Kafr al-Dawwar,카프르엘다우와르
+541,EGY,Assuan,아스완
+542,EGY,Damanhur,다만후르
+543,EGY,al-Minya,미냐
+544,EGY,Bani Suwayf,베니 수에프
+545,EGY,Qina,키나
+546,EGY,Sawhaj,소하그
+547,EGY,Shibin al-Kawm,시빈엘콤
+548,EGY,Banha,반하
+549,EGY,Kafr al-Shaykh,카프르엘셰이크
+550,EGY,Bilbays,빌베이스
+551,EGY,al-Arish,엘 아리쉬
+552,EGY,Talkha,탈카
+553,EGY,Idfu,에드푸
+554,EGY,Disuq,데숙
+555,SLV,San Salvador,산살바도르
+556,SLV,Santa Ana,샌타애나
+557,SLV,Apopa,아포파
+558,ERI,Asmara,아스마라
+559,ESP,Madrid,마드리드
+560,ESP,Barcelona,바르셀로나
+561,ESP,Valencia,발렌시아
+562,ESP,Sevilla,세비야
+563,ESP,Zaragoza,사라고사
+564,ESP,Málaga,말라가
+565,ESP,Bilbao,빌바오
+566,ESP,Las Palmas de Gran Canaria,라스팔마스데 그란카나리아
+567,ESP,Murcia,무르시아
+568,ESP,Palma de Mallorca,팔마
+569,ESP,Valladolid,바야돌리드
+570,ESP,Córdoba,코르도바
+571,ESP,Vigo,비고
+572,ESP,Alicante [Alacant],알리칸테
+573,ESP,Gijón,히혼
+574,ESP,L´Hospitalet de Llobregat,로스피탈레트데요브레가트
+575,ESP,Granada,그라나다
+576,ESP,A Coruña (La Coruña),라코루냐
+577,ESP,Vitoria-Gasteiz,비토리아
+578,ESP,Santa Cruz de Tenerife,산타크루스데 테네리페
+579,ESP,Badalona,바달로나
+580,ESP,Oviedo,오비에도
+581,ESP,Móstoles,모스톨레스
+582,ESP,Elche [Elx],엘체
+583,ESP,Sabadell,사바델
+584,ESP,Santander,산탄데르
+585,ESP,Jerez de la Frontera,헤레스
+586,ESP,Pamplona [Iruña],팜플로나
+587,ESP,Donostia-San Sebastián,도노스티아
+588,ESP,Cartagena,카르타헤나
+589,ESP,Leganés,레가네스
+590,ESP,Fuenlabrada,후에라브라다
+591,ESP,Almería,알메리아
+592,ESP,Terrassa,테라사
+593,ESP,Alcalá de Henares,알칼라데에나레스
+594,ESP,Burgos,부르고스
+595,ESP,Salamanca,살라망카
+596,ESP,Albacete,알바세테
+597,ESP,Getafe,헤타페
+598,ESP,Cádiz,카디스
+599,ESP,Alcorcón,알코르콘
+600,ESP,Huelva,우엘바
+601,ESP,León,레온
+602,ESP,Castellón de la Plana [Castell,카스테욘데라플라나
+603,ESP,Badajoz,바다호스
+604,ESP,[San Cristóbal de] la Laguna,산 크리스또발 데 라 라구나
+605,ESP,Logroño,로그로뇨
+606,ESP,Santa Coloma de Gramenet,산따 꼴로마 데 그라메넷
+607,ESP,Tarragona,타라고나
+608,ESP,Lleida (Lérida),레리다
+609,ESP,Jaén,하엔
+610,ESP,Ourense (Orense),오우렌세
+611,ESP,Mataró,마타로
+612,ESP,Algeciras,알헤시라스
+613,ESP,Marbella,마르베야
+614,ESP,Barakaldo,바라깔도
+615,ESP,Dos Hermanas,도스에르마나스
+616,ESP,Santiago de Compostela,산티아고데콤포스텔라
+617,ESP,Torrejón de Ardoz,토레혼 디 아르도즈
+618,ZAF,Cape Town,케이프타운
+619,ZAF,Soweto,소웨토
+620,ZAF,Johannesburg,요하네스버그
+621,ZAF,Port Elizabeth,포트엘리자베스
+622,ZAF,Pretoria,프레토리아
+623,ZAF,Durban,다반
+624,ZAF,Kempton Park,켐프턴 파크
+625,ZAF,Alberton,아베르톤
+626,ZAF,Pietermaritzburg,피터마리츠버그
+627,ZAF,Benoni,벤오니
+628,ZAF,Randburg,랜드버그
+629,ZAF,Bloemfontein,블럼폰탄
+630,ZAF,Vereeniging,베르니깅
+631,ZAF,Boksburg,복스버그
+632,ZAF,Klerksdorp,클럭스도프
+633,ZAF,Newcastle,뉴캐슬
+634,ZAF,East London,이스트 런던
+635,ZAF,Welkom,벨콤
+636,ZAF,Kimberley,킴벌리
+637,ZAF,Chatsworth,챗스워스
+638,ZAF,Krugersdorp,크루거스도프
+639,ZAF,Botshabelo,봇샤벨로
+640,ZAF,Springs,스프링스트링스 가로수길 쇼룸
+641,ZAF,Randfontein,란트폰테인
+642,ZAF,Paarl,파를
+643,ZAF,Potchefstroom,포체프스트롬
+644,ZAF,Rustenburg,러스텐버그
+645,ZAF,Nigel,나이젤앤디
+646,ZAF,George,조지
+647,ZAF,Ladysmith,레이디스미스
+648,ETH,Addis Abeba,아디스아바바
+649,ETH,Dire Dawa,디레다와
+650,ETH,Nazret,아다마
+651,ETH,Gonder,곤다르
+652,ETH,Mekele,메켈레
+653,ETH,Bahir Dar,바히르다르
+654,FJI,Suva,수바
+655,PHL,Quezon,케손
+656,PHL,Manila,마닐라
+657,PHL,Kalookan,칼로오칸
+658,PHL,Davao,다바오
+659,PHL,Cebu,세부
+660,PHL,Zamboanga,잠보앙가
+661,PHL,Pasig,파시그
+662,PHL,Valenzuela,발렌수엘라
+663,PHL,Las Piñas,라스피냐스
+664,PHL,Antipolo,안티폴로
+665,PHL,Taguig,타기그
+666,PHL,Cagayan de Oro,카가얀데오로
+667,PHL,Parañaque,파라냐케
+668,PHL,Makati,마카티
+669,PHL,Bacolod,바콜로드
+670,PHL,General Santos,제너럴산토스
+671,PHL,Marikina,마리키나
+672,PHL,Dasmariñas,다스마리냐스
+673,PHL,Muntinlupa,문틴루파
+674,PHL,Iloilo,일로일로
+675,PHL,Pasay,파사이
+676,PHL,Malabon,말라본
+677,PHL,San José del Monte,산호세델몬테
+678,PHL,Bacoor,바코르
+679,PHL,Iligan,일리간
+680,PHL,Calamba,칼람바
+681,PHL,Mandaluyong,만달루용
+682,PHL,Butuan,부투안
+683,PHL,Angeles,앙헬레스
+684,PHL,Tarlac,타를라크
+685,PHL,Baguio,바기오
+686,PHL,Batangas,바탕가스
+687,PHL,San Pedro,샌피드로
+688,PHL,Navotas,나보타스
+689,PHL,Cabanatuan,카바나투안
+690,PHL,San Fernando,샌퍼넌도
+691,PHL,Lipa,리파
+692,PHL,Lapu-Lapu,라푸라푸 시
+693,PHL,San Pablo,샌 파블로
+694,PHL,Biñan,비난
+695,PHL,Lucena,루세나
+696,PHL,Imus,이무스
+697,PHL,Olongapo,올롱가포
+698,PHL,Santa Rosa,샌타로자
+699,PHL,Tagum,타굼
+700,PHL,Tacloban,타크로반
+701,PHL,Malolos,말롤로스
+702,PHL,Mabalacat,마발캇
+703,PHL,Cotabato,코타바토
+704,PHL,Puerto Princesa,푸에르토프린세사
+705,PHL,Legazpi,레가스피
+706,PHL,Ormoc,오르모크
+707,PHL,San Carlos,샌 칼로스
+708,PHL,Kabankalan,카방칼란
+709,PHL,Talisay,탈리사이
+710,PHL,Santa Maria,산타 마리아
+711,PHL,Pagadian,파가디안
+712,PHL,Cadiz,카디스
+713,PHL,Bago,바고
+714,PHL,Toledo,톨레도
+715,PHL,Naga,나가
+716,PHL,Panabo,파나보 공원
+717,PHL,Koronadal,코로나달
+718,PHL,Marawi,마라위
+719,PHL,Dagupan,다구판
+720,PHL,Sagay,사가이
+721,PHL,Roxas,로하스
+722,PHL,Digos,디고스
+723,PHL,Malaybalay,말라이발라이
+724,PHL,Tuguegarao,뚜게가라오
+725,PHL,Ilagan,일라간
+726,PHL,Baliuag,발리웨그
+727,PHL,Surigao,수리가오
+728,PHL,Concepcion,콘셉시온
+729,PHL,General Mariano Alvarez,제네랄 마리아노 알바레즈
+730,PHL,San Jose,산호세
+731,PHL,Santiago,산티아고
+732,PHL,Tanza,탄자
+733,PHL,Ozamis,오사미스
+734,PHL,Mexico,멕시코
+735,PHL,Silay,실라이
+736,PHL,Calapan,칼라판
+737,PHL,Gingoog,긴국
+738,PHL,Dumaguete,더마겟
+739,PHL,San Fernando,샌퍼넌도
+740,PHL,Bayawan (Tulong),베이완
+741,PHL,Kidapawan,키다파완
+742,PHL,Daraga (Locsin),다라가
+743,PHL,Dipolog,디폴로그
+744,PHL,Cavite,카비테
+745,PHL,Talavera,탈라베라
+746,PHL,Baybay,베이베이
+747,PHL,Sultan Kudarat,술탄 쿠다라트
+748,PHL,Laoag,라오그
+749,PHL,Santa Cruz,산타크루즈
+750,PHL,Sorsogon,소르소곤
+751,PHL,Candelaria,칸델라리아
+752,GAB,Libreville,리브르빌
+753,GMB,Serekunda,세레쿤다
+754,GMB,Banjul,반줄
+755,GEO,Tbilisi,트빌리시
+756,GEO,Kutaisi,쿠타이시
+757,GEO,Rustavi,루스타비
+758,GEO,Batumi,바투미
+759,GEO,Sohumi,수후미
+760,GHA,Accra,아크라
+761,GHA,Kumasi,쿠마시
+762,GHA,Tamale,타말레
+763,GHA,Tema,테마
+764,GHA,Sekondi-Takoradi,세콘디타코라디
+765,GRD,Saint George´s,세인트조지스
+766,GTM,Ciudad de Guatemala,과테말라
+767,GTM,Mixco,믹스코
+768,GTM,Villa Nueva,비야누에바
+769,GTM,Quetzaltenango,케살테낭고
+770,GIN,Conakry,코나크리
+771,GNB,Bissau,비사우
+772,GUY,Georgetown,조지타운
+773,HTI,Port-au-Prince,포르토프랭스
+774,HTI,Carrefour,카레푸르
+775,HTI,Delmas,델마스
+776,HTI,Le-Cap-Haïtien,카프아이시앵
+777,HND,Tegucigalpa,테구시갈파
+778,HND,San Pedro Sula,산페드로술라
+779,HND,La Ceiba,라세이바
+780,IDN,Jakarta,자카르타
+781,IDN,Surabaya,수라바야
+782,IDN,Bandung,반둥
+783,IDN,Medan,메단
+784,IDN,Palembang,팔렘방
+785,IDN,Tangerang,탕에랑
+786,IDN,Semarang,세마랑
+787,IDN,Ujung Pandang,마카사르
+788,IDN,Malang,말랑
+789,IDN,Padang,파당
+790,IDN,Banjarmasin,반자르마신
+791,IDN,Pekan Baru,페칸바루
+792,IDN,Denpasar,덴파사르
+793,IDN,Yogyakarta,족자카르타
+794,IDN,Pontianak,폰티아낙
+795,IDN,Samarinda,사마린다
+796,IDN,Jambi,잠비
+797,IDN,Depok,드폭
+798,IDN,Cimahi,치마히
+799,IDN,Balikpapan,발릭파판
+800,IDN,Manado,마나도
+801,IDN,Mataram,마타람
+802,IDN,Pekalongan,프칼롱안
+803,IDN,Bogor,보고르
+804,IDN,Cirebon,치르본
+805,IDN,Kediri,케디리
+806,IDN,Ambon,암본
+807,IDN,Cilacap,킬캡
+808,IDN,Pematang Siantar,페마탕 시안타루
+809,IDN,Purwokerto,푸르워케르토
+810,IDN,Tasikmalaya,타시크말라야
+811,IDN,Madiun,마디운
+812,IDN,Bengkulu,븡쿨루
+813,IDN,Banda Aceh,반다아체
+814,IDN,Palu,팔루
+815,IDN,Pasuruan,파수루안
+816,IDN,Kupang,쿠팡
+817,IDN,Tebing Tinggi,트빙팅기
+818,IDN,Binjai,빈자이
+819,IDN,Sukabumi,수카부미
+820,IDN,Pangkal Pinang,팡칼피낭
+821,IDN,Magelang,마겔랑
+822,IDN,Blitar,블리타르
+823,IDN,Serang,세랑
+824,IDN,Probolinggo,프로볼링고
+825,IDN,Cianjur,시안주르
+826,IDN,Lhokseumawe,록세우마웨
+827,IDN,Depok,드폭
+828,IDN,Pemalang,페말랑
+829,IDN,Klaten,클라텐
+830,IDN,Salatiga,살라티가
+831,IDN,Palangka Raya,팔랑카라야
+832,IDN,Mojokerto,모조케르토
+833,IDN,Garut,가루트
+834,IDN,Kendari,큰다리
+835,IDN,Jaya Pura,자야푸라
+836,IDN,Gorontalo,고론탈로
+837,IDN,Batam,바탐 섬
+838,IDN,Padang Sidempuan,파당시뎀푸안
+839,IDN,Tanjung Pinang,탄중피낭
+840,IND,Mumbai (Bombay),뭄바이
+841,IND,Delhi,델리
+842,IND,Calcutta [Kolkata],캘커타
+843,IND,Chennai (Madras),첸나이
+844,IND,Hyderabad,하이데라바드
+845,IND,Ahmedabad,아마다바드
+846,IND,Bangalore,벵갈루루
+847,IND,Kanpur,칸푸르
+848,IND,Nagpur,나구푸르
+849,IND,Lucknow,러크나우
+850,IND,Pune,푸네
+851,IND,Surat,수랏
+852,IND,Jaipur,자이푸르
+853,IND,Indore,인도르
+854,IND,Bhopal,보팔
+855,IND,Ludhiana,루디아나
+856,IND,Vadodara (Baroda),바도다라
+857,IND,Kalyan,칼리얀
+858,IND,Madurai,마두라이
+859,IND,Haora (Howrah),하우라
+860,IND,Varanasi (Benares),바라나시
+861,IND,Patna,파트나
+862,IND,Agra,아그라
+863,IND,Coimbatore,코임바토르
+864,IND,Thane (Thana),타네
+865,IND,Allahabad,알라하바드
+866,IND,Meerut,메루트
+867,IND,Vishakhapatnam,비샤카파트남
+868,IND,Jabalpur,자발푸르
+869,IND,Amritsar,암리차르
+870,IND,Faridabad,파리다밧
+871,IND,Vijayawada,비자야와다
+872,IND,Gwalior,괄리오르
+873,IND,Jodhpur,조드푸르
+874,IND,Nashik (Nasik),나시크
+875,IND,Hubli-Dharwad,후블리
+876,IND,Solapur (Sholapur),솔라포
+877,IND,Ranchi,란치
+878,IND,Bareilly,바레일리
+879,IND,Guwahati (Gauhati),구와하티
+880,IND,Shambajinagar (Aurangabad),아우랑가바드
+881,IND,Cochin (Kochi),고치
+882,IND,Rajkot,라지코트
+883,IND,Kota,코타바이뎐
+884,IND,Thiruvananthapuram (Trivandrum,뜨리웬드럼
+885,IND,Pimpri-Chinchwad,핌프리친치와드
+886,IND,Jalandhar (Jullundur),잘란다르
+887,IND,Jamshedpur,잠셰드푸르
+888,IND,Ghaziabad,가지아바드
+889,IND,Raipur,라이푸르
+890,IND,Durgapur,두르가푸르
+891,IND,Calicut (Kozhikode),코지코드
+892,IND,Bhubaneswar,부바네스와르
+893,IND,Kolhapur,콜라푸르
+894,IND,Bhavnagar,바브나가르
+895,IND,Tiruchirapalli,티루치라팔리
+896,IND,Bhilai,빌라이
+897,IND,Bhiwandi,비완디
+898,IND,Saharanpur,사하란푸르
+899,IND,Ulhasnagar,울하스나가르
+900,IND,Salem,세일럼
+901,IND,Ujjain,우자인
+902,IND,Jamnagar,잠나가르
+903,IND,Akola,아콜라
+904,IND,Udaipur,우다이푸르
+905,IND,New Bombay,나비뭄바이
+906,IND,Bhatpara,밧파라
+907,IND,New Delhi,뉴델리
+908,IND,Jhansi,잔시
+909,IND,Gaya,가야
+910,IND,Panihati,파니하티
+911,IND,Mangalore,망갈로르
+912,IND,Dehra Dun,데라둔
+913,IND,Kamarhati,카마르하티
+914,IND,Davangere,다바나게레
+915,IND,Asansol,아산솔
+916,IND,Bhagalpur,바갈퍼
+917,IND,Patiala,파티알라
+918,IND,Shahjahanpur,샤자한퍼
+919,IND,South Dum Dum,사우스 덤덤
+920,IND,Mathura,마투라
+921,IND,Barahanagar (Baranagar),바라나가르
+922,IND,Ambattur,앰배터
+923,IND,Panipat,파니파트
+924,IND,Jammu,잠무
+925,IND,Pondicherry,폰디체리
+926,IND,Thanjavur,탄자부르
+927,IND,Tuticorin,투투쿠디
+928,IND,Imphal,임팔
+929,IND,Sangli,상글리
+930,IND,Nagar Coil,나게르코일
+931,IND,Bijapur,비자푸르
+932,IND,Kukatpalle,쿠캇팰리
+933,IND,Avadi,아바디
+934,IND,Dindigul,딘디굴
+935,IND,Ahmadnagar,아마드나가르
+936,IND,Bilaspur,빌라스푸르
+937,IND,Vellore,벨로르
+938,IND,Jalna,잘나
+939,IND,Burnpur,번퍼
+940,IND,Allappuzha (Alleppey),알라퍼자
+941,IND,Tiruvottiyur,티루보티유르
+942,IND,Mirzapur-cum-Vindhyachal,미자퍼
+943,IND,Secunderabad,세쿤데라바드
+944,IND,Vizianagaram,비지아나가람
+945,IND,Erode,에로드
+946,IND,Machilipatnam (Masulipatam),마실리파트남
+947,IND,Agartala,아가르탈라
+948,IND,Lalbahadur Nagar,L. B. 나가르
+949,IND,Aizawl,아이자울
+950,IND,Uluberia,울루베리아
+951,IND,Cuddalore,쿠달로르
+952,IND,Dhanbad,안바드
+953,IND,Munger (Monghyr),먼거
+954,IND,Kanchipuram,칸치푸람
+955,IND,North Dum Dum,노스 덤덤
+956,IND,Hardwar (Haridwar),하르드와르
+957,IND,Dabgram,다브그램
+958,IND,Morena,모레나
+959,IND,Noida,노이다
+960,IND,Yamuna Nagar,야무나 나가르
+961,IND,Raurkela Civil Township,시빌 타운쉽
+962,IND,Kollam (Quilon),콜람
+963,IND,Serampore,세람포어
+964,IND,Pali,파리
+965,IND,Maunath Bhanjan,마우
+966,IND,Tirunelveli,티루넬벨리
+967,IND,Proddatur,프로드투르
+968,IND,Chittoor,치투어
+969,IND,Barrackpur,배럭퍼 칸톤먼트
+970,IND,Naihati,나이하티
+971,IND,Shillong,실롱
+972,IND,Sambalpur,삼발푸르
+973,IND,Rewa,레와
+974,IND,Gurgaon,구르가온
+975,IND,Malkajgiri,말카즈기리
+976,IND,Alandur,알란덜
+977,IND,Puri,푸리
+978,IND,Faizabad,파이자바드
+979,IND,Gandhinagar,간디나가르
+980,IND,Ambala,암발라
+981,IND,Bhiwani,비와니
+982,IND,Chandannagar,찬단나가르
+983,IND,Porbandar,포르반다르
+984,IND,Halisahar,할리사하르
+985,IND,Bhir (Bid),비드 루랄
+986,IND,Pallavaram,팔라바람
+987,IND,Anand,아난드
+988,IND,Mango,망고
+989,IND,Tiruvannamalai,티루반나말라이
+990,IND,Moga,모가
+991,IND,Tambaram,탐바람
+992,IND,Qutubullapur,쿠스불라퍼
+993,IND,Rishra,리스라
+994,IND,Uttarpara-Kotrung,우타파라
+995,IND,North Barrackpur,노스 배럭퍼
+996,IND,Guna,구나
+997,IND,Habra,하브라
+998,IND,Tonk,홍키통크
+999,IND,Champdani,챔프다니
+1000,IND,Orai,오라이등심
+1001,IND,Banda,반다
+1002,IND,Ashoknagar-Kalyangarh,애쉬옥나가르 칼양가르
+1003,IND,Satara,사타라
+1004,IND,Meerut Cantonment,메루트 캔트
+1005,IND,Delhi Cantonment,델리 칸톤먼트
+1006,IND,Bansberia,밴스베리아
+1007,IND,Kanpur Cantonment,칸푸르 칸톤먼트
+1008,IND,Purulia,푸룰리아
+1009,IND,Hassan,하산
+1010,IND,Ambala Sadar,앰발라 사다르
+1011,IND,Baidyabati,베이디야바티
+1012,IND,Vejalpur,베잘퍼
+1013,IRQ,Baghdad,바그다드
+1014,IRQ,Mosul,모술
+1015,IRQ,Irbil,아르빌
+1016,IRQ,Kirkuk,키르쿠크
+1017,IRQ,Basra,바스라
+1018,IRQ,al-Sulaymaniya,술라이마니야
+1019,IRQ,al-Najaf,나자프
+1020,IRQ,Karbala,카르발라
+1021,IRQ,al-Hilla,힐라
+1022,IRQ,al-Nasiriya,나시리야
+1023,IRQ,al-Amara,아마라
+1024,IRQ,al-Diwaniya,디와니야
+1025,IRQ,al-Ramadi,라마디
+1026,IRQ,al-Kut,쿠트
+1027,IRQ,Baquba,바쿠바
+1028,IRN,Teheran,테헤란
+1029,IRN,Mashhad,마슈하드
+1030,IRN,Esfahan,이스파한
+1031,IRN,Tabriz,타브리즈
+1032,IRN,Shiraz,시라즈
+1033,IRN,Karaj,카라지
+1034,IRN,Ahvaz,아바즈
+1035,IRN,Qom,쿰
+1036,IRN,Kermanshah,케르만샤
+1037,IRN,Urmia,우르미아
+1038,IRN,Zahedan,자헤단
+1039,IRN,Rasht,라슈트
+1040,IRN,Hamadan,하마단
+1041,IRN,Kerman,케르만
+1042,IRN,Arak,아라크
+1043,IRN,Ardebil,아르다빌
+1044,IRN,Yazd,야즈드
+1045,IRN,Qazvin,카즈빈
+1046,IRN,Zanjan,잔잔
+1047,IRN,Sanandaj,사난다지
+1048,IRN,Bandar-e-Abbas,반다르아바스
+1049,IRN,Khorramabad,호라마바드
+1050,IRN,Eslamshahr,에슬램쉐이
+1051,IRN,Abadan,아바단
+1052,IRN,Kashan,카샨
+1053,IRN,Sari,사리
+1054,IRN,Gorgan,고르간
+1055,IRN,Sabzevar,사브제바르
+1056,IRN,Khomeynishahr,콤이니 쉐이
+1057,IRN,Amol,아몰
+1058,IRN,Neyshabur,니샤푸르
+1059,IRN,Babol,바볼
+1060,IRN,Bushehr,부셰르
+1061,IRN,Bojnurd,보즈누르드
+1062,IRN,Maragheh,마라게
+1063,IRN,Birjand,비르잔드
+1064,IRN,Ilam,일람
+1065,IRN,Bukan,부칸
+1066,IRN,Masjed-e-Soleyman,마스제드솔레이만
+1067,IRN,Saqqez,사퀘즈
+1068,IRN,Gonbad-e Qabus,곤바데카부스
+1069,IRN,Mahabad,마하바드
+1070,IRN,Varamin,바라민
+1071,IRN,Andimeshk,앤딤식
+1072,IRN,Shahrud,샤루드
+1073,IRN,Marv Dasht,마르브다슈트
+1074,IRN,Zabol,자볼
+1075,IRN,Shahr-e Kord,샤흐레코르드
+1076,IRN,Bandar-e Anzali,반다르에안잘리
+1077,IRN,Marand,마란드
+1078,IRN,Torbat-e Heydariyeh,토르밧 헤이다리에
+1079,IRN,Jahrom,자롬
+1080,IRN,Semnan,스메난
+1081,IRL,Dublin,더블린
+1082,IRL,Cork,코크
+1083,ISL,Reykjavík,레이캬비크
+1084,ISR,Jerusalem,예루살렘
+1085,ISR,Tel Aviv-Jaffa,텔아비브
+1086,ISR,Haifa,하이파
+1087,ISR,Rishon Le Ziyyon,리숀레지온
+1088,ISR,Beerseba,베르셰바
+1089,ISR,Holon,홀론
+1090,ISR,Petah Tiqwa,페타티크바
+1091,ISR,Ashdod,아슈도드
+1092,ISR,Netanya,네타냐
+1093,ISR,Bat Yam,바트얌
+1094,ISR,Bene Beraq,브네이브라크
+1095,ISR,Ramat Gan,라마트간
+1096,ISR,Ashqelon,아슈켈론
+1097,ISR,Rehovot,레호보트
+1098,ITA,Roma,로마
+1099,ITA,Milano,밀라노
+1100,ITA,Napoli,나폴리
+1101,ITA,Torino,튜린
+1102,ITA,Palermo,팔레르모
+1103,ITA,Genova,제노바
+1104,ITA,Bologna,볼로냐
+1105,ITA,Firenze,피렌체
+1106,ITA,Catania,카타니아
+1107,ITA,Bari,바리
+1108,ITA,Venezia,베네치아
+1109,ITA,Messina,메시나
+1110,ITA,Verona,베로나
+1111,ITA,Trieste,트리에스테
+1112,ITA,Padova,파도바
+1113,ITA,Taranto,타란토
+1114,ITA,Brescia,브레시아
+1115,ITA,Reggio di Calabria,레조디칼라브리아
+1116,ITA,Modena,모데나
+1117,ITA,Prato,프라토
+1118,ITA,Parma,파르마
+1119,ITA,Cagliari,칼리아리
+1120,ITA,Livorno,리보르노
+1121,ITA,Perugia,페루자
+1122,ITA,Foggia,포자
+1123,ITA,Reggio nell´ Emilia,레조넬에밀리아
+1124,ITA,Salerno,살레르노
+1125,ITA,Ravenna,라벤나
+1126,ITA,Ferrara,페라라
+1127,ITA,Rimini,리미니
+1128,ITA,Syrakusa,시러큐스
+1129,ITA,Sassari,사사리
+1130,ITA,Monza,몬차
+1131,ITA,Bergamo,베르가모
+1132,ITA,Pescara,페스카라
+1133,ITA,Latina,라티나
+1134,ITA,Vicenza,비첸차
+1135,ITA,Terni,테르니
+1136,ITA,Forlì,포를리
+1137,ITA,Trento,트렌토
+1138,ITA,Novara,노바라
+1139,ITA,Piacenza,피아첸차
+1140,ITA,Ancona,앙코나
+1141,ITA,Lecce,레체
+1142,ITA,Bolzano,볼차노
+1143,ITA,Catanzaro,카탄차로
+1144,ITA,La Spezia,라스페치아
+1145,ITA,Udine,우디네
+1146,ITA,Torre del Greco,토레델그레코
+1147,ITA,Andria,안드리아
+1148,ITA,Brindisi,브린디시
+1149,ITA,Giugliano in Campania,줄리아노인캄파니아
+1150,ITA,Pisa,피사
+1151,ITA,Barletta,바를레타
+1152,ITA,Arezzo,아레초
+1153,ITA,Alessandria,알레산드리아
+1154,ITA,Cesena,체세나
+1155,ITA,Pesaro,페사로
+1156,AUT,Wien,빈
+1157,AUT,Graz,그랏츠
+1158,AUT,Linz,린즈
+1159,AUT,Salzburg,잘츠부르크
+1160,AUT,Innsbruck,인스브루크
+1161,AUT,Klagenfurt,클라겐푸르트
+1162,JAM,Spanish Town,스패니시타운
+1163,JAM,Kingston,킹스턴맨즈헤어
+1164,JAM,Portmore,포트모어
+1165,JPN,Tokyo,도쿄도
+1166,JPN,Jokohama [Yokohama],요코하마시
+1167,JPN,Osaka,오사카시
+1168,JPN,Nagoya,나고야시
+1169,JPN,Sapporo,삿포로시
+1170,JPN,Kioto,교토시
+1171,JPN,Kobe,고베시
+1172,JPN,Fukuoka,후쿠오카시
+1173,JPN,Hiroshima,히로시마시
+1174,JPN,Kitakyushu,기타큐슈시
+1175,JPN,Sendai,센다이시
+1176,JPN,Chiba,지바시
+1177,JPN,Sakai,사카이시
+1178,JPN,Kumamoto,구마모토시
+1179,JPN,Okayama,오카야마시
+1180,JPN,Sagamihara,사가미하라시
+1181,JPN,Hamamatsu,하마마쓰시
+1182,JPN,Kagoshima,가고시마시
+1183,JPN,Funabashi,후나바시시
+1184,JPN,Higashiosaka,히가시오사카시
+1185,JPN,Hachioji,하치오지시
+1186,JPN,Niigata,니이가타시
+1187,JPN,Amagasaki,아마가사키시
+1188,JPN,Himeji,히메지시
+1189,JPN,Shizuoka,시즈오카시
+1190,JPN,Urawa,우라와
+1191,JPN,Matsuyama,마쓰야마시
+1192,JPN,Matsudo,마쓰도시
+1193,JPN,Kanazawa,가나자와시
+1194,JPN,Kawaguchi,가와구치시
+1195,JPN,Ichikawa,이치카와시
+1196,JPN,Omiya,오미야구
+1197,JPN,Utsunomiya,우쓰노미야시
+1198,JPN,Oita,오이타시
+1199,JPN,Nagasaki,나가사키시
+1200,JPN,Yokosuka,요코스카시
+1201,JPN,Kurashiki,구라시키시
+1202,JPN,Gifu,기후시
+1203,JPN,Hirakata,히라카타시
+1204,JPN,Nishinomiya,니시노미야시
+1205,JPN,Toyonaka,도요나카시
+1206,JPN,Wakayama,와카야마시
+1207,JPN,Fukuyama,후쿠야마
+1208,JPN,Fujisawa,후지사와시
+1209,JPN,Asahikawa,아사히카와시
+1210,JPN,Machida,마치다시
+1211,JPN,Nara,나라시
+1212,JPN,Takatsuki,다카쓰키시
+1213,JPN,Iwaki,이와끼코리아
+1214,JPN,Nagano,나가노시
+1215,JPN,Toyohashi,도요하시시
+1216,JPN,Toyota,토요타시
+1217,JPN,Suita,스이타시
+1218,JPN,Takamatsu,다카마쓰시
+1219,JPN,Koriyama,고리야마시
+1220,JPN,Okazaki,오카자키시
+1221,JPN,Kawagoe,가와고에시
+1222,JPN,Tokorozawa,도코로자와시
+1223,JPN,Toyama,도야마시
+1224,JPN,Kochi,고치
+1225,JPN,Kashiwa,가시와시
+1226,JPN,Akita,아키타시
+1227,JPN,Miyazaki,미야자키시
+1228,JPN,Koshigaya,고시가야시
+1229,JPN,Naha,나하사
+1230,JPN,Aomori,아오모리시
+1231,JPN,Hakodate,하코다테시
+1232,JPN,Akashi,아카시시
+1233,JPN,Yokkaichi,욧카이치시
+1234,JPN,Fukushima,후쿠시마시
+1235,JPN,Morioka,모리오카시
+1236,JPN,Maebashi,마에바시시
+1237,JPN,Kasugai,가스가이시
+1238,JPN,Otsu,오쓰시
+1239,JPN,Ichihara,이치하라시
+1240,JPN,Yao,야오시
+1241,JPN,Ichinomiya,이치노미야시
+1242,JPN,Tokushima,도쿠시마시
+1243,JPN,Kakogawa,가코가와시
+1244,JPN,Ibaraki,이바라키현
+1245,JPN,Neyagawa,네야가와시
+1246,JPN,Shimonoseki,시모노세키시
+1247,JPN,Yamagata,야마가타시
+1248,JPN,Fukui,후쿠이시
+1249,JPN,Hiratsuka,히라쓰카시
+1250,JPN,Mito,미토시
+1251,JPN,Sasebo,사세보시
+1252,JPN,Hachinohe,하치노헤시
+1253,JPN,Takasaki,다카사키시
+1254,JPN,Shimizu,스시 시미즈
+1255,JPN,Kurume,구루메시
+1256,JPN,Fuji,후지시
+1257,JPN,Soka,소카시
+1258,JPN,Fuchu,후추시
+1259,JPN,Chigasaki,지가사키시
+1260,JPN,Atsugi,아쓰기시
+1261,JPN,Numazu,누마즈시
+1262,JPN,Ageo,악어떡볶이
+1263,JPN,Yamato,야마토
+1264,JPN,Matsumoto,마쓰모토시
+1265,JPN,Kure,구레시
+1266,JPN,Takarazuka,다카라즈카시
+1267,JPN,Kasukabe,가스카베시
+1268,JPN,Chofu,조후시
+1269,JPN,Odawara,오다와라시
+1270,JPN,Kofu,고후시
+1271,JPN,Kushiro,구시로시
+1272,JPN,Kishiwada,기시와다시
+1273,JPN,Hitachi,히타치시
+1274,JPN,Nagaoka,나가오카
+1275,JPN,Itami,이타미시
+1276,JPN,Uji,우지시
+1277,JPN,Suzuka,스즈카 서킷
+1278,JPN,Hirosaki,히로사키시
+1279,JPN,Ube,우베시
+1280,JPN,Kodaira,고다이라시
+1281,JPN,Takaoka,다카오카시
+1282,JPN,Obihiro,오비히로시
+1283,JPN,Tomakomai,도마코마이시
+1284,JPN,Saga,사가시
+1285,JPN,Kamakura,가마쿠라시
+1286,JPN,Mitaka,미타카
+1287,JPN,Izumi,이즈미
+1288,JPN,Hino,히노시
+1289,JPN,Hadano,하다노시
+1290,JPN,Ashikaga,아시카가시
+1291,JPN,Tsu,쓰시
+1292,JPN,Sayama,사야마시
+1293,JPN,Yachiyo,야치요시
+1294,JPN,Tsukuba,쓰쿠바시
+1295,JPN,Tachikawa,다치카와시
+1296,JPN,Kumagaya,구마가야시
+1297,JPN,Moriguchi,모리구치시
+1298,JPN,Otaru,오타루시
+1299,JPN,Anjo,안조시
+1300,JPN,Narashino,나라시노시
+1301,JPN,Oyama,오야마시
+1302,JPN,Ogaki,오가키시
+1303,JPN,Matsue,마쓰에시
+1304,JPN,Kawanishi,가와니시시
+1305,JPN,Hitachinaka,히타치나카시
+1306,JPN,Niiza,니이자시
+1307,JPN,Nagareyama,나가레야마시
+1308,JPN,Tottori,돗토리시
+1309,JPN,Tama,타마
+1310,JPN,Iruma,이루마
+1311,JPN,Ota,오타구
+1312,JPN,Omuta,오무타시
+1313,JPN,Komaki,고마키
+1314,JPN,Ome,오메시
+1315,JPN,Kadoma,카도마
+1316,JPN,Yamaguchi,야마구치시
+1317,JPN,Higashimurayama,히가시무라야마시
+1318,JPN,Yonago,요나고시
+1319,JPN,Matsubara,마쓰바라시
+1320,JPN,Musashino,무사시노시
+1321,JPN,Tsuchiura,쓰치우라시
+1322,JPN,Joetsu,조에쓰시
+1323,JPN,Miyakonojo,미야코노조시
+1324,JPN,Misato,미사토
+1325,JPN,Kakamigahara,가카미가하라시
+1326,JPN,Daito,다이토시
+1327,JPN,Seto,세토시
+1328,JPN,Kariya,가리야시
+1329,JPN,Urayasu,우라야스시
+1330,JPN,Beppu,벳푸시
+1331,JPN,Niihama,니이하마시
+1332,JPN,Minoo,미노오시
+1333,JPN,Fujieda,후지에다시
+1334,JPN,Abiko,아비코시
+1335,JPN,Nobeoka,노베오카시
+1336,JPN,Tondabayashi,돈다바야시시
+1337,JPN,Ueda,우에다
+1338,JPN,Kashihara,가시하라시
+1339,JPN,Matsusaka,마쓰사카시
+1340,JPN,Isesaki,이세사키시
+1341,JPN,Zama,자마
+1342,JPN,Kisarazu,기사라즈시
+1343,JPN,Noda,노다시
+1344,JPN,Ishinomaki,이시노마키시
+1345,JPN,Fujinomiya,후지노미야시
+1346,JPN,Kawachinagano,가와치나가노시
+1347,JPN,Imabari,이마바리시
+1348,JPN,Aizuwakamatsu,아이즈와카마쓰시
+1349,JPN,Higashihiroshima,히가시히로시마시
+1350,JPN,Habikino,하비키노시
+1351,JPN,Ebetsu,에베쓰시
+1352,JPN,Hofu,호후시
+1353,JPN,Kiryu,기류시
+1354,JPN,Okinawa,오키나와현
+1355,JPN,Yaizu,야이즈시
+1356,JPN,Toyokawa,도요카와시
+1357,JPN,Ebina,에비나시
+1358,JPN,Asaka,아사카
+1359,JPN,Higashikurume,히가시쿠루메시
+1360,JPN,Ikoma,이코마시
+1361,JPN,Kitami,기타미시
+1362,JPN,Koganei,고가네이시
+1363,JPN,Iwatsuki,이와쓰키구
+1364,JPN,Mishima,미시마시
+1365,JPN,Handa,한다시
+1366,JPN,Muroran,무로란시
+1367,JPN,Komatsu,스시코마츠
+1368,JPN,Yatsushiro,야쓰시로시
+1369,JPN,Iida,이다
+1370,JPN,Tokuyama,도쿠야마시
+1371,JPN,Kokubunji,고쿠분지시
+1372,JPN,Akishima,아키시마시
+1373,JPN,Iwakuni,이와쿠니시
+1374,JPN,Kusatsu,구사쓰마치
+1375,JPN,Kuwana,구와나시
+1376,JPN,Sanda,산다시
+1377,JPN,Hikone,히코네시
+1378,JPN,Toda,카페 토다
+1379,JPN,Tajimi,다지미시
+1380,JPN,Ikeda,이케다시
+1381,JPN,Fukaya,후카야시
+1382,JPN,Ise,이세
+1383,JPN,Sakata,사카타시
+1384,JPN,Kasuga,가스가타이샤
+1385,JPN,Kamagaya,가마가야시
+1386,JPN,Tsuruoka,쓰루오카시
+1387,JPN,Hoya,호야
+1388,JPN,Nishio,니시오시
+1389,JPN,Inazawa,이나자와시
+1390,JPN,Sakado,사카도시
+1391,JPN,Isehara,이세하라시
+1392,JPN,Takasago,다카사고
+1393,JPN,Fujimi,후지미
+1394,JPN,Urasoe,우라소에시
+1395,JPN,Yonezawa,요네자와시
+1396,JPN,Konan,코난
+1397,JPN,Yamatokoriyama,야마토코리야마시
+1398,JPN,Maizuru,마이즈루시
+1399,JPN,Onomichi,오노미치시
+1400,JPN,Higashimatsuyama,히가시마쓰야마시
+1401,JPN,Kimitsu,기미쓰시
+1402,JPN,Isahaya,이사하야시
+1403,JPN,Kanuma,가누마시
+1404,JPN,Izumisano,이즈미사노시
+1405,JPN,Kameoka,가메오카시
+1406,JPN,Mobara,모바라시
+1407,JPN,Narita,나리타 국제공항
+1408,JPN,Kashiwazaki,가시와자키시
+1409,JPN,Tsuyama,쓰야마시
+1410,YEM,Sanaa,사나
+1411,YEM,Aden,아덴
+1412,YEM,Taizz,타이즈
+1413,YEM,Hodeida,호데이다
+1414,YEM,al-Mukalla,무칼라
+1415,JOR,Amman,암만 주
+1416,JOR,al-Zarqa,자르카
+1417,JOR,Irbid,이르비드
+1418,KHM,Phnom Penh,프놈펜
+1419,KHM,Battambang,바탐방
+1420,KHM,Siem Reap,시엠레아프
+1421,CMR,Douala,두알라
+1422,CMR,Yaoundé,야운데
+1423,CMR,Garoua,가루아
+1424,CMR,Maroua,마루아
+1425,CMR,Bamenda,바멘다
+1426,CMR,Bafoussam,바푸삼
+1427,CAN,Montréal,몬트리올
+1428,CAN,Calgary,캘거리
+1429,CAN,Toronto,토론토
+1430,CAN,North York,노스 요크
+1431,CAN,Winnipeg,위니펙
+1432,CAN,Edmonton,에드먼턴
+1433,CAN,Mississauga,미시소거
+1434,CAN,Scarborough,스카버러
+1435,CAN,Vancouver,밴쿠버
+1436,CAN,Etobicoke,이토비코
+1437,CAN,London,런던
+1438,CAN,Hamilton,해밀톤셔츠 이태원
+1439,CAN,Ottawa,오타와
+1440,CAN,Laval,라발
+1441,CAN,Surrey,서레이
+1442,CAN,Brampton,브램턴
+1443,CAN,Windsor,윈저
+1444,CAN,Saskatoon,새스커툰
+1445,CAN,Kitchener,키치너
+1446,CAN,Markham,마크험
+1447,CAN,Regina,리자이나
+1448,CAN,Burnaby,버너비
+1449,CAN,Québec,퀘벡
+1450,CAN,York,요크
+1451,CAN,Richmond,리치먼드
+1452,CAN,Vaughan,본
+1453,CAN,Burlington,벌링턴
+1454,CAN,Oshawa,오샤와
+1455,CAN,Oakville,오크빌
+1456,CAN,Saint Catharines,세인트캐서린스
+1457,CAN,Longueuil,롱괴이
+1458,CAN,Richmond Hill,리치먼드힐
+1459,CAN,Thunder Bay,선더베이
+1460,CAN,Nepean,네핀
+1461,CAN,Cape Breton,케이프브레턴 섬
+1462,CAN,East York,이스트 요크
+1463,CAN,Halifax,핼리팩스 카운티
+1464,CAN,Cambridge,케임브리지
+1465,CAN,Gloucester,글로스터
+1466,CAN,Abbotsford,애보츠포드
+1467,CAN,Guelph,궬프
+1468,CAN,Saint John´s,세인트 존스
+1469,CAN,Coquitlam,코퀴틀럼
+1470,CAN,Saanich,사니치
+1471,CAN,Gatineau,가티노
+1472,CAN,Sudbury,서드베리
+1473,CAN,Kelowna,킬로나
+1474,CAN,Barrie,배리
+1475,CPV,Praia,프라이아
+1476,KAZ,Almaty,알마티
+1477,KAZ,Qaraghandy,카라간다
+1478,KAZ,Shymkent,쉼켄트
+1479,KAZ,Taraz,타라즈
+1480,KAZ,Astana,아스타나
+1481,KAZ,Öskemen,외스케멘
+1482,KAZ,Pavlodar,파블로다르
+1483,KAZ,Semey,세메이
+1484,KAZ,Aqtöbe,악토베
+1485,KAZ,Qostanay,코스타나이
+1486,KAZ,Petropavl,페트로파블
+1487,KAZ,Oral,오랄
+1488,KAZ,Temirtau,테미르타우
+1489,KAZ,Qyzylorda,키질로르다
+1490,KAZ,Aqtau,악타우
+1491,KAZ,Atyrau,아티라우
+1492,KAZ,Ekibastuz,에키바스투즈
+1493,KAZ,Kökshetau,콕셰타우
+1494,KAZ,Rudnyy,루드니
+1495,KAZ,Taldyqorghan,탈디코르간
+1496,KAZ,Zhezqazghan,제즈카잔
+1497,KEN,Nairobi,나이로비
+1498,KEN,Mombasa,몸바사
+1499,KEN,Kisumu,키수무
+1500,KEN,Nakuru,나쿠루
+1501,KEN,Eldoret,엘도레트
+1502,KEN,Nyeri,니에리
+1503,CAF,Bangui,방기
+1504,CHN,Shanghai,상하이
+1505,CHN,Peking,베이징
+1506,CHN,Chongqing,충칭
+1507,CHN,Tianjin,톈진
+1508,CHN,Wuhan,우한 시
+1509,CHN,Harbin,하얼빈 시
+1510,CHN,Shenyang,선양 시
+1511,CHN,Kanton [Guangzhou],광저우 시
+1512,CHN,Chengdu,청두 시
+1513,CHN,Nanking [Nanjing],난징 시
+1514,CHN,Changchun,창춘 시
+1515,CHN,Xi´an,시안 시
+1516,CHN,Dalian,다롄 시
+1517,CHN,Qingdao,칭다오 시
+1518,CHN,Jinan,지난 시
+1519,CHN,Hangzhou,항저우 시
+1520,CHN,Zhengzhou,정저우 시
+1521,CHN,Shijiazhuang,스자좡 시
+1522,CHN,Taiyuan,타이위안 시
+1523,CHN,Kunming,쿤밍 시
+1524,CHN,Changsha,창사 시
+1525,CHN,Nanchang,난창 시
+1526,CHN,Fuzhou,푸저우 시
+1527,CHN,Lanzhou,란저우 시
+1528,CHN,Guiyang,구이양 시
+1529,CHN,Ningbo,닝보 시
+1530,CHN,Hefei,허페이 시
+1531,CHN,Urumtši [Ürümqi],우루무치 현
+1532,CHN,Anshan,안산 시
+1533,CHN,Fushun,푸순 시
+1534,CHN,Nanning,난닝 시
+1535,CHN,Zibo,쯔보 시
+1536,CHN,Qiqihar,치치하얼 시
+1537,CHN,Jilin,지린 성
+1538,CHN,Tangshan,탕산 시
+1539,CHN,Baotou,바오터우 시
+1540,CHN,Shenzhen,선전 시
+1541,CHN,Hohhot,후허하오터 시
+1542,CHN,Handan,한단 시
+1543,CHN,Wuxi,우시 시
+1544,CHN,Xuzhou,쉬저우
+1545,CHN,Datong,다퉁 시
+1546,CHN,Yichun,이춘 시
+1547,CHN,Benxi,번시 시
+1548,CHN,Luoyang,뤄양 시
+1549,CHN,Suzhou,쑤저우 시
+1550,CHN,Xining,시닝 시
+1551,CHN,Huainan,화이난 시
+1552,CHN,Jixi,지시 시
+1553,CHN,Daqing,다칭 시
+1554,CHN,Fuxin,푸신 시
+1555,CHN,Amoy [Xiamen],샤먼 시
+1556,CHN,Liuzhou,류저우 시
+1557,CHN,Shantou,산터우 시
+1558,CHN,Jinzhou,진저우 시
+1559,CHN,Mudanjiang,무단장 시
+1560,CHN,Yinchuan,인촨 시
+1561,CHN,Changzhou,창저우 시
+1562,CHN,Zhangjiakou,장자커우 시
+1563,CHN,Dandong,단둥 시
+1564,CHN,Hegang,허강 시
+1565,CHN,Kaifeng,샹푸 구
+1566,CHN,Jiamusi,자무쓰 시
+1567,CHN,Liaoyang,랴오양 시
+1568,CHN,Hengyang,헝양 시
+1569,CHN,Baoding,바오딩 시
+1570,CHN,Hunjiang,훈장 구
+1571,CHN,Xinxiang,신샹 현
+1572,CHN,Huangshi,황스 시
+1573,CHN,Haikou,하이커우 시
+1574,CHN,Yantai,옌타이 시
+1575,CHN,Bengbu,벙부 시
+1576,CHN,Xiangtan,샹탄 시
+1577,CHN,Weifang,웨이팡 시
+1578,CHN,Wuhu,우후 시
+1579,CHN,Pingxiang,핑샹 시
+1580,CHN,Yingkou,잉커우 시
+1581,CHN,Anyang,안양시
+1582,CHN,Panzhihua,판즈화 시
+1583,CHN,Pingdingshan,핑딩산 시
+1584,CHN,Xiangfan,샹양 시
+1585,CHN,Zhuzhou,주저우 현
+1586,CHN,Jiaozuo,자오쭤 시
+1587,CHN,Wenzhou,원저우 시
+1588,CHN,Zigong,쯔궁 시
+1589,CHN,Shuangyashan,솽야산 시
+1590,CHN,Zaozhuang,짜오좡 시
+1591,CHN,Yakeshi,야커스 시
+1592,CHN,Yichang,이창 시
+1593,CHN,Zhenjiang,전장 시
+1594,CHN,Huaibei,화이베이 시
+1595,CHN,Qinhuangdao,친황다오 시
+1596,CHN,Guilin,구이린 시
+1597,CHN,Liupanshui,류판수이 시
+1598,CHN,Panjin,판진 시
+1599,CHN,Yangquan,양취안 시
+1600,CHN,Jinxi,진시 현
+1601,CHN,Liaoyuan,랴오위안 시
+1602,CHN,Lianyungang,롄윈강 시
+1603,CHN,Xianyang,셴양 시
+1604,CHN,Tai´an,타이안 시
+1605,CHN,Chifeng,츠펑 시
+1606,CHN,Shaoguan,사오관 시
+1607,CHN,Nantong,난퉁 시
+1608,CHN,Leshan,러산 시
+1609,CHN,Baoji,바오지 시
+1610,CHN,Linyi,린이 시
+1611,CHN,Tonghua,퉁화 시
+1612,CHN,Siping,쓰핑 시
+1613,CHN,Changzhi,창즈 시
+1614,CHN,Tengzhou,텅저우 시
+1615,CHN,Chaozhou,차오저우 시
+1616,CHN,Yangzhou,양저우 시
+1617,CHN,Dongwan,동완
+1618,CHN,Ma´anshan,마안산 시
+1619,CHN,Foshan,포산 시
+1620,CHN,Yueyang,웨양 현
+1621,CHN,Xingtai,싱타이 시
+1622,CHN,Changde,창더 시
+1623,CHN,Shihezi,스허쯔 시
+1624,CHN,Yancheng,옌청 시
+1625,CHN,Jiujiang,주장 시
+1626,CHN,Dongying,둥잉 시
+1627,CHN,Xintai,신타이 시
+1628,CHN,Jingdezhen,징더전 시
+1629,CHN,Tongchuan,퉁촨 시
+1630,CHN,Zhongshan,중산 시
+1631,CHN,Shiyan,스옌 시
+1632,CHN,Tieli,톄리 시
+1633,CHN,Jining,지닝 시
+1634,CHN,Wuhai,우하이 시
+1635,CHN,Mianyang,몐양 시
+1636,CHN,Luzhou,루저우 시
+1637,CHN,Zunyi,쭌이 현
+1638,CHN,Shizuishan,스쭈이산 시
+1639,CHN,Neijiang,네이장 시
+1640,CHN,Tongliao,퉁랴오 시
+1641,CHN,Tieling,톄링 시
+1642,CHN,Wafangdian,와팡뎬 시
+1643,CHN,Anqing,안칭 시
+1644,CHN,Shaoyang,사오양 시
+1645,CHN,Laiwu,라이우 시
+1646,CHN,Chengde,청더 시
+1647,CHN,Tianshui,톈수이 시
+1648,CHN,Cangzhou,창저우 시
+1649,CHN,Yibin,이빈 시
+1650,CHN,Huaiyin,화이인 구
+1651,CHN,Dunhua,둔화 시
+1652,CHN,Yanji,옌지 시
+1653,CHN,Jiangmen,장먼 시
+1654,CHN,Tongling,퉁링 현
+1655,CHN,Suihua,쑤이화 시
+1656,CHN,Gongziling,궁창링 구
+1657,CHN,Xiantao,셴타오 시
+1658,CHN,Chaoyang,차오양 구
+1659,CHN,Ganzhou,간저우 시
+1660,CHN,Huzhou,후저우 시
+1661,CHN,Baicheng,바이청 시
+1662,CHN,Shangzi,상즈 시
+1663,CHN,Yangjiang,양장 시
+1664,CHN,Qitaihe,치타이허 시
+1665,CHN,Gejiu,거주 시
+1666,CHN,Jiangyin,장인 시
+1667,CHN,Hebi,헤비
+1668,CHN,Jiaxing,자싱 시
+1669,CHN,Wuzhou,우저우 시
+1670,CHN,Xuchang,쉬창 시
+1671,CHN,Liaocheng,랴오청 시
+1672,CHN,Haicheng,하이청 시
+1673,CHN,Qianjiang,첸장 시
+1674,CHN,Baiyin,바이인 시
+1675,CHN,Bei´an,베이안 시
+1676,CHN,Laizhou,라이저우 시
+1677,CHN,Qaramay,커라마이 구
+1678,CHN,Acheng,아청 구
+1679,CHN,Dezhou,더저우 시
+1680,CHN,Nanping,난핑 시
+1681,CHN,Zhaoqing,자오칭 시
+1682,CHN,Beipiao,베이퍄오 시
+1683,CHN,Fengcheng,펑청 시
+1684,CHN,Fuyu,푸위 현
+1685,CHN,Xinyang,신양 시
+1686,CHN,Dongtai,둥타이 시
+1687,CHN,Yuci,위츠 구
+1688,CHN,Honghu,훙후 시
+1689,CHN,Ezhou,어저우 시
+1690,CHN,Heze,허쩌 시
+1691,CHN,Linfen,린펀 시
+1692,CHN,Tianmen,톈먼 시
+1693,CHN,Yiyang,이양 시
+1694,CHN,Quanzhou,취안저우 시
+1695,CHN,Rizhao,르자오 시
+1696,CHN,Deyang,더양 시
+1697,CHN,Guangyuan,광위안 시
+1698,CHN,Changshu,창수 시
+1699,CHN,Zhangzhou,장저우 시
+1700,CHN,Hailar,하이라얼 구
+1701,CHN,Nanchong,난충 시
+1702,CHN,Jiutai,주타이 구
+1703,CHN,Zhaodong,자오둥 시
+1704,CHN,Shaoxing,사오싱 시
+1705,CHN,Fuyang,푸양 시
+1706,CHN,Maoming,마오밍 시
+1707,CHN,Qujing,취징 시
+1708,CHN,Jiaohe,자오허 시
+1709,CHN,Puyang,푸양 시
+1710,CHN,Huadian,화뎬 시
+1711,CHN,Jiangyou,장유 시
+1712,CHN,Qashqar,카스 시
+1713,CHN,Anshun,안순 시
+1714,CHN,Fuling,푸링 구
+1715,CHN,Xinyu,신위 시
+1716,CHN,Hanzhong,한중 시
+1717,CHN,Danyang,단양군
+1718,CHN,Chenzhou,천저우 시
+1719,CHN,Xiaogan,샤오간 시
+1720,CHN,Shangqiu,상추 시
+1721,CHN,Qingyuan,칭위안 시
+1722,CHN,Aqsu,아커쑤 시
+1723,CHN,Jining,지닝 시
+1724,CHN,Xiaoshan,샤오산 구
+1725,CHN,Zaoyang,짜오양 시
+1726,CHN,Xinghua,싱화 시
+1727,CHN,Hami,하미
+1728,CHN,Huizhou,후이저우 시
+1729,CHN,Jinmen,금문
+1730,CHN,Sanming,싼밍 시
+1731,CHN,Korla,콜라
+1732,CHN,Wanxian,완저우 구
+1733,CHN,Rui´an,뤼안 시
+1734,CHN,Zhoushan,저우산 시
+1735,CHN,Liangcheng,량청 현
+1736,CHN,Jiaozhou,자오저우 시
+1737,CHN,Taizhou,타이저우 시
+1738,CHN,Suzhou,쑤저우 시
+1739,CHN,Yichun,이춘 시
+1740,CHN,Taonan,타오난 시
+1741,CHN,Pingdu,핑두 시
+1742,CHN,Ji´an,지안 시
+1743,CHN,Longkou,룽커우 시
+1744,CHN,Langfang,랑팡 시
+1745,CHN,Zhoukou,저우커우 시
+1746,CHN,Suining,쑤이닝 시
+1747,CHN,Yulin,위린 시
+1748,CHN,Jinhua,진화 시
+1749,CHN,Shuangcheng,솽청 구
+1750,CHN,Suizhou,쑤이저우 시
+1751,CHN,Ankang,안캉 시
+1752,CHN,Weinan,웨이난 시
+1753,CHN,Longjing,룽징 시
+1754,CHN,Da´an,다안 구
+1755,CHN,Lengshuijiang,렁수이장 시
+1756,CHN,Laiyang,라이양 시
+1757,CHN,Xianning,셴닝 시
+1758,CHN,Dali,다리 시
+1759,CHN,Anda,안다 시
+1760,CHN,Jincheng,진청 시
+1761,CHN,Longyan,룽옌 시
+1762,CHN,Xichang,시창 시
+1763,CHN,Wendeng,원덩 구
+1764,CHN,Hailun,하이런 시
+1765,CHN,Binzhou,빈저우 시
+1766,CHN,Linhe,린허 구
+1767,CHN,Wuwei,웨이 티하우스 앤 레스토랑
+1768,CHN,Duyun,두윈 시
+1769,CHN,Mishan,미산 시
+1770,CHN,Shangrao,상라오 시
+1771,CHN,Changji,창지 시
+1772,CHN,Meixian,메이셴 구
+1773,CHN,Yushu,위수 시
+1774,CHN,Huai´an,화이안 시
+1775,CHN,Leiyang,레이양 시
+1776,CHN,Zalantun,자란툰 시
+1777,CHN,Weihai,웨이하이 시
+1778,CHN,Loudi,뤄디 시
+1779,CHN,Qingzhou,칭저우 시
+1780,CHN,Qidong,치둥 시
+1781,CHN,Huaihua,화이화 시
+1782,CHN,Luohe,뤄허 시
+1783,CHN,Chuzhou,추저우 시
+1784,CHN,Kaiyuan,카이위안 시
+1785,CHN,Linqing,린칭 시
+1786,CHN,Chaohu,차오후 시
+1787,CHN,Laohekou,라오허커우 시
+1788,CHN,Dujiangyan,두장옌 시
+1789,CHN,Zhumadian,주마뎬 시
+1790,CHN,Linchuan,린촨 구
+1791,CHN,Sanmenxia,싼먼샤 시
+1792,CHN,Heyuan,허위안 시
+1793,CHN,Manzhouli,만저우리 시
+1794,CHN,Lhasa,푸른양귀비
+1795,CHN,Lianyuan,롄위안 시
+1796,CHN,Kuytun,쿠이툰 시
+1797,CHN,Hongjiang,훙장 시
+1798,CHN,Qinzhou,친저우 시
+1799,CHN,Renqiu,런추 시
+1800,CHN,Yuyao,위야오 시
+1801,CHN,Guigang,구이강 시
+1802,CHN,Kaili,카이리 시
+1803,CHN,Yan´an,옌안 시
+1804,CHN,Beihai,베이하이 시
+1805,CHN,Xuangzhou,쉬안저우 구
+1806,CHN,Quzhou,취저우 시
+1807,CHN,Yong´an,융안 시
+1808,CHN,Zixing,쯔싱 시
+1809,CHN,Liyang,리양 시
+1810,CHN,Yizheng,이정 시
+1811,CHN,Yumen,위먼 시
+1812,CHN,Liling,리링 시
+1813,CHN,Yuncheng,윈청 시
+1814,CHN,Shanwei,산웨이 시
+1815,CHN,Cixi,츠시 시
+1816,CHN,Yuanjiang,위안장 시
+1817,CHN,Bozhou,보저우 시
+1818,CHN,Jinchang,진창 시
+1819,CHN,Fu´an,푸안 시
+1820,CHN,Suqian,쑤첸 시
+1821,CHN,Shishou,스서우 시
+1822,CHN,Hengshui,헝수이 시
+1823,CHN,Danjiangkou,단장커우 시
+1824,CHN,Fujin,푸진 시
+1825,CHN,Sanya,싼야 시
+1826,CHN,Guangshui,광수이 시
+1827,CHN,Huangshan,황산
+1828,CHN,Xingcheng,싱청 시
+1829,CHN,Zhucheng,주청 시
+1830,CHN,Kunshan,쿤산 시
+1831,CHN,Haining,하이닝 시
+1832,CHN,Pingliang,핑량 시
+1833,CHN,Fuqing,푸칭 시
+1834,CHN,Xinzhou,신저우 시
+1835,CHN,Jieyang,지에양 시
+1836,CHN,Zhangjiagang,장자강 시
+1837,CHN,Tong Xian,통인동
+1838,CHN,Ya´an,야안 시
+1839,CHN,Jinzhou,진저우 시
+1840,CHN,Emeishan,어메이산 시
+1841,CHN,Enshi,언스 시
+1842,CHN,Bose,보스
+1843,CHN,Yuzhou,위저우 시
+1844,CHN,Kaiyuan,카이위안 시
+1845,CHN,Tumen,투먼 시
+1846,CHN,Putian,푸톈 시
+1847,CHN,Linhai,린하이 시
+1848,CHN,Xilin Hot,시린하오터 시
+1849,CHN,Shaowu,사오우 시
+1850,CHN,Junan,쥐난 현
+1851,CHN,Huaying,화잉 시
+1852,CHN,Pingyi,핑이 현
+1853,CHN,Huangyan,황옌 구
+1854,KGZ,Bishkek,비슈케크
+1855,KGZ,Osh,오석헌동물병원
+1856,KIR,Bairiki,남타라와
+1857,COL,Santafé de Bogotá,보고타
+1858,COL,Cali,산티아고데칼리
+1859,COL,Medellín,메데인
+1860,COL,Barranquilla,바랑키야
+1861,COL,Cartagena,카르타헤나
+1862,COL,Cúcuta,쿠쿠타
+1863,COL,Bucaramanga,부카라마가
+1864,COL,Ibagué,이바게
+1865,COL,Pereira,페레이라
+1866,COL,Santa Marta,산타마르타
+1867,COL,Manizales,마니살레스
+1868,COL,Pasto,파스토
+1869,COL,Neiva,네이바
+1870,COL,Soledad,솔레다드
+1871,COL,Armenia,아르메니아
+1872,COL,Villavicencio,비야비센시오
+1873,COL,Valledupar,발레두파
+1874,COL,Montería,몬테리아
+1875,COL,Palmira,팔미라
+1876,COL,Buenaventura,부에나벤투라
+1877,COL,Sincelejo,신셀레호
+1878,COL,Popayán,포파얀
+1879,COL,Barrancabermeja,바랑카베르메하
+1880,COL,Tuluá,툴루아
+1881,COL,Envigado,엔비가도
+1882,COL,Cartago,카르타고
+1883,COL,Tunja,툰하
+1884,COL,Florencia,피렌체
+1885,COL,Sogamoso,소가모소
+1886,COL,Giron,쥐홍
+1887,COM,Moroni,모로니
+1888,COG,Brazzaville,브라자빌
+1889,COG,Pointe-Noire,푸앵트누아르
+1890,COD,Kinshasa,킨샤사
+1891,COD,Lubumbashi,루붐바시
+1892,COD,Mbuji-Mayi,음부지마이
+1893,COD,Kolwezi,콜웨지
+1894,COD,Kisangani,키상가니
+1895,COD,Kananga,카낭가
+1896,COD,Likasi,리카시
+1897,COD,Bukavu,부카부
+1898,COD,Kikwit,키크위트
+1899,COD,Tshikapa,트시카파
+1900,COD,Matadi,마타디
+1901,COD,Mbandaka,음반다카
+1902,COD,Mwene-Ditu,므웨네 디투
+1903,COD,Boma,보마
+1904,COD,Uvira,우비라
+1905,COD,Butembo,부템보
+1906,COD,Goma,고마
+1907,COD,Kalemie,칼레미
+1908,GRC,Athenai,아테네
+1909,GRC,Thessaloniki,테살로니키
+1910,GRC,Pireus,피레아스
+1911,GRC,Patras,파트라스
+1912,GRC,Peristerion,페리스테리
+1913,GRC,Herakleion,헤라클리온
+1914,GRC,Kallithea,칼리티아
+1915,GRC,Larisa,라리사
+1916,HRV,Zagreb,자그레브
+1917,HRV,Split,스플리트
+1918,HRV,Rijeka,리예카
+1919,HRV,Osijek,오시예크
+1920,CUB,La Habana,하바나
+1921,CUB,Santiago de Cuba,산티아고데쿠바
+1922,CUB,Camagüey,카마궤이
+1923,CUB,Holguín,올긴
+1924,CUB,Santa Clara,샌타클래라
+1925,CUB,Pinar del Río,피나르델리오
+1926,CUB,Bayamo,바야모
+1927,CUB,Cienfuegos,시엔푸에고스
+1928,CUB,Victoria de las Tunas,라스투나스
+1929,CUB,Matanzas,마탄사스
+1930,CUB,Manzanillo,만사니요
+1931,CUB,Sancti-Spíritus,상크티스피리투스
+1932,CUB,Ciego de Ávila,시에고데아빌라
+1933,KWT,Kuwait,쿠웨이트
+1934,CYP,Nicosia,니코시아
+1935,CYP,Limassol,리마솔
+1936,LAO,Vientiane,비엔티안
+1937,LAO,Savannakhet,카이손 폼비한
+1938,LVA,Riga,리가
+1939,LVA,Daugavpils,다우가프필스
+1940,LVA,Liepaja,리예파야
+1941,LSO,Maseru,마세루
+1942,LBN,Beirut,베이루트
+1943,LBN,Tripoli,트리폴리
+1944,LBR,Monrovia,몬로비아
+1945,LBY,Tripoli,트리폴리
+1946,LBY,Bengasi,벵가지
+1947,LBY,Misrata,미수라타
+1948,LBY,al-Zawiya,자위야
+1949,LIE,Schaan,샨
+1950,LIE,Vaduz,바두츠
+1951,LTU,Vilnius,빌뉴스
+1952,LTU,Kaunas,카우나스
+1953,LTU,Klaipeda,클라이페다
+1954,LTU,Šiauliai,시아울리아이
+1955,LTU,Panevezys,파네베지스
+1956,LUX,Luxembourg [Luxemburg/Lëtzebuerg],룩셈부르크
+1957,MAC,Macao,마카오
+1958,MDG,Antananarivo,안타나나리보
+1959,MDG,Toamasina,토아마시나
+1960,MDG,Antsirabé,안치라베
+1961,MDG,Mahajanga,마하장가
+1962,MDG,Fianarantsoa,피아나란초아
+1963,MKD,Skopje,스코페
+1964,MWI,Blantyre,블랜타이어
+1965,MWI,Lilongwe,릴롱궤
+1966,MDV,Male,말레
+1967,MYS,Kuala Lumpur,쿠알라룸푸르 연방 준주
+1968,MYS,Ipoh,에포
+1969,MYS,Johor Baharu,조호르바루
+1970,MYS,Petaling Jaya,프탈링자야
+1971,MYS,Kelang,클랑
+1972,MYS,Kuala Terengganu,쿠알라테렝가누
+1973,MYS,Pinang,풀라우 피낭
+1974,MYS,Kuantan,쿠안탄
+1975,MYS,Taiping,타이핑
+1976,MYS,Seremban,세렘반
+1977,MYS,Kuching,쿠칭
+1978,MYS,Sibu,시부
+1979,MYS,Sandakan,센다칸
+1980,MYS,Alor Setar,알로스타
+1981,MYS,Sungai Petani,숭파이 페타니
+1982,MYS,Shah Alam,샤알람
+1983,MLI,Bamako,바마코
+1984,MLT,Birkirkara,비르키르카라
+1985,MLT,Valletta,발레타
+1986,MAR,Casablanca,카사블랑카
+1987,MAR,Rabat,라바트
+1988,MAR,Marrakech,마라케시
+1989,MAR,Fès,페스
+1990,MAR,Tanger,탠지어
+1991,MAR,Salé,살레
+1992,MAR,Meknès,메크네스
+1993,MAR,Oujda,우지다
+1994,MAR,Kénitra,케니트라
+1995,MAR,Tétouan,테투안
+1996,MAR,Safi,사피
+1997,MAR,Agadir,아가디르
+1998,MAR,Mohammedia,모하메디아
+1999,MAR,Khouribga,쿠리브가
+2000,MAR,Beni-Mellal,베니메랄
+2001,MAR,Témara,테마라
+2002,MAR,El Jadida,엘자디다
+2003,MAR,Nador,나도르
+2004,MAR,Ksar el Kebir,크사르 엘-케비르
+2005,MAR,Settat,세테트
+2006,MAR,Taza,타자
+2007,MAR,El Araich,라라슈
+2008,MRT,Nouakchott,누악쇼트
+2009,MRT,Nouâdhibou,누아디부
+2010,MUS,Port-Louis,포트루이스
+2011,MUS,Beau Bassin-Rose Hill,보베이신로즈힐
+2012,MUS,Vacoas-Phoenix,바코아스피닉스
+2013,MEX,Ciudad de México,멕시코시티
+2014,MEX,Guadalajara,과달라하라
+2015,MEX,Puebla,푸에블라
+2016,MEX,Nezahualcóyotl,네사우알코요틀
+2017,MEX,Juárez,시우다드 후아레즈
+2018,MEX,Tijuana,티후아나
+2019,MEX,León,레온
+2020,MEX,Monterrey,몬테레이
+2021,MEX,Zapopan,자포판
+2022,MEX,Naucalpan de Juárez,나우칼판
+2023,MEX,Mexicali,메히칼리
+2024,MEX,Culiacán,쿨리아칸
+2025,MEX,Acapulco de Juárez,아카풀코
+2026,MEX,Tlalnepantla de Baz,뜰랄네빤뜰라
+2027,MEX,Mérida,메리다
+2028,MEX,Chihuahua,치와와
+2029,MEX,San Luis Potosí,산루이스포토시주
+2030,MEX,Guadalupe,구아델로프
+2031,MEX,Toluca,톨루카
+2032,MEX,Aguascalientes,아과스칼리엔테스
+2033,MEX,Querétaro,케레타로
+2034,MEX,Morelia,모렐리아
+2035,MEX,Hermosillo,에르모시요
+2036,MEX,Saltillo,살티요
+2037,MEX,Torreón,토레온
+2038,MEX,Centro (Villahermosa),비야에르모사
+2039,MEX,San Nicolás de los Garza,산니콜라스데로스가르사
+2040,MEX,Durango,두랑고
+2041,MEX,Chimalhuacán,키말후아칸
+2042,MEX,Tlaquepaque,틀라크파크
+2043,MEX,Atizapán de Zaragoza,시우다드 로페즈 마테오스
+2044,MEX,Veracruz,베라크루즈
+2045,MEX,Irapuato,이라푸아토
+2046,MEX,Tuxtla Gutiérrez,툭스틀라구티에레스
+2047,MEX,Reynosa,레이노사
+2048,MEX,Matamoros,마타모로스
+2049,MEX,Xalapa,할라파
+2050,MEX,Celaya,셀라야
+2051,MEX,Mazatlán,마사틀란
+2052,MEX,Ensenada,엔세나다
+2053,MEX,Cuernavaca,쿠에르나바카
+2054,MEX,Nuevo Laredo,누에보라레도
+2055,MEX,Tepic,테픽
+2056,MEX,Tampico,탐피코
+2057,MEX,Gómez Palacio,고메스팔라시오
+2058,MEX,Coatzacoalcos,코아트사코알코스
+2059,MEX,Uruapan,우루아판
+2060,MEX,Victoria,빅토리아
+2061,MEX,Oaxaca de Juárez,오악사카
+2062,MEX,Pachuca de Soto,파추카
+2063,MEX,Salamanca,살라망카
+2064,MEX,Santa Catarina,산타카타리나
+2065,MEX,Campeche,캄페체
+2066,MEX,La Paz,라파스
+2067,MEX,Othón P. Blanco (Chetumal),체투말
+2068,MEX,Texcoco,텍스코코
+2069,MEX,La Paz,라파스
+2070,MEX,Metepec,메테펙
+2071,MEX,Monclova,몽클로바
+2072,MEX,Chilpancingo de los Bravo,칠판싱고
+2073,MEX,Puerto Vallarta,푸에르토바야르타
+2074,MEX,Fresnillo,프레스닐로
+2075,MEX,Ciudad Madero,시우다드 마데로
+2076,MEX,Córdoba,코르도바
+2077,MEX,Carmen,까르멘
+2078,MEX,Lázaro Cárdenas,라사로 카르데나스
+2079,MEX,Papantla,파판틀라
+2080,MEX,Comalcalco,코말카꼬
+2081,MEX,Nogales,노갈레즈
+2082,MEX,Minatitlán,미나티틀란
+2083,MEX,Ciudad Valles,시우다드 발레스
+2084,MEX,Guanajuato,과나후아토
+2085,MEX,Navojoa,나보호아
+2086,MEX,Zitácuaro,시타콰로
+2087,MEX,San Cristóbal de las Casas,산 크리스토발 데 라스 카사스
+2088,MEX,Guaymas,과이마스
+2089,MEX,Colima,콜리마
+2090,MEX,Dolores Hidalgo,돌로레스이달고
+2091,MEX,Piedras Negras,피에드라스 네그라스
+2092,MEX,Altamira,알타미라 동굴
+2093,MEX,Manzanillo,만사니요
+2094,MEX,Iguala de la Independencia,이괄라
+2095,MEX,Zacatecas,사카테카스
+2096,MEX,Orizaba,오리자바
+2097,MEX,Delicias,델리카스
+2098,MEX,Acuña,시우다드 아쿠냐
+2099,MEX,Guadalupe,구아델로프
+2100,MEX,Hidalgo,이달고
+2101,MEX,Los Cabos,카보산루카스
+2102,MEX,Comitán de Domínguez,코미탄
+2103,MEX,Río Bravo,리오브라보
+2104,MEX,Taxco de Alarcón,탁스코
+2105,MEX,Las Margaritas,라스마가리타스
+2106,MEX,San Felipe,산펠리페
+2107,MEX,Tultepec,툴테펙
+2108,MEX,Matamoros,마타모로스
+2109,MEX,Tierra Blanca,티에라 블랑카
+2110,FSM,Weno,웨노
+2111,FSM,Palikir,팔라키르
+2112,MDA,Chisinau,키시나우
+2113,MDA,Tiraspol,티라스폴
+2114,MDA,Balti,발티길
+2115,MDA,Bender (Tîghina),벤데르
+2116,MCO,Monte-Carlo,몬테카를로
+2117,MCO,Monaco-Ville,모나코빌-빌르
+2118,MNG,Ulan Bator,울란바토르
+2119,MOZ,Maputo,마푸투
+2120,MOZ,Matola,마톨라
+2121,MOZ,Beira,베이라
+2122,MOZ,Nampula,남풀라
+2123,MOZ,Chimoio,시모이우
+2124,MOZ,Naçala-Porto,나칼라
+2125,MOZ,Quelimane,켈리마느
+2126,MOZ,Tete,테트
+2127,MOZ,Xai-Xai,샤이샤이
+2128,MOZ,Maxixe,마시스
+2129,MMR,Rangoon (Yangon),양곤
+2130,MMR,Mandalay,만달레이
+2131,MMR,Moulmein (Mawlamyine),몰러먀잉
+2132,MMR,Pegu (Bago),바고
+2133,MMR,Bassein (Pathein),파테인
+2134,MMR,Monywa,몽유와
+2135,MMR,Sittwe (Akyab),시트웨
+2136,MMR,Taunggyi (Taunggye),타웅지
+2137,MMR,Meikhtila,메이크틸라
+2138,MMR,Mergui (Myeik),메르귀
+2139,MMR,Lashio (Lasho),라시오
+2140,MMR,Prome (Pyay),프롬
+2141,MMR,Henzada (Hinthada),힌타다
+2142,MMR,Myingyan,민지안
+2143,MMR,Tavoy (Dawei),다웨이
+2144,MMR,Pagakku (Pakokku),파코쿠
+2145,NAM,Windhoek,빈트후크
+2146,NRU,Yaren,야렌
+2147,NPL,Kathmandu,카트만두
+2148,NPL,Biratnagar,비랏나가르
+2149,NPL,Pokhara,포카라
+2150,NPL,Lalitapur,랄릿푸르
+2151,NPL,Birgunj,빌간지
+2152,NIC,Managua,마나과
+2153,NIC,León,레온
+2154,NIC,Chinandega,치난데가
+2155,NIC,Masaya,마사야
+2156,NER,Niamey,니아메
+2157,NER,Zinder,잔데르
+2158,NER,Maradi,마라디
+2159,NGA,Lagos,라고스
+2160,NGA,Ibadan,이바단
+2161,NGA,Ogbomosho,오그보모쇼
+2162,NGA,Oshogbo,오쇼그보
+2163,NGA,Ilorin,일로린
+2164,NGA,Abeokuta,아베오쿠타
+2165,NGA,Port Harcourt,포트하커트
+2166,NGA,Zaria,자리아
+2167,NGA,Ilesha,일레사
+2168,NGA,Onitsha,오니차
+2169,NGA,Ado-Ekiti,아도에키티
+2170,NGA,Abuja,아부자
+2171,NGA,Kaduna,카두나
+2172,NGA,Maiduguri,마이두구리
+2173,NGA,Enugu,에누구
+2174,NGA,Ede,에더
+2175,NGA,Ila,이라
+2176,NGA,Oyo,오요호스텔 명동
+2177,NGA,Benin City,베닌시티
+2178,NGA,Katsina,카치나
+2179,NGA,Jos,조스
+2180,NGA,Sokoto,소코토
+2181,NGA,Ilobu,일로부
+2182,NGA,Owo,오워오
+2183,NGA,Shaki,셰키
+2184,NGA,Akure,아쿠레
+2185,NGA,Ijebu-Ode,이제부 오드
+2186,NGA,Kumo,쿠모
+2187,NGA,Oka-Akoko,오카 아코코
+2188,NGA,Sapele,새플
+2189,NGA,Deba Habe,데바 헤이브
+2190,NGA,Warri,와리
+2191,NGA,Ikire,이키르
+2192,NGA,Lafia,라피아
+2193,NGA,Inisa,이니사
+2194,NGA,Awka,아우카
+2195,NGA,Ugep,우겝
+2196,NGA,Epe,에페
+2197,NIU,Alofi,알로피
+2198,NOR,Oslo,오슬로
+2199,NOR,Bergen,베르겐
+2200,NOR,Trondheim,트론헤임
+2201,NOR,Stavanger,스타방에르
+2202,NOR,Bærum,베룸
+2203,CIV,Abidjan,아비장
+2204,CIV,Bouaké,부아케
+2205,CIV,Yamoussoukro,야무수크로
+2206,CIV,Daloa,달로아
+2207,CIV,Korhogo,코로고
+2208,OMN,al-Sib,시브
+2209,OMN,Salala,살랄라
+2210,OMN,Suhar,소하르
+2211,OMN,Masqat,무스카트
+2212,PAK,Karachi,카라치
+2213,PAK,Lahore,라호르
+2214,PAK,Faisalabad,파이살라바드
+2215,PAK,Rawalpindi,라왈핀디
+2216,PAK,Multan,물탄
+2217,PAK,Hyderabad,하이데라바드
+2218,PAK,Gujranwala,구지란왈라
+2219,PAK,Peshawar,페샤와르
+2220,PAK,Quetta,퀘타
+2221,PAK,Islamabad,이슬라마바드
+2222,PAK,Sargodha,사르고다
+2223,PAK,Sialkot,시알코트
+2224,PAK,Bahawalpur,바하왈푸르
+2225,PAK,Sukkur,수쿠르
+2226,PAK,Larkana,라르카나
+2227,PAK,Gujrat,구자르트
+2228,PAK,Mardan,마르단
+2229,PAK,Rahim Yar Khan,하피즈 콜로니 VIP 블럭
+2230,PAK,Sahiwal,사히왈
+2231,PAK,Okara,오가네두부마을
+2232,PAK,Dera Ghazi Khan,데라 가지 칸
+2233,PAK,Mirpur Khas,미루프루 카스
+2234,PAK,Mingora,밍고라
+2235,PAK,Chiniot,치니오트
+2236,PAK,Mandi Burewala,버왈라
+2237,PAK,Jhelum,젤룸
+2238,PAK,Jacobabad,제코바바드
+2239,PAK,Shikarpur,쉬카버
+2240,PAK,Khanewal,카왈
+2241,PAK,Kohat,코하트
+2242,PAK,Muzaffargarh,무자파가르
+2243,PAK,Khanpur,칸퍼
+2244,PAK,Gojra,고자
+2245,PAK,Bahawalnagar,바하왈랑가
+2246,PAK,Pak Pattan,파카파탄
+2247,PAK,Abottabad,아보타바드
+2248,PAK,Jaranwala,자란왈라
+2249,PAK,Daska,데스카
+2250,PAK,Dadu,다두
+2251,PAK,Mandi Bahauddin,만디 바하두리
+2252,PAK,Khuzdar,쿠흐다
+2253,PAK,Vihari,베하리
+2254,PAK,Dera Ismail Khan,데라 시므라
+2255,PAK,Wazirabad,와지라바드
+2256,PAK,Nowshera,노셰라
+2257,PLW,Koror,코로르 주
+2258,PAN,Ciudad de Panamá,파나마
+2259,PNG,Port Moresby,포트모르즈비
+2260,PRY,Asunción,아순시온
+2261,PRY,Ciudad del Este,시우다드델에스테
+2262,PRY,San Lorenzo,샌 로렌조
+2263,PRY,Lambaré,람바레
+2264,PRY,Fernando de la Mora,페르난도 데 라 모라
+2265,PER,Lima,리마
+2266,PER,Arequipa,아레키파
+2267,PER,Trujillo,트루히요
+2268,PER,Chiclayo,치클라요
+2269,PER,Callao,카야오
+2270,PER,Iquitos,이키토스
+2271,PER,Chimbote,침보테
+2272,PER,Huancayo,우앙카요
+2273,PER,Piura,피우라
+2274,PER,Cusco,쿠스코
+2275,PER,Pucallpa,푸칼파
+2276,PER,Tacna,타크나
+2277,PER,Ica,이카
+2278,PER,Sullana,수야나
+2279,PER,Juliaca,줄리아카
+2280,PER,Huánuco,우아누꼬
+2281,PER,Ayacucho,아야쿠초
+2282,PER,Cajamarca,까하마르까
+2283,PER,Puno,푸노
+2284,PRT,Lisboa,리스본
+2285,PRT,Porto,포르토
+2286,PRT,Amadora,아마도라
+2287,PRT,Coímbra,코임브라
+2288,PRT,Braga,브라가
+2289,POL,Warszawa,바르샤바
+2290,POL,Lódz,우쯔
+2291,POL,Kraków,크라쿠프
+2292,POL,Wroclaw,브로츠와프
+2293,POL,Poznan,포즈나뉴
+2294,POL,Gdansk,그다인스크
+2295,POL,Szczecin,슈체친
+2296,POL,Bydgoszcz,비드고슈치
+2297,POL,Lublin,루블린
+2298,POL,Katowice,카토비세
+2299,POL,Bialystok,비알리스토크
+2300,POL,Czestochowa,체스토호바
+2301,POL,Gdynia,그드니아
+2302,POL,Sosnowiec,소스노비에츠
+2303,POL,Radom,라돔
+2304,POL,Kielce,키엘체
+2305,POL,Gliwice,글리비체
+2306,POL,Torun,토룬
+2307,POL,Bytom,비톰
+2308,POL,Zabrze,자브제
+2309,POL,Bielsko-Biala,비엘스코 비아와
+2310,POL,Olsztyn,올슈틴
+2311,POL,Rzeszów,제슈프
+2312,POL,Ruda Slaska,루다실롱스카
+2313,POL,Rybnik,리브니크
+2314,POL,Walbrzych,바우브지흐
+2315,POL,Tychy,티히
+2316,POL,Dabrowa Górnicza,돔브로바고르니차
+2317,POL,Plock,푸오츠크
+2318,POL,Elblag,엘블라크
+2319,POL,Opole,오폴레
+2320,POL,Gorzów Wielkopolski,고르조프빌크프
+2321,POL,Wloclawek,부오츠와베크
+2322,POL,Chorzów,호주프
+2323,POL,Tarnów,타르누프
+2324,POL,Zielona Góra,지엘로나구라
+2325,POL,Koszalin,코샬린
+2326,POL,Legnica,레그니차
+2327,POL,Kalisz,칼리슈
+2328,POL,Grudziadz,그루지온츠
+2329,POL,Slupsk,스웁스크
+2330,POL,Jastrzebie-Zdrój,야스트솅비에즈드루이
+2331,POL,Jaworzno,야보주노
+2332,POL,Jelenia Góra,옐레니아구라
+2333,GNQ,Malabo,말라보
+2334,QAT,Doha,도하
+2335,FRA,Paris,파리
+2336,FRA,Marseille,마르세유
+2337,FRA,Lyon,리옹
+2338,FRA,Toulouse,툴루즈
+2339,FRA,Nice,니스
+2340,FRA,Nantes,낭트
+2341,FRA,Strasbourg,스트라스부르
+2342,FRA,Montpellier,몽펠리에
+2343,FRA,Bordeaux,보르도
+2344,FRA,Rennes,렌
+2345,FRA,Le Havre,르아브르
+2346,FRA,Reims,라임스
+2347,FRA,Lille,릴
+2348,FRA,St-Étienne,세인트 에티엔느
+2349,FRA,Toulon,툴롱
+2350,FRA,Grenoble,그르노블
+2351,FRA,Angers,엉제
+2352,FRA,Dijon,디종
+2353,FRA,Brest,브레스트
+2354,FRA,Le Mans,르망
+2355,FRA,Clermont-Ferrand,클레르몽페랑
+2356,FRA,Amiens,아미앵
+2357,FRA,Aix-en-Provence,엑상프로방스
+2358,FRA,Limoges,리모주
+2359,FRA,Nîmes,님
+2360,FRA,Tours,투르
+2361,FRA,Villeurbanne,빌뢰르반
+2362,FRA,Metz,메스
+2363,FRA,Besançon,브장송
+2364,FRA,Caen,캉
+2365,FRA,Orléans,오를레앙
+2366,FRA,Mulhouse,뮐루즈
+2367,FRA,Rouen,루앙
+2368,FRA,Boulogne-Billancourt,불로뉴비양쿠르
+2369,FRA,Perpignan,페르피냥
+2370,FRA,Nancy,낭시
+2371,FRA,Roubaix,루베
+2372,FRA,Argenteuil,아흐정뙤이
+2373,FRA,Tourcoing,투르쿠앵
+2374,FRA,Montreuil,몽뜨회이
+2375,RWA,Kigali,키갈리
+2376,SWE,Stockholm,스톡홀름
+2377,SWE,Gothenburg [Göteborg],예테보리
+2378,SWE,Malmö,말뫼
+2379,SWE,Uppsala,웁살라
+2380,SWE,Linköping,린셰핑
+2381,SWE,Västerås,베스테로스
+2382,SWE,Örebro,외레브로
+2383,SWE,Norrköping,노르셰핑
+2384,SWE,Helsingborg,헬싱보리
+2385,SWE,Jönköping,옌셰핑
+2386,SWE,Umeå,우메아
+2387,SWE,Lund,룬드
+2388,SWE,Borås,보로스
+2389,SWE,Sundsvall,순스발
+2390,SWE,Gävle,예블레
+2391,KNA,Basseterre,바스테르
+2392,LCA,Castries,캐스트리스
+2393,VCT,Kingstown,킹스타운
+2394,DEU,Berlin,베를린
+2395,DEU,Hamburg,함부르크
+2396,DEU,Munich [München],뮌헨
+2397,DEU,Köln,쾰른
+2398,DEU,Frankfurt am Main,프랑크푸르트
+2399,DEU,Essen,에센
+2400,DEU,Dortmund,도르트문트
+2401,DEU,Stuttgart,슈투트가르트
+2402,DEU,Düsseldorf,뒤셀도르프
+2403,DEU,Bremen,브레멘
+2404,DEU,Duisburg,뒤스부르크
+2405,DEU,Hannover,하노버
+2406,DEU,Leipzig,라이프치히
+2407,DEU,Nürnberg,뉘른베르크
+2408,DEU,Dresden,드레스덴
+2409,DEU,Bochum,보훔
+2410,DEU,Wuppertal,부퍼탈
+2411,DEU,Bielefeld,빌레펠트
+2412,DEU,Mannheim,만하임
+2413,DEU,Bonn,본
+2414,DEU,Gelsenkirchen,겔젠키르헨
+2415,DEU,Karlsruhe,카를스루에
+2416,DEU,Wiesbaden,비스바덴
+2417,DEU,Münster,뮌스터
+2418,DEU,Mönchengladbach,묀헨글라트바흐
+2419,DEU,Chemnitz,켐니츠
+2420,DEU,Augsburg,아우크스부르크
+2421,DEU,Halle/Saale,할레 잘레
+2422,DEU,Braunschweig,브라운슈바이크
+2423,DEU,Aachen,아헨
+2424,DEU,Krefeld,크레펠트
+2425,DEU,Magdeburg,마그데부르크
+2426,DEU,Kiel,킬
+2427,DEU,Oberhausen,오버하우젠
+2428,DEU,Lübeck,뤼벡
+2429,DEU,Hagen,하겐
+2430,DEU,Rostock,로스토크
+2431,DEU,Freiburg im Breisgau,프라이부르크
+2432,DEU,Erfurt,에르푸르트
+2433,DEU,Kassel,카셀
+2434,DEU,Saarbrücken,자르브뤼켄
+2435,DEU,Mainz,마인츠
+2436,DEU,Hamm,함
+2437,DEU,Herne,헤르네
+2438,DEU,Mülheim an der Ruhr,뮐하임안데어루르
+2439,DEU,Solingen,졸링겐
+2440,DEU,Osnabrück,오스나브뤼크
+2441,DEU,Ludwigshafen am Rhein,루트비히스하펜
+2442,DEU,Leverkusen,레버쿠젠
+2443,DEU,Oldenburg,올덴부르크
+2444,DEU,Neuss,노이스
+2445,DEU,Heidelberg,하이델베르크
+2446,DEU,Darmstadt,다름슈타트
+2447,DEU,Paderborn,파더보른
+2448,DEU,Potsdam,포츠담
+2449,DEU,Würzburg,뷔르츠부르크
+2450,DEU,Regensburg,레겐스부르크
+2451,DEU,Recklinghausen,레클링하우젠
+2452,DEU,Göttingen,괴팅겐
+2453,DEU,Bremerhaven,브레머하펜
+2454,DEU,Wolfsburg,볼프스부르크
+2455,DEU,Bottrop,보트로프
+2456,DEU,Remscheid,렘샤이트
+2457,DEU,Heilbronn,하일브론
+2458,DEU,Pforzheim,포르츠하임
+2459,DEU,Offenbach am Main,오펜바흐
+2460,DEU,Ulm,울름
+2461,DEU,Ingolstadt,잉골슈타트
+2462,DEU,Gera,게라
+2463,DEU,Salzgitter,잘츠기터
+2464,DEU,Cottbus,콧부스
+2465,DEU,Reutlingen,로이틀링겐
+2466,DEU,Fürth,퓌르트
+2467,DEU,Siegen,지겐
+2468,DEU,Koblenz,코블렌츠
+2469,DEU,Moers,뫼르스 빈
+2470,DEU,Bergisch Gladbach,베르기슈글라트바흐
+2471,DEU,Zwickau,츠비카우
+2472,DEU,Hildesheim,힐데스하임
+2473,DEU,Witten,비텐
+2474,DEU,Schwerin,슈베린
+2475,DEU,Erlangen,에를랑겐
+2476,DEU,Kaiserslautern,카이저슬라우테른
+2477,DEU,Trier,트리어
+2478,DEU,Jena,예나
+2479,DEU,Iserlohn,이절론
+2480,DEU,Gütersloh,귀터슬로
+2481,DEU,Marl,마르마르
+2482,DEU,Lünen,뤼넨
+2483,DEU,Düren,뒤렌
+2484,DEU,Ratingen,라팅엔
+2485,DEU,Velbert,펠베르트
+2486,DEU,Esslingen am Neckar,에슬링겐암네카어
+2487,SLB,Honiara,호니아라
+2488,ZMB,Lusaka,루사카
+2489,ZMB,Ndola,은돌라
+2490,ZMB,Kitwe,키트웨
+2491,ZMB,Kabwe,카브웨
+2492,ZMB,Chingola,칭골라
+2493,ZMB,Mufulira,무풀리라
+2494,ZMB,Luanshya,루안샤
+2495,WSM,Apia,아피아
+2496,SMR,Serravalle,세라발레
+2497,SMR,San Marino,산마리노
+2498,STP,São Tomé,상투메
+2499,SAU,Riyadh,리야드
+2500,SAU,Jedda,제다
+2501,SAU,Mekka,메카
+2502,SAU,Medina,메디나
+2503,SAU,al-Dammam,담맘
+2504,SAU,Tabuk,타브크
+2505,SAU,Burayda,부라이다
+2506,SAU,al-Hufuf,후푸프
+2507,SAU,Khamis Mushayt,하미스무샤이트
+2508,SAU,Hail,헤일 시
+2509,SAU,al-Kharj,알-카르지
+2510,SAU,al-Khubar,코바르
+2511,SAU,Jubayl,주바일
+2512,SAU,Hafar al-Batin,하프르 알-바틴
+2513,SAU,Yanbu,얀부
+2514,SAU,Abha,압하
+2515,SAU,al-Qatif,카티프
+2516,SAU,Najran,나지란
+2517,SEN,Pikine,피킨
+2518,SEN,Dakar,다카르
+2519,SEN,Thiès,티에스 주
+2520,SEN,Kaolack,꺄올락끄
+2521,SEN,Ziguinchor,지긴쇼르
+2522,SEN,Rufisque,뤼피스크
+2523,SEN,Saint-Louis,세인트루이스
+2524,SEN,Mbour,음부르
+2525,SEN,Diourbel,디우르벨
+2526,SYC,Victoria,빅토리아
+2527,SLE,Freetown,프리타운
+2528,SGP,Singapore,싱가포르
+2529,SVK,Bratislava,브라티슬라바
+2530,SVK,Košice,코시체
+2531,SVK,Prešov,프레쇼브
+2532,SVN,Ljubljana,류블랴나
+2533,SVN,Maribor,마리보르
+2534,SOM,Mogadishu,모가디슈
+2535,SOM,Hargeysa,하르게이사
+2536,SOM,Kismaayo,키스마요
+2537,LKA,Colombo,콜롬보
+2538,LKA,Moratuwa,모르투와
+2539,LKA,Jaffna,자프나
+2540,LKA,Kandy,캔디
+2541,LKA,Sri Jayawardenepura Kotte,스리자야와르데네푸라코테
+2542,SDN,Omdurman,옴두르만
+2543,SDN,Khartum,카르툼
+2544,SDN,Port Sudan,포트수단
+2545,SDN,Kassala,카살라
+2546,SDN,Nyala,냘라
+2547,SDN,Wad Madani,와드마다니
+2548,SDN,al-Qadarif,알 카다리프
+2549,SDN,al-Fashir,알파시르
+2550,SDN,Juba,주바
+2551,FIN,Helsinki [Helsingfors],헬싱키
+2552,FIN,Espoo,에스푸
+2553,FIN,Tampere,탐페레
+2554,FIN,Vantaa,반타
+2555,FIN,Turku [Åbo],투르쿠
+2556,FIN,Oulu,오울루
+2557,FIN,Lahti,라티
+2558,SUR,Paramaribo,파라마리보
+2559,SWZ,Mbabane,음바바네
+2560,CHE,Zürich,취리히
+2561,CHE,Geneve,제네바
+2562,CHE,Basel,바젤
+2563,CHE,Bern,베른
+2564,CHE,Lausanne,로잔
+2565,SYR,Damascus,다마스커스
+2566,SYR,Aleppo,알레포
+2567,SYR,Hama,하마
+2568,SYR,Latakia,라타키아
+2569,SYR,al-Qamishliya,카미실리
+2570,SYR,Dayr al-Zawr,데이르에조르 주
+2571,SYR,Duma,두마노인정
+2572,SYR,al-Raqqa,라카 주
+2573,SYR,Idlib,이들리브
+2574,TJK,Dushanbe,두샨베
+2575,TJK,Khujand,후잔트
+2576,TZA,Dar es Salaam,다르에스살람
+2577,TZA,Dodoma,도도마
+2578,TZA,Mwanza,므완자
+2579,TZA,Zanzibar,잔지바르
+2580,TZA,Tanga,탕가
+2581,TZA,Mbeya,음베야
+2582,TZA,Morogoro,모로고로
+2583,TZA,Arusha,아루샤
+2584,TZA,Tabora,타보라
+2585,DNK,København,코펜하겐
+2586,DNK,Århus,오르후스
+2587,DNK,Odense,오덴세
+2588,DNK,Aalborg,올보르그
+2589,DNK,Frederiksberg,프레데릭스베르
+2590,THA,Bangkok,방콕
+2591,THA,Nonthaburi,논타부리
+2592,THA,Nakhon Ratchasima,나콘랏차시마
+2593,THA,Chiang Mai,치앙마이
+2594,THA,Udon Thani,우돈타니
+2595,THA,Khon Kaen,콘깬
+2596,THA,Nakhon Sawan,나콘사완
+2597,THA,Ubon Ratchathani,우본랏차타니
+2598,THA,Songkhla,송클라
+2599,THA,Nakhon Pathom,나콘 파톰
+2600,TGO,Lomé,로메
+2601,TON,Nuku´alofa,누쿠알로파
+2602,TTO,Port-of-Spain,포트오브스페인
+2603,TCD,N´Djaména,은자메나
+2604,TCD,Moundou,문두
+2605,CZE,Praha,프라하
+2606,CZE,Brno,브르노
+2607,CZE,Ostrava,오스트라바
+2608,CZE,Plzen,필센
+2609,CZE,Olomouc,올로모우츠
+2610,CZE,Liberec,리베레츠
+2611,CZE,Ceské Budejovice,체스케부데요비체
+2612,CZE,Hradec Králové,흐라데츠크랄로베
+2613,CZE,Ústí nad Labem,우스티나트라벰
+2614,CZE,Pardubice,파르두비체
+2615,TUN,Tunis,튀니스
+2616,TUN,Sfax,스팍스
+2617,TUN,Sousse,수스
+2618,TUN,Kairouan,캐루안
+2619,TUN,Biserta,비제르트
+2620,TUN,Gabès,가베스
+2621,TUR,Istanbul,이스탄불
+2622,TUR,Ankara,앙카라
+2623,TUR,Izmir,이즈미르
+2624,TUR,Adana,아다나
+2625,TUR,Bursa,부르사
+2626,TUR,Gaziantep,가지안테프
+2627,TUR,Konya,코니아
+2628,TUR,Mersin (Içel),메르신
+2629,TUR,Antalya,안탈리아
+2630,TUR,Diyarbakir,디야르바키르
+2631,TUR,Kayseri,카이세리
+2632,TUR,Eskisehir,에스키셰히르
+2633,TUR,Sanliurfa,샨리우르파
+2634,TUR,Samsun,삼순
+2635,TUR,Malatya,말라티아
+2636,TUR,Gebze,게브제
+2637,TUR,Denizli,데니즐리
+2638,TUR,Sivas,시바스
+2639,TUR,Erzurum,에르주룸
+2640,TUR,Tarsus,타르수스
+2641,TUR,Kahramanmaras,카흐라만마라스
+2642,TUR,Elâzig,엘라지
+2643,TUR,Izmit (Kocaeli),이즈미트
+2644,TUR,Manisa,마니사
+2645,TUR,Batman,바트만
+2646,TUR,Balikesir,발리케서
+2647,TUR,Sakarya (Adapazari),아다파자리
+2648,TUR,Iskenderun,이스켄데룬
+2649,TUR,Osmaniye,오스마니예
+2650,TUR,Çorum,코럼
+2651,TUR,Kütahya,퀴타히아
+2652,TUR,Hatay (Antakya),안타키아
+2653,TUR,Kirikkale,키리칼레
+2654,TUR,Adiyaman,아디야만
+2655,TUR,Trabzon,트라브존
+2656,TUR,Ordu,오르두
+2657,TUR,Aydin,아이딘
+2658,TUR,Usak,우샤크
+2659,TUR,Edirne,에디른
+2660,TUR,Çorlu,촐루
+2661,TUR,Isparta,이스파르타
+2662,TUR,Karabük,카라뷔크
+2663,TUR,Kilis,킬리스
+2664,TUR,Alanya,알라니아
+2665,TUR,Zonguldak,종굴다크
+2666,TUR,Siirt,시이르트
+2667,TUR,Tekirdag,테키르다
+2668,TUR,Karaman,카라만
+2669,TUR,Afyon,아피온카라히사르
+2670,TUR,Ceyhan,제이한
+2671,TUR,Erzincan,에르진잔
+2672,TUR,Tokat,토카트
+2673,TUR,Kars,카르스
+2674,TKM,Ashgabat,아시가바트
+2675,TKM,Chärjew,투르크메나바트
+2676,TKM,Dashhowuz,다쇼구즈
+2677,TUV,Funafuti,푸나푸티
+2678,UGA,Kampala,캄팔라
+2679,UKR,Kyiv,키이우
+2680,UKR,Harkova [Harkiv],하르키우
+2681,UKR,Dnipropetrovsk,드니프로
+2682,UKR,Donetsk,도네츠크
+2683,UKR,Odesa,오데사
+2684,UKR,Zaporizzja,자포리자
+2685,UKR,Lviv,리비우
+2686,UKR,Kryvyi Rig,크리비리흐
+2687,UKR,Mykolajiv,미콜라이프
+2688,UKR,Mariupol,마리우풀
+2689,UKR,Lugansk,루한시크
+2690,UKR,Vinnytsja,빈니차
+2691,UKR,Makijivka,마케예프카
+2692,UKR,Herson,헤르손
+2693,UKR,Sevastopol,세바스토폴
+2694,UKR,Simferopol,심페로폴
+2695,UKR,Pultava [Poltava],폴타바
+2696,UKR,Tšernigiv,체르니히우
+2697,UKR,Tšerkasy,체르카시
+2698,UKR,Gorlivka,고를로프카
+2699,UKR,Zytomyr,지토미르
+2700,UKR,Sumy,수미
+2701,UKR,Dniprodzerzynsk,카미얀스케
+2702,UKR,Kirovograd,크로피우니츠키
+2703,UKR,Hmelnytskyi,크멜니츠키
+2704,UKR,Tšernivtsi,체르니우치
+2705,UKR,Rivne,리브네
+2706,UKR,Krementšuk,크레멘추크
+2707,UKR,Ivano-Frankivsk,이바노 프랑키비츠
+2708,UKR,Ternopil,테르노필
+2709,UKR,Lutsk,루츠크
+2710,UKR,Bila Tserkva,빌라체르크바
+2711,UKR,Kramatorsk,크라마토르스크
+2712,UKR,Melitopol,멜리토폴
+2713,UKR,Kertš,케르치
+2714,UKR,Nikopol,니코폴
+2715,UKR,Berdjansk,베르단스크
+2716,UKR,Pavlograd,파블로그라드
+2717,UKR,Sjeverodonetsk,세베로도네츠크
+2718,UKR,Slovjansk,슬라뱐스크
+2719,UKR,Uzgorod,우즈호로드
+2720,UKR,Altševsk,콤무나르스크
+2721,UKR,Lysytšansk,리시칸스크
+2722,UKR,Jevpatorija,예프파토리야
+2723,UKR,Kamjanets-Podilskyi,케미아네츠 포딜스키
+2724,UKR,Jenakijeve,예나키예베
+2725,UKR,Krasnyi Lutš,크라스니루치
+2726,UKR,Stahanov,스타하노프
+2727,UKR,Oleksandrija,올레크산드리아
+2728,UKR,Konotop,코노토프
+2729,UKR,Kostjantynivka,콘스탄트니노브카
+2730,UKR,Berdytšiv,베르댜치프
+2731,UKR,Izmajil,이즈마일
+2732,UKR,Šostka,쇼스타카
+2733,UKR,Uman,우만
+2734,UKR,Brovary,브로바리
+2735,UKR,Mukatševe,무카체보
+2736,HUN,Budapest,부다페스트
+2737,HUN,Debrecen,데브레센
+2738,HUN,Miskolc,미슈콜츠
+2739,HUN,Szeged,세게드
+2740,HUN,Pécs,페치
+2741,HUN,Györ,죄르
+2742,HUN,Nyiregyháza,니레지하저
+2743,HUN,Kecskemét,케치케메트
+2744,HUN,Székesfehérvár,세케슈페헤르바르
+2745,URY,Montevideo,몬테비데오
+2746,NZL,Auckland,오클랜드
+2747,NZL,Christchurch,크라이스트처치
+2748,NZL,Manukau,마누카우
+2749,NZL,North Shore,노스 쇼어
+2750,NZL,Waitakere,와이타케레
+2751,NZL,Wellington,웰링턴
+2752,NZL,Dunedin,더니든
+2753,NZL,Hamilton,해밀톤
+2754,NZL,Lower Hutt,로우어 헛
+2755,UZB,Toskent,타슈켄트
+2756,UZB,Namangan,나망간
+2757,UZB,Samarkand,사마르칸트
+2758,UZB,Andijon,안디잔
+2759,UZB,Buhoro,부하라
+2760,UZB,Karsi,카르시
+2761,UZB,Nukus,누쿠스
+2762,UZB,Kükon,코칸트
+2763,UZB,Fargona,페르가나
+2764,UZB,Circik,치르치크
+2765,UZB,Margilon,마르길란
+2766,UZB,Ürgenc,우르겐치
+2767,UZB,Angren,앙그렌
+2768,UZB,Navoi,나보이
+2769,UZB,Olmalik,올말리크
+2770,UZB,Termiz,테르메스
+2771,BLR,Minsk,민스크
+2772,BLR,Gomel,고멜
+2773,BLR,Mogiljov,모길료프
+2774,BLR,Vitebsk,비테프스크
+2775,BLR,Grodno,흐로드나
+2776,BLR,Brest,브레스트
+2777,BLR,Bobruisk,바브뤼스크
+2778,BLR,Baranovitši,바란노비치
+2779,BLR,Borisov,바리사프
+2780,BLR,Pinsk,핀스크
+2781,BLR,Orša,오르샤
+2782,BLR,Mozyr,마지르
+2783,BLR,Novopolotsk,나바폴라츠크
+2784,BLR,Soligorsk,살리호르스크
+2785,VUT,Port-Vila,포트 빌라
+2786,VAT,Città del Vaticano,바티칸 시국
+2787,VEN,Caracas,카라카스
+2788,VEN,Maracaíbo,마라카이보
+2789,VEN,Barquisimeto,바르키시메토
+2790,VEN,Valencia,발렌시아
+2791,VEN,Ciudad Guayana,시우다드과야나
+2792,VEN,Petare,페타레
+2793,VEN,Maracay,마라카이
+2794,VEN,Barcelona,바르셀로나
+2795,VEN,Maturín,마투린
+2796,VEN,San Cristóbal,산 크리스토발
+2797,VEN,Ciudad Bolívar,시우다드볼리바르
+2798,VEN,Cumaná,쿠마나
+2799,VEN,Mérida,메리다
+2800,VEN,Cabimas,카비마스
+2801,VEN,Barinas,바리나스
+2802,VEN,Turmero,투르메로
+2803,VEN,Baruta,바루타 시
+2804,VEN,Puerto Cabello,푸에르토카벨로
+2805,VEN,Santa Ana de Coro,코로
+2806,VEN,Los Teques,로스테케스
+2807,VEN,Punto Fijo,푼토 피조
+2808,VEN,Guarenas,과레나스
+2809,VEN,Acarigua,아카리구아
+2810,VEN,Puerto La Cruz,푸에르토라크루스
+2811,VEN,Guacara,구아카라
+2812,VEN,Guanare,과나레
+2813,VEN,Carúpano,카루파노
+2814,VEN,El Tigre,엘티그레
+2815,VEN,Guatire,과티레
+2816,VEN,Calabozo,칼라보조
+2817,VEN,Ciudad Ojeda,씨우다드 오헤다
+2818,VEN,Ocumare del Tuy,오큐마리 델 투이
+2819,VEN,Araure,아라우레
+2820,VEN,San Fernando de Apure,산페르난도데아푸레
+2821,VEN,San Felipe,산펠리페
+2822,VEN,El Limón,엘 리몬
+2823,RUS,Moscow,모스크바
+2824,RUS,St Petersburg,상트페테르부르크
+2825,RUS,Novosibirsk,노보시비르스크
+2826,RUS,Nizni Novgorod,니즈니 노브 고로드
+2827,RUS,Jekaterinburg,예카테린부르크
+2828,RUS,Samara,사마라
+2829,RUS,Omsk,옴스크
+2830,RUS,Kazan,카잔
+2831,RUS,Ufa,우파
+2832,RUS,Tšeljabinsk,첼랴빈스크
+2833,RUS,Rostov-na-Donu,로스토프나도누
+2834,RUS,Perm,페름
+2835,RUS,Volgograd,볼고그라드
+2836,RUS,Voronez,보로네슈
+2837,RUS,Krasnojarsk,크라스노야르스크
+2838,RUS,Saratov,사라토프
+2839,RUS,Toljatti,톨리아티
+2840,RUS,Uljanovsk,울랴노브스크
+2841,RUS,Izevsk,이제프스크
+2842,RUS,Krasnodar,크라스노다르
+2843,RUS,Jaroslavl,야로슬라블
+2844,RUS,Habarovsk,하바로프스크
+2845,RUS,Vladivostok,블라디보스토크
+2846,RUS,Irkutsk,이르쿠츠크
+2847,RUS,Barnaul,바르나울
+2848,RUS,Novokuznetsk,노보크즈네크
+2849,RUS,Penza,펜자
+2850,RUS,Rjazan,랴잔
+2851,RUS,Orenburg,오렌부르크
+2852,RUS,Lipetsk,리페크
+2853,RUS,Nabereznyje Tšelny,나베레츠니 첼니
+2854,RUS,Tula,툴라
+2855,RUS,Tjumen,투먼
+2856,RUS,Kemerovo,케메로보
+2857,RUS,Astrahan,아스트라한
+2858,RUS,Tomsk,톰스크
+2859,RUS,Kirov,키로프
+2860,RUS,Ivanovo,이바노보
+2861,RUS,Tšeboksary,체복사리
+2862,RUS,Brjansk,브랸스크
+2863,RUS,Tver,트베리
+2864,RUS,Kursk,쿠르스크
+2865,RUS,Magnitogorsk,마그니토고르스크
+2866,RUS,Kaliningrad,칼리닌그라드
+2867,RUS,Nizni Tagil,니즈니타길
+2868,RUS,Murmansk,무르만스크
+2869,RUS,Ulan-Ude,울란우데
+2870,RUS,Kurgan,쿠르간
+2871,RUS,Arkangeli,아르칸젤스크
+2872,RUS,Sotši,소치
+2873,RUS,Smolensk,스몰렌스크
+2874,RUS,Orjol,오룔
+2875,RUS,Stavropol,스타브로폴
+2876,RUS,Belgorod,벨고로트
+2877,RUS,Kaluga,칼루가
+2878,RUS,Vladimir,블라디미르
+2879,RUS,Mahatškala,마하치칼라
+2880,RUS,Tšerepovets,체레포베츠
+2881,RUS,Saransk,사란스크
+2882,RUS,Tambov,탐보프
+2883,RUS,Vladikavkaz,블라디카프카스
+2884,RUS,Tšita,치타
+2885,RUS,Vologda,볼로그다
+2886,RUS,Veliki Novgorod,벨리키노브고로드
+2887,RUS,Komsomolsk-na-Amure,콤소몰스크나아무레
+2888,RUS,Kostroma,코스트로마
+2889,RUS,Volzski,볼츠스키
+2890,RUS,Taganrog,타간로크
+2891,RUS,Petroskoi,페트로자보츠크
+2892,RUS,Bratsk,브라츠크
+2893,RUS,Dzerzinsk,제르진스크
+2894,RUS,Surgut,수르구트
+2895,RUS,Orsk,오르스크
+2896,RUS,Sterlitamak,스테를리타마크
+2897,RUS,Angarsk,앙가르스크
+2898,RUS,Joškar-Ola,요시카르올라
+2899,RUS,Rybinsk,리빈스크
+2900,RUS,Prokopjevsk,프로코피옙스크
+2901,RUS,Niznevartovsk,니즈네바르톱스크
+2902,RUS,Naltšik,날치크
+2903,RUS,Syktyvkar,식티프카르
+2904,RUS,Severodvinsk,세베로드빈스크
+2905,RUS,Bijsk,비스크
+2906,RUS,Niznekamsk,니즈네캄스크
+2907,RUS,Blagoveštšensk,블라고베셴스크
+2908,RUS,Šahty,샤흐티
+2909,RUS,Staryi Oskol,스타리오스콜
+2910,RUS,Zelenograd,젤레노그라드
+2911,RUS,Balakovo,발라코보
+2912,RUS,Novorossijsk,노보로시스크
+2913,RUS,Pihkova,프스코프
+2914,RUS,Zlatoust,즐라토우스트
+2915,RUS,Jakutsk,야쿠츠크
+2916,RUS,Podolsk,포돌스크
+2917,RUS,Petropavlovsk-Kamtšatski,페트로파블로프스크 캄차츠키
+2918,RUS,Kamensk-Uralski,카멘스크우랄스키
+2919,RUS,Engels,옌겔스
+2920,RUS,Syzran,시즈란
+2921,RUS,Grozny,그로즈니
+2922,RUS,Novotšerkassk,노보체르카스크
+2923,RUS,Berezniki,베레즈니키
+2924,RUS,Juzno-Sahalinsk,유주노사할린스크
+2925,RUS,Volgodonsk,볼고돈스크
+2926,RUS,Abakan,아바칸
+2927,RUS,Maikop,마이코프
+2928,RUS,Miass,미아스
+2929,RUS,Armavir,아르마비르
+2930,RUS,Ljubertsy,류베르치
+2931,RUS,Rubtsovsk,룹촙스크
+2932,RUS,Kovrov,코브로프
+2933,RUS,Nahodka,나홋카
+2934,RUS,Ussurijsk,우수리스크
+2935,RUS,Salavat,살라밧
+2936,RUS,Mytištši,미티시치
+2937,RUS,Kolomna,콜롬나
+2938,RUS,Elektrostal,옐렉트로스탈
+2939,RUS,Murom,무롬
+2940,RUS,Kolpino,콜피노
+2941,RUS,Norilsk,노릴스크
+2942,RUS,Almetjevsk,알메티옙스크
+2943,RUS,Novomoskovsk,노보모스코프스크
+2944,RUS,Dimitrovgrad,디미트로브그라드
+2945,RUS,Pervouralsk,페르보우랄스크
+2946,RUS,Himki,힘키
+2947,RUS,Balašiha,발라시하
+2948,RUS,Nevinnomyssk,네빈노미스크
+2949,RUS,Pjatigorsk,퍄티고르스크
+2950,RUS,Korolev,코롤료프
+2951,RUS,Serpuhov,세르푸코프
+2952,RUS,Odintsovo,오딘초보
+2953,RUS,Orehovo-Zujevo,오레호보주예보
+2954,RUS,Kamyšin,카미신
+2955,RUS,Novotšeboksarsk,노보체보크사르스크
+2956,RUS,Tšerkessk,체르케스크
+2957,RUS,Atšinsk,아친스크
+2958,RUS,Magadan,마가단
+2959,RUS,Mitšurinsk,미추린스크
+2960,RUS,Kislovodsk,키슬로보트스크
+2961,RUS,Jelets,옐레츠
+2962,RUS,Seversk,세베르스크
+2963,RUS,Noginsk,노긴스크
+2964,RUS,Velikije Luki,벨리키예루키
+2965,RUS,Novokuibyševsk,노보쿠이비셰프스크
+2966,RUS,Neftekamsk,넵테캄스크
+2967,RUS,Leninsk-Kuznetski,레닌스크 쿠즈넷츠
+2968,RUS,Sergijev Posad,세르기예프 포사트
+2969,RUS,Arzamas,아르자마스
+2970,RUS,Kiseljovsk,키세리보스크
+2971,RUS,Obninsk,오브닌스크
+2972,RUS,Kansk,칸스크
+2973,RUS,Glazov,글라조프
+2974,RUS,Solikamsk,솔리캄스크
+2975,RUS,Sarapul,사라풀
+2976,RUS,Ust-Ilimsk,우스트 일림스크
+2977,RUS,Štšolkovo,숄코보
+2978,RUS,Mezduretšensk,메즈두레첸스크
+2979,RUS,Elista,옐리스타
+2980,RUS,Novošahtinsk,노보샤흐틴스크
+2981,RUS,Votkinsk,봇킨스크
+2982,RUS,Kyzyl,키질
+2983,RUS,Serov,세로프
+2984,RUS,Zelenodolsk,젤레노돌스크
+2985,RUS,Kinešma,키네슈마
+2986,RUS,Kuznetsk,쿠즈네츠크
+2987,RUS,Uhta,우흐타
+2988,RUS,Jessentuki,예센투키
+2989,RUS,Tobolsk,토볼스크
+2990,RUS,Neftejugansk,넵테유간스크
+2991,RUS,Bataisk,바타이스크
+2992,RUS,Nojabrsk,노야브리스크
+2993,RUS,Zeleznogorsk,젤레즈노고르스크
+2994,RUS,Zukovski,쥬코브스키
+2995,RUS,Anzero-Sudzensk,안제로수젠스크
+2996,RUS,Bugulma,부굴마
+2997,RUS,Zeleznogorsk,젤레즈노고르스크
+2998,RUS,Novouralsk,노보우랄스크
+2999,RUS,Puškin,푸시킨
+3000,RUS,Vorkuta,보르쿠타
+3001,RUS,Derbent,데르벤트
+3002,RUS,Kirovo-Tšepetsk,키로보체페츠크
+3003,RUS,Krasnogorsk,크라스노고르스크
+3004,RUS,Klin,클린
+3005,RUS,Novyi Urengoi,노비우렌고이
+3006,VNM,Ho Chi Minh City,호찌민시
+3007,VNM,Hanoi,하노이
+3008,VNM,Haiphong,하이퐁
+3009,VNM,Da Nang,다낭
+3010,VNM,Biên Hoa,비엔호아
+3011,VNM,Nha Trang,냐짱
+3012,VNM,Hue,후에
+3013,VNM,Can Tho,껀터
+3014,VNM,Cam Pha,껌파
+3015,VNM,Nam Dinh,남딘
+3016,VNM,Quy Nhon,꾸이년
+3017,VNM,Vung Tau,붕따우
+3018,VNM,Rach Gia,락자
+3019,VNM,Long Xuyen,롱쑤옌
+3020,VNM,Thai Nguyen,타이응우옌
+3021,VNM,Hong Gai,할롱
+3022,VNM,Phan Thiêt,판티엣
+3023,VNM,Cam Ranh,깜라인
+3024,VNM,Vinh,빈
+3025,VNM,My Tho,미토
+3026,VNM,Da Lat,달랏
+3027,VNM,Buon Ma Thuot,부온마투옷
+3028,EST,Tallinn,탈린
+3029,EST,Tartu,타르투
+3030,USA,New York,뉴욕
+3031,USA,Los Angeles,로스앤젤레스
+3032,USA,Chicago,시카고
+3033,USA,Houston,휴스턴
+3034,USA,Philadelphia,필라델피아
+3035,USA,Phoenix,피닉스
+3036,USA,San Diego,샌디에고
+3037,USA,Dallas,댈러스
+3038,USA,San Antonio,샌안토니오
+3039,USA,Detroit,디트로이트
+3040,USA,San Jose,산호세
+3041,USA,Indianapolis,인디애나폴리스
+3042,USA,San Francisco,샌프란시스코
+3043,USA,Jacksonville,잭슨빌
+3044,USA,Columbus,콜럼버스
+3045,USA,Austin,오스틴
+3046,USA,Baltimore,볼티모어
+3047,USA,Memphis,멤피스
+3048,USA,Milwaukee,밀워키
+3049,USA,Boston,보스턴
+3050,USA,Washington,워싱턴
+3051,USA,Nashville-Davidson,내슈빌
+3052,USA,El Paso,엘파소
+3053,USA,Seattle,시애틀
+3054,USA,Denver,덴버
+3055,USA,Charlotte,샬럿
+3056,USA,Fort Worth,포트워스
+3057,USA,Portland,포틀랜드
+3058,USA,Oklahoma City,오클라호마시티
+3059,USA,Tucson,투손
+3060,USA,New Orleans,뉴올리언스
+3061,USA,Las Vegas,라스베이거스
+3062,USA,Cleveland,클리블랜드
+3063,USA,Long Beach,롱비치
+3064,USA,Albuquerque,앨버커키
+3065,USA,Kansas City,캔자스시티
+3066,USA,Fresno,프레즈노
+3067,USA,Virginia Beach,버지니아비치
+3068,USA,Atlanta,애틀랜타
+3069,USA,Sacramento,새크라멘토
+3070,USA,Oakland,오클랜드
+3071,USA,Mesa,메사빌딩
+3072,USA,Tulsa,털사
+3073,USA,Omaha,오마하
+3074,USA,Minneapolis,미니애폴리스
+3075,USA,Honolulu,호놀룰루
+3076,USA,Miami,마이애미
+3077,USA,Colorado Springs,콜로라도스프링스
+3078,USA,Saint Louis,세인트루이스
+3079,USA,Wichita,위치토
+3080,USA,Santa Ana,샌타애나
+3081,USA,Pittsburgh,피츠버그
+3082,USA,Arlington,알링턴
+3083,USA,Cincinnati,신시내티
+3084,USA,Anaheim,애너하임
+3085,USA,Toledo,톨레도
+3086,USA,Tampa,탬파
+3087,USA,Buffalo,버펄로
+3088,USA,Saint Paul,세인트폴
+3089,USA,Corpus Christi,코퍼스크리스티
+3090,USA,Aurora,오로라
+3091,USA,Raleigh,롤리
+3092,USA,Newark,뉴어크
+3093,USA,Lexington-Fayette,렉싱턴
+3094,USA,Anchorage,앵커리지
+3095,USA,Louisville,루이빌
+3096,USA,Riverside,리버사이드
+3097,USA,Saint Petersburg,세인트피터즈버그
+3098,USA,Bakersfield,베이커즈필드
+3099,USA,Stockton,스톡턴
+3100,USA,Birmingham,버밍엄
+3101,USA,Jersey City,저지시티
+3102,USA,Norfolk,노퍽
+3103,USA,Baton Rouge,배턴루지
+3104,USA,Hialeah,하이얼리아
+3105,USA,Lincoln,링컨
+3106,USA,Greensboro,그린즈버러
+3107,USA,Plano,플레이노
+3108,USA,Rochester,로체스터
+3109,USA,Glendale,글렌데일
+3110,USA,Akron,애크런
+3111,USA,Garland,갈랜드
+3112,USA,Madison,매디슨
+3113,USA,Fort Wayne,포트웨인
+3114,USA,Fremont,프리몬트
+3115,USA,Scottsdale,스코츠데일
+3116,USA,Montgomery,몽고메리
+3117,USA,Shreveport,슈리브포트
+3118,USA,Augusta-Richmond County,오거스타
+3119,USA,Lubbock,러벅
+3120,USA,Chesapeake,체서피크
+3121,USA,Mobile,모빌
+3122,USA,Des Moines,디모인
+3123,USA,Grand Rapids,그랜드래피즈
+3124,USA,Richmond,리치먼드
+3125,USA,Yonkers,용커스
+3126,USA,Spokane,스포캔
+3127,USA,Glendale,글렌데일
+3128,USA,Tacoma,터코마
+3129,USA,Irving,어빙
+3130,USA,Huntington Beach,헌팅턴비치
+3131,USA,Modesto,머데스토
+3132,USA,Durham,더럼
+3133,USA,Columbus,콜럼버스
+3134,USA,Orlando,올랜도
+3135,USA,Boise City,보이시
+3136,USA,Winston-Salem,윈스턴세일럼
+3137,USA,San Bernardino,샌버너디노
+3138,USA,Jackson,잭슨피자
+3139,USA,Little Rock,리틀록
+3140,USA,Salt Lake City,솔트레이크시티
+3141,USA,Reno,리노
+3142,USA,Newport News,뉴포트뉴스
+3143,USA,Chandler,챈들러
+3144,USA,Laredo,러레이도
+3145,USA,Henderson,헨더슨
+3146,USA,Arlington,알링턴
+3147,USA,Knoxville,녹스빌
+3148,USA,Amarillo,애머릴로
+3149,USA,Providence,프로비던스
+3150,USA,Chula Vista,출라비스타
+3151,USA,Worcester,우스터
+3152,USA,Oxnard,옥스나드
+3153,USA,Dayton,데이턴
+3154,USA,Garden Grove,가든그로브
+3155,USA,Oceanside,오션사이드
+3156,USA,Tempe,템피
+3157,USA,Huntsville,헌츠빌
+3158,USA,Ontario,온타리오
+3159,USA,Chattanooga,채터누가
+3160,USA,Fort Lauderdale,포트로더데일
+3161,USA,Springfield,스프링필드
+3162,USA,Springfield,스프링필드
+3163,USA,Santa Clarita,샌타클라리타
+3164,USA,Salinas,살리나스
+3165,USA,Tallahassee,탤러해시
+3166,USA,Rockford,록퍼드
+3167,USA,Pomona,포모나
+3168,USA,Metairie,메타리
+3169,USA,Paterson,패터슨커피
+3170,USA,Overland Park,오벌랜드파크
+3171,USA,Santa Rosa,샌타로자
+3172,USA,Syracuse,시러큐스
+3173,USA,Kansas City,캔자스시티
+3174,USA,Hampton,햄프턴
+3175,USA,Lakewood,레이크우드
+3176,USA,Vancouver,밴쿠버
+3177,USA,Irvine,어바인
+3178,USA,Aurora,오로라
+3179,USA,Moreno Valley,모레노 밸리
+3180,USA,Pasadena,패서디나
+3181,USA,Hayward,헤이워드
+3182,USA,Brownsville,브라운즈빌
+3183,USA,Bridgeport,브리지포트
+3184,USA,Hollywood,할리우드
+3185,USA,Warren,워런
+3186,USA,Torrance,토런스
+3187,USA,Eugene,유진
+3188,USA,Pembroke Pines,펨브로크파인즈
+3189,USA,Salem,세일럼
+3190,USA,Pasadena,패서디나
+3191,USA,Escondido,에스콘디도
+3192,USA,Sunnyvale,서니베일
+3193,USA,Savannah,서배너
+3194,USA,Fontana,폰태너
+3195,USA,Orange,오렌지
+3196,USA,Naperville,네이퍼빌
+3197,USA,Alexandria,알랙산드리아
+3198,USA,Rancho Cucamonga,랜초쿠카몽가
+3199,USA,Grand Prairie,그랜드프레리
+3200,USA,East Los Angeles,이스트로스앤젤레스
+3201,USA,Fullerton,풀러턴
+3202,USA,Flint,플린트
+3203,USA,Paradise,파라다이스
+3204,USA,Mesquite,메스키트
+3205,USA,Sterling Heights,스털링 헤이츠
+3206,USA,Sioux Falls,수폴스
+3207,USA,New Haven,뉴헤이븐
+3208,USA,Topeka,토피카
+3209,USA,Concord,콩코드
+3210,USA,Evansville,에번즈빌
+3211,USA,Hartford,하트퍼드
+3212,USA,Fayetteville,페이엣빌
+3213,USA,Cedar Rapids,시더래피즈
+3214,USA,Elizabeth,엘리자베스
+3215,USA,Lansing,랜싱
+3216,USA,Lancaster,랭커스터
+3217,USA,Fort Collins,포트콜린스
+3218,USA,Coral Springs,코럴스프링스
+3219,USA,Stamford,스탠포드
+3220,USA,Thousand Oaks,사우전드오크스
+3221,USA,Vallejo,발레이오
+3222,USA,Palmdale,펌데일
+3223,USA,Columbia,컬럼비아
+3224,USA,El Monte,엘 몬테
+3225,USA,Abilene,애빌린
+3226,USA,North Las Vegas,노스라스베이거스
+3227,USA,Ann Arbor,앤아버
+3228,USA,Beaumont,보몬트
+3229,USA,Waco,웨이코
+3230,USA,Macon,메이컨
+3231,USA,Independence,인디펜던스
+3232,USA,Peoria,피오리아
+3233,USA,Inglewood,잉글우드
+3234,USA,Springfield,스프링필드
+3235,USA,Simi Valley,시미밸리
+3236,USA,Lafayette,라파예트
+3237,USA,Gilbert,길버트
+3238,USA,Carrollton,캐럴턴
+3239,USA,Bellevue,벨뷰
+3240,USA,West Valley City,웨스트 밸리 시티
+3241,USA,Clarksville,클락스빌
+3242,USA,Costa Mesa,코스타 메사
+3243,USA,Peoria,피오리아
+3244,USA,South Bend,사우스벤드
+3245,USA,Downey,다우니
+3246,USA,Waterbury,워터베리
+3247,USA,Manchester,맨체스터
+3248,USA,Allentown,앨런타운
+3249,USA,McAllen,매캘런
+3250,USA,Joliet,졸리엣
+3251,USA,Lowell,로웰인터내셔널
+3252,USA,Provo,프로보
+3253,USA,West Covina,웨스트코비나
+3254,USA,Wichita Falls,위치토폴스
+3255,USA,Erie,이리
+3256,USA,Daly City,데일리시티
+3257,USA,Citrus Heights,시트러스 헤이츠
+3258,USA,Norwalk,노워크
+3259,USA,Gary,게리
+3260,USA,Berkeley,버클리
+3261,USA,Santa Clara,샌타클래라
+3262,USA,Green Bay,그린베이
+3263,USA,Cape Coral,케이프코럴
+3264,USA,Arvada,아르바다
+3265,USA,Pueblo,푸에블로
+3266,USA,Athens-Clarke County,아테네
+3267,USA,Cambridge,케임브리지
+3268,USA,Westminster,웨스트민스터
+3269,USA,San Buenaventura,벤투라
+3270,USA,Portsmouth,포츠머스
+3271,USA,Livonia,리보니아
+3272,USA,Burbank,버뱅크
+3273,USA,Clearwater,클리어워터
+3274,USA,Midland,미들랜드
+3275,USA,Davenport,대븐포트
+3276,USA,Mission Viejo,미션비에호
+3277,USA,Miami Beach,마이애미비치
+3278,USA,Sunrise Manor,선라이즈 마너
+3279,USA,New Bedford,뉴베드퍼드
+3280,USA,El Cajon,엘카혼
+3281,USA,Norman,노먼
+3282,USA,Richmond,리치먼드
+3283,USA,Albany,올버니
+3284,USA,Brockton,브록턴
+3285,USA,Roanoke,로아노크
+3286,USA,Billings,빌링스
+3287,USA,Compton,콤프턴
+3288,USA,Gainesville,게인즈빌
+3289,USA,Fairfield,페어필드
+3290,USA,Arden-Arcade,아덴-아케이드
+3291,USA,San Mateo,샌머테이오
+3292,USA,Visalia,비살리아
+3293,USA,Boulder,볼더
+3294,USA,Cary,케리
+3295,USA,Santa Monica,샌타모니카
+3296,USA,Fall River,폴 리버
+3297,USA,Kenosha,커노샤
+3298,USA,Elgin,엘긴
+3299,USA,Odessa,오데사
+3300,USA,Carson,카슨
+3301,USA,Charleston,찰스턴
+3302,ZWE,Harare,하라레
+3303,ZWE,Bulawayo,불라와요
+3304,ZWE,Chitungwiza,치팅귀자
+3305,ZWE,Mutare,무타레
+3306,ZWE,Gweru,그웨루
+3307,PSE,Gaza,가자지구
+3308,PSE,Khan Yunis,칸유니스
+3309,PSE,Hebron,히브론
+3310,PSE,Rafah,라파
+3311,ROU,Bucuresti,부쿠레슈티
+3312,ROU,Iasi,이아시
+3313,ROU,Constanta,콘스탄차
+3314,ROU,Cluj-Napoca,클루지나포카
+3315,ROU,Galati,갈라치
+3316,ROU,Timisoara,티미쇼아라
+3317,ROU,Brasov,브라소브
+3318,ROU,Craiova,크라이오바
+3319,ROU,Ploiesti,플로이에쉬티
+3320,ROU,Braila,브러일라
+3321,ROU,Oradea,오라데아
+3322,ROU,Bacau,바커우
+3323,ROU,Pitesti,피테슈티
+3324,ROU,Arad,아라드
+3325,ROU,Sibiu,시비우
+3326,ROU,Târgu Mures,트르구무레슈
+3327,ROU,Baia Mare,바이아마레
+3328,ROU,Buzau,브저우
+3329,ROU,Satu Mare,사투마레
+3330,ROU,Botosani,보토샤니
+3331,ROU,Piatra Neamt,피아트라님트
+3332,ROU,Râmnicu Vâlcea,림니쿠빌체아
+3333,ROU,Suceava,수체아바
+3334,ROU,Drobeta-Turnu Severin,드로베타투르누세베린
+3335,ROU,Târgoviste,트르고비슈테
+3336,ROU,Focsani,폭샤니
+3337,ROU,Târgu Jiu,트르구지우
+3338,ROU,Tulcea,툴체아
+3339,ROU,Resita,레시차
+3340,HKG,Kowloon and New Kowloon,가우룽
+3341,HKG,Victoria,빅토리아
+3342,GUM,Tamuning,타무닝
+3343,GUM,Agaña,하갓냐
+3344,GTM,Ciudad de Guatemala,과테말라
+3345,GTM,Mixco,믹스코
+3346,GTM,Villa Nueva,비야누에바
+3347,GTM,Quetzaltenango,케살테낭고
+3348,YUG,Beograd,베오그라드
+3349,YUG,Novi Sad,노비사드
+3350,YUG,Niš,니슈
+3351,YUG,Priština,프리슈티나
+3352,YUG,Kragujevac,크라구예바츠
+3353,YUG,Podgorica,포드고리차
+3354,YUG,Subotica,수보티차
+3355,KOR,Seoul,서울특별시
+3356,KOR,Pusan,부산광역시
+3357,KOR,Inchon,인천광역시
+3358,KOR,Taegu,대구광역시
+3359,KOR,Taejon,대전광역시
+3360,KOR,Kwangju,광주광역시
+3361,KOR,Ulsan,울산광역시
+3362,KOR,Songnam,성남시
+3363,KOR,Puchon,부천시
+3364,KOR,Suwon,수원시
+3365,KOR,Anyang,안양시
+3366,KOR,Chonju,전주시
+3367,KOR,Chongju,정주시
+3368,KOR,Koyang,고양시
+3369,KOR,Ansan,안산시
+3370,KOR,Pohang,포항시
+3371,KOR,Chang-won,창원시
+3372,KOR,Masan,마산시
+3373,KOR,Kwangmyong,광명시
+3374,KOR,Chonan,천안시
+3375,KOR,Chinju,진주시
+3376,KOR,Iksan,익산시
+3377,KOR,Pyongtaek,평택시
+3378,KOR,Kumi,구미시
+3379,KOR,Uijongbu,의정부시
+3380,KOR,Kyongju,경주시
+3381,KOR,Kunsan,군산시
+3382,KOR,Cheju,제주특별자치도
+3383,KOR,Kimhae,김해시
+3384,KOR,Sunchon,순천시
+3385,KOR,Mokpo,목포시
+3386,KOR,Yong-in,용인시
+3387,KOR,Wonju,원주시
+3388,KOR,Kunpo,군포시
+3389,KOR,Chunchon,춘천시
+3390,KOR,Namyangju,남양주시
+3391,KOR,Kangnung,강릉시
+3392,KOR,Chungju,충주시
+3393,KOR,Andong,안동시
+3394,KOR,Yosu,여수시
+3395,KOR,Kyongsan,경산시
+3396,KOR,Paju,파주시
+3397,KOR,Yangsan,양산시
+3398,KOR,Icheon,이천시
+3399,KOR,Asan,아산시
+3400,KOR,Koje,거제시
+3401,KOR,Kimchon,김천시
+3402,KOR,Nonsan,논산시
+3403,KOR,Kuri,구리시
+3404,KOR,Chechon,제천시
+3405,KOR,Sosan,서산시
+3406,KOR,Shihung,시흥시
+3407,KOR,Tong-yong,통영시
+3408,KOR,Kongju,공주시
+3409,KOR,Yongju,용주시
+3410,KOR,Sangju,상주시
+3411,KOR,Poryong,보령시
+3412,KOR,Kwang-yang,광양시
+3413,KOR,Miryang,밀양시
+3414,KOR,Hanam,하남시
+3415,KOR,Kimje,김제시
+3416,KOR,Yongchon,영천시
+3417,KOR,Sachon,사천시
+3418,KOR,Uiwang,의왕시
+3419,KOR,Naju,나주시
+3420,KOR,Namwon,남원시
+3421,KOR,Tonghae,동해시
+3422,KOR,Mun-gyong,문경시
+3423,PRI,San Juan,산후안
+3424,PRI,Bayamón,바야몬
+3425,PRI,Ponce,폰세
+3426,PRI,Carolina,노스캐롤라이나
+3427,PRI,Caguas,카구아스
+3428,PRI,Arecibo,아레시보
+3429,PRI,Mayagüez,마야궤스
+3430,TWN,Taipei,타이베이
+3431,TWN,Kaohsiung,가오슝
+3432,TWN,Taichung,타이중
+3433,TWN,Tainan,타이난
+3434,TWN,Panchiao,반차오 구
+3435,TWN,Sanchung,싼충 구
+3436,TWN,Hsinchuang,신좡 구
+3437,TWN,Chungli,중리 시
+3438,TWN,Fengshan,펑산 구
+3439,TWN,Taoyuan,타오위안 시
+3440,TWN,Chiayi,자이 시
+3441,TWN,Hsintien,신뎬 구
+3442,TWN,Changhwa,장화 시
+3443,TWN,Yungho,융허 구
+3444,TWN,Tucheng,투청 구
+3445,TWN,Pingtung,핑동
+3446,TWN,Yungkang,융캉 구
+3447,TWN,Taiping,타이핑
+3448,TWN,Fengyuan,펑위안 구
+3449,TWN,Luchou,루저우 구
+3450,TWN,Shulin,수린 구
+3451,TWN,Yuanlin,위안린 진
+3452,TWN,Yangmei,양메이 구
+3453,TWN,Kueishan,구이산 섬
+3454,TWN,Tanshui,단수이 구
+3455,TWN,Hualien,신청 향
+3456,TWN,Nantou,난터우 현
+3457,TWN,Lungtan,렁탄
+3458,TWN,Tsaotun,차오툰 진
+3459,TWN,Kangshan,강산 구
+3460,TWN,Ilan,이란
+3461,TWN,Miaoli,먀오리 현
