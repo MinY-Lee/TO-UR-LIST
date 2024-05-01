@@ -74,10 +74,6 @@ export default function ChecklistByDay(props: PropType) {
     return (
         <>
             <div className="w-full  justify-between items-end p-5 bak">
-                    
-                <div className="text-xl font-bold">
-                    일정별 체크리스트
-                </div>
                 <div>
                     <div className=" border-2 border-blue-200 rounded-2xl p-3">
                         <div className="flex w-full justify-end">

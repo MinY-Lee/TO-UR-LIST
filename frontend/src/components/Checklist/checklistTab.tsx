@@ -18,7 +18,7 @@ export default function ChecklistTab() {
     return (
         <div>
         <div className="flex justify-center mt-3">
-            <ul className="grid grid-cols-2 w-[90%] border rounded-full color-bg-blue-4">
+            <ul className="grid grid-cols-2  w-[90%] border rounded-full color-bg-blue-4">
                 <li className="rounded-full" onClick={() => setTabIdx(1)}>
                     <div className={`${getTabClass(1)} rounded-full text-lg text-center block border-x-0 border-b-2 border-t-0 border-transparent leading-tight text-neutral-500 focus:isolate focus:border-transparent data-[twe-nav-active]:border-primary data-[twe-nav-active]:text-primary`}
                     >전체보기</div>
@@ -32,16 +32,7 @@ export default function ChecklistTab() {
 
         <div className="mb-6">
             {tabIdx == 1 ? <MyCheckList tourId=""/> : <ChecklistByDay tourId=""/>}
-            {/* <div className="hidden opacity-100 transition-opacity duration-150 ease-linear data-[twe-tab-active]:block">
-                
-            </div>
-            <div
-                className="hidden opacity-0 transition-opacity duration-150 ease-linear data-[twe-tab-active]:block"
-                id="tabs-profile"
-                role="tabpanel"
-                aria-labelledby="tabs-profile-tab">
-                
-            </div> */}
+            
             
         </div>
         </div>

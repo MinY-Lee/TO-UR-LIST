@@ -8,11 +8,11 @@ export default function ChecklistPage() {
 
     
     return (
-        <>
+        <div>
             <header>
                 <HeaderBar/>
             </header>
-            <div className="overflow-y-scroll">
+            <div >
                 <div className="h-[20vh] bg-gray-100">
                     여행헤더 영역
                 </div>
@@ -26,6 +26,6 @@ export default function ChecklistPage() {
                     
                 </div>
             </div>
-        </>
+        </div>
     );
 }
