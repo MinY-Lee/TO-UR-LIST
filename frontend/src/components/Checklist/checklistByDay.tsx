@@ -7,7 +7,7 @@ interface PropType {
     tourId: string;
 }
 
-export default function MyCheckList(props: PropType) {
+export default function ChecklistByDay(props: PropType) {
     const id = props.tourId;
 
     interface Mapping {
