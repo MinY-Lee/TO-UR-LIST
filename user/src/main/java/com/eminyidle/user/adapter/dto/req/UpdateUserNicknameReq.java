@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class UpdateUserNicknameReq {
 
-	private String userName;
+	private String userNickname;
 
 }

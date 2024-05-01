@@ -10,7 +10,6 @@ public class UserMapper {
 	public User toDomain(UserEntity userEntity) {
 		return User.builder()
 			.userId(userEntity.getUserId())
-			.userGoogleId(userEntity.getUserGoogleId())
 			.userNickname(userEntity.getUserNickname())
 			.userName(userEntity.getUserName())
 			.userGender(userEntity.getUserGender())
@@ -21,7 +20,6 @@ public class UserMapper {
 	public UserEntity toEntity(User user) {
 		return UserEntity.builder()
 			.userId(user.getUserId())
-			.userGoogleId(user.getUserGoogleId())
 			.userNickname(user.getUserNickname())
 			.userName(user.getUserName())
 			.userGender(user.getUserGender())

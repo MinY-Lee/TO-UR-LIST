@@ -45,7 +45,7 @@ logging:
         SQL: DEBUG
     com:
       eminyidle:
-        user: DEBUG
+        user: info
     org.springframework.security: DEBUG
 
 server:

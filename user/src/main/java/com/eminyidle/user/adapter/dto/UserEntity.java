@@ -23,7 +23,6 @@ public class UserEntity {
 
     @Id
     private String userId;
-    private String userGoogleId;
     private String userNickname;
     private String userName;
     private LocalDateTime userBirth;

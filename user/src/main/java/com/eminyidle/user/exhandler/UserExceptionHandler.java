@@ -37,7 +37,7 @@ public class UserExceptionHandler {
 
 		errorMessage.append(e.getMessage());
 		log.error(errorMessage.toString());
-		return ResponseEntity.badRequest().body(errorMessage.toString());
+		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
 	@ExceptionHandler(InvalidUsernameException.class)
@@ -49,7 +49,7 @@ public class UserExceptionHandler {
 
 		errorMessage.append(e.getMessage());
 		log.error(errorMessage.toString());
-		return ResponseEntity.badRequest().body(errorMessage.toString());
+		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
 	@ExceptionHandler(InvalidUserNicknameException.class)
@@ -61,7 +61,7 @@ public class UserExceptionHandler {
 
 		errorMessage.append(e.getMessage());
 		log.error(errorMessage.toString());
-		return ResponseEntity.badRequest().body(errorMessage.toString());
+		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
 	@ExceptionHandler(NoSuchElementException.class)
@@ -72,7 +72,7 @@ public class UserExceptionHandler {
 		makeErrorMessage(errorMessage, e);
 
 		log.error(errorMessage.toString());
-		return ResponseEntity.badRequest().body(errorMessage.toString());
+		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
 	@ExceptionHandler(DataIntegrityViolationException.class)
@@ -83,7 +83,7 @@ public class UserExceptionHandler {
 		makeErrorMessage(errorMessage, e);
 
 		log.error(errorMessage.toString());
-		return ResponseEntity.badRequest().body(errorMessage.toString());
+		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
 }

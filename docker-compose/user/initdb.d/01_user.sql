@@ -1,7 +1,6 @@
 create table user
 (
     user_id        CHAR(36) PRIMARY KEY,
-    user_google_id CHAR(25) UNIQUE    NOT NULL,
     user_nickname  VARCHAR(45) UNIQUE NOT NULL,
     user_name      VARCHAR(35)        NOT NULL,
     user_birth     TIMESTAMP          NULL,

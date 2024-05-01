@@ -37,12 +37,11 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 	}
 
 	@Override
-	public void createUser(String userId, String userGoogleId, String userNickname, String userName,
+	public void createUser(String userId, String userNickname, String userName,
 		LocalDateTime userBirth, Integer userGender) {
 
 		User user = User.builder()
 			.userId(userId)
-			.userGoogleId(userGoogleId)
 			.userNickname(userNickname)
 			.userName(userName)
 			.userBirth(userBirth)

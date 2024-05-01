@@ -9,30 +9,33 @@ import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
+@Transactional
 public class UserPersistenceAdapter implements LoadUserPort, SaveUserPort, DeleteUserPort {
 	private final UserRepository userRepository;
 	private final UserMapper userMapper;
 
 	@Override
 	public User load(String userId) {
-		UserEntity userEntity = userRepository.findById(userId).orElseThrow(NoSuchElementException::new);
+		UserEntity userEntity = userRepository.findByUserIdAndDeletedAtIsNull(userId).orElseThrow(NoSuchElementException::new);
 
 		return userMapper.toDomain(userEntity);
 	}
 
 	@Override
 	public void loadByUserNickname(String userNickname) {
-		UserEntity userEntity = userRepository.findByUserNickname(userNickname).orElseThrow(NoSuchElementException::new);
+		UserEntity userEntity = userRepository.findByUserNicknameAndDeletedAtIsNull(userNickname).orElseThrow(NoSuchElementException::new);
 
 		userMapper.toDomain(userEntity);
 	}
 
 	@Override
 	public void save(User user) {
-		userRepository.save(userMapper.toEntity(user));
+		UserEntity userEntity = userMapper.toEntity(user);
+		userRepository.save(userEntity);
 	}
 
 	@Override

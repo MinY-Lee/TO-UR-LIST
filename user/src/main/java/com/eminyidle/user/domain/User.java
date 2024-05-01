@@ -12,7 +12,6 @@ import lombok.Setter;
 @Builder
 public class User {
     private String userId;
-    private String userGoogleId;
     private String userNickname;
     private String userName;
 
