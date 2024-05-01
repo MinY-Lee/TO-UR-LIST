@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { TourInfoDetail, MemberInfo } from "../../types/types";
 
-export default function TourHeader(props: TourInfoDetail) {
-    const data = props.data;
+interface PropType {
+    tourInfo: TourInfoDetail;
+}
+
+export default function TourHeader(props: PropType) {
+    const data = props.tourInfo;
 
     const [hoveredMember, setHoveredMember] = useState<MemberInfo | null>(null);
 

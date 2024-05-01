@@ -32,10 +32,10 @@ export default function TourPage() {
             </header>
             <div>
                 <div>
-                    <TourHeader data={data}/>
+                    <TourHeader tourInfo={data}/>
                 </div>
                 <div>
-                    <TourBasicInfo data={data}/>
+                    <TourBasicInfo tourInfo={data}/>
                 </div>
                  <div>
                     <TourCheckList tourId={data?.tourId}/>

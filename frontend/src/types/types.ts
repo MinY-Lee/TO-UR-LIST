@@ -68,3 +68,12 @@ export interface FeedCity {
     countryName: string;
     cityName: string;
 }
+
+// 체크리스트 아이템 정보
+export interface Item {
+    tourId : string,
+    placeId : string,
+    tourActivityId : string,
+    item : string,
+    isChecked: boolean
+}

@@ -1,10 +1,10 @@
 [
     {
         "tourId" : "11111",
-        "placeId" : null,
-        "tourActivityId" : null,
+        "placeId" : "",
+        "tourActivityId" : "",
         "item" : "캐리어",
-        "isChecked": false
+        "isChecked": true
     }, 
     {
         "tourId" : "11111",
@@ -15,8 +15,15 @@
     },
     {
         "tourId" : "11111",
-        "placeId" : null,
-        "tourActivityId" : null,
+        "placeId" : "park",
+        "tourActivityId" : "walking",
+        "item" : "여권",
+        "isChecked": false
+    },
+    {
+        "tourId" : "11111",
+        "placeId" : "",
+        "tourActivityId" : "",
         "item" : "포켓 와이파이",
         "isChecked": false
     },

@@ -4,8 +4,12 @@ import getCountryInfo from '../../dummy-data/get_country_info.json';
 import { TourInfoDetail, CountryInfo } from "../../types/types";
 import MySlider from "./MySlider";
 
-export default function TourBasicInfo(props: TourInfoDetail) {
-    const data = props.data || {};
+interface PropType {
+    tourInfo: TourInfoDetail;
+}
+
+export default function TourBasicInfo(props: PropType) {
+    const data = props.tourInfo || {};
 
     const [countryInfoList, setCountryInfoList] = useState<CountryInfo[]>([]);
 
