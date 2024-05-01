@@ -47,7 +47,7 @@ public class PlaceController {
 //    public ResponseEntity
 
 
-    // 장소 추가
+    // 장소 관련 MESSAGE
     @MessageMapping("/place/{tourId}")  // 클라이언트에서 보낸 메시지 받을 메서드
     @SendTo("/topic/place/{tourId}")    // 메서드가 처리한 결과 보낼 목적지
     public TourPlaceRes sendMessage(@DestinationVariable("tourId") String tourId,
@@ -75,6 +75,12 @@ public class PlaceController {
                 isSuccess = tourPlaceMessageInfo.getIsSuccess();
                 break;
             }
+            case DELETE_PLACE: {
+                tourPlaceMessageInfo = placeService.deletePlace(body, tourId, simpSessionAttributes);
+                responseBody = tourPlaceMessageInfo.getBody();
+                isSuccess = tourPlaceMessageInfo.getIsSuccess();
+                break;
+            }
         }
 
         // 바로 반환하지 말고 변수로 받았다가 반환해주기
@@ -84,6 +90,7 @@ public class PlaceController {
                 .body(responseBody)
                 .build();
     }
+
 
     @GetMapping("/test/{tourActivityId}")
     public void testPlace(@PathVariable String tourActivityId) {
@@ -95,6 +102,7 @@ public class PlaceController {
     public void testSearchPlace(@PathVariable String tourId, @PathVariable String placeId){
         placeService.checkPlaceDuplication(tourId, placeId);
     }
+
     // 장소 리스트 조회
     @GetMapping("/tour/place/{tourId}")
     public ResponseEntity<List<TourPlace>> searchTourPlace(@PathVariable String tourId) throws IOException {

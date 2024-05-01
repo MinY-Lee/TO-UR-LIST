@@ -9,8 +9,9 @@ import java.util.Optional;
 
 public interface DoRelationRepository extends Neo4jRepository<Do, String> {
     @Query("MATCH (:TOUR{tourId: $tourId})-[r:DO{placeId: $placeId}]->(t:TOUR_ACTIVITY)" +
-            "SET r.id = id(r)" +
-//            "RETURN r.id AS id, r.placeName AS placeName, r.placeId AS placeId, r.tourDay AS tourDay")
-            "RETURN r.placeName AS placeName")
+//            "RETURN id(r) AS id, r.doId AS doId, r.placeName AS placeName, r.placeId AS placeId, r.tourDay AS tourDay")
+            "RETURN r.placeId AS placeId")
+//            "RETURN r")
+//    Optional<Do> findPlaceByTourIdAndPlaceId(String tourId, String placeId);
     Optional<String> findPlaceByTourIdAndPlaceId(String tourId, String placeId);
 }

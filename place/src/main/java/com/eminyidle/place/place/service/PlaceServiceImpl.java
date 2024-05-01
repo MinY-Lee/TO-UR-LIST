@@ -3,6 +3,7 @@ package com.eminyidle.place.place.service;
 import com.eminyidle.place.place.dto.*;
 import com.eminyidle.place.place.dto.node.TourActivity;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
+import com.eminyidle.place.place.exception.GetRequesterInfoFailException;
 import com.eminyidle.place.place.exception.PlaceAddFailException;
 import com.eminyidle.place.place.repository.DoRelationRepository;
 import com.eminyidle.place.place.repository.PlaceRepository;
@@ -82,6 +83,7 @@ public class PlaceServiceImpl implements PlaceService{
         String userId = (String) (headers.get("userId"));
         String userName = (String) (headers.get("userName"));
         String userNickname = (String) (headers.get("userNickname"));
+        String placeId = (String) body.get("placeId");
         try {
             responseBody = AddPlaceInfo.builder()
                     .userNickname(userNickname)
@@ -91,18 +93,59 @@ public class PlaceServiceImpl implements PlaceService{
         }
         log.info(headers.toString());
 
-        TourActivity tourActivity = TourActivity.builder().build();
+        if (checkPlaceDuplication(tourId, placeId) == false) {
+            TourActivity tourActivity = TourActivity.builder().build();
+            try {
+                placeRepository.save(tourActivity);
+                // DO 관계 생성해주기
+                // TourActivity의 Id는 저장된 값을 불러온다
+                placeRepository.createDoRelationship((String) body.get("tourId"), UUID.randomUUID().toString(), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourActivity.getTourActivityId());
+                isSuccess = true;
+            } catch (Exception e) {
+                log.error("{}", e);
+            }
+        } else {
+            isSuccess = false;
+        }
+//        TourActivity tourActivity = TourActivity.builder().build();
+//        try {
+//            placeRepository.save(tourActivity);
+//            // DO 관계 생성해주기
+//            // TourActivity의 Id는 저장된 값을 불러온다
+//            placeRepository.createDoRelationship((String) body.get("tourId"), UUID.randomUUID().toString(), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourActivity.getTourActivityId());
+//            isSuccess = true;
+//        } catch (Exception e) {
+//            log.error("{}", e);
+//        }
+
+
+
+        return TourPlaceMessageInfo.builder()
+                .body(responseBody)
+                .isSuccess(isSuccess)
+                .build();
+    }
+
+    @Override
+    public TourPlaceMessageInfo deletePlace(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> headers) {
+        // 받아 온 body = requestbody
+        Object responseBody = body;
+        boolean isSuccess = false;
+        String userId = (String) (headers.get("userId"));
+        String userName = (String) (headers.get("userName"));
+        String userNickname = (String) (headers.get("userNickname"));
+        String placeId = (String) body.get("placeId");
+        Integer tourDay = (Integer) body.get("tourDay");
         try {
-            placeRepository.save(tourActivity);
-            // DO 관계 생성해주기
-            // TourActivity의 Id는 저장된 값을 불러온다
-            placeRepository.createDoRelationship((String) body.get("tourId"), UUID.randomUUID().toString(), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourActivity.getTourActivityId());
+            responseBody = PlaceRequesterInfo.builder()
+                    .userId(userId)
+                    .userNickname(userNickname)
+                    .build();
+            placeRepository.deletePlaceByTourIdAndPlaceIdAndTourDay(tourId, placeId, tourDay);
             isSuccess = true;
-        } catch (Exception e) {
+        } catch (GetRequesterInfoFailException e) {
             log.error("{}", e);
         }
-
-
 
         return TourPlaceMessageInfo.builder()
                 .body(responseBody)
@@ -116,6 +159,7 @@ public class PlaceServiceImpl implements PlaceService{
         try {
             // 해당하는 장소가 이미 추가되어 있는 경우
             String ans = doRelationRepository.findPlaceByTourIdAndPlaceId(tourId, placeId).orElseThrow(NoSuchElementException::new);
+//            Do ans = doRelationRepository.findPlaceByTourIdAndPlaceId(tourId, placeId).orElseThrow(NoSuchElementException::new);
             log.info(ans.toString());
             return true;
         } catch (NoSuchElementException e) {

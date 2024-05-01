@@ -19,11 +19,16 @@ public interface PlaceRepository extends Neo4jRepository<TourActivity, String> {
     // 나의 이 여행에 이 날짜에 이 장소가 있는지 보고 없으면 추가해주기
 
     // 해당 투어의 모든 장소 리스트 조회
-    @Query("MATCH (:TOUR{tourId: $tourId}-[r:DO]->(a:TOUR_ACTIVITY)")
+    @Query("MATCH (:TOUR{tourId: $tourId})-[r:DO]->(a:TOUR_ACTIVITY)")
     List<TourPlace> findAllByTourId(String tourId);
 
     // 해당 장소가 추가되었는지 조회
     Optional<TourActivity> findByTourActivityId(String tourActivityId);
+
+    // 장소 삭제
+    @Query("MATCH (:TOUR{tourId: $tourId})-[r:DO{placeId: $placeId, tourDay: $tourDay}]->(a:TOUR_ACTIVITY)" +
+            "DETACH DELETE a")
+    void deletePlaceByTourIdAndPlaceIdAndTourDay(String tourId, String placeId, Integer tourDay);
 
 //    @Query("MATCH (:TOUR{tourId: $tourId})-[r:DO{placeId: $placeId}]->(:TOUR_ACTIVITY)" +
 //            "RETURN r")
