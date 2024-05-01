@@ -4,6 +4,7 @@ import com.eminyidle.place.place.dto.*;
 import com.eminyidle.place.place.dto.node.TourActivity;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
 import com.eminyidle.place.place.exception.PlaceAddFailException;
+import com.eminyidle.place.place.repository.DoRelationRepository;
 import com.eminyidle.place.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ public class PlaceServiceImpl implements PlaceService{
     private final RestTemplate restTemplate;
 
     private final PlaceRepository placeRepository;
+    private final DoRelationRepository doRelationRepository;
 
 //    @Value("${spring.googleMap.key}")
 //    private String googleMapKey;
@@ -90,12 +92,16 @@ public class PlaceServiceImpl implements PlaceService{
         log.info(headers.toString());
 
         TourActivity tourActivity = TourActivity.builder().build();
-        placeRepository.save(tourActivity);
+        try {
+            placeRepository.save(tourActivity);
+            // DO 관계 생성해주기
+            // TourActivity의 Id는 저장된 값을 불러온다
+            placeRepository.createDoRelationship((String) body.get("tourId"), UUID.randomUUID().toString(), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourActivity.getTourActivityId());
+            isSuccess = true;
+        } catch (Exception e) {
+            log.error("{}", e);
+        }
 
-        // DO 관계 생성해주기
-        // TourActivity의 Id는 저장된 값을 불러온다
-        placeRepository.createDoRelationship((String) body.get("tourId"), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourActivity.getTourActivityId());
-        // String tourId, String placeId, String placeName, Integer tourDay, String tourActivityId
 
 
         return TourPlaceMessageInfo.builder()
@@ -104,11 +110,26 @@ public class PlaceServiceImpl implements PlaceService{
                 .build();
     }
 
+    // 장소 존재 여부 조회
+    @Override
+    public Boolean checkPlaceDuplication(String tourId, String placeId) {
+        try {
+            // 해당하는 장소가 이미 추가되어 있는 경우
+            String ans = doRelationRepository.findPlaceByTourIdAndPlaceId(tourId, placeId).orElseThrow(NoSuchElementException::new);
+            log.info(ans.toString());
+            return true;
+        } catch (NoSuchElementException e) {
+            log.info("해당하는 장소 없음");
+            return false;
+        }
+    }
 
+    // 장소 리스트 조회
     @Override
     public List<TourPlace> searchTourPlace(String tourId) {
         // tourId를 받아서 해당 아이디와 DO로 연결된 TourActivity를 전부 가져오기
         // Tour-DO-TourActivity 를 모두 한번에 가져옵니다...
+
         return null;
     }
 }

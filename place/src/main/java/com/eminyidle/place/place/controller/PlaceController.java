@@ -85,7 +85,16 @@ public class PlaceController {
                 .build();
     }
 
+    @GetMapping("/test/{tourActivityId}")
+    public void testPlace(@PathVariable String tourActivityId) {
+        log.info("장소 리스트 조회");
+        activityService.searchTourActivityByPlaceId(tourActivityId);
+    }
 
+    @GetMapping("/test/{tourId}/{placeId}")
+    public void testSearchPlace(@PathVariable String tourId, @PathVariable String placeId){
+        placeService.checkPlaceDuplication(tourId, placeId);
+    }
     // 장소 리스트 조회
     @GetMapping("/tour/place/{tourId}")
     public ResponseEntity<List<TourPlace>> searchTourPlace(@PathVariable String tourId) throws IOException {
