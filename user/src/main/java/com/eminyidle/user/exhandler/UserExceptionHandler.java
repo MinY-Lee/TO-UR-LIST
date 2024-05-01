@@ -5,6 +5,7 @@ import com.eminyidle.user.exception.InvalidUserNicknameException;
 import com.eminyidle.user.exception.InvalidUsernameException;
 import java.util.NoSuchElementException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -66,6 +67,17 @@ public class UserExceptionHandler {
 	@ExceptionHandler(NoSuchElementException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	protected ResponseEntity<String> invalidUserNicknameExceptionHandler(NoSuchElementException e) {
+		StringBuilder errorMessage = new StringBuilder();
+
+		makeErrorMessage(errorMessage, e);
+
+		log.error(errorMessage.toString());
+		return ResponseEntity.badRequest().body(errorMessage.toString());
+	}
+
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	protected ResponseEntity<String> dataIntegrityViolationExceptionHandler(DataIntegrityViolationException e) {
 		StringBuilder errorMessage = new StringBuilder();
 
 		makeErrorMessage(errorMessage, e);

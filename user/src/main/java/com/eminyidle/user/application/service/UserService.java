@@ -16,7 +16,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements SearchUserUsecase, CreateUserUsecase, DeleteUserUsecase, UpdateUserUsecase,
+public class UserService implements SearchUserUsecase, CreateUserUsecase, DeleteUserUsecase,
+	UpdateUserUsecase,
 	CheckNicknameDuplicationUsecase {
 
 	private final LoadUserPort loadUserPort;
@@ -25,11 +26,13 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 
 	@Override
 	public Boolean checkNicknameDuplication(String userNickname) {
+		// isDuplicated
+		// 중복시 true 반환
 		try {
 			loadUserPort.loadByUserNickname(userNickname);
-			return false;
-		} catch (NoSuchElementException e) {
 			return true;
+		} catch (NoSuchElementException e) {
+			return false;
 		}
 	}
 
@@ -47,7 +50,6 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 			.build();
 
 		saveUserPort.save(user);
-
 	}
 
 	@Override
