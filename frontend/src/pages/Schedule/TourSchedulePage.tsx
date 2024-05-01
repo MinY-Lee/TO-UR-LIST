@@ -1,3 +1,5 @@
+import TabBarTour from '../../components/TabBar/TabBarTour';
+
 export default function TourSchedulePage() {
     // 투어 아이디 불러오기
     const address: string[] = window.location.href.split('/');
@@ -8,6 +10,7 @@ export default function TourSchedulePage() {
             <h1>여행 일정 페이지</h1>
             <p>여행 일정을 정하는 페이지입니다.</p>
             <p>id : {tourId}</p>
+            <TabBarTour tabMode={2} />
         </>
     );
 }

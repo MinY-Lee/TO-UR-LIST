@@ -1,0 +1,75 @@
+[
+    {
+        "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
+        "placeName": "도톤보리",
+        "tourDay": 1,
+        "tourActivityList": [
+            {
+                "tourActivityId": "s11212",
+                "activity": "쇼핑"
+            },
+            {
+                "tourActivityId": "a12321",
+                "activity": "식사"
+            }
+        ]
+    },
+    {
+        "placeId": "ChIJ7b9MGI3mAGARufc_HWvT3M0",
+        "placeName": "우메다",
+        "tourDay": 2,
+        "tourActivityList": [
+            {
+                "tourActivityId": "s11213",
+                "activity": "쇼핑"
+            },
+            {
+                "tourActivityId": "a12322",
+                "activity": "식사"
+            }
+        ]
+    },
+    {
+        "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
+        "placeName": "USJ",
+        "tourDay": 2,
+        "tourActivityList": [
+            {
+                "tourActivityId": "a11213",
+                "activity": "어트랙션"
+            }
+        ]
+    },
+    {
+        "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
+        "placeName": "우메다 스카이 빌딩",
+        "tourDay": 3,
+        "tourActivityList": [
+            {
+                "tourActivityId": "l11213",
+                "activity": "관람"
+            }
+        ]
+    },
+    {
+        "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
+        "placeName": "오사카 성 천수각",
+        "tourDay": 3,
+        "tourActivityList": [
+            {
+                "tourActivityId": "l11223",
+                "activity": "관람"
+            },
+            {
+                "tourActivityId": "f11223",
+                "activity": "식사"
+            }
+        ]
+    },
+    {
+        "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
+        "placeName": "호텔",
+        "tourDay": 3,
+        "tourActivityList": []
+    }
+]
