@@ -10,3 +10,5 @@ spring:
 logging:
   level:
     com.eminyidle.place: debug
+server:
+  port: 8084
