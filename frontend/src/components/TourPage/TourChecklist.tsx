@@ -93,7 +93,7 @@ export default function TourCheckList(props: PropType) {
                             <MyButton 
                                 type="small" 
                                 text="편집" 
-                                isSelected={false} 
+                                isSelected={true} 
                                 onClick={() => {
                                     window.location.href = `/tour/${id}/checklist/all`;
                                 }}/>

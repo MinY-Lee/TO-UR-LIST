@@ -20,10 +20,10 @@ interface ItemPerDayAndPlace {
 }
 
 export default function ChecklistByDay(props: PropType) {
-    const [data, setData] = useState<TourInfoDetail>();
+    const [data, setData] = useState<TourInfoDetail>({});
     const [daysDifference, setDaysDifference] = useState<number>(0);
     const [daysList, setDaysList] = useState<number[]>([]);
-    const [groupedItems, setGroupedItems] = useState<ItemPerDayAndPlace>();
+    const [groupedItems, setGroupedItems] = useState<ItemPerDayAndPlace>({});
     const id = props.tourId;
 
     useEffect(() => {
@@ -33,8 +33,8 @@ export default function ChecklistByDay(props: PropType) {
             setData(tourData);
         }
 
-        const end: Date = new Date(data?.endDate);
-        const start: Date = new Date(data?.startDate);
+        const end: Date = new Date(data.endDate);
+        const start: Date = new Date(data.startDate);
 
         // 밀리초(milliseconds) 단위의 차이를 날짜간 차이로 변환
         setDaysDifference((end - start) / (1000 * 60 * 60 * 24) + 1);
@@ -84,12 +84,7 @@ export default function ChecklistByDay(props: PropType) {
 
         // state 업데이트
         setGroupedItems(grouped);
-        console.log(grouped[0])
     };
-
-    const getValue = (obj, key) => {
-        return obj[key];
-    }
 
     const formatNumberToTwoDigits: string = (num: number) => {
         return `${num < 10 && num > 0 ? '0' : ''}${num}`;
@@ -104,9 +99,21 @@ export default function ChecklistByDay(props: PropType) {
 
     }
 
-    const handleCheckbox = (index : number) => {
-        
-    }
+    const handleCheckbox = (target: Item): void => {
+
+        const updatedChecklist: ItemPerDayAndPlace = { ...groupedItems };
+    
+        if (updatedChecklist[target.tourDay] && updatedChecklist[target.tourDay][target.placeId]) {
+            updatedChecklist[target.tourDay][target.placeId].forEach((item) => {
+                if (item.item === target.item) {
+                    item.isChecked = !item.isChecked;
+                }
+            });
+    
+            setGroupedItems(updatedChecklist);
+        }
+    };
+    
 
     return (
         <>
@@ -117,7 +124,7 @@ export default function ChecklistByDay(props: PropType) {
                             <MyButton 
                                 type="small" 
                                 text="편집" 
-                                isSelected={false} 
+                                isSelected={true} 
                                 onClick={() => {
                                     window.location.href = `/tour/${id}/checklist/day`;
                                 }}/>
@@ -130,7 +137,7 @@ export default function ChecklistByDay(props: PropType) {
                                 </div>
                                 <div className='border-t-2 border-black mt-2 mb-2'>
                                     {groupedItems && groupedItems[day] && Object.keys(groupedItems[day]).map((placeId, index) => (
-                                        <div className='ml-5'>
+                                        <div className='ml-5' key={index}>
                                             <div className='text-lg font-semibold'>
                                                 {placeId != "" ? <div>{placeId} (실제 지명으로 바꿔야 함)</div> : ""}
                                             </div>
@@ -142,7 +149,7 @@ export default function ChecklistByDay(props: PropType) {
                                                         <input 
                                                             id={`checkbox-${index}`} 
                                                             type="checkbox" 
-                                                            onChange={() => handleCheckbox(index)} 
+                                                            onChange={() => handleCheckbox(item)} 
                                                             checked={item.isChecked} 
                                                             className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
                                                         />
