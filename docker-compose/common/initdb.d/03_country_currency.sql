@@ -12,6 +12,6 @@ LOAD DATA LOCAL INFILE '/docker-entrypoint-initdb.d/currency_info_final.csv'
     TERMINATED BY ','
     OPTIONALLY ENCLOSED BY '"' ESCAPED BY '"'
     LINES
-    TERMINATED BY '\n'
+    TERMINATED BY '\r\n'
     STARTING BY ''
     ignore 1 rows;
