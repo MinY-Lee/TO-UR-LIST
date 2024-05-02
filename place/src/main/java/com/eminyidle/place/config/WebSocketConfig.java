@@ -1,7 +1,7 @@
 package com.eminyidle.place.config;
 
+import com.eminyidle.place.socket.interceptor.PlaceInterceptor;
 import com.eminyidle.place.socket.interceptor.AuthHandshakeInterceptor;
-import com.eminyidle.place.socket.interceptor.PlaceActivityInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -15,8 +15,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    private final PlaceInterceptor placeInterceptor;
     private final AuthHandshakeInterceptor authHandshakeInterceptor;
-    private final PlaceActivityInterceptor placeActivityInterceptor;
 
 
     @Override
@@ -40,6 +40,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     // 클라이언트로부터 들어오는 메시지를 처리할 인터셉터 설정
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(placeActivityInterceptor);
+        registration.interceptors(placeInterceptor);
     }
 }

@@ -1,6 +1,6 @@
 package com.eminyidle.place.place.repository;
 
-import com.eminyidle.place.place.dto.Activity;
+import com.eminyidle.place.place.dto.node.Activity;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,0 +1,44 @@
+[
+    {
+        "tourId" : "11111",
+        "placeId" : "",
+        "tourActivityId" : "",
+        "item" : "캐리어",
+        "isChecked": true
+    }, 
+    {
+        "tourId" : "11111",
+        "placeId" : "dkht",
+        "tourActivityId" : "shopping",
+        "item" : "여권",
+        "isChecked": false
+    },
+    {
+        "tourId" : "11111",
+        "placeId" : "park",
+        "tourActivityId" : "walking",
+        "item" : "여권",
+        "isChecked": false
+    },
+    {
+        "tourId" : "11111",
+        "placeId" : "",
+        "tourActivityId" : "",
+        "item" : "포켓 와이파이",
+        "isChecked": false
+    },
+    {
+        "tourId" : "11111",
+        "placeId" : "dkht",
+        "tourActivityId" : "shopping",
+        "item" : "지갑",
+        "isChecked": false
+    },
+    {
+        "tourId" : "11111",
+        "placeId" : "park",
+        "tourActivityId" : "walking",
+        "item" : "운동화",
+        "isChecked": false
+    }
+]

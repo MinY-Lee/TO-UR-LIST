@@ -62,7 +62,6 @@ hs_err_pid*
 replay_pid*
 
 ### Gradle template
-.gradle
 **/build/
 !src/**/build/
 
