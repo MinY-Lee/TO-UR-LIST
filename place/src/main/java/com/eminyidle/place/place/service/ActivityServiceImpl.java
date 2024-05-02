@@ -27,9 +27,11 @@ public class ActivityServiceImpl implements ActivityService {
         return activityRepository.findAll().stream().map(activity -> activity.getActivity()).toList();
     }
 
+
     @Override
     public void searchTourActivityByPlaceId(String tourActivityId) {
         log.info("서비스 실행");
+//        String ans = placeRepository.findByTourActivityId(tourActivityId).get().getActivity().getActivity().toString();
         String ans = placeRepository.findByTourActivityId(tourActivityId).get().toString();
         log.info(ans);
 

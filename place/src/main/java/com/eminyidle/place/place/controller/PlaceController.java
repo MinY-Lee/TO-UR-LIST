@@ -97,15 +97,16 @@ public class PlaceController {
     }
 
 
+    // 액티비티 아이디로 활동까지 조회
     @GetMapping("/test/{tourActivityId}")
     public void testPlace(@PathVariable String tourActivityId) {
         log.info("장소 리스트 조회");
         activityService.searchTourActivityByPlaceId(tourActivityId);
     }
 
-    @GetMapping("/test/{tourId}/{placeId}")
-    public void testSearchPlace(@PathVariable String tourId, @PathVariable String placeId){
-        placeService.checkPlaceDuplication(tourId, placeId);
+    @GetMapping("/test/{tourId}/{tourDay}/{placeId}")
+    public void testSearchPlace(@PathVariable String tourId, @PathVariable Integer tourDay, @PathVariable String placeId){
+        placeService.checkPlaceDuplication(tourId, tourDay, placeId);
     }
 
     // 장소 리스트 조회

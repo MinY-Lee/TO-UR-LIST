@@ -84,6 +84,7 @@ public class PlaceServiceImpl implements PlaceService{
 //        String userName = (String) (headers.get("userName"));
 //        String userNickname = (String) (headers.get("userNickname"));
         String placeId = (String) body.get("placeId");
+        Integer tourDay = (Integer) body.get("tourDay");
         try {
             responseBody = AddPlaceInfo.builder()
                     .userId(userId)
@@ -93,7 +94,7 @@ public class PlaceServiceImpl implements PlaceService{
         }
         log.info(headers.toString());
 
-        if (checkPlaceDuplication(tourId, placeId) == false) {
+        if (checkPlaceDuplication(tourId, tourDay, placeId) == false) {
             TourActivity tourActivity = TourActivity.builder().build();
             try {
                 placeRepository.save(tourActivity);
@@ -161,19 +162,35 @@ public class PlaceServiceImpl implements PlaceService{
         Object responseBody = body;
         boolean isSuccess = false;
         String userId = (String) (headers.get("userId"));
-        String userName = (String) (headers.get("userName"));
-        String userNickname = (String) (headers.get("userNickname"));
         String placeId = (String) body.get("placeId");
-        Integer tourDay = (Integer) body.get("tourDay");
+        Integer oldTourDay = (Integer) body.get("oldTourDay");
+        Integer newTourDay = (Integer) body.get("newTourDay");
+        // TODO 해당하는 날에 해당 장소가 있는지 확인
+        if (checkPlaceDuplication(tourId, oldTourDay, placeId) == false) {
+            TourActivity tourActivity = TourActivity.builder().build();
+            try {
+                placeRepository.save(tourActivity);
+                // DO 관계 생성해주기
+                // TourActivity의 Id는 저장된 값을 불러온다
+                placeRepository.createDoRelationship((String) body.get("tourId"), UUID.randomUUID().toString(), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourActivity.getTourActivityId());
+                isSuccess = true;
+            } catch (Exception e) {
+                log.error("{}", e);
+            }
+        } else {
+            isSuccess = false;
+        }
+        // TODO 있으면 장소의 투어데이 바꿔주기
+
         return null;
     }
 
     // 장소 존재 여부 조회
     @Override
-    public Boolean checkPlaceDuplication(String tourId, String placeId) {
+    public Boolean checkPlaceDuplication(String tourId, Integer tourDay, String placeId) {
         try {
             // 해당하는 장소가 이미 추가되어 있는 경우
-            String ans = doRelationRepository.findPlaceByTourIdAndPlaceId(tourId, placeId).orElseThrow(NoSuchElementException::new);
+            String ans = doRelationRepository.findPlaceByTourIdAndPlaceId(tourId, tourDay, placeId).orElseThrow(NoSuchElementException::new);
 //            Do ans = doRelationRepository.findPlaceByTourIdAndPlaceId(tourId, placeId).orElseThrow(NoSuchElementException::new);
             log.info(ans.toString());
             return true;

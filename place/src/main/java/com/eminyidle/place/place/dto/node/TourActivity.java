@@ -31,8 +31,8 @@ public class TourActivity {
     @Relationship(type = "REFERENCE", direction = OUTGOING)
     private Activity activity;
 
-    @Relationship(type = "DO", direction = INCOMING)
-    private Tour tour;
+//    @Relationship(type = "DO", direction = INCOMING)
+//    private Tour tour;
 
     @Relationship(type = "DO", direction = INCOMING)
     private Do placeInfo;
