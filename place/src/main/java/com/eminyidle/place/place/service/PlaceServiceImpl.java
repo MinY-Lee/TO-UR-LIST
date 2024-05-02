@@ -165,24 +165,26 @@ public class PlaceServiceImpl implements PlaceService{
         String placeId = (String) body.get("placeId");
         Integer oldTourDay = (Integer) body.get("oldTourDay");
         Integer newTourDay = (Integer) body.get("newTourDay");
-        // TODO 해당하는 날에 해당 장소가 있는지 확인
-        if (checkPlaceDuplication(tourId, oldTourDay, placeId) == false) {
-            TourActivity tourActivity = TourActivity.builder().build();
-            try {
-                placeRepository.save(tourActivity);
-                // DO 관계 생성해주기
-                // TourActivity의 Id는 저장된 값을 불러온다
-                placeRepository.createDoRelationship((String) body.get("tourId"), UUID.randomUUID().toString(), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourActivity.getTourActivityId());
-                isSuccess = true;
-            } catch (Exception e) {
-                log.error("{}", e);
-            }
-        } else {
-            isSuccess = false;
+        // 해당하는 날에 해당 장소가 있는지 확인
+        if (!checkPlaceDuplication(tourId, oldTourDay, placeId)){
+            throw new NoSuchElementException();
         }
-        // TODO 있으면 장소의 투어데이 바꿔주기
-
-        return null;
+        if (checkPlaceDuplication(tourId, newTourDay, placeId)) {
+            throw new IllegalArgumentException();
+        }
+        try {
+            placeRepository.updateTourDay(tourId, placeId, oldTourDay, newTourDay);
+            responseBody = PlaceRequesterInfo.builder()
+                    .userId(userId)
+                    .build();
+            isSuccess = true;
+        } catch (Exception e) {
+            log.error("{}", e);
+        }
+        return TourPlaceMessageInfo.builder()
+                .body(responseBody)
+                .isSuccess(isSuccess)
+                .build();
     }
 
     // 장소 존재 여부 조회
