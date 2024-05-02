@@ -15,6 +15,13 @@
     },
     {
         "tourId" : "11111",
+        "placeId" : "dkht",
+        "tourActivityId" : "shopping",
+        "item" : "장바구니",
+        "isChecked": false
+    },
+    {
+        "tourId" : "11111",
         "placeId" : "park",
         "tourActivityId" : "walking",
         "item" : "여권",
