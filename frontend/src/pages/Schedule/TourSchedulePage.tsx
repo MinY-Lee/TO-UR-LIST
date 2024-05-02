@@ -1,19 +1,76 @@
 import TabBarTour from '../../components/TabBar/TabBarTour';
 import DaySelectBar from '../../components/SchedulePage/DaySelectBar';
+import { useState, useEffect } from 'react';
+import TourHeader from '../../components/TourPage/TourHeader';
+import ScheduleBar from '../../components/SchedulePage/ScheduleBar';
+import Maps from '../../components/SchedulePage/Maps';
+
+//dummy data
 import tourInfo from '../../dummy-data/get_tour_tourId.json';
+import tourSchedule from '../../dummy-data/get_tour_place_tourId.json';
+import { TourPlaceItem } from '../../types/types';
 
 export default function TourSchedulePage() {
+    const [period, setPeriod] = useState<number>(0);
+
+    //스케줄 저장 배열 schedule[i]는 i일째 일정(0은 일정 없음)
+    const [schedule, setSchedule] = useState<TourPlaceItem[][]>([[]]);
+
+    /**기간 계산 */
+    useEffect(() => {
+        const startDate = new Date(tourInfo.startDate);
+        const endDate = new Date(tourInfo.endDate);
+
+        const period = endDate.getDate() - startDate.getDate() + 1;
+        setPeriod(period);
+
+        const tempSchedule = new Array(period + 1);
+        for (let i = 0; i < tempSchedule.length; i++) {
+            tempSchedule[i] = [];
+        }
+        for (let i = 0; i < tourSchedule.length; i++) {
+            const day = tourSchedule[i].tourDay;
+
+            tempSchedule[day].push(tourSchedule[i]);
+        }
+        setSchedule(tempSchedule);
+    }, []);
+
     // 투어 아이디 불러오기
     const address: string[] = window.location.href.split('/');
     const tourId: string = address[address.length - 2];
 
+    tourInfo['tourId'] = tourId;
+
+    //-1 nothing, 0:d+0, 1:d+1...
+    const [selectedDate, setSelectedDate] = useState<number>(-1);
+
     return (
         <>
-            <h1>여행 일정 페이지</h1>
-            <p>여행 일정을 정하는 페이지입니다.</p>
-            <p>id : {tourId}</p>
-            <DaySelectBar />
-            <TabBarTour tabMode={2} tourMode={2} tourId={tourId} />
+            <section className="w-full h-full">
+                <div className="w-full h-[25%]">
+                    <TourHeader
+                        tourInfo={tourInfo}
+                        selectedDate={selectedDate}
+                    />
+                </div>
+                <div className="w-full h-[65%] relative overflow-hidden">
+                    <Maps schedule={schedule} />
+                    <ScheduleBar
+                        schedule={schedule}
+                        startDate={tourInfo.startDate}
+                        selectedDate={selectedDate}
+                    />
+                    <DaySelectBar
+                        startDate={tourInfo.startDate}
+                        endDate={tourInfo.endDate}
+                        selectedDate={selectedDate}
+                        setSelectedDate={setSelectedDate}
+                        period={period}
+                    />
+                </div>
+                <TabBarTour tourMode={2} tourId={tourId} />
+            </section>
         </>
     );
 }

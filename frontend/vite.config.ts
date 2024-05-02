@@ -5,9 +5,18 @@ import react from '@vitejs/plugin-react-swc';
 export default defineConfig({
     plugins: [react()],
     server: {
+        headers: {
+            'Cross-Origin-Opener-Policy': 'same-origin',
+            'Cross-Origin-Embedder-Policy': 'credentialless',
+        },
         proxy: {
             '/api': {
                 target: 'http://localhost:8080/',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, ''),
+            },
+            '/googleapi': {
+                target: 'https://maps.googleapis.com/maps/api',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, ''),
             },
