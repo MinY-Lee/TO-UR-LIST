@@ -8,6 +8,7 @@ spring:
     uri: bolt://localhost:7687
   config:
     import:
+      - optional:file:.env[.properties]
   datasource:
     url: ${DB_URL}
     username: ${USER_NAME}
