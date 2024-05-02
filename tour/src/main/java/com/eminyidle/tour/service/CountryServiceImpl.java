@@ -1,9 +1,6 @@
 package com.eminyidle.tour.service;
 
-import com.eminyidle.tour.dto.City;
-import com.eminyidle.tour.dto.Country;
-import com.eminyidle.tour.dto.CountryEntity;
-import com.eminyidle.tour.dto.CountryInfo;
+import com.eminyidle.tour.dto.*;
 import com.eminyidle.tour.exception.NoSuchCountryException;
 import com.eminyidle.tour.repository.CountryCityRepository;
 import com.eminyidle.tour.repository.CountryCurrencyRepository;
@@ -42,11 +39,18 @@ public class CountryServiceImpl implements CountryService {
         ).toList();
     }
 
-    // TODO - currency 어떤 정보를 줄 건지!
     @Override
     public CountryInfo searchCountryInfo(String countryCode) {
         CountryEntity country = countryRepository.findById(countryCode).orElseThrow(NoSuchCountryException::new);
-        countryCurrencyRepository.findById(countryCode).orElseThrow(NoSuchCountryException::new);
-        return null;
+        CountryCurrency currency=countryCurrencyRepository.findById(countryCode).orElseThrow(NoSuchCountryException::new);
+
+        return CountryInfo.builder()
+                .KST(country.getUtc()-9)
+                .climate(country.getClimate())
+                .currencyUnit(currency.getCurrencySign())
+                .language(country.getLanguage())
+                .plug_type(country.getPlug_type())
+                .voltage(country.getVoltage())
+                .build();
     }
 }
