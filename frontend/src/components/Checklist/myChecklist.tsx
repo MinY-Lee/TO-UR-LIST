@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import MyButton from '../../components/Buttons/myButton'
 
 import Checklist from '../../dummy-data/get_checklist.json'
@@ -9,6 +10,7 @@ interface PropType {
 
 export default function MyCheckList(props: PropType) {
     const id = props.tourId;
+
 
     interface Mapping {
         [key: string]: string[];
@@ -67,9 +69,15 @@ export default function MyCheckList(props: PropType) {
     };
 
     const filteredGroups = prepareData(Checklist); // 중복 횟수 카운트
-    const filteredChecklist = filterUniqueItems(Checklist); // 중복 하나씩만 남김
+    
+    // 중복 하나씩만 남김
+    const [filteredChecklist, setFilteredChecklist] = useState<Item[]>(filterUniqueItems(Checklist));
 
-
+    const handleCheckbox = (index : number) => {
+        const updatedChecklist = [...filteredChecklist];
+        updatedChecklist[index].isChecked = !updatedChecklist[index].isChecked;
+        setFilteredChecklist(updatedChecklist);
+    }
 
     return (
         <>
@@ -90,7 +98,7 @@ export default function MyCheckList(props: PropType) {
                                 (
                                     <div key={index} className="grid grid-cols-2 justify-center m-1">
                                         <div className="flex items-center">
-                                            <input id="default-checkbox" type="checkbox" readOnly={true} checked={item.isChecked} className="w-5 h-5 bg-gray-100 border-gray-300 rounded "/>
+                                            <input id="default-checkbox" type="checkbox" onChange={() => handleCheckbox(index)} checked={item.isChecked} className="w-5 h-5 bg-gray-100 border-gray-300 rounded "/>
                                             <label className="ms-2">{item.item}</label>
                                         </div>
                                         <div className='relative w-fit'>

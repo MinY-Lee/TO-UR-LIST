@@ -20,7 +20,7 @@ export default function ChecklistPage() {
                     기본정보 영역
                 </div>
                 <div>
-                    <ChecklistTab/>
+                    <ChecklistTab tourId={tourId}/>
                     
 
                     

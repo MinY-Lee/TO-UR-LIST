@@ -3,7 +3,11 @@ import { useState, useEffect } from "react";
 import MyCheckList from "./myChecklist";
 import ChecklistByDay from "./checklistByDay";
 
-export default function ChecklistTab() {
+interface PropType {
+    tourId: string;
+}
+
+export default function ChecklistTab(props: PropType) {
     const [tabIdx, setTabIdx] = useState<number>(1);
     const [tabClass, setTabClass] = useState<string>("");
 
@@ -31,7 +35,7 @@ export default function ChecklistTab() {
         </div>
 
         <div className="mb-6">
-            {tabIdx == 1 ? <MyCheckList tourId=""/> : <ChecklistByDay tourId=""/>}
+            {tabIdx == 1 ? <MyCheckList tourId={props.tourId}/> : <ChecklistByDay tourId={props.tourId}/>}
             
             
         </div>
