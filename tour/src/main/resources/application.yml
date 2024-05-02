@@ -3,9 +3,34 @@ spring:
     name: tour
   neo4j:
     authentication:
-      username: neo4j
-      password: eminyidle
-    uri: bolt://localhost:7687
+      username: ${TOUR_NEO4J_USER_NAME}
+      password: ${TOUR_NEO4J_USER_PASSWORD}
+    uri: ${TOUR_NEO4J_URI}
+  config:
+    import:
+      - optional:file:.env[.properties]
+  datasource:
+    url: ${DB_URL}
+    username: ${USER_NAME}
+    password: ${USER_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: ${DB_URL}
+      username: ${USER_NAME}
+      password: ${USER_PASSWORD}
+      maximum-pool-size: 50
+      minimum-idle: 10
+      connection-timeout: 5000
+      connection-init-sql: SELECT 1
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      auto-commit: true
+      leak-detection-threshold: 30000
+      connection-test-query: SELECT 1
+      isolate-internal-queries: false
+      validation-timeout: 5000
+      validation-query: SELECT 1
 
 logging:
   level:
@@ -16,3 +41,6 @@ logging:
     com:
       eminyidle:
         tour: DEBUG
+
+server:
+  port: 8083

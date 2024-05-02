@@ -1,0 +1,35 @@
+{
+    "tourTitle": "나홀로 도쿄여행",
+    "cityList": [
+        {
+            "countryCode": "JP",
+            "cityName": "도쿄"
+        },
+        {
+            "countryCode": "JP",
+            "cityName": "치바현"
+        }
+    ],
+    "startDate": "2024-05-21",
+    "endDate": "2024-05-28",
+    "memberList": [
+        {
+            "userId": "a12345",
+            "userNickname": "민수킹",
+            "userName": "김민수",
+            "memberType": "HOST"
+        },
+        {
+            "userId": "g1235",
+            "userNickname": "L2스위치",
+            "userName": "이개발",
+            "memberType": "GUEST"
+        },
+        {
+            "userId": "ghost123",
+            "userNickname": "ghost123",
+            "userName": "박버스",
+            "memberType": "GHOST"
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+spring:
+  messages:
+    basename: errors, messages
+    encoding: UTF-8
+  config:
+    import:
+      - optional:file:.env[.properties]
+
+  jwt:
+    secret: ${JWT_KEY}
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: info
+    com:
+      eminyidle:
+        gateway: debug
+    org.springframework.security: info
+
+server:
+  port: 8080

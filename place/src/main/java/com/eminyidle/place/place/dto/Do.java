@@ -1,7 +1,10 @@
 package com.eminyidle.place.place.dto;
 
+import com.eminyidle.place.place.dto.node.TourActivity;
 import lombok.*;
 import org.springframework.data.neo4j.core.schema.*;
+
+import java.util.UUID;
 
 @RelationshipProperties
 @Getter
@@ -9,10 +12,13 @@ import org.springframework.data.neo4j.core.schema.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class Do {
     @Id
     @GeneratedValue
     private String id;
+    @Property
+    private String doId;
     @Property
     private String placeId;
     @Property
@@ -22,4 +28,5 @@ public class Do {
 
     @TargetNode
     private TourActivity tourActivity;
+
 }

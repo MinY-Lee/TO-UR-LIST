@@ -1,14 +1,14 @@
 package com.eminyidle.place.place.service;
 
 import com.eminyidle.place.place.dto.*;
+import com.eminyidle.place.place.dto.node.TourActivity;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
+import com.eminyidle.place.place.exception.GetRequesterInfoFailException;
 import com.eminyidle.place.place.exception.PlaceAddFailException;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.eminyidle.place.place.repository.DoRelationRepository;
+import com.eminyidle.place.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,6 +21,9 @@ import java.util.*;
 public class PlaceServiceImpl implements PlaceService{
 
     private final RestTemplate restTemplate;
+
+    private final PlaceRepository placeRepository;
+    private final DoRelationRepository doRelationRepository;
 
 //    @Value("${spring.googleMap.key}")
 //    private String googleMapKey;
@@ -71,24 +74,106 @@ public class PlaceServiceImpl implements PlaceService{
         return Collections.emptyList();
     }
 
+    // 장소 추가
     @Override
-    public TourPlaceMessageInfo addPlace(LinkedHashMap<String, Object> body, String tourId) {
+    public TourPlaceMessageInfo addPlace(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> headers) {
+        // 받아 온 body = requestbody
         Object responseBody = body;
         boolean isSuccess = false;
+        String userId = (String) (headers.get("userId"));
+        String userName = (String) (headers.get("userName"));
+        String userNickname = (String) (headers.get("userNickname"));
+        String placeId = (String) body.get("placeId");
+        try {
+            responseBody = AddPlaceInfo.builder()
+                    .userNickname(userNickname)
+                    .build();
+        } catch (PlaceAddFailException e) {
+            log.error(e.getMessage());
+        }
+        log.info(headers.toString());
+
+        if (checkPlaceDuplication(tourId, placeId) == false) {
+            TourActivity tourActivity = TourActivity.builder().build();
+            try {
+                placeRepository.save(tourActivity);
+                // DO 관계 생성해주기
+                // TourActivity의 Id는 저장된 값을 불러온다
+                placeRepository.createDoRelationship((String) body.get("tourId"), UUID.randomUUID().toString(), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourActivity.getTourActivityId());
+                isSuccess = true;
+            } catch (Exception e) {
+                log.error("{}", e);
+            }
+        } else {
+            isSuccess = false;
+        }
+//        TourActivity tourActivity = TourActivity.builder().build();
 //        try {
-//            responseBody = AddPlaceInfo.builder()
-//                    .userNicknae()
-//        } catch (PlaceAddFailException e) {
-//            log.error(e.getMessage());
+//            placeRepository.save(tourActivity);
+//            // DO 관계 생성해주기
+//            // TourActivity의 Id는 저장된 값을 불러온다
+//            placeRepository.createDoRelationship((String) body.get("tourId"), UUID.randomUUID().toString(), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourActivity.getTourActivityId());
+//            isSuccess = true;
+//        } catch (Exception e) {
+//            log.error("{}", e);
 //        }
-        return null;
+
+
+
+        return TourPlaceMessageInfo.builder()
+                .body(responseBody)
+                .isSuccess(isSuccess)
+                .build();
     }
 
+    @Override
+    public TourPlaceMessageInfo deletePlace(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> headers) {
+        // 받아 온 body = requestbody
+        Object responseBody = body;
+        boolean isSuccess = false;
+        String userId = (String) (headers.get("userId"));
+        String userName = (String) (headers.get("userName"));
+        String userNickname = (String) (headers.get("userNickname"));
+        String placeId = (String) body.get("placeId");
+        Integer tourDay = (Integer) body.get("tourDay");
+        try {
+            responseBody = PlaceRequesterInfo.builder()
+                    .userId(userId)
+                    .userNickname(userNickname)
+                    .build();
+            placeRepository.deletePlaceByTourIdAndPlaceIdAndTourDay(tourId, placeId, tourDay);
+            isSuccess = true;
+        } catch (GetRequesterInfoFailException e) {
+            log.error("{}", e);
+        }
 
+        return TourPlaceMessageInfo.builder()
+                .body(responseBody)
+                .isSuccess(isSuccess)
+                .build();
+    }
+
+    // 장소 존재 여부 조회
+    @Override
+    public Boolean checkPlaceDuplication(String tourId, String placeId) {
+        try {
+            // 해당하는 장소가 이미 추가되어 있는 경우
+            String ans = doRelationRepository.findPlaceByTourIdAndPlaceId(tourId, placeId).orElseThrow(NoSuchElementException::new);
+//            Do ans = doRelationRepository.findPlaceByTourIdAndPlaceId(tourId, placeId).orElseThrow(NoSuchElementException::new);
+            log.info(ans.toString());
+            return true;
+        } catch (NoSuchElementException e) {
+            log.info("해당하는 장소 없음");
+            return false;
+        }
+    }
+
+    // 장소 리스트 조회
     @Override
     public List<TourPlace> searchTourPlace(String tourId) {
         // tourId를 받아서 해당 아이디와 DO로 연결된 TourActivity를 전부 가져오기
         // Tour-DO-TourActivity 를 모두 한번에 가져옵니다...
+
         return null;
     }
 }

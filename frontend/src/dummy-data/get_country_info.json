@@ -1,0 +1,20 @@
+[
+    {   
+        "countryCode" : "JPN",
+        "language" : "일본어",
+        "currencyUnit" : "879",
+        "voltage" : "100V",
+        "plug_type": "A, B",
+        "climate" : "연평균 기온은 약 16℃, 강수량은 약 1200mm, 사계절의 명확한 변화를 보이며, 봄과 가을은 포근하고 겨울은 추움",
+        "KST" : "0"
+    }, 
+    {
+        "countryCode" : "TWN",
+        "language" : "중국어(번체), 중국어(간체)",
+        "currencyUnit" : "423.1", 
+        "voltage" : "110V",
+        "plug_type": "A, B",
+        "climate" : "연평균 기온은 약 22℃에서 32℃ 사이, 강수량은 평균 2500mm, 비가 고르게 내리는 편, 열대성 기후의 특성상 습기가 많고 기온 변화가 큼",
+        "KST" : "-1"
+    }
+]

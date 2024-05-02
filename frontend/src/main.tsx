@@ -6,6 +6,11 @@ import { BrowserRouter } from 'react-router-dom';
 //tailwind css
 import './index.css';
 
+// carousel css
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+
 //variables css
 import './assets/css/variables.css';
 import { Provider } from 'react-redux';

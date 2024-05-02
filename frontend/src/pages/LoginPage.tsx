@@ -1,7 +1,18 @@
 import loginImage from '../assets/image/loginPage.jpg';
 import googleLogin from '../assets/image/googleLogin.png';
+import { useEffect } from 'react';
+import { Cookies } from 'react-cookie';
 
 export default function LoginPage() {
+    const cookies = new Cookies();
+
+    useEffect(() => {
+        //로그인 되어 있으면 리다이렉트
+        if (cookies.get('accessToken')) {
+            window.location.href = '/main';
+        }
+    });
+
     return (
         <>
             <section
@@ -41,7 +52,8 @@ export default function LoginPage() {
                             <div
                                 className="w-[60%]"
                                 onClick={() => {
-                                    window.location.href = './main';
+                                    window.location.href =
+                                        import.meta.env.VITE_REACT_GOOGLE_LOGIN_URL;
                                 }}
                             >
                                 <img src={`${googleLogin}`} />
