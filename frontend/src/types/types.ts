@@ -17,9 +17,35 @@ export interface TourCardInfo {
     endDate: string;
 }
 
+export interface MemberInfo {
+    userId : string,
+    userNickname : string,
+    userName : string,
+    memberType : string,
+}
+
+export interface TourInfoDetail {
+    tourId: string; // 나중에는 없어도 됨
+    tourTitle: string;
+    cityList: City[];
+    startDate: string;
+    endDate: string;
+    memberList: MemberInfo[];
+}
+
 export interface City {
     countryCode: string;
     cityName: string;
+}
+
+export interface CountryInfo {
+    countryCode: string; // 나중에 없앨거임
+    language: string;
+    currencyUnit: string;
+    voltage: string;
+    plug_type: string;
+    climate: string;
+    KST: string
 }
 
 //피드 관련
@@ -41,4 +67,13 @@ export interface Feed {
 export interface FeedCity {
     countryName: string;
     cityName: string;
+}
+
+// 체크리스트 아이템 정보
+export interface Item {
+    tourId : string,
+    placeId : string,
+    tourActivityId : string,
+    item : string,
+    isChecked: boolean
 }

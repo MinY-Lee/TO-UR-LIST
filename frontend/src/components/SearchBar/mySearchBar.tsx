@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { TERipple } from 'tw-elements-react';
 
 interface ChildProps {
     onChange: (data: String) => void;

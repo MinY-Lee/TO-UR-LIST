@@ -1,0 +1,172 @@
+[
+    {
+        "tourId": "11111",
+        "tourTitle": "나 홀로 도쿄 여행",
+        "cityList": [
+            {
+                "countryCode": "JPN",
+                "cityName": "도쿄"
+            },
+            {
+                "countryCode": "JPN",
+                "cityName": "치바현"
+            },
+            {
+                "countryCode": "TWN",
+                "cityName": "타이베이"
+            }
+        ],
+        "startDate": "2024-04-22",
+        "endDate": "2024-04-28",
+        "memberList": [
+            {
+                "userId" : "1234",
+                "userNickname" : "감자",
+                "userName" : "김싸피",
+                "memberType" : "host"
+            }, {
+                "userId" : "2345",
+                "userNickname" : "고구마",
+                "userName" : "고싸피",
+                "memberType" : "guest"
+            }, {
+                "userId" : "3456",
+                "userNickname" : "옥수수",
+                "userName" : "옥싸피",
+                "memberType" : "guest"
+            }
+        ]
+    },
+    {
+        "tourId": "11112",
+        "tourTitle": "실리콘밸리 투어",
+        "cityList": [
+            {
+                "countryCode": "USA",
+                "cityName": "캘리포니아"
+            }
+        ],
+        "startDate": "2024-05-23",
+        "endDate": "2024-05-28",
+        "memberList": [
+            {
+                "userId" : "1234",
+                "userNickname" : "감자",
+                "userName" : "김싸피",
+                "memberType" : "host"
+            }, {
+                "userId" : "2345",
+                "userNickname" : "고구마",
+                "userName" : "고싸피",
+                "memberType" : "guest"
+            }, {
+                "userId" : "3456",
+                "userNickname" : "옥수수",
+                "userName" : "옥싸피",
+                "memberType" : "guest"
+            }
+        ]
+    },
+    {
+        "tourId": "22342",
+        "tourTitle": "family in 대만",
+        "cityList": [
+            {
+                "countryCode": "TWN",
+                "cityName": "타이베이"
+            },
+            {
+                "countryCode": "TWN",
+                "cityName": "가오슝"
+            }
+        ],
+        "startDate": "2024-02-21",
+        "endDate": "2024-02-25",
+        "memberList": [
+            {
+                "userId" : "2345",
+                "userNickname" : "감자",
+                "userName" : "김싸피",
+                "memberType" : "host"
+            }, {
+                "userId" : "2345",
+                "userNickname" : "고구마",
+                "userName" : "고싸피",
+                "memberType" : "guest"
+            }, {
+                "userId" : "4567",
+                "userNickname" : "고스트1",
+                "userName" : "고스트1",
+                "memberType" : "ghost"
+            }
+        ]
+    },
+    {
+        "tourId": "23564",
+        "tourTitle": "유럽에서의 여름방학",
+        "cityList": [
+            {
+                "countryCode": "GBR",
+                "cityName": "런던"
+            },
+            {
+                "countryCode": "FRA",
+                "cityName": "파리"
+            },
+            {
+                "countryCode": "DEU",
+                "cityName": "베를린"
+            }
+        ],
+        "startDate": "2024-06-24",
+        "endDate": "2024-07-05",
+        "memberList": [
+            {
+                "userId" : "1234",
+                "userNickname" : "감자",
+                "userName" : "김싸피",
+                "memberType" : "host"
+            }, {
+                "userId" : "2345",
+                "userNickname" : "고구마",
+                "userName" : "고싸피",
+                "memberType" : "guest"
+            }, {
+                "userId" : "3456",
+                "userNickname" : "옥수수",
+                "userName" : "옥싸피",
+                "memberType" : "guest"
+            }
+        ]
+    },
+    {
+        "tourId": "36378",
+        "tourTitle": "집에 가고 싶다.",
+        "cityList": [
+            {
+                "countryCode": "KOR",
+                "cityName": "서울"
+            }
+        ],
+        "startDate": "2024-04-20",
+        "endDate": "2024-04-21",
+        "memberList": [
+            {
+                "userId" : "2345",
+                "userNickname" : "감자",
+                "userName" : "김싸피",
+                "memberType" : "host"
+            }, {
+                "userId" : "2345",
+                "userNickname" : "고구마",
+                "userName" : "고싸피",
+                "memberType" : "guest"
+            }, {
+                "userId" : "4567",
+                "userNickname" : "고스트1",
+                "userName" : "고스트1",
+                "memberType" : "ghost"
+            }
+        ]
+    }
+]
