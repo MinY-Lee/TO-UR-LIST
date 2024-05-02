@@ -6,15 +6,15 @@ spring:
     import:
       - optional:file:.env[.properties]
   datasource:
-    url: ${AUTH_DB_URL}
-    username: ${AUTH_USER_NAME}
-    password: ${AUTH_USER_PASSWORD}
+    url: ${USER_DB_URL}
+    username: ${USER_USER_NAME}
+    password: ${USER_USER_PASSWORD}
     driver-class-name: org.mariadb.jdbc.Driver
     hikari:
       driver-class-name: org.mariadb.jdbc.Driver
-      jdbc-url: ${AUTH_DB_URL}
-      username: ${AUTH_USER_NAME}
-      password: ${AUTH_USER_PASSWORD}
+      jdbc-url: ${USER_DB_URL}
+      username: ${USER_USER_NAME}
+      password: ${USER_USER_PASSWORD}
       maximum-pool-size: 50
       minimum-idle: 10
       connection-timeout: 5000
@@ -33,43 +33,20 @@ spring:
         show_sql: true
         format_sql: true
         use_sql_comments: true
-  data:
-    redis:
-      host: ${AUTH_REDIS_HOST}
-      port: ${AUTH_REDIS_PORT}
-      password: ${AUTH_REDIS_PASSWORD}
   servlet:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
-  jwt:
-    secret: ${JWT_KEY}
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_CLIENT_SECRET}
-            scope: profile, email
-            redirect-uri: ${GOOGLE_REDIRECT_URL}
+
 logging:
   level:
     org:
       hibernate:
-        SQL: info
+        SQL: DEBUG
     com:
       eminyidle:
-        auth: debug
-    org.springframework.security: info
-
-social:
-  google:
-    id: ${GOOGLE_CLIENT_ID}
-    secret: ${GOOGLE_CLIENT_SECRET}
-    redirect: ${GOOGLE_REDIRECT_URL}
-
-auth-redirect-url: ${AUTH_REDIRECT_URL}
+        user: info
+    org.springframework.security: DEBUG
 
 server:
-  port: 8081
+  port: 8082
