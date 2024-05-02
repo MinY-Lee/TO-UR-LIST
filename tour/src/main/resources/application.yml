@@ -31,6 +31,12 @@ spring:
       isolate-internal-queries: false
       validation-timeout: 5000
       validation-query: SELECT 1
+    jpa:
+      properties:
+        hibernate:
+          show_sql: true
+          format_sql: true
+          use_sql_comments: true
 
 logging:
   level:

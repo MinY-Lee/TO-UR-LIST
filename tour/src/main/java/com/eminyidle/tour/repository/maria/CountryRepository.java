@@ -1,4 +1,4 @@
-package com.eminyidle.tour.repository;
+package com.eminyidle.tour.repository.maria;
 
 import com.eminyidle.tour.dto.CountryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
