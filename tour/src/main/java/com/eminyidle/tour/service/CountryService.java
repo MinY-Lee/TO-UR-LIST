@@ -6,7 +6,7 @@ import com.eminyidle.tour.dto.CountryInfo;
 
 import java.util.List;
 
-public interface CityService {
+public interface CountryService {
 
     List<Country> searchCountryList();
 
