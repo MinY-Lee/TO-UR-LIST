@@ -75,5 +75,7 @@ export interface Item {
     placeId : string,
     tourActivityId : string,
     item : string,
-    isChecked: boolean
+    tourDay: number,
+    isChecked: boolean,
+    isPublic: boolean,
 }
