@@ -24,9 +24,6 @@ import java.nio.charset.StandardCharsets;
 @RequestMapping("/pay")
 public class PaymentController {
 
-//    @Value("")
-    String authKey ="o4HdBtlosRAOh1X0o3MTqrrTtZ1OSKVt";
-
     @GetMapping("/currency/{countryCode}/{date}")
     public ResponseEntity<?> getCountryCurrencyRate(@Valid @NotBlank @PathVariable("countryCode") String countryCode,
                                                     @Valid @NotBlank @PathVariable("date") String date) {
@@ -36,30 +33,6 @@ public class PaymentController {
         //날짜 파싱
         String parseDate = date.replace("-", "");
 
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        MediaType mediaType = new MediaType("application", "x-www-form-urlencoded", StandardCharsets.UTF_8);
-        headers.setContentType(mediaType);
-
-        // 요청 매개변수 설정
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-
-        String url = "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=" + authKey
-                + "&searchdate=" + parseDate + "&data=AP01";
-        // 환율 요청
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-
-        // 응답 처리
-        String responseBody = response.getBody();
-
-        // JSON 파싱
-//        JSONObject jsonObject = new JSONObject(responseBody);
-        System.out.println("Response Body: " + responseBody);
-        // 액세스 토큰 추출
-//        String unit = jsonObject.getString("CUR_UNIT");
-        log.info("data : {}", responseBody);
         return ResponseEntity.ok().body("good");
     }
 }
