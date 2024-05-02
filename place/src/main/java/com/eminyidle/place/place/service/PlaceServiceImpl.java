@@ -81,12 +81,12 @@ public class PlaceServiceImpl implements PlaceService{
         Object responseBody = body;
         boolean isSuccess = false;
         String userId = (String) (headers.get("userId"));
-        String userName = (String) (headers.get("userName"));
-        String userNickname = (String) (headers.get("userNickname"));
+//        String userName = (String) (headers.get("userName"));
+//        String userNickname = (String) (headers.get("userNickname"));
         String placeId = (String) body.get("placeId");
         try {
             responseBody = AddPlaceInfo.builder()
-                    .userNickname(userNickname)
+                    .userId(userId)
                     .build();
         } catch (PlaceAddFailException e) {
             log.error(e.getMessage());
@@ -126,20 +126,21 @@ public class PlaceServiceImpl implements PlaceService{
                 .build();
     }
 
+    // 장소 삭제
     @Override
     public TourPlaceMessageInfo deletePlace(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> headers) {
         // 받아 온 body = requestbody
         Object responseBody = body;
         boolean isSuccess = false;
         String userId = (String) (headers.get("userId"));
-        String userName = (String) (headers.get("userName"));
-        String userNickname = (String) (headers.get("userNickname"));
+//        String userName = (String) (headers.get("userName"));
+//        String userNickname = (String) (headers.get("userNickname"));
         String placeId = (String) body.get("placeId");
         Integer tourDay = (Integer) body.get("tourDay");
         try {
             responseBody = PlaceRequesterInfo.builder()
                     .userId(userId)
-                    .userNickname(userNickname)
+//                    .userNickname(userNickname)
                     .build();
             placeRepository.deletePlaceByTourIdAndPlaceIdAndTourDay(tourId, placeId, tourDay);
             isSuccess = true;
@@ -151,6 +152,20 @@ public class PlaceServiceImpl implements PlaceService{
                 .body(responseBody)
                 .isSuccess(isSuccess)
                 .build();
+    }
+
+    // 장소 날짜 수정
+    @Override
+    public TourPlaceMessageInfo updatePlace(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> headers) {
+        // 받아 온 body = requestbody
+        Object responseBody = body;
+        boolean isSuccess = false;
+        String userId = (String) (headers.get("userId"));
+        String userName = (String) (headers.get("userName"));
+        String userNickname = (String) (headers.get("userNickname"));
+        String placeId = (String) body.get("placeId");
+        Integer tourDay = (Integer) body.get("tourDay");
+        return null;
     }
 
     // 장소 존재 여부 조회

@@ -9,5 +9,5 @@ import lombok.*;
 @Builder
 public class PlaceRequesterInfo {
     private String userId;
-    private String userNickname;
+//    private String userNickname;
 }

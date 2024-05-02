@@ -75,11 +75,16 @@ public class PlaceController {
                 isSuccess = tourPlaceMessageInfo.getIsSuccess();
                 break;
             }
+            // 장소 삭제
             case DELETE_PLACE: {
                 tourPlaceMessageInfo = placeService.deletePlace(body, tourId, simpSessionAttributes);
                 responseBody = tourPlaceMessageInfo.getBody();
                 isSuccess = tourPlaceMessageInfo.getIsSuccess();
                 break;
+            }
+            // 장소 날짜 수정
+            case UPDATE_PLACE_DATE:{
+                tourPlaceMessageInfo = placeService.updatePlace(body, tourId, simpSessionAttributes);
             }
         }
 

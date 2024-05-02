@@ -18,6 +18,9 @@ public interface PlaceService {
     // 장소 삭제
     TourPlaceMessageInfo deletePlace(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> headers);
 
+    // 장소 날짜 수정
+    TourPlaceMessageInfo updatePlace(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> simpSessionAttributes);
+
     // 장소 존재 여부 조회
     Boolean checkPlaceDuplication(String tourId, String placeId);
 
