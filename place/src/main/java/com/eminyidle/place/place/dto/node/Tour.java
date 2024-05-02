@@ -1,5 +1,7 @@
-package com.eminyidle.place.place.dto;
+package com.eminyidle.place.place.dto.node;
 
+import com.eminyidle.place.place.dto.Do;
+import com.eminyidle.place.place.dto.node.City;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

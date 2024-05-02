@@ -1,24 +1,28 @@
-package com.eminyidle.place.place.dto;
+package com.eminyidle.place.place.dto.node;
 
 import lombok.*;
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
 import static org.springframework.data.neo4j.core.schema.Relationship.Direction.OUTGOING;
 
-@Node
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class TourActivity {
+@Node("CITY")
+public class City {
+
     @Id
-    @GeneratedValue
-    private String tourActivityId;
+    @Property("city_id")
+    private Integer cityId;
+
+    @Property("city_name")
+    private String cityName;
 
     @Relationship(type = "IN", direction = OUTGOING)
-    private Activity activity;
+    private Country country;
 }

@@ -1,4 +1,4 @@
-package com.eminyidle.place.place.interceptor;
+package com.eminyidle.place.socket.interceptor;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

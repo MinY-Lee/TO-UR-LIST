@@ -1,5 +1,6 @@
-package com.eminyidle.place.place.dto;
+package com.eminyidle.place.place.dto.node;
 
+import com.eminyidle.place.place.dto.node.Country;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,25 +11,18 @@ import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
 import static org.springframework.data.neo4j.core.schema.Relationship.Direction.INCOMING;
-import static org.springframework.data.neo4j.core.schema.Relationship.Direction.OUTGOING;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Node("country")
-public class Country {
+@Node("ITEM")
+public class Item {
 
     @Id
-    @Property("country_code")
-    private String countryCode;
+    @Property("item")
+    private String item;
 
-    @Property("country_name")
-    private String countryName;
-
-    @Relationship(type = "IN", direction = INCOMING)
-    private City city;
-
-    @Relationship(type = "NEED", direction = OUTGOING)
-    private Item item;
+    @Relationship(type = "NEED", direction = INCOMING)
+    private Country country;
 }
