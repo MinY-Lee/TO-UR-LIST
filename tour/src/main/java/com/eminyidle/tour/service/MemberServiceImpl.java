@@ -38,10 +38,17 @@ public class MemberServiceImpl implements MemberService {
         userRepository.findUserByAttendRelationship(userId, tourId).orElseThrow(UserNotAttendSuchTourException::new);
     }
 
+    //TODO - 바꿀 수 있으면.. 에러 없이 하는 방법...으로,....
+    private boolean isAttend(String userId, String tourId){
+        return userRepository.existsAttendRelationshipByUserIdAndTourId(userId,tourId);
+    }
+
     @Override
     public void createMember(String hostId, TourMember tourMember) {
         assertHost(hostId,tourMember.getTourId());
-
+        if(isAttend(tourMember.getUserId(),tourMember.getTourId())){
+            throw new AlreadyUserAttendTourException();
+        }
         Tour tour = tourRepository.findById(tourMember.getTourId()).orElseThrow(NoSuchTourException::new);
         User user = userRepository.findById(tourMember.getUserId())
                 .orElse(userRepository.save(

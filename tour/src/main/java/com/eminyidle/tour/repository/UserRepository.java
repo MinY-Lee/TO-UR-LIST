@@ -31,4 +31,7 @@ public interface UserRepository extends Neo4jRepository<User, String> {
 
     @Query("MATCH (u:User{userId: $userId})-[:ATTEND]->(:Tour{tourId: $tourId}) return u")
     Optional<User> findUserByAttendRelationship(String userId, String tourId);
+
+    @Query("MATCH (t:Tour{tourId: $tourId}) WITH t MATCH (u:User{userId: $userId}) RETURN exists((u)-[:ATTEND]->(t))")
+    boolean existsAttendRelationshipByUserIdAndTourId(String userId, String tourId);
 }

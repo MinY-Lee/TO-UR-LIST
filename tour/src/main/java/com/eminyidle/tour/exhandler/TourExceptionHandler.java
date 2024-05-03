@@ -57,4 +57,10 @@ public class TourExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(e.getMessage());
     }
+
+    @ExceptionHandler(AlreadyUserAttendTourException.class)
+    public ResponseEntity<String> handleAlreadyUserAttendTourException(Exception e){
+        return ResponseEntity.badRequest()
+                .body(e.getMessage());
+    }
 }
