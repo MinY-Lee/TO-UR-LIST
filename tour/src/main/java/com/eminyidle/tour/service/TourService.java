@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface TourService {
 
-    Tour createTour(User user, CreateTourReq createTourReq);
+    Tour createTour(String userId, CreateTourReq createTourReq);
 
     void deleteTour(String userId, String tourId);
 

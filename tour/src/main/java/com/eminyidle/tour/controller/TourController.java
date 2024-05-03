@@ -33,8 +33,7 @@ public class TourController {
     @PostMapping()
     public ResponseEntity<String> createTour(@RequestBody CreateTourReq createTourReq, @RequestHeader(HEADER_USER_ID) String userId) {
         log.debug("createTour");
-        User user= null;//getUserFromHeader(header);
-        Tour tour=tourService.createTour(user,createTourReq);
+        Tour tour=tourService.createTour(userId,createTourReq);
         return ResponseEntity.ok(tour.getTourId());
     }
 
