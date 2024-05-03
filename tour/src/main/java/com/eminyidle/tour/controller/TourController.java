@@ -31,20 +31,20 @@ import java.util.Map;
 public class TourController {
 
     private final TourService tourService;
+    private final String HEADER_USER_ID="userId";
 
     @PostMapping()
-    public ResponseEntity<String> createTour(@RequestBody CreateTourReq createTourReq, @RequestHeader Map<String,String> header) {
+    public ResponseEntity<String> createTour(@RequestBody CreateTourReq createTourReq, @RequestHeader(HEADER_USER_ID) String userId) {
         log.debug("createTour");
-        log.debug(">>"+header);
-        User user= getUserFromHeader(header);
+        User user= null;//getUserFromHeader(header);
         Tour tour=tourService.createTour(user,createTourReq);
         return ResponseEntity.ok(tour.getTourId());
     }
 
     @GetMapping("/{tourId}")
-    public ResponseEntity<SearchTourDetailRes> searchTourDetail(@PathVariable String tourId, @RequestHeader Map<String,String> header){
+    public ResponseEntity<SearchTourDetailRes> searchTourDetail(@PathVariable String tourId, @RequestHeader(HEADER_USER_ID) String userId){
         log.debug("searchTour");
-        TourDetail tourDetail=tourService.searchTourDetail(header.get("userid"), tourId);
+        TourDetail tourDetail=tourService.searchTourDetail(userId, tourId);
         return ResponseEntity.ok(
                 SearchTourDetailRes.builder()
                         .tourTitle(tourDetail.getTourTitle())
@@ -57,46 +57,39 @@ public class TourController {
     }
 
     @DeleteMapping("/{tourId}")
-    public ResponseEntity<Void> deleteTour(@PathVariable String tourId, @RequestHeader Map<String,String> header){
+    public ResponseEntity<Void> deleteTour(@PathVariable String tourId, @RequestHeader(HEADER_USER_ID) String userId){
         log.debug("deleteTour "+tourId);
-        tourService.deleteTour(header.get("userid"), tourId);
+        tourService.deleteTour(userId, tourId);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/title")
-    public ResponseEntity<Void> updateTourTitle(@RequestBody UpdateTourTitleReq updateTourTitleReq, @RequestHeader Map<String,String> header){
+    public ResponseEntity<Void> updateTourTitle(@RequestBody UpdateTourTitleReq updateTourTitleReq, @RequestHeader(HEADER_USER_ID) String userId){
         log.debug("updateTourTitle ");
-        User user=getUserFromHeader(header);
-        tourService.updateTourTitle(user.getUserId(), updateTourTitleReq);
+        tourService.updateTourTitle(userId, updateTourTitleReq);
         return ResponseEntity.ok().build();
     }
     @PutMapping("/period")
-    public ResponseEntity<Void> updateTourPeriod(@RequestBody UpdateTourPeriodReq updateTourPeriodReq, @RequestHeader Map<String,String> header){
+    public ResponseEntity<Void> updateTourPeriod(@RequestBody UpdateTourPeriodReq updateTourPeriodReq, @RequestHeader(HEADER_USER_ID) String userId){
         log.debug("updateTourPeriod ");
-        User user=getUserFromHeader(header);
-        tourService.updateTourPeriod(user.getUserId(), updateTourPeriodReq);
+        tourService.updateTourPeriod(userId, updateTourPeriodReq);
         return ResponseEntity.ok().build();
     }
     @PutMapping("/city")
-    public ResponseEntity<Void> updateTourCity(@RequestBody UpdateTourCityReq updateTourCityReq, @RequestHeader Map<String,String> header){
+    public ResponseEntity<Void> updateTourCity(@RequestBody UpdateTourCityReq updateTourCityReq, @RequestHeader(HEADER_USER_ID) String userId){
         log.debug("updateTourCity ");
-        User user=getUserFromHeader(header);
-        tourService.updateTourCity(user.getUserId(), updateTourCityReq);
+        tourService.updateTourCity(userId, updateTourCityReq);
         return ResponseEntity.ok().build();
     }
     @GetMapping()
-    public ResponseEntity<List<Tour>> searchTourList(@RequestHeader Map<String,String> header) {
-        log.debug("searchTourList");
-        log.debug(">>"+header);
-        User user= getUserFromHeader(header);
-        List<Tour> tourList=tourService.searchTourList(user.getUserId());
+    public ResponseEntity<List<Tour>> searchTourList(@RequestHeader(HEADER_USER_ID) String userId) {
+        log.debug("searchTourList: "+userId);
+        List<Tour> tourList=tourService.searchTourList(userId);
         return ResponseEntity.ok(tourList);
     }
     @DeleteMapping() //TODO - 이렇게 정의하는게 맞을지 체크
-    public ResponseEntity<Void> quitTour(@RequestBody String tourId, @RequestHeader Map<String,String> header) {
+    public ResponseEntity<Void> quitTour(@RequestBody String tourId, @RequestHeader(HEADER_USER_ID) String userId) {
         log.debug("quitTour");
-        log.debug(">>"+header);
-        User user= getUserFromHeader(header);
         return ResponseEntity.ok().build();
     }
 
