@@ -82,8 +82,9 @@ public class TourController {
         return ResponseEntity.ok(tourList);
     }
     @DeleteMapping() //TODO - 이렇게 정의하는게 맞을지 체크
-    public ResponseEntity<Void> quitTour(@RequestBody String tourId, @RequestHeader(HEADER_USER_ID) String userId) {
-        log.debug("quitTour");
+    public ResponseEntity<Void> quitTour(@RequestBody QuitTourReq quitTourReq, @RequestHeader(HEADER_USER_ID) String userId) {
+        log.debug("quitTour .. "+quitTourReq.getTourId());
+        tourService.quitTour(userId, quitTourReq.getTourId());
         return ResponseEntity.ok().build();
     }
 
