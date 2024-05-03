@@ -4,11 +4,9 @@ import com.eminyidle.tour.dto.*;
 import com.eminyidle.tour.dto.req.CreateGhostMemberReq;
 import com.eminyidle.tour.dto.req.DeleteMemberReq;
 import com.eminyidle.tour.dto.req.UpdateGhostToGuestReq;
-import com.eminyidle.tour.dto.res.Ghost;
-import com.eminyidle.tour.exception.HostCanNotBeDeletedException;
-import com.eminyidle.tour.exception.NoHostPrivilegesException;
-import com.eminyidle.tour.exception.NoSuchTourException;
-import com.eminyidle.tour.exception.UserNotAttendSuchTourException;
+import com.eminyidle.tour.dto.Ghost;
+import com.eminyidle.tour.exception.*;
+import com.eminyidle.tour.repository.GhostRepository;
 import com.eminyidle.tour.repository.TourRepository;
 import com.eminyidle.tour.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -25,6 +24,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final UserRepository userRepository;
     private final TourRepository tourRepository;
+    private final GhostRepository ghostRepository;
 
     private void assertHost(String userId, String tourId) {
         String memberType = userRepository.findMemberTypeByUserIdAndTourId(userId, tourId);
@@ -39,7 +39,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void createMember(String hostId, TourMember tourMember) {
-        Tour tour=tourRepository.findById(tourMember.getTourId()).orElseThrow(NoSuchTourException::new);
+        Tour tour = tourRepository.findById(tourMember.getTourId()).orElseThrow(NoSuchTourException::new);
         User user = userRepository.findById(tourMember.getUserId())
                 .orElse(userRepository.save(
                         //TODO - 나의 노드에 없을 때, user서비스에 요청보내기
@@ -56,8 +56,18 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Ghost createGhostMember(String hostId, CreateGhostMemberReq createGhostMemberReq) {
-        userRepository.createMemberRelationship(createGhostMemberReq.getGhostNickname(), createGhostMemberReq.getTourId(), "ghost");
-        return Ghost.builder().build();
+        assertHost(hostId, createGhostMemberReq.getTourId());
+        Ghost existingGhost=ghostRepository.findByGhostNicknameAndTourId(createGhostMemberReq.getGhostNickname(), createGhostMemberReq.getTourId());
+        if(existingGhost!=null){
+            throw new DuplicatedGhostNicknameException();
+        }
+
+        Ghost ghost = ghostRepository.save(Ghost.builder()
+                .ghostId(UUID.randomUUID().toString())
+                .ghostNickname(createGhostMemberReq.getGhostNickname())
+                .build());
+        ghostRepository.createGhostRelationship(ghost.getGhostId(), createGhostMemberReq.getTourId());
+        return ghost;
     }
 
     @Override

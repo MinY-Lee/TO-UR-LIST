@@ -2,13 +2,11 @@ package com.eminyidle.tour.controller;
 
 import com.eminyidle.tour.dto.*;
 import com.eminyidle.tour.dto.req.*;
-import com.eminyidle.tour.dto.res.Ghost;
+import com.eminyidle.tour.dto.Ghost;
 import com.eminyidle.tour.dto.res.SearchTourDetailRes;
 import com.eminyidle.tour.exception.UserInfoInRequestNotFoundException;
 import com.eminyidle.tour.service.MemberService;
 import com.eminyidle.tour.service.TourService;
-import com.eminyidle.tour.service.TourServiceImpl;
-import com.eminyidle.tour.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

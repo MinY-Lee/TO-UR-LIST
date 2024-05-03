@@ -2,11 +2,10 @@ package com.eminyidle.tour.service;
 
 import com.eminyidle.tour.dto.Member;
 import com.eminyidle.tour.dto.TourMember;
-import com.eminyidle.tour.dto.User;
 import com.eminyidle.tour.dto.req.CreateGhostMemberReq;
 import com.eminyidle.tour.dto.req.DeleteMemberReq;
 import com.eminyidle.tour.dto.req.UpdateGhostToGuestReq;
-import com.eminyidle.tour.dto.res.Ghost;
+import com.eminyidle.tour.dto.Ghost;
 
 
 import java.util.List;
