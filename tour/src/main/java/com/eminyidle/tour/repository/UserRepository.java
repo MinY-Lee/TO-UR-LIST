@@ -6,6 +6,7 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends Neo4jRepository<User, String> {
     @Query("MATCH (t:Tour {tourId: $tourId})-[m:MEMBER]->(u:User) " +
@@ -27,4 +28,7 @@ public interface UserRepository extends Neo4jRepository<User, String> {
 
     @Query("MATCH (u:User{userId: $userId})<-[rel:MEMBER {memberType: $memberType}]-(t:Tour{tourId: $tourId}) delete (t)-[rel]->(u),(u)-[:ATTEND]->(t)")
     int deleteMemberRelationship(String userId, String tourId, String memberType);
+
+    @Query("MATCH (u:User{userId: $userId})-[:ATTEND]->(:Tour{tourId: $tourId}) return u")
+    Optional<User> findUserByAttendRelationship(String userId, String tourId);
 }

@@ -6,8 +6,11 @@ import com.eminyidle.tour.dto.User;
 import com.eminyidle.tour.dto.req.CreateGhostMemberReq;
 import com.eminyidle.tour.dto.req.DeleteMemberReq;
 import com.eminyidle.tour.dto.req.UpdateGhostToGuestReq;
+import com.eminyidle.tour.dto.res.Ghost;
 import com.eminyidle.tour.exception.HostCanNotBeDeletedException;
+import com.eminyidle.tour.exception.NoHostPrivilegesException;
 import com.eminyidle.tour.exception.NoSuchTourException;
+import com.eminyidle.tour.exception.UserNotAttendSuchTourException;
 import com.eminyidle.tour.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,12 +23,15 @@ public class MemberServiceImpl implements MemberService {
 
     UserRepository userRepository;
 
-    private boolean isHost(String userId, String tourId) {
+    private void assertHost(String userId, String tourId) {
         String memberType = userRepository.findMemberTypeByUserIdAndTourId(userId, tourId);
-        if ("host".equals(memberType)) {
-            return true;
+        if (!"host".equals(memberType)) {
+            throw new NoHostPrivilegesException();
         }
-        return false;
+    }
+
+    private void assertAttend(String userId, String tourId) {
+        userRepository.findUserByAttendRelationship(userId, tourId).orElseThrow(UserNotAttendSuchTourException::new);
     }
 
     @Override
@@ -40,12 +46,15 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void createGhostMember(String hostId, CreateGhostMemberReq createGhostMemberReq) {
+    public Ghost createGhostMember(String hostId, CreateGhostMemberReq createGhostMemberReq) {
         userRepository.createMemberRelationship(createGhostMemberReq.getGhostNickname(), createGhostMemberReq.getTourId(), "ghost");
+        return Ghost.builder().build();
     }
 
     @Override
-    public List<Member> searchMemberList(String tourId) {
+    public List<Member> searchMemberList(String userId, String tourId) {
+        assertAttend(userId, tourId);
+
         List<Member> memberList = userRepository.findMembersByTourId(tourId);
         if (memberList.isEmpty()) throw new NoSuchTourException();
         return memberList;
@@ -70,13 +79,13 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void deleteMember(String hostId, DeleteMemberReq deleteMemberReq) {
-        if("host".equals(deleteMemberReq.getMemberType())){
+        if ("host".equals(deleteMemberReq.getMemberType())) {
             throw new HostCanNotBeDeletedException();
         }
         //i: 실행여부
-        int i=userRepository.deleteMemberRelationship(deleteMemberReq.getUserId(), deleteMemberReq.getTourId(), deleteMemberReq.getMemberType());
-        log.debug(">>deleted>>"+i);
-        if(i==0){
+        int i = userRepository.deleteMemberRelationship(deleteMemberReq.getUserId(), deleteMemberReq.getTourId(), deleteMemberReq.getMemberType());
+        log.debug(">>deleted>>" + i);
+        if (i == 0) {
             //실행되지 않음. userId, tourId, memberType 뭔가 잘못된 것
         }
         //TODO- 모든 아이템 삭제 요청

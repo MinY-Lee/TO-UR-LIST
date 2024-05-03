@@ -6,6 +6,7 @@ import com.eminyidle.tour.dto.User;
 import com.eminyidle.tour.dto.req.CreateGhostMemberReq;
 import com.eminyidle.tour.dto.req.DeleteMemberReq;
 import com.eminyidle.tour.dto.req.UpdateGhostToGuestReq;
+import com.eminyidle.tour.dto.res.Ghost;
 
 
 import java.util.List;
@@ -17,11 +18,11 @@ public interface MemberService {
 
     void createMember(String hostId, TourMember tourMember);
 
-    void createGhostMember(String hostId, CreateGhostMemberReq
+    Ghost createGhostMember(String hostId, CreateGhostMemberReq
             createGhostMemberReq
     );
 
-    List<Member> searchMemberList(String tourId);
+    List<Member> searchMemberList(String userId,String tourId);
 
     void updateGhostToGuest(String hostId, UpdateGhostToGuestReq updateGhostToGuestReq);
 
