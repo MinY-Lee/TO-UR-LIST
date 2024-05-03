@@ -1,14 +1,14 @@
 spring:
   application:
     name: tour
+  config:
+    import:
+      - optional:file:.env[.properties]
   neo4j:
     authentication:
       username: ${TOUR_NEO4J_USER_NAME}
       password: ${TOUR_NEO4J_USER_PASSWORD}
     uri: ${TOUR_NEO4J_URI}
-  config:
-    import:
-      - optional:file:.env[.properties]
   datasource:
     url: ${DB_URL}
     username: ${USER_NAME}
