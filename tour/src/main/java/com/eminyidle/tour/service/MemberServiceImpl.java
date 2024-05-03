@@ -40,6 +40,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void createMember(String hostId, TourMember tourMember) {
+        assertHost(hostId,tourMember.getTourId());
+
         Tour tour = tourRepository.findById(tourMember.getTourId()).orElseThrow(NoSuchTourException::new);
         User user = userRepository.findById(tourMember.getUserId())
                 .orElse(userRepository.save(
@@ -58,6 +60,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Ghost createGhostMember(String hostId, CreateGhostMemberReq createGhostMemberReq) {
         assertHost(hostId, createGhostMemberReq.getTourId());
+
         Ghost existingGhost=ghostRepository.findByGhostNicknameAndTourId(createGhostMemberReq.getGhostNickname(), createGhostMemberReq.getTourId());
         if(existingGhost!=null){
             throw new DuplicatedGhostNicknameException();
@@ -74,6 +77,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void updateGhostMemberNickname(String hostId, UpdateGhostMemberReq updateGhostMemberReq) {
         assertHost(hostId, updateGhostMemberReq.getTourId());
+
         Ghost ghost=ghostRepository.findById(updateGhostMemberReq.getGhostId()).orElseThrow(NoSuchGhostException::new);
         ghost.setGhostNickname(updateGhostMemberReq.getGhostNickname());
         ghostRepository.save(ghost);
@@ -90,11 +94,24 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void updateGhostToGuest(String hostId, UpdateGhostToGuestReq updateGhostToGuestReq) {
+        Ghost ghost=ghostRepository.findById(updateGhostToGuestReq.getGhostId()).orElseThrow(NoSuchGhostException::new);
+        User user=userRepository.findById(updateGhostToGuestReq.getUserId()).orElseThrow(NoSuchUserException::new);
 
+        //여기에서 host임이 보장된다
+        createMember(hostId,TourMember.builder()
+                .userId(user.getUserId())
+                .tourId(updateGhostToGuestReq.getTourId())
+                .userNickname(user.getUserNickname())
+                .build()
+        );
+        //TODO- ghost에 있던 연결 guest에 잇기
+        ghostRepository.delete(ghost);
     }
 
     @Override
     public void updateHost(String hostId, TourMember tourMember) {
+        assertHost(hostId,tourMember.getTourId());
+
         User user = userRepository.findById(tourMember.getUserId())
                 .orElse(userRepository.save(
                         //TODO - 나의 노드에 없을 때, 올바른 유저인지 확인 필요
@@ -107,6 +124,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void deleteMember(String hostId, DeleteMemberReq deleteMemberReq) {
+        assertHost(hostId, deleteMemberReq.getTourId());
+
         switch (deleteMemberReq.getMemberType()){
             case "host":
                 throw new HostCanNotBeDeletedException();
