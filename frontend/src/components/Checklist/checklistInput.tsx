@@ -1,13 +1,25 @@
 import { useState } from 'react'
 import { Item } from '../../types/types';
 
+interface ItemPerPlace {
+    [placeId: string]: Item[];
+}
+
+interface ItemPerDayAndPlace {
+    [day: number]: ItemPerPlace;
+}
+
 interface PropType {
-    tourId: string
-    filteredChecklist: Item[];
+    className?: string;
+    tourId: string;
+    checklist?: Item[];
+    tourDay?: number;
+    placeId?: string;
+    checklistPerDay?: ItemPerDayAndPlace;
     onUpdate: (item: Item) => void;
 }
 
-export default function ChecklistTab(props: PropType) {
+export default function ChecklistInput(props: PropType) {
     const [isClicked, setIsClicked] = useState<boolean>(false);
     const [isPublicInput, setIsPublicInput] = useState<boolean>(false);
     const [itemInput, setItemInput] = useState<string>("");
@@ -31,7 +43,7 @@ export default function ChecklistTab(props: PropType) {
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         
         if (event.key === 'Enter') {
-            const existingItem = props.filteredChecklist?.find((item) => item.item === itemInput);
+            const existingItem = props.checklist?.find((item) => item.item === itemInput);
             if (existingItem) {
                 event.preventDefault(); // 이미 있는 아이템이면 제출 막기
             } else {
@@ -46,10 +58,10 @@ export default function ChecklistTab(props: PropType) {
 
         props.onUpdate({
             'tourId': props.tourId,
-            'placeId': "",
+            'placeId': props.placeId || "",
             'tourActivityId' : "",
             'item' : itemInput,
-            'tourDay' : 0,
+            'tourDay' : props.tourDay || 0,
             'isChecked' : false,
             'isPublic' : isPublicInput
         })
@@ -58,7 +70,7 @@ export default function ChecklistTab(props: PropType) {
     }
     
     const handleHelpText = () => {
-        const existingItem = props.filteredChecklist?.find((item) => item.item == itemInput)
+        const existingItem = props.checklist?.find((item) => item.item == itemInput)
         return (existingItem ? "" : "hidden");
     }
 
@@ -66,7 +78,7 @@ export default function ChecklistTab(props: PropType) {
         <>
         <div>
             <div className="flex relative items-start">
-                <button onClick={() => setIsClicked(!isClicked)} id="dropdown-button" data-dropdown-toggle="dropdown" className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-center text-gray-900" type="button">
+                <button onClick={() => setIsClicked(!isClicked)} id="dropdown-button" data-dropdown-toggle="dropdown" className={`${props.className} flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-center text-gray-900`} type="button">
                     {/* 기본선택값 */}
                     {isPublicInput
                         ? <svg width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -105,7 +117,7 @@ export default function ChecklistTab(props: PropType) {
                     
                     </ul>
                 </div>
-                <div className="w-full">
+                <div className="w-[70%]">
                     <input 
                         onChange={handleInputChange}
                         onKeyDown={handleKeyDown} // 엔터 키 입력 감지

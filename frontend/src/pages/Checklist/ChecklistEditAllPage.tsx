@@ -145,7 +145,7 @@ export default function ChecklistEditAllPage() {
                     <MyButton className="text-xl" isSelected={true} onClick={() => handleDone()} text="완료" type="small"/>
                 </div>
                 <div className="mb-5">
-                    <ChecklistInput tourId={tourId} filteredChecklist={filteredChecklist} onUpdate={onUpdate}/>
+                    <ChecklistInput tourId={tourId} checklist={filteredChecklist} onUpdate={onUpdate}/>
                 </div>
                 <div className="flex flex-col justify-start h-[65vh] overflow-y-scroll">
                     {filteredChecklist.map((item, index) => (
