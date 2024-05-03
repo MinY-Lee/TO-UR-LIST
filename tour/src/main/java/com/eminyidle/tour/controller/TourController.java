@@ -96,16 +96,9 @@ public class TourController {
 
 
 
-    private User getUserFromHeader(Map<String,String> header){
-        try {
-            return User.builder()
-                    .userId(header.get("userid"))
-                    .userNickname(URLDecoder.decode(header.get("usernickname"),"UTF-8"))
-                    .userName(URLDecoder.decode(header.get("username"),"UTF-8"))
-                    .tourList(new ArrayList<>())
-                    .build();
-        } catch (UnsupportedEncodingException | NullPointerException e) {
-            throw new UserInfoInRequestNotFoundException(e.getMessage());
-        }
-    }
+    //FEED
+    //새 여행으로 가져오기 -> 피드번호에 맞는 tourId와 제목, 시작하는 날, 끝나는 날 알려주면...
+        //그 도시 바탕으로 현재 유저에게 새로운 여행 만들어준다
+        //도시는 알아서 그 도시로,
+    //기존 여행으로 가져오기 -> 피드에 맞게 도시 "추가"
 }
