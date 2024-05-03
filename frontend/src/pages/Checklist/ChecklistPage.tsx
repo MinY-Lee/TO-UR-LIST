@@ -1,10 +1,31 @@
+import { useState, useEffect } from "react";
+
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
 import ChecklistTab from '../../components/Checklist/checklistTab'
+import TourHeader from "../../components/TourPage/TourHeader";
+
+import { TourInfoDetail } from "../../types/types";
+
+import TourDetail from '../../dummy-data/get_tour_detail.json';
+import TourBasicInfo from "../../components/TourPage/TourBasicInfo";
+import TabBarTour from "../../components/TabBar/TabBarTour";
   
 export default function ChecklistPage() {
-      // 투어 아이디 불러오기
-      const address: string[] = window.location.href.split('/');
-      const tourId: string = address[address.length - 2];
+    const [data, setData] = useState<TourInfoDetail>();
+    const [tourId, setTourId] = useState<string>("");
+
+    useEffect(() => {
+        // 투어 아이디 불러오기
+        const address: string[] = window.location.href.split('/');
+        setTourId(address[address.length - 2]);
+    
+        // 투어 아이디로 더미데이터에서 데이터 찾기 (임시)
+        const tourData = TourDetail.find(tour => tour.tourId === tourId);
+        if (tourData) {
+            setData(tourData);
+        }
+        
+    }, [tourId]);
 
     
     return (
@@ -12,20 +33,22 @@ export default function ChecklistPage() {
             <header>
                 <HeaderBar/>
             </header>
-            <div >
-                <div className="h-[20vh] bg-gray-100">
-                    여행헤더 영역
-                </div>
-                <div className="h-[20vh] bg-blue-100">
-                    기본정보 영역
+            <div className="h-[85vh] overflow-y-scroll">
+                <div>
+                    <TourHeader tourInfo={data}/>
                 </div>
                 <div>
+                    <TourBasicInfo tourInfo={data}/>
+                </div>
+                <div className="">
                     <ChecklistTab tourId={tourId}/>
                     
-
-                    
                 </div>
+                
             </div>
+            <footer>
+                <TabBarTour tabMode={2} tourMode={1} tourId={tourId} />
+            </footer>
         </div>
     );
 }

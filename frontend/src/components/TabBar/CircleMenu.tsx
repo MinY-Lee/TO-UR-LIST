@@ -37,12 +37,11 @@ export default function CircleMenu(props: PropType) {
                 '#a2dcf2 0deg, #a2dcf2 60deg, white 60deg, white 360deg'
             );
         }
-        console.log(conicString);
     }, []);
     return (
         <>
             <div
-                className="w-[150%] aspect-square rounded-[50%] -z-10 absolute left-[50%] border-[0.2vw] border-[#D9D9D9]"
+                className="w-[150%] aspect-square rounded-[50%] -z-10 absolute left-[50%] border-[0.2vw] border-[#D9D9D9] bg-white"
                 style={{
                     transform: `translate(-50%, -50%) rotate(270deg) scaleY(-1)`,
                     backgroundImage: `conic-gradient(${conicString})`,

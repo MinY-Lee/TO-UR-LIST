@@ -2,16 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import CircleMenu from './CircleMenu';
 
 interface PropType {
-    tabMode: number;
     tourMode: number;
     tourId: string;
 }
 
 export default function TabBarTour(props: PropType) {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-
-    //메인 화면 등 투어 화면이 아닌 곳에서 보이는 탭바
-    const tabMode = props.tabMode;
 
     const [widthSize, setWidthSize] = useState<number>(0);
 

@@ -18,10 +18,10 @@ export interface TourCardInfo {
 }
 
 export interface MemberInfo {
-    userId : string,
-    userNickname : string,
-    userName : string,
-    memberType : string,
+    userId: string;
+    userNickname: string;
+    userName: string;
+    memberType: string;
 }
 
 export interface TourInfoDetail {
@@ -45,7 +45,7 @@ export interface CountryInfo {
     voltage: string;
     plug_type: string;
     climate: string;
-    KST: string
+    KST: string;
 }
 
 //피드 관련
@@ -71,9 +71,29 @@ export interface FeedCity {
 
 // 체크리스트 아이템 정보
 export interface Item {
-    tourId : string,
-    placeId : string,
-    tourActivityId : string,
-    item : string,
-    isChecked: boolean
+    tourId: string;
+    placeId: string;
+    tourActivityId: string;
+    item: string;
+    tourDay: number;
+    isChecked: boolean;
+    isPublic: boolean;
+}
+
+//일정 관련
+export interface TourPlaceItem {
+    placeId: string;
+    placeName: string;
+    tourDay: number;
+    tourActivityList: TourActivity[];
+}
+
+export interface TourActivity {
+    tourActivityId: string;
+    activity: string;
+}
+
+export interface Position {
+    lat: number;
+    lng: number;
 }

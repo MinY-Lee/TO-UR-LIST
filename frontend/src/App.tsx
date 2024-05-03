@@ -27,6 +27,7 @@ import FeedEditPage from './pages/Feed/FeedEditPage';
 //css
 import './App.css';
 import LoginCheck from './pages/AuthCheck/LoginCheck';
+import TourScheduleEditDetailPage from './pages/Schedule/TourScheduleEditDetailPage';
 
 export default function App() {
     return (
@@ -69,6 +70,11 @@ export default function App() {
                 <Route
                     path="/tour/:tourid/schedule/edit"
                     element={<TourScheduleEditPage />}
+                />
+                {/* 일정 변경 상세보기 페이지 */}
+                <Route
+                    path="/tour/:tourid/schedule/edit/detail"
+                    element={<TourScheduleEditDetailPage />}
                 />
 
                 {/* 체크리스트 관련 */}
