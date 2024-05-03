@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import TourHeader from '../../components/TourPage/TourHeader';
 import ScheduleBar from '../../components/SchedulePage/ScheduleBar';
 import Maps from '../../components/SchedulePage/Maps';
-import { Wrapper, Status } from '@googlemaps/react-wrapper';
+import { Wrapper } from '@googlemaps/react-wrapper';
 import { TourPlaceItem } from '../../types/types';
 
 //dummy data

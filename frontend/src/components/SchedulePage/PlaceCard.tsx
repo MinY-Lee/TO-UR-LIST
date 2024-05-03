@@ -6,6 +6,7 @@ interface PropType {
     schedule: TourPlaceItem;
     isEditable: boolean;
     tourId: string;
+    goToDetail: (schedule: TourPlaceItem) => void;
 }
 
 export default function PlaceCard(props: PropType) {
@@ -14,8 +15,9 @@ export default function PlaceCard(props: PropType) {
 
     const bgColor = ['color-bg-blue-5', 'bg-[#FFD4D4]', 'color-bg-blue-2`'];
 
-    const deleteItem = () => {
+    const deleteItem = (event) => {
         setIsDeleteModalActive(true);
+        event.stopPropagation();
     };
 
     const deleteOK = () => {
@@ -42,11 +44,14 @@ export default function PlaceCard(props: PropType) {
             ) : (
                 <></>
             )}
-            <div className="w-full p-[1vw] my-[0.5vw] rounded-[2vw] border-[0.5vw] border-[#D9D9D9]">
+            <div
+                className="w-full p-[1vw] my-[0.5vw] rounded-[2vw] border-[0.5vw] border-[#D9D9D9]"
+                onClick={() => props.goToDetail(props.schedule)}
+            >
                 <div className="w-full flex justify-between items-center">
                     <p className="text-[6vw]">{props.schedule.placeName}</p>
                     <span
-                        className="text-[6vw] material-symbols-outlined"
+                        className="text-[6vw] material-symbols-outlined z-10"
                         onClick={deleteItem}
                     >
                         close

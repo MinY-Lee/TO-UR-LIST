@@ -25,7 +25,6 @@ export default function TourScheduleEditPage() {
     const location = useLocation();
     useEffect(() => {
         if (location.state && location.state.selectedDate) {
-            console.log(location.state);
             setSelectedDate(location.state.selectedDate);
         }
     }, []);

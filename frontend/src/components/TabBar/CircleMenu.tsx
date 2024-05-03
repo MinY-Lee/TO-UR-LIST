@@ -37,7 +37,6 @@ export default function CircleMenu(props: PropType) {
                 '#a2dcf2 0deg, #a2dcf2 60deg, white 60deg, white 360deg'
             );
         }
-        console.log(conicString);
     }, []);
     return (
         <>

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { TourPlaceItem } from '../../types/types';
 import PlaceCard from './PlaceCard';
 
@@ -16,6 +17,18 @@ export default function DayList(props: PropType) {
                 ? date.getMonth() + 1
                 : '0' + (date.getMonth() + 1)
         }.${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()}`;
+    };
+
+    const navigate = useNavigate();
+
+    const goToDetail = (schedule: TourPlaceItem) => {
+        if (props.isEditable) {
+            navigate(`/tour/${props.tourId}/schedule/edit/detail`, {
+                state: {
+                    scheduleInfo: schedule,
+                },
+            });
+        }
     };
 
     return (
@@ -51,9 +64,15 @@ export default function DayList(props: PropType) {
                         props.dailySchedule.map((schedule) => {
                             return (
                                 <PlaceCard
+                                    key={
+                                        schedule.tourDay +
+                                        ' ' +
+                                        schedule.placeId
+                                    }
                                     schedule={schedule}
                                     isEditable={props.isEditable}
                                     tourId={props.tourId}
+                                    goToDetail={goToDetail}
                                 />
                             );
                         })

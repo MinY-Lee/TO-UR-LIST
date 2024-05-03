@@ -23,7 +23,6 @@ export default function Maps(props: PropType) {
             const initMap = new window.google.maps.Map(googleMapRef.current, {
                 center: { lat: 37.5, lng: 127 },
                 zoom: 13,
-                mapId: props.tourId,
             });
 
             const marker = new google.maps.Marker({
@@ -57,10 +56,10 @@ export default function Maps(props: PropType) {
 
             //마커, 위치 정보 초기화
             const newMarkers: google.maps.Marker[][] = [];
-            const newPlaces: Position[][] = [];
+            const newPlaces: google.maps.LatLng[][] = [];
             for (let i = 0; i < props.schedule.length; i++) {
                 const arr1: google.maps.Marker[] = [];
-                const arr2: Position[] = [];
+                const arr2: google.maps.LatLng[] = [];
                 newMarkers.push(arr1);
                 newPlaces.push(arr2);
             }
@@ -77,10 +76,11 @@ export default function Maps(props: PropType) {
                     if (!cache.get(place.placeId)) {
                         placesService?.getDetails(
                             { placeId: place.placeId },
-                            (results, status) => {
+                            (results) => {
                                 console.log('api 호출');
                                 const lat = results.geometry?.location.lat();
                                 const lng = results.geometry?.location.lng();
+
                                 if (lat && lng) {
                                     const pos = { lat, lng };
 
