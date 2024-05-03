@@ -1,7 +1,8 @@
 package com.eminyidle.payment.batch;
 
+import com.eminyidle.payment.service.BatchService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -19,10 +20,13 @@ import java.nio.charset.StandardCharsets;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class ExchangeRateTasklet implements Tasklet {
 
     @Value("${EXCHANGERATE_KEY}")
     String authKey;
+
+    private final BatchService batchService;
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
@@ -41,10 +45,10 @@ public class ExchangeRateTasklet implements Tasklet {
 
         // 응답 처리
         String responseBody = response.getBody();
-
         log.info("Response Body: {}", responseBody);
-        // JSON 파싱
-        JSONObject jsonObject = new JSONObject(responseBody);
+
+        // 환율 정보 저장
+        batchService.saveExchangeRates(responseBody);
 
         return RepeatStatus.FINISHED;
     }
