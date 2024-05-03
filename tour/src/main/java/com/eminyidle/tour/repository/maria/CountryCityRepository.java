@@ -1,8 +1,6 @@
-package com.eminyidle.tour.repository;
+package com.eminyidle.tour.repository.maria;
 
-import com.eminyidle.tour.dto.City;
 import com.eminyidle.tour.dto.CityEntity;
-import com.eminyidle.tour.dto.CountryCurrency;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

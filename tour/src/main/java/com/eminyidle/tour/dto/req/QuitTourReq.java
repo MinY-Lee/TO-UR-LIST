@@ -5,7 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateGhostMemberReq {
+public class QuitTourReq {
     String tourId;
-    String ghostNickname;
 }

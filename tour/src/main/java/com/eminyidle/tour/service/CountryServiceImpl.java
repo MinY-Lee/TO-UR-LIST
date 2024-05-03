@@ -2,9 +2,9 @@ package com.eminyidle.tour.service;
 
 import com.eminyidle.tour.dto.*;
 import com.eminyidle.tour.exception.NoSuchCountryException;
-import com.eminyidle.tour.repository.CountryCityRepository;
-import com.eminyidle.tour.repository.CountryCurrencyRepository;
-import com.eminyidle.tour.repository.CountryRepository;
+import com.eminyidle.tour.repository.maria.CountryCityRepository;
+import com.eminyidle.tour.repository.maria.CountryCurrencyRepository;
+import com.eminyidle.tour.repository.maria.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

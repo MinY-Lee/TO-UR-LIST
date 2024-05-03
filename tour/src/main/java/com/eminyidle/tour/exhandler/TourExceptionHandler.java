@@ -1,10 +1,8 @@
 package com.eminyidle.tour.exhandler;
 
-import com.eminyidle.tour.exception.AbnormalTourDateException;
-import com.eminyidle.tour.exception.NoHostPrivilegesException;
-import com.eminyidle.tour.exception.NoSuchTourException;
-import com.eminyidle.tour.exception.UserInfoInRequestNotFoundException;
+import com.eminyidle.tour.exception.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
@@ -30,6 +28,38 @@ public class TourExceptionHandler {
 
     @ExceptionHandler(UserInfoInRequestNotFoundException.class)
     public ResponseEntity<String> handleUserInfoInRequestNotFoundException(Exception e){
+        return ResponseEntity.badRequest()
+                .body(e.getMessage());
+    }
+
+    //FIXME - userID가 없는 헤더에만 대한 예외처리로 바꾸기
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<String> handleMissingRequestHeaderException(Exception e){
+        return ResponseEntity.badRequest()
+                .body("No UserID");
+    }
+
+
+    @ExceptionHandler(DuplicatedGhostNicknameException.class)
+    public ResponseEntity<String> handleDuplicatedGhostNicknameException(Exception e){
+        return ResponseEntity.badRequest()
+                .body("중복된 고스트 닉네임입니다");
+    }
+
+    @ExceptionHandler(InvalidMemberTypeException.class)
+    public ResponseEntity<String> handleInvalidMemberTypeException(Exception e){
+        return ResponseEntity.badRequest()
+                .body(e.getMessage());
+    }
+
+    @ExceptionHandler(HostCanNotBeDeletedException.class)
+    public ResponseEntity<String> handleHostCanNotBeDeletedException(Exception e){
+        return ResponseEntity.badRequest()
+                .body(e.getMessage());
+    }
+
+    @ExceptionHandler(AlreadyUserAttendTourException.class)
+    public ResponseEntity<String> handleAlreadyUserAttendTourException(Exception e){
         return ResponseEntity.badRequest()
                 .body(e.getMessage());
     }

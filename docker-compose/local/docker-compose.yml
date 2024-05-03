@@ -86,6 +86,7 @@ services:
     volumes:
       - tour-neo4j-data:/data
     environment:
+      NEO4J_AUTH: ${TOUR_NEO4J_USER_NAME}/${TOUR_NEO4J_USER_PASSWORD}
       TZ: 'Asia/Seoul'
     ports:
       - "7475:7474"
