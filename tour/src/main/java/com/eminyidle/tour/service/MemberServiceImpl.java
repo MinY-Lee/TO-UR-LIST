@@ -1,8 +1,6 @@
 package com.eminyidle.tour.service;
 
-import com.eminyidle.tour.dto.Member;
-import com.eminyidle.tour.dto.TourMember;
-import com.eminyidle.tour.dto.User;
+import com.eminyidle.tour.dto.*;
 import com.eminyidle.tour.dto.req.CreateGhostMemberReq;
 import com.eminyidle.tour.dto.req.DeleteMemberReq;
 import com.eminyidle.tour.dto.req.UpdateGhostToGuestReq;
@@ -11,17 +9,22 @@ import com.eminyidle.tour.exception.HostCanNotBeDeletedException;
 import com.eminyidle.tour.exception.NoHostPrivilegesException;
 import com.eminyidle.tour.exception.NoSuchTourException;
 import com.eminyidle.tour.exception.UserNotAttendSuchTourException;
+import com.eminyidle.tour.repository.TourRepository;
 import com.eminyidle.tour.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final TourRepository tourRepository;
 
     private void assertHost(String userId, String tourId) {
         String memberType = userRepository.findMemberTypeByUserIdAndTourId(userId, tourId);
@@ -36,13 +39,19 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void createMember(String hostId, TourMember tourMember) {
+        Tour tour=tourRepository.findById(tourMember.getTourId()).orElseThrow(NoSuchTourException::new);
         User user = userRepository.findById(tourMember.getUserId())
                 .orElse(userRepository.save(
-                        //TODO - 나의 노드에 없을 때, 올바른 유저인지 확인 필요
-                        User.builder().userId(tourMember.getUserId()).userNickname(tourMember.getUserNickname()).build()
+                        //TODO - 나의 노드에 없을 때, user서비스에 요청보내기
+                        //  없는 유저라면 exception
+                        User.builder()
+                                .userId(tourMember.getUserId())
+                                .tourList(new ArrayList<>())
+                                .userName("서버잉")
+                                .userNickname("servering")
+                                .build()
                 ));
-
-        userRepository.createGuestRelationship(hostId, tourMember.getTourId(), user.getUserId());
+        userRepository.createGuestRelationship(hostId, tour.getTourId(), user.getUserId());
     }
 
     @Override
