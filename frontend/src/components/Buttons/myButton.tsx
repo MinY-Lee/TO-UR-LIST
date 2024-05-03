@@ -1,26 +1,27 @@
 import { useState } from 'react';
 
 interface MyButtonProps {
+    className?: string; // 추가 커스텀 사항
     type: string; // 버튼 크기 타입
     text: string; // 버튼에 표시할 텍스트
     isSelected: boolean; // 상태
     onClick: () => void;
 }
 
-const MyButton: React.FC<MyButtonProps> = ({ type, text, isSelected, onClick}) => {
+const MyButton: React.FC<MyButtonProps> = ({ className, type, text, isSelected, onClick}) => {
     const [buttonColor, setButtonColor] = useState<String>(isSelected ? 'color-bg-blue-1 text-white text-bold' : 'color-bg-blue-5 text-white');
     return (
 
         <div className="">
             {type === 'full' ?
                 <button
-                    className={`color-bg-blue-2 rounded-lg w-full py-3 text-white font-bold text-lg`}
+                    className={`${className} color-bg-blue-2 rounded-lg w-full py-3 text-white font-bold text-lg`}
                     onClick={onClick}
                 >
                     {text}
                 </button> :
                 <button
-                    className={`${buttonColor} rounded-xl px-5`}
+                    className={`${className} ${buttonColor} rounded-xl px-5`}
                     onClick={onClick}
                 >
                     {text}

@@ -75,7 +75,9 @@ export interface Item {
     placeId: string;
     tourActivityId: string;
     item: string;
+    tourDay: number;
     isChecked: boolean;
+    isPublic: boolean;
 }
 
 //일정 관련

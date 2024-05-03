@@ -6,6 +6,7 @@ import TourCheckList from "../components/TourPage/TourChecklist";
 
 import { TourInfoDetail } from "../types/types";
 import TourDetail from '../dummy-data/get_tour_detail.json';
+import TabBarTour from "../components/TabBar/TabBarTour";
 
 export default function TourPage() {
 
@@ -17,9 +18,9 @@ export default function TourPage() {
         const tourId: string = address[address.length - 1];
     
         // 투어 아이디로 더미데이터에서 데이터 찾기 (임시)
-        const data = TourDetail.find(tour => tour.tourId === tourId);
-        if (data) {
-            setData(data);
+        const tourData = TourDetail.find(tour => tour.tourId === tourId);
+        if (tourData) {
+            setData(tourData);
         }
         
     }, []);
@@ -30,7 +31,7 @@ export default function TourPage() {
             <header>
                 <HeaderBar/>
             </header>
-            <div>
+            <div className="h-[85vh] overflow-y-scroll">
                 <div>
                     <TourHeader tourInfo={data}/>
                 </div>
@@ -38,9 +39,13 @@ export default function TourPage() {
                     <TourBasicInfo tourInfo={data}/>
                 </div>
                  <div>
-                    <TourCheckList tourId={data?.tourId}/>
+                    <TourCheckList tourId={data ? data.tourId : ""}/>
                 </div>
             </div>
+            <footer>
+                <TabBarTour tabMode={2} tourMode={0} tourId={data ? data.tourId : ""} />
+            </footer>
+            
         </>
     );
 }

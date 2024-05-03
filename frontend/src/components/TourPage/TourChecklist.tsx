@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import MyButton from '../../components/Buttons/myButton'
 
 import Checklist from '../../dummy-data/get_checklist.json'
@@ -67,8 +68,16 @@ export default function TourCheckList(props: PropType) {
     };
 
     const filteredGroups = prepareData(Checklist); // 중복 횟수 카운트
-    const filteredChecklist = filterUniqueItems(Checklist); // 중복 하나씩만 남김
 
+    // 중복 하나씩만 남김
+    const [filteredChecklist, setFilteredChecklist] = useState<Item[]>(filterUniqueItems(Checklist));
+
+    const handleCheckbox = (index : number) => {
+        const updatedChecklist = [...filteredChecklist];
+        // 나중에 실제로 api 로 반영하기
+        updatedChecklist[index].isChecked = !updatedChecklist[index].isChecked;
+        setFilteredChecklist(updatedChecklist);
+    }
 
 
     return (
@@ -76,7 +85,7 @@ export default function TourCheckList(props: PropType) {
             <div className="w-full  justify-between items-end p-5 bak">
                     
                 <div className="text-xl font-bold">
-                    전체 체크리스트 (보기전용)
+                    전체 체크리스트
                 </div>
                 <div>
                     <div className=" border-2 border-blue-200 rounded-2xl p-3">
@@ -84,7 +93,7 @@ export default function TourCheckList(props: PropType) {
                             <MyButton 
                                 type="small" 
                                 text="편집" 
-                                isSelected={false} 
+                                isSelected={true} 
                                 onClick={() => {
                                     window.location.href = `/tour/${id}/checklist/all`;
                                 }}/>
@@ -94,7 +103,7 @@ export default function TourCheckList(props: PropType) {
                                 (
                                     <div key={index} className="grid grid-cols-2 justify-center m-1">
                                         <div className="flex items-center">
-                                            <input id="default-checkbox" type="checkbox" readOnly={true} checked={item.isChecked} className="w-5 h-5 bg-gray-100 border-gray-300 rounded "/>
+                                            <input id="default-checkbox" type="checkbox" onChange={() => handleCheckbox(index)} checked={item.isChecked} className="w-5 h-5 bg-gray-100 border-gray-300 rounded "/>
                                             <label className="ms-2">{item.item}</label>
                                         </div>
                                         <div className='relative w-fit'>
