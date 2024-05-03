@@ -113,6 +113,12 @@ public class TourController {
         Ghost ghost=memberService.createGhostMember(userId,createGhostMemberReq);
         return ResponseEntity.ok(ghost);
     }
+
+    @PutMapping("/member/ghost")
+    public ResponseEntity<Void> updateGhostMemberNickname(@RequestBody UpdateGhostMemberReq updateGhostMemberReq, @RequestHeader(HEADER_USER_ID) String userId){
+        memberService.updateGhostMemberNickname(userId,updateGhostMemberReq);
+        return ResponseEntity.ok().build();
+    }
     @PostMapping("/member/resurrection")
     public ResponseEntity<Void> updateGhostToGuest(@RequestBody UpdateGhostToGuestReq updateGhostToGuestReq, @RequestHeader(HEADER_USER_ID) String userId){
         memberService.updateGhostToGuest(userId,updateGhostToGuestReq);

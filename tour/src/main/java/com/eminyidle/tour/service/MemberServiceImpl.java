@@ -3,6 +3,7 @@ package com.eminyidle.tour.service;
 import com.eminyidle.tour.dto.*;
 import com.eminyidle.tour.dto.req.CreateGhostMemberReq;
 import com.eminyidle.tour.dto.req.DeleteMemberReq;
+import com.eminyidle.tour.dto.req.UpdateGhostMemberReq;
 import com.eminyidle.tour.dto.req.UpdateGhostToGuestReq;
 import com.eminyidle.tour.dto.Ghost;
 import com.eminyidle.tour.exception.*;
@@ -68,6 +69,14 @@ public class MemberServiceImpl implements MemberService {
                 .build());
         ghostRepository.createGhostRelationship(ghost.getGhostId(), createGhostMemberReq.getTourId());
         return ghost;
+    }
+
+    @Override
+    public void updateGhostMemberNickname(String hostId, UpdateGhostMemberReq updateGhostMemberReq) {
+        assertHost(hostId, updateGhostMemberReq.getTourId());
+        Ghost ghost=ghostRepository.findById(updateGhostMemberReq.getGhostId()).orElseThrow(NoSuchGhostException::new);
+        ghost.setGhostNickname(updateGhostMemberReq.getGhostNickname());
+        ghostRepository.save(ghost);
     }
 
     @Override
