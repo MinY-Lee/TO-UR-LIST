@@ -5,6 +5,8 @@ interface PropType {
     dayNumber: number;
     date: Date;
     dailySchedule: TourPlaceItem[];
+    isEditable: boolean;
+    tourId: string;
 }
 
 export default function DayList(props: PropType) {
@@ -47,7 +49,13 @@ export default function DayList(props: PropType) {
                         <p className="text-[6vw]">일정 없음</p>
                     ) : (
                         props.dailySchedule.map((schedule) => {
-                            return <PlaceCard schedule={schedule} />;
+                            return (
+                                <PlaceCard
+                                    schedule={schedule}
+                                    isEditable={props.isEditable}
+                                    tourId={props.tourId}
+                                />
+                            );
                         })
                     )}
                 </div>

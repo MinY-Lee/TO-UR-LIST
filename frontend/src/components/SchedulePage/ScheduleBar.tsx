@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { TourPlaceItem } from '../../types/types';
 import DayList from './DayList';
+import { useNavigate } from 'react-router-dom';
 
 interface PropType {
     schedule: TourPlaceItem[][];
@@ -10,6 +11,8 @@ interface PropType {
 }
 
 export default function ScheduleBar(props: PropType) {
+    const navigate = useNavigate();
+
     const [mode, setMode] = useState<number>(1);
 
     const swipeRef = useRef<HTMLDivElement>(null);
@@ -43,6 +46,8 @@ export default function ScheduleBar(props: PropType) {
                 dayNumber={props.selectedDate + 1}
                 date={date}
                 dailySchedule={props.schedule[props.selectedDate + 1]}
+                isEditable={false}
+                tourId={props.tourId}
             />
         );
     };
@@ -60,7 +65,9 @@ export default function ScheduleBar(props: PropType) {
                     <div
                         className="w-[48%] h-full text-white color-bg-blue-2 rounded-[4vw] flex justify-center items-center"
                         onClick={() => {
-                            window.location.href = `/tour/${props.tourId}/schedule/add`;
+                            navigate(`/tour/${props.tourId}/schedule/add`, {
+                                state: { selectedDate: props.selectedDate },
+                            });
                         }}
                     >
                         추가
@@ -68,7 +75,9 @@ export default function ScheduleBar(props: PropType) {
                     <div
                         className="w-[48%] h-full color-bg-blue-4 rounded-[4vw] flex justify-center items-center"
                         onClick={() => {
-                            window.location.href = `/tour/${props.tourId}/schedule/edit`;
+                            navigate(`/tour/${props.tourId}/schedule/edit`, {
+                                state: { selectedDate: props.selectedDate },
+                            });
                         }}
                     >
                         편집
@@ -140,6 +149,8 @@ export default function ScheduleBar(props: PropType) {
                                       dayNumber={index}
                                       date={date}
                                       dailySchedule={dailySchedule}
+                                      isEditable={false}
+                                      tourId={props.tourId}
                                   />
                               );
                           })
