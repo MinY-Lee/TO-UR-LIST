@@ -13,7 +13,7 @@ export default function SetTitle(props: PropType) {
         onChangeTitle(title);
     }, [title]);
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value);
     };
 

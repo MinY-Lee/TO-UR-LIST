@@ -86,7 +86,7 @@ export default function ChecklistByDay(props: PropType) {
         setGroupedItems(grouped);
     };
 
-    const formatNumberToTwoDigits: string = (num: number) => {
+    const formatNumberToTwoDigits = (num: number): string => {
         return `${num < 10 && num > 0 ? '0' : ''}${num}`;
     }
 

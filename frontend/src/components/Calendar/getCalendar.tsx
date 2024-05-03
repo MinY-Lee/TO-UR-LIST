@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { getDaysInMonth } from 'date-fns';
 
-const DATE_MONTH_FIXER: number = 1;
+// const DATE_MONTH_FIXER: number = 1;
 const CALENDER_LENGTH: number = 35;
 const DEFAULT_TRASH_VALUE: number = 0;
 const DAY_OF_WEEK: number = 7;

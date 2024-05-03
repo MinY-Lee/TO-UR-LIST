@@ -9,8 +9,8 @@ interface ChildProps {
 export default function myCalendar(props: ChildProps) {
     const { weekCalendarList, currentDate, setCurrentDate, weekDayList } = getCalendar();
     
-    const [startDate, setStartDate] = useState<Date>();
-    const [endDate, setEndDate] = useState<Date>();
+    const [startDate, setStartDate] = useState<Date>(new Date());
+    const [endDate, setEndDate] = useState<Date>(new Date());
     
     useEffect(() => {
         props.onChange([startDate, endDate]);

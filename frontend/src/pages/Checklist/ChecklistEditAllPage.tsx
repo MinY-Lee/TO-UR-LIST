@@ -27,7 +27,7 @@ export default function ChecklistEditAllPage() {
     const [tourId, setTourId] = useState<string>("");
 
     const [checkModalActive, setIsCheckModalActive] = useState<boolean>(false);
-    const [deleteItem, setDeleteItem] = useState<Item>({});
+    const [deleteItem, setDeleteItem] = useState<Item>();
 
 
     useEffect(() => {
@@ -91,11 +91,10 @@ export default function ChecklistEditAllPage() {
         return uniqueItems;
     };
 
-    const filteredGroups = prepareData(Checklist); // 중복 횟수 카운트
+    const filteredGroups = prepareData(data); // 중복 횟수 카운트
     
     // 중복 하나씩만 남김
     const [filteredChecklist, setFilteredChecklist] = useState<Item[]>(filterUniqueItems(Checklist));
-    const [isClicked, setIsClicked] = useState<boolean>(false);
 
     const onUpdate = (item: Item) => {
         const updatedChecklist = [...filteredChecklist, item];

@@ -1,6 +1,8 @@
 import Slider from "react-slick";
 
-export default function MySlider({ countryInfoList }) {
+import { CountryInfo } from "../../types/types";
+
+export default function MySlider( countryInfoList: CountryInfo[] ) {
   var settings = {
     dots: true,
     infinite: true,
@@ -12,7 +14,7 @@ export default function MySlider({ countryInfoList }) {
 
   return (
     <Slider {...settings}>
-      {countryInfoList.length > 0 && countryInfoList.map((countryInfo, index) => (
+      {countryInfoList.length > 0 && countryInfoList.map((countryInfo, index: number) => (
           <div key={index} className="border-2 border-blue-200 rounded-2xl p-3">
               <div className="grid grid-cols-3 mb-3">
                   <div className="flex flex-col items-center">

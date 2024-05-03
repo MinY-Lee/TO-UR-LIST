@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import MyCheckList from "./myChecklist";
 import ChecklistByDay from "./checklistByDay";
@@ -9,7 +9,7 @@ interface PropType {
 
 export default function ChecklistTab(props: PropType) {
     const [tabIdx, setTabIdx] = useState<number>(1);
-    const [tabClass, setTabClass] = useState<string>("");
+    // const [tabClass, setTabClass] = useState<string>("");
 
     const getTabClass = (idx : number) => {
         if (idx != tabIdx) {

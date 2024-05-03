@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import MyButton from "../../components/Buttons/myButton";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
-import CheckModal from '../../components/CheckModal';
+// import CheckModal from '../../components/CheckModal';
 import ChecklistInput from '../../components/Checklist/checklistInput'
 import { Item, TourInfoDetail } from "../../types/types";
 
@@ -24,19 +24,20 @@ export default function ChecklistEditDayPage() {
     const address: string[] = window.location.href.split('/');
     const navigate = useNavigate();
     
-    const [tourId, setTourId] = useState<string>(address[address.length - 3]);
+    const [tourId, setTourId] = useState<string>("");
 
-    const [checkModalActive, setIsCheckModalActive] = useState<boolean>(false);
-    const [deleteItem, setDeleteItem] = useState<Item>({});
+    // const [checkModalActive, setIsCheckModalActive] = useState<boolean>(false);
+    // const [deleteItem, setDeleteItem] = useState<Item>();
 
     const [data, setData] = useState<TourInfoDetail>({});
     const [daysDifference, setDaysDifference] = useState<number>(0);
     const [daysList, setDaysList] = useState<number[]>([]);
-    const [groupedItems, setGroupedItems] = useState<ItemPerDayAndPlace>({});
+    const [groupedItems, setGroupedItems] = useState<ItemPerDayAndPlace>();
     const [isAddState, setIsAddState] = useState<boolean[]>([]);
 
     useEffect(() => {
         // 투어 아이디로 더미데이터에서 데이터 찾기 (임시)
+        setTourId(address[address.length - 3]);
         const tourData = TourDetail.find(tour => tour.tourId === tourId);
         if (tourData) {
             setData(tourData);
