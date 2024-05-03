@@ -10,6 +10,7 @@ import org.springframework.data.neo4j.core.schema.Property;
 @AllArgsConstructor
 @NoArgsConstructor
 @Node("ACTIVITY")
+@Builder
 @ToString
 public class Activity {
 
