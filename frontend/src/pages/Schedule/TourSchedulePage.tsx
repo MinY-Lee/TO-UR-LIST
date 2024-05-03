@@ -57,7 +57,9 @@ export default function TourSchedulePage() {
                 </div>
                 <div className="w-full h-[65%] relative overflow-hidden">
                     <Wrapper
-                        apiKey={'AIzaSyAU4Qmmd-DlXfl_fOXP0I433SkO4g4Ruww'}
+                        apiKey={`${
+                            import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY
+                        }`}
                         libraries={['marker', 'places']}
                     >
                         <Maps

@@ -31,8 +31,9 @@ export default function Maps(props: PropType) {
                 label: '0일차 서울',
             });
 
-            const arr = [marker];
-            setMarkers([arr]);
+            const arr: google.maps.Marker[][] = [[]];
+            arr[0].push(marker);
+            setMarkers(arr);
 
             const googleService = new google.maps.places.PlacesService(initMap);
             setPlacesService(googleService);
@@ -44,9 +45,11 @@ export default function Maps(props: PropType) {
     useEffect(() => {
         if (googleMap) {
             //마커 초기화
-            for (let i = 0; i < markers.length; i++) {
-                for (let j = 0; j < markers[i].length; i++) {
-                    markers[i][j].setMap(null);
+            if (markers) {
+                for (let i = 0; i < markers.length; i++) {
+                    markers[i].map((marker) => {
+                        marker.setMap(null);
+                    });
                 }
             }
 
