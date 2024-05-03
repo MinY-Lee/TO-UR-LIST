@@ -5,6 +5,7 @@ import com.eminyidle.place.place.dto.node.TourActivity;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
 import com.eminyidle.place.place.exception.GetRequesterInfoFailException;
 import com.eminyidle.place.place.exception.PlaceAddFailException;
+import com.eminyidle.place.place.exception.PlaceSearchException;
 import com.eminyidle.place.place.repository.DoRelationRepository;
 import com.eminyidle.place.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -81,19 +82,20 @@ public class PlaceServiceImpl implements PlaceService{
         Object responseBody = body;
         boolean isSuccess = false;
         String userId = (String) (headers.get("userId"));
-        String userName = (String) (headers.get("userName"));
-        String userNickname = (String) (headers.get("userNickname"));
+//        String userName = (String) (headers.get("userName"));
+//        String userNickname = (String) (headers.get("userNickname"));
         String placeId = (String) body.get("placeId");
+        Integer tourDay = (Integer) body.get("tourDay");
         try {
             responseBody = AddPlaceInfo.builder()
-                    .userNickname(userNickname)
+                    .userId(userId)
                     .build();
         } catch (PlaceAddFailException e) {
             log.error(e.getMessage());
         }
         log.info(headers.toString());
 
-        if (checkPlaceDuplication(tourId, placeId) == false) {
+        if (checkPlaceDuplication(tourId, tourDay, placeId) == false) {
             TourActivity tourActivity = TourActivity.builder().build();
             try {
                 placeRepository.save(tourActivity);
@@ -126,20 +128,21 @@ public class PlaceServiceImpl implements PlaceService{
                 .build();
     }
 
+    // 장소 삭제
     @Override
     public TourPlaceMessageInfo deletePlace(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> headers) {
         // 받아 온 body = requestbody
         Object responseBody = body;
         boolean isSuccess = false;
         String userId = (String) (headers.get("userId"));
-        String userName = (String) (headers.get("userName"));
-        String userNickname = (String) (headers.get("userNickname"));
+//        String userName = (String) (headers.get("userName"));
+//        String userNickname = (String) (headers.get("userNickname"));
         String placeId = (String) body.get("placeId");
         Integer tourDay = (Integer) body.get("tourDay");
         try {
             responseBody = PlaceRequesterInfo.builder()
                     .userId(userId)
-                    .userNickname(userNickname)
+//                    .userNickname(userNickname)
                     .build();
             placeRepository.deletePlaceByTourIdAndPlaceIdAndTourDay(tourId, placeId, tourDay);
             isSuccess = true;
@@ -153,12 +156,51 @@ public class PlaceServiceImpl implements PlaceService{
                 .build();
     }
 
+    // 장소 날짜 수정
+    @Override
+    public TourPlaceMessageInfo updatePlace(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> headers) {
+        // 받아 온 body = requestbody
+        Object responseBody = body;
+        boolean isSuccess = false;
+        String userId = (String) (headers.get("userId"));
+        String placeId = (String) body.get("placeId");
+        Integer oldTourDay = (Integer) body.get("oldTourDay");
+        Integer newTourDay = (Integer) body.get("newTourDay");
+        responseBody = PlaceRequesterInfo.builder()
+                .userId(userId)
+                .build();
+        // 해당하는 날에 해당 장소가 있는지 확인
+        if (!checkPlaceDuplication(tourId, oldTourDay, placeId)){
+            return TourPlaceMessageInfo.builder()
+                    .body(responseBody)
+                    .isSuccess(isSuccess)
+                    .build();
+        }
+        if (checkPlaceDuplication(tourId, newTourDay, placeId)) {
+            throw new PlaceSearchException("place already exist");
+        }
+
+        try {
+            placeRepository.updateTourDay(tourId, placeId, oldTourDay, newTourDay);
+//            responseBody = PlaceRequesterInfo.builder()
+//                    .userId(userId)
+//                    .build();
+            isSuccess = true;
+        } catch (Exception e) {
+            log.error("{}", e);
+        }
+        return TourPlaceMessageInfo.builder()
+                .body(responseBody)
+                .isSuccess(isSuccess)
+                .build();
+    }
+
     // 장소 존재 여부 조회
     @Override
-    public Boolean checkPlaceDuplication(String tourId, String placeId) {
+    public Boolean checkPlaceDuplication(String tourId, Integer tourDay, String placeId) {
         try {
             // 해당하는 장소가 이미 추가되어 있는 경우
-            String ans = doRelationRepository.findPlaceByTourIdAndPlaceId(tourId, placeId).orElseThrow(NoSuchElementException::new);
+            String ans = doRelationRepository.findPlaceByTourIdAndPlaceId(tourId, tourDay, placeId).orElseThrow(NoSuchElementException::new);
 //            Do ans = doRelationRepository.findPlaceByTourIdAndPlaceId(tourId, placeId).orElseThrow(NoSuchElementException::new);
             log.info(ans.toString());
             return true;

@@ -1,5 +1,6 @@
 package com.eminyidle.place.place.controller;
 
+import com.eminyidle.place.place.dto.PlaceRequesterInfo;
 import com.eminyidle.place.place.dto.TourPlace;
 import com.eminyidle.place.place.dto.TourPlaceMessageInfo;
 import com.eminyidle.place.place.dto.req.TourPlaceReq;
@@ -65,6 +66,8 @@ public class PlaceController {
         Object responseBody = body;
         boolean isSuccess = false;
         TourPlaceMessageInfo tourPlaceMessageInfo;
+        String userId = (String) (simpSessionAttributes.get("userId"));
+
 
         // 메시지 타입에 따른 분기
         switch (tourPlaceReq.getType()){
@@ -75,11 +78,26 @@ public class PlaceController {
                 isSuccess = tourPlaceMessageInfo.getIsSuccess();
                 break;
             }
+            // 장소 삭제
             case DELETE_PLACE: {
                 tourPlaceMessageInfo = placeService.deletePlace(body, tourId, simpSessionAttributes);
                 responseBody = tourPlaceMessageInfo.getBody();
                 isSuccess = tourPlaceMessageInfo.getIsSuccess();
                 break;
+            }
+            // 장소 날짜 수정
+            case UPDATE_PLACE_DATE: {
+                tourPlaceMessageInfo = placeService.updatePlace(body, tourId, simpSessionAttributes);
+                responseBody = tourPlaceMessageInfo.getBody();
+                isSuccess = tourPlaceMessageInfo.getIsSuccess();
+                break;
+            }
+            // 활동 추가
+            case ADD_ACTIVITY: {
+                isSuccess = activityService.addActivity(body, tourId, simpSessionAttributes);
+                responseBody = PlaceRequesterInfo.builder()
+                        .userId(userId)
+                        .build();
             }
         }
 
@@ -92,15 +110,16 @@ public class PlaceController {
     }
 
 
+    // 액티비티 아이디로 활동까지 조회
     @GetMapping("/test/{tourActivityId}")
     public void testPlace(@PathVariable String tourActivityId) {
         log.info("장소 리스트 조회");
         activityService.searchTourActivityByPlaceId(tourActivityId);
     }
 
-    @GetMapping("/test/{tourId}/{placeId}")
-    public void testSearchPlace(@PathVariable String tourId, @PathVariable String placeId){
-        placeService.checkPlaceDuplication(tourId, placeId);
+    @GetMapping("/test/{tourId}/{tourDay}/{placeId}")
+    public void testSearchPlace(@PathVariable String tourId, @PathVariable Integer tourDay, @PathVariable String placeId){
+        placeService.checkPlaceDuplication(tourId, tourDay, placeId);
     }
 
     // 장소 리스트 조회
