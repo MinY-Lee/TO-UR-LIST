@@ -45,8 +45,13 @@ public class ActivityServiceImpl implements ActivityService {
         boolean isSuccess = false;
         if (checkActivityDuplication(tourId, placeId, tourDay, activity)){
             // REFERENCE 관계 생성해주기
-            activityRepository.createReferenceRelationship(tourId, placeId, tourDay, activity);
-            return true;
+            try {
+                activityRepository.createReferenceRelationship(tourId, placeId, tourDay, activity);
+                return true;
+            } catch (Exception e) {
+                log.info("REFERENCE 관계 생성 오류");
+                return false;
+            }
         }
         return false;
     }
