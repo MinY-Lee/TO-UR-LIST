@@ -36,4 +36,16 @@ public class TourExceptionHandler {
         return ResponseEntity.badRequest()
                 .body("중복된 고스트 닉네임입니다");
     }
+
+    @ExceptionHandler(InvalidMemberTypeException.class)
+    public ResponseEntity<String> handleInvalidMemberTypeException(Exception e){
+        return ResponseEntity.badRequest()
+                .body(e.getMessage());
+    }
+
+    @ExceptionHandler(HostCanNotBeDeletedException.class)
+    public ResponseEntity<String> handleHostCanNotBeDeletedException(Exception e){
+        return ResponseEntity.badRequest()
+                .body(e.getMessage());
+    }
 }

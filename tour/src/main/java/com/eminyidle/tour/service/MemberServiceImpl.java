@@ -107,16 +107,19 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void deleteMember(String hostId, DeleteMemberReq deleteMemberReq) {
-        if ("host".equals(deleteMemberReq.getMemberType())) {
-            throw new HostCanNotBeDeletedException();
+        switch (deleteMemberReq.getMemberType()){
+            case "host":
+                throw new HostCanNotBeDeletedException();
+            case "guest":
+                userRepository.deleteMemberRelationship(deleteMemberReq.getUserId(), deleteMemberReq.getTourId(), deleteMemberReq.getMemberType());
+                //TODO- 모든 아이템 삭제 요청
+                // 이용 ->deleteMemberReq.getUserId(), deleteMemberReq.getTourId()
+                break;
+            case "ghost":
+                ghostRepository.deleteById(deleteMemberReq.getUserId());
+                break;
+            default:
+                throw new InvalidMemberTypeException();
         }
-        //i: 실행여부
-        int i = userRepository.deleteMemberRelationship(deleteMemberReq.getUserId(), deleteMemberReq.getTourId(), deleteMemberReq.getMemberType());
-        log.debug(">>deleted>>" + i);
-        if (i == 0) {
-            //실행되지 않음. userId, tourId, memberType 뭔가 잘못된 것
-        }
-        //TODO- 모든 아이템 삭제 요청
-        // 이용 ->deleteMemberReq.getUserId(), deleteMemberReq.getTourId()
     }
 }
