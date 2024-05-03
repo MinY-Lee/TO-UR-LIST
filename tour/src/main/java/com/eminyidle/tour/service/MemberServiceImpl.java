@@ -6,11 +6,16 @@ import com.eminyidle.tour.dto.User;
 import com.eminyidle.tour.dto.req.CreateGhostMemberReq;
 import com.eminyidle.tour.dto.req.DeleteMemberReq;
 import com.eminyidle.tour.dto.req.UpdateGhostToGuestReq;
+import com.eminyidle.tour.exception.HostCanNotBeDeletedException;
 import com.eminyidle.tour.exception.NoSuchTourException;
 import com.eminyidle.tour.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@Slf4j
 public class MemberServiceImpl implements MemberService {
 
     UserRepository userRepository;
@@ -65,6 +70,16 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void deleteMember(String hostId, DeleteMemberReq deleteMemberReq) {
-        userRepository.deleteMemberRelationship(deleteMemberReq.getUserId(), deleteMemberReq.getTourId(), deleteMemberReq.getMemberType());
+        if("host".equals(deleteMemberReq.getMemberType())){
+            throw new HostCanNotBeDeletedException();
+        }
+        //i: 실행여부
+        int i=userRepository.deleteMemberRelationship(deleteMemberReq.getUserId(), deleteMemberReq.getTourId(), deleteMemberReq.getMemberType());
+        log.debug(">>deleted>>"+i);
+        if(i==0){
+            //실행되지 않음. userId, tourId, memberType 뭔가 잘못된 것
+        }
+        //TODO- 모든 아이템 삭제 요청
+        // 이용 ->deleteMemberReq.getUserId(), deleteMemberReq.getTourId()
     }
 }

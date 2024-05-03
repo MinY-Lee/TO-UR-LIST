@@ -25,6 +25,6 @@ public interface UserRepository extends Neo4jRepository<User, String> {
     @Query("MATCH (u:User{userId: $userId})<-[m:MEMBER]-(t:Tour{tourId: $tourId}) WHERE m.memberType<>'ghost' set m.memberType=$memberType")
     void updateMemberRelationshipExceptGhost(String userId, String tourId, String memberType);
 
-    @Query("MATCH (u:User{userId: $userId})-[:ATTEND]->(t:Tour{tourId: $tourId}) delete (t)-[rel:MEMBER {memberType: $memberType}]->(u),(u)-[rel:ATTEND]->(t)")
-    void deleteMemberRelationship(String userId, String tourId, String memberType);
+    @Query("MATCH (u:User{userId: $userId})<-[rel:MEMBER {memberType: $memberType}]-(t:Tour{tourId: $tourId}) delete (t)-[rel]->(u),(u)-[:ATTEND]->(t)")
+    int deleteMemberRelationship(String userId, String tourId, String memberType);
 }
