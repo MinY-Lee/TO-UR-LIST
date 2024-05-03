@@ -9,10 +9,12 @@ import org.springframework.boot.autoconfigure.neo4j.Neo4jAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.core.transaction.Neo4jTransactionManager;
+import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
+@EnableNeo4jRepositories(basePackages = "com.eminyidle.tour.repository",transactionManagerRef = "neo4jTransactionManager")
 public class Neo4jConfig extends Neo4jAutoConfiguration {
 
     @Value("${TOUR_NEO4J_URI}")

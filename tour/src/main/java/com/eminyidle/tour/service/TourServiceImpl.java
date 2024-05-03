@@ -24,30 +24,23 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TourServiceImpl implements TourService, UserService {
+public class TourServiceImpl implements TourService {
 
     private final TourRepository tourRepository;
     private final UserRepository userRepository;
     private final CityRepository cityRepository;
 
-    @Override
     public void createUser(User user) {
         userRepository.save(user);
     }
 
-    @Override
-    public void deleteUser(String userId) {
 
-    }
-
-    //TODO - User로 받으면 좋겠다! 애초에 닉네임, 네임 넣어두도록!!
     @Override
-    public Tour createTour(User user, CreateTourReq createTourReq) {
+    public Tour createTour(String userId, CreateTourReq createTourReq) {
         //만약 내 DB에 user있는지 확인
         //있다면 그거 챙겨온다
         //없다면 유저주라! 한 뒤 유저노드 만들기
         log.debug(createTourReq.toString());
-        log.debug(user.toString());
         Tour tour = Tour.builder()
                 .tourId(UUID.randomUUID().toString())
                 .tourTitle(createTourReq.getTourTitle())
@@ -60,9 +53,14 @@ public class TourServiceImpl implements TourService, UserService {
                 .build();
         tourRepository.save(tour);
 
-        userRepository.findById(user.getUserId()).ifPresent((dbUser) -> {
-            user.setTourList(dbUser.getTourList());
-        });
+        User user=userRepository.findById(userId).orElse( //TODO - user서비스에서 정보 불러오기
+                 User.builder()
+                         .userId(userId)
+                         .userNickname("ct")
+                         .userName("ct")
+                         .tourList(new ArrayList<>())
+                         .build()
+        );
 
         user.getTourList().add(Attend.builder()
                 .tourTitle(createTourReq.getTourTitle())
@@ -70,7 +68,7 @@ public class TourServiceImpl implements TourService, UserService {
                 .build());
         log.debug(user.toString());
         userRepository.save(user);
-        tourRepository.createMemberRelationship(user.getUserId(), tour.getTourId(), "host");
+        userRepository.createMemberRelationship(user.getUserId(), tour.getTourId(), "host");
 
         return tour;
     }
@@ -154,7 +152,6 @@ public class TourServiceImpl implements TourService, UserService {
     public List<Tour> searchTourList(String userId) {
         return tourRepository.findAllToursByUserId(userId);
         //userId가 attend 중인 모든 관계
-//        return null;
     }
 
     @Override

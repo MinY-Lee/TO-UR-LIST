@@ -1,18 +1,12 @@
 package com.eminyidle.tour.controller;
 
-import com.eminyidle.tour.dto.Attend;
-import com.eminyidle.tour.dto.Tour;
-import com.eminyidle.tour.dto.TourDetail;
-import com.eminyidle.tour.dto.User;
-import com.eminyidle.tour.dto.req.CreateTourReq;
-import com.eminyidle.tour.dto.req.UpdateTourCityReq;
-import com.eminyidle.tour.dto.req.UpdateTourPeriodReq;
-import com.eminyidle.tour.dto.req.UpdateTourTitleReq;
+import com.eminyidle.tour.dto.*;
+import com.eminyidle.tour.dto.req.*;
+import com.eminyidle.tour.dto.Ghost;
 import com.eminyidle.tour.dto.res.SearchTourDetailRes;
 import com.eminyidle.tour.exception.UserInfoInRequestNotFoundException;
+import com.eminyidle.tour.service.MemberService;
 import com.eminyidle.tour.service.TourService;
-import com.eminyidle.tour.service.TourServiceImpl;
-import com.eminyidle.tour.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -31,13 +25,13 @@ import java.util.Map;
 public class TourController {
 
     private final TourService tourService;
+    private final MemberService memberService;
     private final String HEADER_USER_ID="userId";
 
     @PostMapping()
     public ResponseEntity<String> createTour(@RequestBody CreateTourReq createTourReq, @RequestHeader(HEADER_USER_ID) String userId) {
         log.debug("createTour");
-        User user= null;//getUserFromHeader(header);
-        Tour tour=tourService.createTour(user,createTourReq);
+        Tour tour=tourService.createTour(userId,createTourReq);
         return ResponseEntity.ok(tour.getTourId());
     }
 
@@ -94,7 +88,51 @@ public class TourController {
     }
 
 
+    //MEMBER 관련
+    @PutMapping("/host")
+    public ResponseEntity<Void> updateHost(@RequestBody TourMember tourMember, @RequestHeader(HEADER_USER_ID) String userId){
+        memberService.updateHost(userId,tourMember);
+        //TODO - 메서드를 boolean으로 선언해서 성공 여부를 확인해야 할까?
+        return ResponseEntity.ok().build();
+    }
 
+    @GetMapping("/member/{tourId}")
+    public ResponseEntity<List<Member>> searchMemberList(@PathVariable String tourId, @RequestHeader(HEADER_USER_ID) String userId){
+        List<Member> memberList=memberService.searchMemberList(userId,tourId);
+        return ResponseEntity.ok(memberList);
+    }
+
+    @PostMapping("/member")
+    public ResponseEntity<Void> createMember(@RequestBody TourMember tourMember, @RequestHeader(HEADER_USER_ID) String userId){
+        memberService.createMember(userId,tourMember);
+        //TODO - 메서드를 boolean으로 선언해서 성공 여부를 확인해야 할까?
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/member/ghost")
+    public ResponseEntity<Ghost> createGhostMember(@RequestBody CreateGhostMemberReq createGhostMemberReq, @RequestHeader(HEADER_USER_ID) String userId){
+        Ghost ghost=memberService.createGhostMember(userId,createGhostMemberReq);
+        return ResponseEntity.ok(ghost);
+    }
+
+    @PutMapping("/member/ghost")
+    public ResponseEntity<Void> updateGhostMemberNickname(@RequestBody UpdateGhostMemberReq updateGhostMemberReq, @RequestHeader(HEADER_USER_ID) String userId){
+        memberService.updateGhostMemberNickname(userId,updateGhostMemberReq);
+        return ResponseEntity.ok().build();
+    }
+    // TODO -요거 해야 함!!!!
+    @PostMapping("/member/resurrection")
+    public ResponseEntity<Void> updateGhostToGuest(@RequestBody UpdateGhostToGuestReq updateGhostToGuestReq, @RequestHeader(HEADER_USER_ID) String userId){
+        memberService.updateGhostToGuest(userId,updateGhostToGuestReq);
+        //TODO - 메서드를 boolean으로 선언해서 성공 여부를 확인해야 할까?
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/member")
+    public ResponseEntity<Void> deleteMember(@RequestBody DeleteMemberReq deleteMemberReq, @RequestHeader(HEADER_USER_ID) String userId){
+        memberService.deleteMember(userId,deleteMemberReq);
+        //TODO - 메서드를 boolean으로 선언해서 성공 여부를 확인해야 할까?
+        return ResponseEntity.ok().build();
+    }
 
     //FEED
     //새 여행으로 가져오기 -> 피드번호에 맞는 tourId와 제목, 시작하는 날, 끝나는 날 알려주면...
