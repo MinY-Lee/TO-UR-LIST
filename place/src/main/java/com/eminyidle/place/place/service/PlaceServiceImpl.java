@@ -5,6 +5,7 @@ import com.eminyidle.place.place.dto.node.TourActivity;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
 import com.eminyidle.place.place.exception.GetRequesterInfoFailException;
 import com.eminyidle.place.place.exception.PlaceAddFailException;
+import com.eminyidle.place.place.exception.PlaceSearchException;
 import com.eminyidle.place.place.repository.DoRelationRepository;
 import com.eminyidle.place.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -165,18 +166,25 @@ public class PlaceServiceImpl implements PlaceService{
         String placeId = (String) body.get("placeId");
         Integer oldTourDay = (Integer) body.get("oldTourDay");
         Integer newTourDay = (Integer) body.get("newTourDay");
+        responseBody = PlaceRequesterInfo.builder()
+                .userId(userId)
+                .build();
         // 해당하는 날에 해당 장소가 있는지 확인
         if (!checkPlaceDuplication(tourId, oldTourDay, placeId)){
-            throw new NoSuchElementException();
+            return TourPlaceMessageInfo.builder()
+                    .body(responseBody)
+                    .isSuccess(isSuccess)
+                    .build();
         }
         if (checkPlaceDuplication(tourId, newTourDay, placeId)) {
-            throw new IllegalArgumentException();
+            throw new PlaceSearchException("place already exist");
         }
+
         try {
             placeRepository.updateTourDay(tourId, placeId, oldTourDay, newTourDay);
-            responseBody = PlaceRequesterInfo.builder()
-                    .userId(userId)
-                    .build();
+//            responseBody = PlaceRequesterInfo.builder()
+//                    .userId(userId)
+//                    .build();
             isSuccess = true;
         } catch (Exception e) {
             log.error("{}", e);
