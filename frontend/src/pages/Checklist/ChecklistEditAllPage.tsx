@@ -27,7 +27,7 @@ export default function ChecklistEditAllPage() {
     const [tourId, setTourId] = useState<string>("");
 
     const [checkModalActive, setIsCheckModalActive] = useState<boolean>(false);
-    const [deleteItem, setDeleteItem] = useState<Item>();
+    const [deleteItem, setDeleteItem] = useState<Item>({});
 
 
     useEffect(() => {
