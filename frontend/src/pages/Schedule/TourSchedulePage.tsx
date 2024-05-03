@@ -72,6 +72,7 @@ export default function TourSchedulePage() {
                         schedule={schedule}
                         startDate={tourInfo.startDate}
                         selectedDate={selectedDate}
+                        tourId={tourId}
                     />
                     <DaySelectBar
                         startDate={tourInfo.startDate}

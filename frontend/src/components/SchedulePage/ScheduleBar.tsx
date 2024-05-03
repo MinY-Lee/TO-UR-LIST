@@ -6,6 +6,7 @@ interface PropType {
     schedule: TourPlaceItem[][];
     startDate: string;
     selectedDate: number;
+    tourId: string;
 }
 
 export default function ScheduleBar(props: PropType) {
@@ -54,6 +55,25 @@ export default function ScheduleBar(props: PropType) {
                 }`}
                 style={{ transitionDuration: '1s' }}
             >
+                {/* 추가 편집 버튼 */}
+                <div className="w-[30%] h-[6vw] absolute right-[5%] top-[2vw] flex justify-between items-center">
+                    <div
+                        className="w-[48%] h-full text-white color-bg-blue-2 rounded-[4vw] flex justify-center items-center"
+                        onClick={() => {
+                            window.location.href = `/tour/${props.tourId}/schedule/add`;
+                        }}
+                    >
+                        추가
+                    </div>
+                    <div
+                        className="w-[48%] h-full color-bg-blue-4 rounded-[4vw] flex justify-center items-center"
+                        onClick={() => {
+                            window.location.href = `/tour/${props.tourId}/schedule/edit`;
+                        }}
+                    >
+                        편집
+                    </div>
+                </div>
                 {/* 스크롤 */}
                 <div
                     className="w-full h-[10vw] flex justify-center items-center"

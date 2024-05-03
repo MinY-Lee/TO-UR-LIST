@@ -14,7 +14,9 @@ export default function Maps(props: PropType) {
     const [markers, setMarkers] = useState<google.maps.Marker[][]>([[]]);
     const [placesService, setPlacesService] =
         useState<google.maps.places.PlacesService>();
-    const [placeList, setPlaceList] = useState<Position[][]>([[]]);
+    const [placeList, setPlaceList] = useState<google.maps.LatLng[][]>([[]]);
+
+    const cacheMap = useRef<Map<string, google.maps.LatLng>>(new Map());
 
     useEffect(() => {
         if (googleMapRef.current) {
@@ -69,32 +71,53 @@ export default function Maps(props: PropType) {
             //id 찾기
             props.schedule.map((daily) => {
                 daily.map((place) => {
+                    const cache = cacheMap.current;
+                    console.log(cache);
                     //정보가 없으면 api 호출
+                    if (!cache.get(place.placeId)) {
+                        placesService?.getDetails(
+                            { placeId: place.placeId },
+                            (results, status) => {
+                                console.log('api 호출');
+                                const lat = results.geometry?.location.lat();
+                                const lng = results.geometry?.location.lng();
+                                if (lat && lng) {
+                                    const pos = { lat, lng };
 
-                    placesService?.getDetails(
-                        { placeId: place.placeId },
-                        (results, status) => {
-                            console.log('api 호출');
-                            const lat = results.geometry?.location.lat();
-                            const lng = results.geometry?.location.lng();
-                            if (lat && lng) {
-                                const pos = { lat, lng };
+                                    const marker = new google.maps.Marker({
+                                        position: { lat, lng },
+                                        map: googleMap,
+                                        title: place.placeName,
+                                        label:
+                                            place.tourDay +
+                                            '일차 ' +
+                                            place.placeName,
+                                    });
+                                    newMarkers[place.tourDay - 1].push(marker);
+                                    newPlaces[place.tourDay - 1].push(pos);
+                                    googleMap.setCenter(pos);
 
-                                const marker = new google.maps.Marker({
-                                    position: { lat, lng },
-                                    map: googleMap,
-                                    title: place.placeName,
-                                    label:
-                                        place.tourDay +
-                                        '일차 ' +
-                                        place.placeName,
-                                });
-                                newMarkers[place.tourDay - 1].push(marker);
-                                newPlaces[place.tourDay - 1].push(pos);
-                                googleMap.setCenter(pos);
+                                    cache.set(place.placeId, pos);
+                                }
                             }
+                        );
+                    } else {
+                        //정보가 있으면 불러오기
+
+                        const pos = cache.get(place.placeId);
+                        if (pos) {
+                            const marker = new google.maps.Marker({
+                                position: pos,
+                                map: googleMap,
+                                title: place.placeName,
+                                label:
+                                    place.tourDay + '일차 ' + place.placeName,
+                            });
+                            newMarkers[place.tourDay - 1].push(marker);
+                            newPlaces[place.tourDay - 1].push(pos);
+                            googleMap.setCenter(pos);
                         }
-                    );
+                    }
                 });
             });
         }
