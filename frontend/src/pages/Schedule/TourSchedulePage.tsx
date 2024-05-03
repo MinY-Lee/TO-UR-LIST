@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import TourHeader from '../../components/TourPage/TourHeader';
 import ScheduleBar from '../../components/SchedulePage/ScheduleBar';
 import Maps from '../../components/SchedulePage/Maps';
+import { Wrapper, Status } from '@googlemaps/react-wrapper';
 
 //dummy data
 import tourInfo from '../../dummy-data/get_tour_tourId.json';
@@ -55,7 +56,16 @@ export default function TourSchedulePage() {
                     />
                 </div>
                 <div className="w-full h-[65%] relative overflow-hidden">
-                    <Maps schedule={schedule} />
+                    <Wrapper
+                        apiKey={'AIzaSyAU4Qmmd-DlXfl_fOXP0I433SkO4g4Ruww'}
+                        libraries={['marker', 'places']}
+                    >
+                        <Maps
+                            schedule={schedule}
+                            selectedDate={selectedDate}
+                            tourId={tourId}
+                        />
+                    </Wrapper>
                     <ScheduleBar
                         schedule={schedule}
                         startDate={tourInfo.startDate}

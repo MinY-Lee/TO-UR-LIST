@@ -10,9 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@react-google-maps/api": "^2.19.3",
+    "@googlemaps/react-wrapper": "^1.1.35",
     "@reduxjs/toolkit": "^2.2.3",
-    "@vis.gl/react-google-maps": "^0.9.0",
+    "@types/googlemaps": "^3.43.3",
     "axios": "^1.6.8",
     "date-fns": "^3.6.0",
     "react": "^18.2.0",

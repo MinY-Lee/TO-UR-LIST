@@ -15,11 +15,6 @@ export default defineConfig({
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, ''),
             },
-            '/googleapi': {
-                target: 'https://maps.googleapis.com/maps/api',
-                changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, ''),
-            },
         },
     },
     //env directory
