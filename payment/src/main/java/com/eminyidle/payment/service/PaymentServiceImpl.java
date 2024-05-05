@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 
 @Service
@@ -28,15 +29,32 @@ public class PaymentServiceImpl implements PaymentService {
     public ExchangeRate loadExchangeRate(String countryCode, String date) {
 
         // 통화코드 찾기
-        CountryCurrency countryCurrency = countryCurrencyRepository.findByCountryCode(countryCode)
-                .orElseThrow(() -> new CurrencyNotExistException("해당하는 통화코드가 없습니다."));
+        List<CountryCurrency> currencyList = countryCurrencyRepository.findByCountryCurrencyIdCountryCode(countryCode);
+
+        if (currencyList.isEmpty()) {
+            throw new CurrencyNotExistException("해당하는 통화코드가 없습니다.");
+        }
+        CountryCurrency countryCurrency = currencyList.get(0);
 
         // 날짜 정보
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         LocalDate datePart = LocalDate.parse(date, formatter);
         LocalDateTime dateTime = datePart.atTime(11, 5, 0);
         // 환율 가져오기
-        return exchangeRateRepository.findByExchangeRateId(new ExchangeRateId(countryCurrency.getCurrencyCode(), dateTime))
+        return exchangeRateRepository.findByExchangeRateId(new ExchangeRateId(countryCurrency.getCountryCurrencyId().getCurrencyCode(), dateTime))
                 .orElseThrow(() -> new ExchangeRateNotExistException("해당하는 환율데이터가 없습니다."));
+    }
+
+    @Override
+    public CountryCurrency loadCountryCurrency(String countryCode) {
+
+        // 화폐정보 찾기
+        List<CountryCurrency> currencyList = countryCurrencyRepository.findByCountryCurrencyIdCountryCode(countryCode);
+
+        if (currencyList.isEmpty()) {
+            throw new CurrencyNotExistException("해당하는 통화코드가 없습니다.");
+        }
+
+        return currencyList.get(0);
     }
 }

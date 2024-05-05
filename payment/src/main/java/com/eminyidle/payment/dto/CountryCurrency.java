@@ -1,8 +1,8 @@
 package com.eminyidle.payment.dto;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 
 @Getter
@@ -11,11 +11,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "country_currency")
 public class CountryCurrency {
-    @Id
-    @Column(name="currency_code")
-    private String currencyCode;
+    @EmbeddedId
+    private CountryCurrencyId countryCurrencyId;
 
-    private String countryCode;
     private String currencySign;
 }

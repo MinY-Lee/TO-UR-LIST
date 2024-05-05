@@ -1,5 +1,6 @@
 package com.eminyidle.payment.controller;
 
+import com.eminyidle.payment.dto.CountryCurrency;
 import com.eminyidle.payment.dto.ExchangeRate;
 import com.eminyidle.payment.dto.res.ExchangeRateRes;
 import com.eminyidle.payment.service.PaymentService;
@@ -32,10 +33,11 @@ public class PaymentController {
         String parseDate = date.replace("-", "");
 
         ExchangeRate exchangeRate = paymentService.loadExchangeRate(countryCode, parseDate);
+        CountryCurrency countryCurrency = paymentService.loadCountryCurrency(countryCode);
 
         return ResponseEntity.ok().body(
                 ExchangeRateRes.builder()
-                        .unit(exchangeRate.getCountryCurrency().getCurrencySign())
+                        .unit(countryCurrency.getCurrencySign())
                         .currency(exchangeRate.getExchangeRate())
                         .build()
         );
