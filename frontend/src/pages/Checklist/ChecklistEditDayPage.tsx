@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import MyButton from "../../components/Buttons/myButton";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
-// import CheckModal from '../../components/CheckModal';
+import CheckModal from '../../components/CheckModal';
 import ChecklistInput from '../../components/Checklist/checklistInput'
 import { Item, TourInfoDetail } from "../../types/types";
 
@@ -26,8 +26,8 @@ export default function ChecklistEditDayPage() {
     
     const [tourId, setTourId] = useState<string>("");
 
-    // const [checkModalActive, setIsCheckModalActive] = useState<boolean>(false);
-    // const [deleteItem, setDeleteItem] = useState<Item>();
+    const [checkModalActive, setIsCheckModalActive] = useState<boolean>(false);
+    const [deleteItem, setDeleteItem] = useState<Item>();
 
     const [data, setData] = useState<TourInfoDetail>({});
     const [daysDifference, setDaysDifference] = useState<number>(0);
@@ -81,7 +81,7 @@ export default function ChecklistEditDayPage() {
         setGroupedItems(grouped);
     };
 
-    const formatNumberToTwoDigits: string = (num: number) => {
+    const formatNumberToTwoDigits = (num: number): string => {
         return `${num < 10 && num > 0 ? '0' : ''}${num}`;
     }
 
@@ -116,11 +116,39 @@ export default function ChecklistEditDayPage() {
         setIsCheckModalActive(false);
     };
 
-    // const handleDelete = () => {
-    //     // 데이터 삭제 api
-    //     const updatedChecklist = filteredChecklist.filter((currentItem) => currentItem !== deleteItem);
-    //     setFilteredChecklist(updatedChecklist);
-    // }
+    const handleDelete = () => {
+        // 데이터 삭제 api
+
+        // const updatedChecklist = [...groupedItems[item.tourDay][item.placeId], item];
+        // const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
+    
+        // Object.keys(updatedFullChecklist).forEach((day) => {
+        //     Object.keys(updatedFullChecklist[day]).forEach((placeId) => {
+        //         if (day == item.tourDay && placeId == item.placeId) {
+        //             updatedFullChecklist[day][placeId] = [...updatedChecklist]; // 새로운 배열로 교체
+        //         } else {
+        //             updatedFullChecklist[day][placeId] = [...updatedFullChecklist[day][placeId]];
+        //         }
+        //     });
+        // });
+
+        const updatedChecklist = groupedItems[deleteItem?.tourDay][deleteItem?.placeId].filter((item : Item) => item !== deleteItem);
+        const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
+    
+        Object.keys(updatedFullChecklist).forEach((day) => {
+            Object.keys(updatedFullChecklist[day]).forEach((placeId) => {
+                if (day == deleteItem.tourDay && placeId == deleteItem.placeId) {
+                    updatedFullChecklist[day][placeId] = [...updatedChecklist]; // 새로운 배열로 교체
+                } else {
+                    updatedFullChecklist[day][placeId] = [...updatedFullChecklist[day][placeId]];
+                }
+            });
+        });
+
+        setGroupedItems(updatedFullChecklist);
+        setIsCheckModalActive(false);
+
+    }
 
     const handleDeleteModal = (item: Item) => {
         setIsCheckModalActive(true);
@@ -128,27 +156,26 @@ export default function ChecklistEditDayPage() {
     }
 
     const onUpdate = (item: Item) => {
-        console.log("추가");
         const updatedChecklist = [...groupedItems[item.tourDay][item.placeId], item];
-        console.log(updatedChecklist);
-
-        const updatedFullChecklist = {};
-        Object.keys(groupedItems).forEach((day) => {
-            Object.keys(groupedItems[day]).forEach((placeId) => {
-                if (placeId == item.placeId) {
-                    updatedChecklist[day][placeId] = updatedChecklist;
+        const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
+    
+        Object.keys(updatedFullChecklist).forEach((day) => {
+            Object.keys(updatedFullChecklist[day]).forEach((placeId) => {
+                if (day == item.tourDay && placeId == item.placeId) {
+                    updatedFullChecklist[day][placeId] = [...updatedChecklist]; // 새로운 배열로 교체
                 } else {
-                    updatedChecklist[day][placeId] = groupedItems[day][placeId];
+                    updatedFullChecklist[day][placeId] = [...updatedFullChecklist[day][placeId]];
                 }
             });
-        })
-
+        });
+    
         setGroupedItems(updatedFullChecklist);
     }
+    
 
     return (
         <>
-            {/* {checkModalActive ? (
+            {checkModalActive ? (
                 <CheckModal
                     mainText="정말 삭제하시겠습니까?"
                     subText="지운 항목은 되돌릴 수 없습니다."
@@ -159,7 +186,7 @@ export default function ChecklistEditDayPage() {
                 />
             ) : (
                 <></>
-            )} */}
+            )}
 
             <header>
                 <HeaderBar/>
@@ -225,7 +252,7 @@ export default function ChecklistEditDayPage() {
                 
             </div>
             <footer className="h-[]">
-                <TabBarTour tabMode={2} tourMode={1} tourId={tourId} />
+                <TabBarTour tourMode={1} tourId={tourId} />
             </footer>
         </>
     );

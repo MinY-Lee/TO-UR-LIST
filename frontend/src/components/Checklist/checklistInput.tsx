@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Item } from '../../types/types';
+import { combineSlices } from '@reduxjs/toolkit';
 
 interface ItemPerPlace {
     [placeId: string]: Item[];
@@ -71,7 +72,8 @@ export default function ChecklistInput(props: PropType) {
     
     const handleHelpText = () => {
         const existingItem = props.checklist?.find((item) => item.item == itemInput)
-        return (existingItem ? "" : "hidden");
+        const existingItemPerDay = props.checklistPerDay[props.tourDay][props.placeId].find((item) => item.item == itemInput);
+        return (existingItem || existingItemPerDay ? "" : "hidden");
     }
 
     return (

@@ -27,7 +27,7 @@ export default function ChecklistEditAllPage() {
     const [tourId, setTourId] = useState<string>("");
 
     const [checkModalActive, setIsCheckModalActive] = useState<boolean>(false);
-    const [deleteItem, setDeleteItem] = useState<Item>({});
+    const [deleteItem, setDeleteItem] = useState<Item>();
 
 
     useEffect(() => {
@@ -113,6 +113,8 @@ export default function ChecklistEditAllPage() {
         // 데이터 삭제 api
         const updatedChecklist = filteredChecklist.filter((currentItem) => currentItem !== deleteItem);
         setFilteredChecklist(updatedChecklist);
+        setIsCheckModalActive(false);
+
     }
 
     const handleDeleteModal = (item: Item) => {
@@ -146,7 +148,7 @@ export default function ChecklistEditAllPage() {
                 <div className="mb-5">
                     <ChecklistInput tourId={tourId} checklist={filteredChecklist} onUpdate={onUpdate}/>
                 </div>
-                <div className="flex flex-col justify-start h-[65vh] overflow-y-scroll">
+                <div className="flex flex-col justify-start h-[65vh] overflow-y-scroll pt-2">
                     {filteredChecklist.map((item, index) => (
                         <div key={index} className="grid grid-cols-6 justify-center mb-2">
                             <div className='ml-2 flex items-center'>
@@ -192,7 +194,7 @@ export default function ChecklistEditAllPage() {
                 
             </div>
             <footer className="h-[]">
-                <TabBarTour tabMode={2} tourMode={1} tourId={tourId} />
+                <TabBarTour tourMode={1} tourId={tourId} />
             </footer>
         </>
     );
