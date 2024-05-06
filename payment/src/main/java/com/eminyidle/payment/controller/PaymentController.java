@@ -59,4 +59,13 @@ public class PaymentController {
                 responsePayment
         );
     }
+
+    @PutMapping("/{payId}")
+    public ResponseEntity<Void> updatePayment(@Valid @PathVariable("payId") String payId,
+                                              @Valid @RequestBody PaymentInfoReq paymentInfoReq) {
+
+        log.debug(paymentInfoReq.toString());
+        paymentService.updatePaymentInfo(payId, paymentInfoReq);
+        return ResponseEntity.ok().build();
+    }
 }

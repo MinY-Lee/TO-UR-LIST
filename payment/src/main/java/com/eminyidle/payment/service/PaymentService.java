@@ -10,4 +10,6 @@ public interface PaymentService {
     CountryCurrency loadCountryCurrency(String countryCode);
 
     String createPaymentInfo(PaymentInfoReq paymentInfo);
+
+    void updatePaymentInfo(String payId, PaymentInfoReq paymentInfo);
 }
