@@ -8,6 +8,7 @@ import ChecklistInput from '../../components/Checklist/checklistInput';
 
 import Checklist from '../../dummy-data/get_checklist.json'
 import CheckModal from '../../components/CheckModal';
+import SelectModal from '../../components/SelectModal';
 
 
 interface PropType {
@@ -22,6 +23,7 @@ export default function ChecklistEditItemPage(props: PropType) {
     const [data, setData] = useState<Item[]>();
     const [filteredData, setFilteredData] = useState<Item[]>();
     const [checkModalActive, setCheckModalActive] = useState<boolean>(false);
+    const [selectModalActive, setSelectModalActive] = useState<boolean>(false);
     const [deleteItem, setDeleteItem] = useState<Item>();
 
     const location = useLocation();
@@ -48,7 +50,7 @@ export default function ChecklistEditItemPage(props: PropType) {
 
 
     const handleDone = () => {
-        /////////////////
+        ///////////////////
         // 수정된 상태 띄우기
 
         navigate(-1);
@@ -58,9 +60,13 @@ export default function ChecklistEditItemPage(props: PropType) {
         setCheckModalActive(false);
     };
 
-    const onUpdate = () => {
-        // 항목 수정
-        // 있어야 되나?
+    const closeSelectModal = () => {
+        setSelectModalActive(false);
+    };
+
+    const onUpdate = (item: Item) => {
+        console.log("edit 페이지 도착 : " + item.item)
+        
     }
 
     interface Mapping {
@@ -89,12 +95,19 @@ export default function ChecklistEditItemPage(props: PropType) {
         const updatedActivity = filteredData.filter((item) => item !== deleteItem);
         setFilteredData(updatedActivity);
         setCheckModalActive(false);
-
     }
 
     const handleDeleteModal = (item: Item) => {
         setCheckModalActive(true);
         setDeleteItem(item);
+    }
+
+    const handleEdit = () => {
+        // 장소 및 활동 수정 api
+
+
+        setSelectModalActive(false);
+        
     }
 
     return (
@@ -113,18 +126,16 @@ export default function ChecklistEditItemPage(props: PropType) {
                 <></>
             )}
 
-            {/* {checkModalActive ? (
-                <CheckModal
-                    mainText="정말 삭제하시겠습니까?"
-                    subText="지운 항목은 되돌릴 수 없습니다."
-                    OKText="삭제"
-                    CancelText="취소"
-                    clickOK={handleDelete}
-                    clickCancel={closeModal}
+            {selectModalActive ? (
+                <SelectModal
+                    tourId={tourId}
+                    clickOK={handleEdit}
+                    clickCancel={closeSelectModal}
+                    
                 />
             ) : (
                 <></>
-            )} */}
+            )}
 
             <header>
                 <HeaderBar/>
@@ -159,7 +170,7 @@ export default function ChecklistEditItemPage(props: PropType) {
                         }
                     </div>
                 </div>
-                <div className='underline text-center text-neutral-500 mt-10'>장소 / 활동 추가</div>
+                <div onClick={() => setSelectModalActive(true)} className='underline text-center text-neutral-500 mt-10'>장소 / 활동 추가</div>
                 
                 
             </div>

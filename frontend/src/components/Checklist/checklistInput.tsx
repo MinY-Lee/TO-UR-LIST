@@ -28,8 +28,7 @@ export default function ChecklistInput(props: PropType) {
     useEffect(() => {
         setIsPublicInput(props.default ? props.default.isPublic : false);
         setItemInput(props.default ? props.default.item : "");
-    })
-
+    }, [props])
 
     const setDropdown = (isClicked : boolean) => {
         return (isClicked ? "" : "hidden");
@@ -59,20 +58,37 @@ export default function ChecklistInput(props: PropType) {
       };
 
     const addItem = () => {
-        // 데이터 추가 api
-        console.log("아이템 추가 : " + isPublicInput + ", " + itemInput)
+        if (!props.default) {
+            // 데이터 추가 api
+            console.log("아이템 추가 : " + isPublicInput + ", " + itemInput)
+    
+            props.onUpdate({
+                'tourId': props.tourId,
+                'placeId': props.placeId || "",
+                'tourActivityId' : "",
+                'item' : itemInput,
+                'tourDay' : props.tourDay || 0,
+                'isChecked' : false,
+                'isPublic' : isPublicInput
+            })
+    
+            setItemInput("");
 
-        props.onUpdate({
-            'tourId': props.tourId,
-            'placeId': props.placeId || "",
-            'tourActivityId' : "",
-            'item' : itemInput,
-            'tourDay' : props.tourDay || 0,
-            'isChecked' : false,
-            'isPublic' : isPublicInput
-        })
+        } else {
+            // 수정인 경우
+            console.log("아이템 수정 : " + itemInput)
 
-        setItemInput("");
+            props.onUpdate({
+                'tourId': props.tourId,
+                'placeId': props.default.placeId || "",
+                'tourActivityId' : props.default.tourActivityId,
+                'item' : itemInput,
+                'tourDay' : props.default.tourDay,
+                'isChecked' : props.default.isChecked,
+                'isPublic' : props.default.isPublic
+            })
+
+        }
     }
     
     const handleHelpText = () => {
@@ -85,7 +101,7 @@ export default function ChecklistInput(props: PropType) {
         <>
         <div>
             <div className="flex relative items-start">
-                <button onClick={() => setIsClicked(!isClicked)} id="dropdown-button" data-dropdown-toggle="dropdown" className={`${props.className} flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-center text-gray-900`} type="button">
+                <button disabled={props.default !== undefined} onClick={() => setIsClicked(!isClicked)} id="dropdown-button" data-dropdown-toggle="dropdown" className={`${props.className} flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-center text-gray-900`} type="button">
                     {/* 기본선택값 */}
                     {isPublicInput
                         ? <svg width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -132,7 +148,7 @@ export default function ChecklistInput(props: PropType) {
                         type="add" 
                         id="add-inputbox" 
                         className="p-2.5 w-full z-20 text-gray-900 border-b-2 text-lg" 
-                        placeholder="추가하려는 항목을 입력하세요." 
+                        placeholder={props.default == undefined ? "추가하려는 항목을 입력하세요." : "" }
                     />
                     <p id="helper-text-explanation" className={`${handleHelpText()} mt-1 text-sm color-text-blue-1`}>이미 존재하는 항목입니다.</p>
                 </div>
