@@ -19,7 +19,14 @@ interface Group {
 
 export default function SelectModal(props: Proptype) {
     const [data, setData] = useState<TourPlaceItem[]>();
-    const [tourData, setTourData] = useState<TourInfoDetail>();
+    const [tourData, setTourData] = useState<TourInfoDetail>({
+        tourId: "",
+        tourTitle: "",
+        cityList: [],
+        startDate: "",
+        endDate: "",
+        memberList: []
+    });
     const [daysDifference, setDaysDifference] = useState<number>(0);
     const [daysList, setDaysList] = useState<number[]>([]);
     const [groupedItems, setGroupedItems] = useState<Group>();

@@ -29,7 +29,14 @@ export default function ChecklistEditDayPage() {
     const [checkModalActive, setIsCheckModalActive] = useState<boolean>(false);
     const [deleteItem, setDeleteItem] = useState<Item>();
 
-    const [data, setData] = useState<TourInfoDetail>({});
+    const [data, setData] = useState<TourInfoDetail>({
+        tourId: "",
+        tourTitle: "",
+        cityList: [],
+        startDate: "",
+        endDate: "",
+        memberList: []
+    });
     const [daysDifference, setDaysDifference] = useState<number>(0);
     const [daysList, setDaysList] = useState<number[]>([]);
     const [groupedItems, setGroupedItems] = useState<ItemPerDayAndPlace>();
