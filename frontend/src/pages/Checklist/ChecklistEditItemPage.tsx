@@ -92,7 +92,7 @@ export default function ChecklistEditItemPage(props: PropType) {
 
     const handleDelete = () => {
         // 데이터 삭제 api
-        const updatedActivity = filteredData.filter((item) => item !== deleteItem);
+        const updatedActivity = filteredData?.filter((item) => item !== deleteItem);
         setFilteredData(updatedActivity);
         setCheckModalActive(false);
     }

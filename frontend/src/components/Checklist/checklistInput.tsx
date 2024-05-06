@@ -93,7 +93,7 @@ export default function ChecklistInput(props: PropType) {
     
     const handleHelpText = () => {
         const existingItem = props.checklist?.find((item) => item.item == itemInput);
-        const existingItemPerDay = props.checklistPerDay?[props.tourDay][props.placeId].find((item) => item.item == itemInput) : null;
+        const existingItemPerDay = props.checklistPerDay && props.tourDay && props.placeId ? props.checklistPerDay[props.tourDay][props.placeId].find((item) => item.item == itemInput) : null;
         return (existingItem || existingItemPerDay) ? "" : "hidden";
     }
 
