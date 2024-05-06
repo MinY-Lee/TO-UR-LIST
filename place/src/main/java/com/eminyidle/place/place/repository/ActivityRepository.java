@@ -24,4 +24,10 @@ public interface ActivityRepository extends Neo4jRepository<Activity, String> {
             "MATCH (a:ACTIVITY{activity: $activity})" +
             "CREATE (t)-[:REFERENCE]->(a)")
     void createReferenceRelationship(String tourId, String placeId, Integer tourDay, String activity);
+
+    // 활동 삭제
+    @Query("MATCH (:TOUR_ACTIVITY{tourActivityId: $tourActivityId})-[r:REFERENCE]->(:ACTIVITY{activity: $activity})" +
+            "DELETE r")
+    void deleteByTourActivityIdAndActivity(String tourActivityId, String activity);
+
 }

@@ -98,6 +98,15 @@ public class PlaceController {
                 responseBody = PlaceRequesterInfo.builder()
                         .userId(userId)
                         .build();
+                break;
+            }
+            // 활동 삭제
+            case DELETE_ACTIVITY: {
+                isSuccess = activityService.deleteActivity(body, tourId, simpSessionAttributes);
+                responseBody = PlaceRequesterInfo.builder()
+                        .userId(userId)
+                        .build();
+                break;
             }
         }
 
