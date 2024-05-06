@@ -4,6 +4,14 @@ import { BaseSyntheticEvent, useEffect, useState } from 'react';
 import GenderSelectBox from '../../components/MyPage/GenderSelectBox';
 import TabBarMain from '../../components/TabBar/TabBarMain';
 import { useNavigate } from 'react-router-dom';
+import {
+    changeBirthDay,
+    changeGender,
+    changeName,
+    changeNickname,
+    checkDuplicatedNick,
+} from '../../util/api/user';
+import { httpStatusCode } from '../../util/api/http-status';
 
 export default function MypageInfo() {
     const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
@@ -13,7 +21,7 @@ export default function MypageInfo() {
         userInfo.userNickname
     );
     const [userBirthDay, setUserBirthDay] = useState<string>(
-        userInfo.userBirth.replaceAll('-', '.')
+        userInfo.userBirth ? userInfo.userBirth.replaceAll('-', '.') : ''
     );
 
     const [userGender, setUserGender] = useState<number>(0);
@@ -137,8 +145,18 @@ export default function MypageInfo() {
      * 닉네임 중복 여부 확인
      */
     const checkDupleNickname = () => {
-        //원래 api 이용해야
-        setIsNicknameDupleChecked(true);
+        checkDuplicatedNick(userNickname)
+            .then((res) => {
+                if (res.data.isDuplicated) {
+                    setNicknameMsg('중복된 닉네임입니다.');
+                } else {
+                    setNicknameMsg('유효하지 않은 닉네임입니다.'); //오류 메시지 초기화
+                    setIsNicknameDupleChecked(true);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     const birtyDayChanged = (event: BaseSyntheticEvent) => {
@@ -168,11 +186,50 @@ export default function MypageInfo() {
     };
 
     /**submitChange() 수정을 완료한다. */
-    const submitChange = () => {
+    const submitChange = async () => {
         //api호출
-        //전송 후 올바르게 변형되면 redux 반영
+        const res1 = await changeName({
+            userName: userName,
+        });
+        console.log(userNickname);
+        const res2 = await changeNickname({
+            userNickname: userNickname,
+        });
 
-        navigate(`/mypage`);
+        const sendBirthday = userBirthDay.replaceAll('.', '-');
+        changeBirthDay(sendBirthday + 'T00:00:00');
+        const res3 = await changeBirthDay({
+            userBirth: sendBirthday,
+        });
+
+        const res4 = await changeGender({
+            userGender: userGender,
+        });
+
+        if (
+            res1.status === httpStatusCode.OK &&
+            res2.status === httpStatusCode.OK &&
+            res3.status === httpStatusCode.OK &&
+            res4.status === httpStatusCode.OK
+        ) {
+            navigate(`/mypage`);
+        } else {
+            console.log(res1);
+        }
+
+        //생일은 검증 필요
+        // const sendBirthday = userBirthDay.replaceAll('.', '-');
+        // changeBirthDay(sendBirthday + 'T00:00:00')
+        //     .then((res) => {
+        //         if (res.status === httpStatusCode.OK) {
+        //             navigate(`/mypage`);
+        //         } else {
+        //             console.log(res);
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
     };
 
     return (

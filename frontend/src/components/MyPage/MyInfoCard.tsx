@@ -38,7 +38,6 @@ export default function MyInfoCard() {
                     userName: '',
                     userBirth: '',
                     userGender: 0,
-                    userProfileImageId: '',
                 };
                 dispatch(userWholeState(userInfo));
                 window.location.href = '/';
@@ -86,7 +85,11 @@ export default function MyInfoCard() {
                     </div>
                     <div className="w-[70%] h-full text-[5vw] flex flex-col justify-center items-start">
                         <p>{userInfo.userName}</p>
-                        <p>{userInfo.userBirth.replaceAll('-', '.')}</p>
+                        <p>
+                            {userInfo.userBirth
+                                ? userInfo.userBirth.replaceAll('-', '.')
+                                : '미지정'}
+                        </p>
                         <p>{gender}</p>
                     </div>
                 </div>

@@ -1,5 +1,7 @@
 import { Cookies } from 'react-cookie';
 import { Navigate, Outlet } from 'react-router-dom';
+import { getUserInfo } from '../../util/api/user';
+import { httpStatusCode } from '../../util/api/http-status';
 
 export default function LoginCheck() {
     const cookies = new Cookies();

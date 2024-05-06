@@ -5,7 +5,7 @@ export interface UserInfo {
     userName: string;
     userBirth: string;
     userGender: number;
-    userProfileImageId: string;
+    // userProfileImageId: string;
 }
 
 // 여행 정보
@@ -96,4 +96,22 @@ export interface TourActivity {
 export interface Position {
     lat: number;
     lng: number;
+}
+
+//장소 정보 상세
+export interface PlaceInfoDetail {
+    placeId: string;
+    placeName: string;
+    placePrimaryType: string;
+    placeLatitude: number;
+    placeLongitude: number;
+    placeAddress: string;
+    placePhotoList: string[];
+}
+
+//여행 편집 화면
+export interface TourEditDetail {
+    placeInfo: PlaceInfoDetail;
+    tourActivityList: TourActivity[];
+    isSelected: boolean;
 }

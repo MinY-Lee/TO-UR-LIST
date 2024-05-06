@@ -1,0 +1,33 @@
+{
+    "placeInfo": {
+        "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
+        "placeName": "도톤보리",
+        "placePrimaryType": "tourist_attraction",
+        "placeLatitude": 34.6686471,
+        "placeLongitude": 135.5030983,
+        "placeAddress": "일본 〒542-0071 오사카부 오사카시 주오구 도톤보리",
+        "placePhotoList": [
+            "https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sATplDJap0SlwTS4Krn9XIZlGsiz1GejiaB0Zh6C8DZZ_zeznRAthsx9JieJNh_4RGfNczNIh34LVAJQuGr3KmvNddnATspiq5hctn_K3K_lKdHZM62WALjyI0TftXvg22jA8Ax_yrvddkO9dfw4UKZs2FlZ6NBq5TuKeu_1fgT6m3Ti1Rbp5&3u4032&5m1&2e1&callback=none&r_url=http%3A%2F%2Flocalhost%3A5173%2Ftour%2F11111%2Fschedule&key=AIzaSyAU4Qmmd-DlXfl_fOXP0I433SkO4g4Ruww&token=48165",
+            "https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sATplDJbNXFhuLe_22IN5_2n5tur7eTHwZF5GLZd4jS-LdkcvCqy8yOmCuz5kyFzJE-kT8f0rMEMjqbXLa1hm1g97P3te9KRit4EkgWaKbhNcHh4wo54U0MAhEa9PPPnAI1BzKMjZeyenbw-Ywq9ad_h5O_4R-WhCSH24cMgXgaKpDgsPaIrR&3u1923&5m1&2e1&callback=none&r_url=http%3A%2F%2Flocalhost%3A5173%2Ftour%2F11111%2Fschedule&key=AIzaSyAU4Qmmd-DlXfl_fOXP0I433SkO4g4Ruww&token=88263",
+            "https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sATplDJbhyJ80C5H9QSksC1C7oo5QBn3F4we5SZDAjOOPEe3JsnUjYBm6KNyF_UAuJ2zCUgSYi8LBuIlZAoSURVZnAvpv60chV2IpWuBj_Q2XLdg0R2ydZLsjmXrBBPoF87MKJF-QY6bqkxKSpTYpZ3kMwWQ35dbqtbTWWIuAVKYe3dzpHkjb&3u1923&5m1&2e1&callback=none&r_url=http%3A%2F%2Flocalhost%3A5173%2Ftour%2F11111%2Fschedule&key=AIzaSyAU4Qmmd-DlXfl_fOXP0I433SkO4g4Ruww&token=69505",
+            "https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sATplDJZvPkzkt9lY9l21BYqTsJ1bqk5mgKbd5aF_gB_t8OjdwusVoccO8Qz_JM1L7vpHXtLWk6uN1JdQYN_LOuTKYt86boItKvOltvWfm8PxLFs4MLhbZGSHj8jCKi3ox-TR-y_a32VeFy4hTP0MPK7PmTnSE2zPzkn7an-_2-4BkUfEVXBn&3u600&5m1&2e1&callback=none&r_url=http%3A%2F%2Flocalhost%3A5173%2Ftour%2F11111%2Fschedule&key=AIzaSyAU4Qmmd-DlXfl_fOXP0I433SkO4g4Ruww&token=73682",
+            "https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sATplDJYmTek7lHsvZ6nyx0vbNjKW-X-Xdo1mq3_JszXigb3oeMgakbTS_ABgXYuf7qgbgPYTGsK38e6igtPU_Q-75Yz_C1hXqK0qv73-eZ9-noIsIAgqpuQthscFFWiJeYLGo9DSBHZEu6SzNfXoX1MEWJpq4DKWvbls-1RCX3EaTgtwvEav&3u4608&5m1&2e1&callback=none&r_url=http%3A%2F%2Flocalhost%3A5173%2Ftour%2F11111%2Fschedule&key=AIzaSyAU4Qmmd-DlXfl_fOXP0I433SkO4g4Ruww&token=75375",
+            "https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sATplDJbJbKm6hBn8-7Qm69Ws8K7MsJEauGGD6Esy5HJflWOQ3VomYWjsEqOASZoVn9tm2A0kC7DEiLS-OPtBQSS4hCNSTaSQPxrNE1x6BLrEckUBajbFWkHPv3JI8PX1zazRfJsNTt-biHb_QxWIik3yEATmMr33s2e9qM550q5i_BquXZjn&3u1300&5m1&2e1&callback=none&r_url=http%3A%2F%2Flocalhost%3A5173%2Ftour%2F11111%2Fschedule&key=AIzaSyAU4Qmmd-DlXfl_fOXP0I433SkO4g4Ruww&token=70041",
+            "https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sATplDJYE-DC0zd5AyFvVj3USIvV1MXAUp4ROKOHm2RomCVsvM2f6ZlNVwN3Gi0NVAxZpIUhUN6LegfhICoghygFJk_VMF0QXafGY4xCrfsZ6axhJF22YtTPggQHAUdl-g0-ipY9884kZzbyaJ65BqLWP0gdeBI8dIcSQT67MNRZmey65HJE4&3u4096&5m1&2e1&callback=none&r_url=http%3A%2F%2Flocalhost%3A5173%2Ftour%2F11111%2Fschedule&key=AIzaSyAU4Qmmd-DlXfl_fOXP0I433SkO4g4Ruww&token=68025",
+            "https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sATplDJbTYal_rAmDDiuNk_7N-IVOgga2ehAZgVOwEALJUBoowAZs40C6cGQj-LRwANftOHplaHhVFAtlfcUgFiTAIHDKvFgVdKAhB6cQDb6QLrXKNshD1yqkZvlB74DpkunkslWvPCmVG9PVDS1dlKCqyft-O1J2Bt1-AbNe0Hp8SI7PyxA&3u2048&5m1&2e1&callback=none&r_url=http%3A%2F%2Flocalhost%3A5173%2Ftour%2F11111%2Fschedule&key=AIzaSyAU4Qmmd-DlXfl_fOXP0I433SkO4g4Ruww&token=14256",
+            "https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sATplDJYE1oX3LBqj-Nn1PKfX4Z9yfHDOXLxjSjSCTKlGPGRl2d9aWw8QLNncuPl__pHvY5WhyhhzmaAdOwUzYwnb_192UCIz-JLc0khNNVw9CksdbGRwoZ94VenZZlGfL7jYAMXKzjN1ST1UldDnsXfPR2EBNJxDI6ZR-QT7oUHTbxKjHUwc&3u1923&5m1&2e1&callback=none&r_url=http%3A%2F%2Flocalhost%3A5173%2Ftour%2F11111%2Fschedule&key=AIzaSyAU4Qmmd-DlXfl_fOXP0I433SkO4g4Ruww&token=44394",
+            "https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sATplDJbj2EgMmlg7zTG716dAYc7MkddzvGGN3rUbSPRBCqSxulnpkH51ye2hRWQqKdmPThwnrHw007Hj3GytJ3miKfrJe6fjTga5d4zZzToLB46wY7LMS59t6uyl7CtPoEWEBhmKXOxsX2vk0-VGyRjG7BthdJvMhPwKVYj2XbVOYSODznk&3u2048&5m1&2e1&callback=none&r_url=http%3A%2F%2Flocalhost%3A5173%2Ftour%2F11111%2Fschedule&key=AIzaSyAU4Qmmd-DlXfl_fOXP0I433SkO4g4Ruww&token=75611"
+        ]
+    },
+    "tourActivityList": [
+        {
+            "tourActivityId": "s11212",
+            "activity": "쇼핑"
+        },
+        {
+            "tourActivityId": "a12321",
+            "activity": "식사"
+        }
+    ],
+    "isSelected": true
+}
