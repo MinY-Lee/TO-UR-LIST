@@ -15,7 +15,7 @@ const MyButton: React.FC<MyButtonProps> = ({ className, type, text, isSelected, 
         <div className="">
             {type === 'full' ?
                 <button
-                    className={`${className} color-bg-blue-2 rounded-lg w-full py-3 text-white font-bold text-lg`}
+                    className={`${className} ${buttonColor} rounded-lg w-full py-3 text-white font-bold text-lg`}
                     onClick={onClick}
                 >
                     {text}
