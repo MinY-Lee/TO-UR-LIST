@@ -142,9 +142,14 @@ export default function TourHeader(props: PropType) {
                         {data?.memberList.map((member: MemberInfo, index: number) => (
                             <div key={index} className="relative" onMouseEnter={() => handleMouseEnter(member)} onMouseLeave={handleMouseLeave}>
                                 <div className={`${isHost(member)}`}>
-                                    <div className="shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
-                                        {member.userNickname[0]}
-                                    </div>
+                                    {member.memberType !== "ghost"
+                                            ? <div className="shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
+                                                {member.userNickname[0]}
+                                            </div>
+                                            : <div className="shadow-lg m-1 font-bold text-3xl  bg-gray-400 w-12 h-12 rounded-full flex justify-center items-center">
+                                                👻
+                                            </div>
+                                        }
                                 </div>
                                 {hoveredMember === member && (
                                     <div className="absolute whitespace-nowrap z-10 text-sm bottom-1 left-[40%] bg-gray-500 pl-1 pr-1 rounded-md text-white">

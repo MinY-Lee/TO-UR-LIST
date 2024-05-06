@@ -145,19 +145,24 @@ export default function TourEditHeader(props: PropType) {
                             aria-label="Title"
                             aria-describedby="button-addon1"
                         />
-
                     </div>
-                    <div className="flex items-center mt-2">
+                    <div className="flex items-center mt-2 gap-1">
                         {data?.memberList.map((member: MemberInfo, index: number) => (
                             <div key={index} className="relative" onMouseEnter={() => handleMouseEnter(member)} onMouseLeave={handleMouseLeave}>
                                 <div className={`${isHost(member)}`} onClick={member.memberType == "host" ? handleHost : undefined }>
-                                    <div className="shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
-                                        {member.userNickname[0]}
-                                    </div>
+                                    {member.memberType !== "ghost"
+                                        ? <div className="shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
+                                            {member.userNickname[0]}
+                                        </div>
+                                        : <div className="shadow-lg m-1 font-bold text-3xl bg-gray-400 w-12 h-12 rounded-full flex justify-center items-center">
+                                            👻
+                                        </div>
+                                    }
+                                    
                                 </div>
                                 {hoveredMember === member && (
                                     <div className="absolute whitespace-nowrap z-10 text-sm bottom-1 left-[40%] bg-gray-500 pl-1 pr-1 rounded-md text-white">
-                                        {member.userNickname}
+                                        {member.userName}
                                     </div>
                                 )}
                                 {member.memberType != "host"
@@ -166,8 +171,26 @@ export default function TourEditHeader(props: PropType) {
                                 }
                             </div>
                         ))}
+                        <div className="border-dashed border-2 color-text-blue-2 border-[#5faad9] m-1 font-bold text-3xl w-12 h-12 rounded-full flex justify-center items-center">
+                            +
+                        </div>
                     </div>
-                    <div className="text-[4vw]">{`${data?.startDate}~${data?.endDate}`}</div>
+                    <div className="flex gap-2 my-3 justify-center">
+                        <input
+                            className="px-[2vw] py-2 border-[0.3vw] border-neutral-300"
+                            style={{ borderRadius: '1vw' }}
+                            value={data?.startDate}
+                            placeholder="YYYY.MM.DD"
+                            // onChange={startDateChange}
+                        ></input>
+                        <input
+                            className="px-[2vw] py-2 border-[0.3vw] border-neutral-300"
+                            style={{ borderRadius: '1vw' }}
+                            value={data?.endDate}
+                            placeholder="YYYY.MM.DD"
+                            // onChange={startDateChange}
+                        ></input>
+                    </div>
                     <div className="text-[5vw] flex flex-col items-center">
                         <div className="grid grid-cols-10 w-full">
                             <div className="relative col-span-1 justify-center">
