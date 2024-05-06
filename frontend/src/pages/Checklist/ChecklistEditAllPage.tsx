@@ -41,7 +41,10 @@ export default function ChecklistEditAllPage() {
 
     }, [tourId]);
 
-    
+    const handleEditChecklist = (item: Item) => {
+        // state로 데이터 전달하며 페이지 이동
+        navigate(`/tour/${tourId}/checklist/edit`, { state: { item: item } });
+    };
 
     const mapping: Mapping = {
         'walking' : ['👣 산책', 'color-bg-blue-3'],
@@ -162,7 +165,12 @@ export default function ChecklistEditAllPage() {
                                     }
                             </div>
                             <div className="col-span-4 grid grid-cols-3 justify-center">
-                                <div className="col-span-2 text-lg flex items-center">
+                                <div 
+                                    className="col-span-2 text-lg flex items-center"
+                                    onClick={() => {
+                                        handleEditChecklist(item);
+                                    }}
+                                >
                                     {item.item}
                                 </div>
                                 <div className='relative w-fit'>

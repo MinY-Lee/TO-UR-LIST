@@ -1,6 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Item } from '../../types/types';
-import { combineSlices } from '@reduxjs/toolkit';
 
 interface ItemPerPlace {
     [placeId: string]: Item[];
@@ -18,12 +17,18 @@ interface PropType {
     placeId?: string;
     checklistPerDay?: ItemPerDayAndPlace;
     onUpdate: (item: Item) => void;
+    default?: Item;
 }
 
 export default function ChecklistInput(props: PropType) {
     const [isClicked, setIsClicked] = useState<boolean>(false);
     const [isPublicInput, setIsPublicInput] = useState<boolean>(false);
     const [itemInput, setItemInput] = useState<string>("");
+
+    useEffect(() => {
+        setIsPublicInput(props.default ? props.default.isPublic : false);
+        setItemInput(props.default ? props.default.item : "");
+    })
 
 
     const setDropdown = (isClicked : boolean) => {
@@ -71,9 +76,9 @@ export default function ChecklistInput(props: PropType) {
     }
     
     const handleHelpText = () => {
-        const existingItem = props.checklist?.find((item) => item.item == itemInput)
-        const existingItemPerDay = props.checklistPerDay[props.tourDay][props.placeId].find((item) => item.item == itemInput);
-        return (existingItem || existingItemPerDay ? "" : "hidden");
+        const existingItem = props.checklist?.find((item) => item.item == itemInput);
+        const existingItemPerDay = props.checklistPerDay?[props.tourDay][props.placeId].find((item) => item.item == itemInput) : null;
+        return (existingItem || existingItemPerDay) ? "" : "hidden";
     }
 
     return (
@@ -126,7 +131,7 @@ export default function ChecklistInput(props: PropType) {
                         value={itemInput} 
                         type="add" 
                         id="add-inputbox" 
-                        className="p-2.5 w-full z-20 text-gray-900 border-b-2" 
+                        className="p-2.5 w-full z-20 text-gray-900 border-b-2 text-lg" 
                         placeholder="추가하려는 항목을 입력하세요." 
                     />
                     <p id="helper-text-explanation" className={`${handleHelpText()} mt-1 text-sm color-text-blue-1`}>이미 존재하는 항목입니다.</p>

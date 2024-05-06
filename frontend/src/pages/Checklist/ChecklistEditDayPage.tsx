@@ -118,20 +118,6 @@ export default function ChecklistEditDayPage() {
 
     const handleDelete = () => {
         // 데이터 삭제 api
-
-        // const updatedChecklist = [...groupedItems[item.tourDay][item.placeId], item];
-        // const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
-    
-        // Object.keys(updatedFullChecklist).forEach((day) => {
-        //     Object.keys(updatedFullChecklist[day]).forEach((placeId) => {
-        //         if (day == item.tourDay && placeId == item.placeId) {
-        //             updatedFullChecklist[day][placeId] = [...updatedChecklist]; // 새로운 배열로 교체
-        //         } else {
-        //             updatedFullChecklist[day][placeId] = [...updatedFullChecklist[day][placeId]];
-        //         }
-        //     });
-        // });
-
         const updatedChecklist = groupedItems[deleteItem?.tourDay][deleteItem?.placeId].filter((item : Item) => item !== deleteItem);
         const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
     

@@ -109,7 +109,10 @@ export default function MyCheckList(props: PropType) {
                                                         </svg>
                                                     }
                                             </div>
-                                            <label className="ms-2 w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">{item.item}</label>
+                                            <label 
+                                                className="ms-2 w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
+                                                {item.item}
+                                            </label>
                                         </div>
                                         
                                         <div className='relative w-fit'>

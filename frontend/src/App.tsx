@@ -15,6 +15,7 @@ import TourScheduleEditPage from './pages/Schedule/TourScheduleEditPage';
 import ChecklistPage from './pages/Checklist/ChecklistPage';
 import ChecklistEditAllPage from './pages/Checklist/ChecklistEditAllPage';
 import ChecklistEditDayPage from './pages/Checklist/ChecklistEditDayPage';
+import ChecklistEditItemPage from './pages/Checklist/ChecklistEditItemPage';
 import AccountPage from './pages/Account/AccountPage';
 import AccountTotalPage from './pages/Account/AccountTotalPage';
 import AccountAddPage from './pages/Account/AccountAddPage';
@@ -92,6 +93,11 @@ export default function App() {
                 <Route
                     path="/tour/:tourid/checklist/day"
                     element={<ChecklistEditDayPage />}
+                />
+                {/* 체크리스트 항목 수정 */}
+                <Route
+                    path="/tour/:tourid/checklist/edit"
+                    element={<ChecklistEditItemPage />}
                 />
 
                 {/* 가계부 관련 */}
