@@ -2,6 +2,7 @@ package com.eminyidle.payment.controller;
 
 import com.eminyidle.payment.dto.CountryCurrency;
 import com.eminyidle.payment.dto.ExchangeRate;
+import com.eminyidle.payment.dto.req.PaymentInfoReq;
 import com.eminyidle.payment.dto.res.ExchangeRateRes;
 import com.eminyidle.payment.service.PaymentService;
 import jakarta.validation.Valid;
@@ -10,22 +11,24 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 @RequestMapping("/pay")
 public class PaymentController {
 
     private final PaymentService paymentService;
 
-
     @GetMapping("/currency/{countryCode}/{date}")
-    public ResponseEntity<?> getCountryCurrencyRate(@Valid @NotBlank @PathVariable("countryCode") String countryCode,
-                                                    @Valid @NotBlank @PathVariable("date") String date) {
+    public ResponseEntity<?> getCountryCurrencyRate(@NotBlank @PathVariable("countryCode") String countryCode,
+                                                    @NotBlank @PathVariable("date") String date) {
 
         log.info(countryCode);
         log.info(date);
@@ -40,6 +43,20 @@ public class PaymentController {
                         .unit(countryCurrency.getCurrencySign())
                         .currency(exchangeRate.getExchangeRate())
                         .build()
+        );
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createPayment(@Valid @RequestBody PaymentInfoReq paymentInfoReq) {
+
+        log.debug(paymentInfoReq.toString());
+
+        String payId = paymentService.createPaymentInfo(paymentInfoReq);
+        // 저장 결과
+        Map<String, String> responsePayment = new HashMap<>();
+        responsePayment.put("payId", payId);
+        return ResponseEntity.ok().body(
+                responsePayment
         );
     }
 }
