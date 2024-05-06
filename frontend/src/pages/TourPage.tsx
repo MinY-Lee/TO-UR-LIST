@@ -7,10 +7,12 @@ import TourCheckList from "../components/TourPage/TourChecklist";
 import { TourInfoDetail } from "../types/types";
 import TourDetail from '../dummy-data/get_tour_detail.json';
 import TabBarTour from "../components/TabBar/TabBarTour";
+import TourEditHeader from "../components/TourPage/TourEditHeader";
 
 export default function TourPage() {
 
     const [data, setData] = useState<TourInfoDetail>();
+    const [type, setType] = useState<string>("");
 
     useEffect(() => {
         // 투어 아이디 불러오기
@@ -22,8 +24,15 @@ export default function TourPage() {
         if (tourData) {
             setData(tourData);
         }
+
+        setType("default");
         
     }, []);
+
+    const onChange = (type: string) => {
+        setType(type);
+        console.log(type);
+    }
 
 
     return (
@@ -33,7 +42,11 @@ export default function TourPage() {
             </header>
             <div className="h-[85vh] overflow-y-scroll">
                 <div>
-                    <TourHeader tourInfo={data}/>
+                    {
+                        type == 'default' 
+                        ? <TourHeader tourInfo={data} onChange={(type) => onChange(type)}/>
+                        : <TourEditHeader tourInfo={data} onChange={(type) => onChange(type)}/>
+                    }
                 </div>
                 <div>
                     <TourBasicInfo tourInfo={data}/>

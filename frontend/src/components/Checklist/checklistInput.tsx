@@ -35,7 +35,7 @@ export default function ChecklistInput(props: PropType) {
     }
 
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setItemInput(event.target.value);
       };
 

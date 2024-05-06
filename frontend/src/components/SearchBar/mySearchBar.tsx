@@ -8,7 +8,7 @@ export default function searchBar(props: ChildProps) {
 
     const [query, setQuery] = useState<String>(""); // 검색어
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(event.target.value);
       };
 
