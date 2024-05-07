@@ -2,12 +2,17 @@ import { useEffect, useState } from 'react';
 import HeaderBar from '../../components/HeaderBar/HeaderBar';
 import TabBarTour from '../../components/TabBar/TabBarTour';
 import { useLocation } from 'react-router-dom';
+import { Wrapper } from '@googlemaps/react-wrapper';
 
 //dummyData
 import tourInfo from '../../dummy-data/get_tour_tourId.json';
+import { PlaceInfo } from '../../types/types';
+import SearchMaps from '../../components/SchedulePage/SearchMaps';
+import SearchSlideBar from '../../components/SchedulePage/SearchSlideBar';
 
 export default function PlaceAddPage() {
     const [selectedDate, setSelectedDate] = useState<number>(-1);
+    const [searchedPlaces, setSearchedPlaces] = useState<PlaceInfo[]>([]);
 
     // 투어 아이디 불러오기
     const address: string[] = window.location.href.split('/');
@@ -39,9 +44,9 @@ export default function PlaceAddPage() {
 
     return (
         <>
-            <section className="w-full h-full">
+            <section className="w-full h-full overflow-y-hidden">
                 <HeaderBar />
-                <div className="w-full h-[80%] flex flex-col">
+                <div className="w-full h-[80%] flex flex-col overflow-y-hidden">
                     {/* 현재 날짜 보여주기 */}
                     {selectedDate !== -1 ? (
                         <div className="w-full h-[5%] text-[5vw] px-[2vw] flex items-center">
@@ -50,6 +55,15 @@ export default function PlaceAddPage() {
                     ) : (
                         <></>
                     )}
+                    <Wrapper
+                        apiKey={`${
+                            import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY
+                        }`}
+                        libraries={['marker', 'places']}
+                    >
+                        <SearchMaps />
+                    </Wrapper>
+                    <SearchSlideBar />
                 </div>
                 <TabBarTour tourMode={2} tourId={tourId} />
             </section>

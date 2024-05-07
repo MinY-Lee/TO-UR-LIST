@@ -9,19 +9,20 @@ interface MyButtonProps {
 }
 
 const MyButton: React.FC<MyButtonProps> = ({ className, type, text, isSelected, onClick}) => {
-    const [buttonColor, setButtonColor] = useState<String>(isSelected ? 'color-bg-blue-1 text-white text-bold' : 'color-bg-blue-5 text-white');
+    // const [buttonColor, setButtonColor] = useState<String>(isSelected ? 'color-bg-blue-1 text-white text-bold' : 'color-bg-blue-5 text-white');
+    const buttonColor = (isSelected ? 'color-bg-blue-1 text-white font-bold' : 'box-border border-[#5faad9] border-2 color-text-blue-2');
     return (
 
         <div className="">
             {type === 'full' ?
                 <button
-                    className={`${className} color-bg-blue-2 rounded-lg w-full py-3 text-white font-bold text-lg`}
+                    className={`${className} ${buttonColor} rounded-lg w-full text-white font-bold text-lg`}
                     onClick={onClick}
                 >
                     {text}
                 </button> :
                 <button
-                    className={`${className} ${buttonColor} rounded-xl px-5`}
+                    className={`${className || ""} ${buttonColor} rounded-xl px-5`}
                     onClick={onClick}
                 >
                     {text}

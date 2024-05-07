@@ -9,24 +9,26 @@ interface ChildProps {
 export default function myCalendar(props: ChildProps) {
     const { weekCalendarList, currentDate, setCurrentDate, weekDayList } = getCalendar();
     
-    const [startDate, setStartDate] = useState<Date>();
-    const [endDate, setEndDate] = useState<Date>();
+    const [startDate, setStartDate] = useState<Date | undefined>();
+    const [endDate, setEndDate] = useState<Date | undefined>();
     
     useEffect(() => {
+      if (startDate && endDate){
         props.onChange([startDate, endDate]);
+      }
     }, [startDate, endDate]);
 
     // 펴고 접는 버전 만들 때 쓸 예정
     // const [select, setSelect] = useState<number[]>([]);
-    
+
     // const [show, setShow] = useState<boolean>(false);
-    
-	// const handleChange = (selectedDate: Date) => {
-	// 	console.log(selectedDate)
-	// }
-	// const handleClose = (state: boolean) => {
-	// 	setShow(state)
-	// }
+
+    // const handleChange = (selectedDate: Date) => {
+    // 	console.log(selectedDate)
+    // }
+    // const handleClose = (state: boolean) => {
+    // 	setShow(state)
+    // }
 
     const handleDateChange = (value: Date) => {
         // 이미 있는 경우 선택 해제
@@ -47,7 +49,7 @@ export default function myCalendar(props: ChildProps) {
         } else {
             setEndDate(value);
         }
-    }
+    };
 
     const handleEndDateChange = (value: Date) => {
         // end 만 없는 경우
@@ -66,11 +68,15 @@ export default function myCalendar(props: ChildProps) {
         }
     };
 
-    
-
     return (
-        <div id='calendar-container' className='flex flex-col items-center justify-center w-full mb-10'>
-            <div id='move-container' className='flex justify-between w-[70%] m-5'>
+        <div
+            id="calendar-container"
+            className="flex flex-col items-center justify-center w-full mb-10"
+        >
+            <div
+                id="move-container"
+                className="flex justify-between w-[70%] m-5"
+            >
                 <button
                     onClick={() => {
                         setCurrentDate(subMonths(currentDate, 1));
@@ -78,7 +84,7 @@ export default function myCalendar(props: ChildProps) {
                 >
                     &lt;
                 </button>
-                <div className='text-lg'>
+                <div className="text-lg">
                     {currentDate.toLocaleDateString('ko-KR', {
                         year: 'numeric',
                         month: 'long',
@@ -92,25 +98,46 @@ export default function myCalendar(props: ChildProps) {
                     &gt;
                 </button>
             </div>
-            <div id='weekday-container' className='grid grid-cols-7 w-full'>
+            <div id="weekday-container" className="grid grid-cols-7 w-full">
                 {weekDayList.map((weekday, index) => (
-                    <div key={index} className='col-span-1 text-center'>
+                    <div key={index} className="col-span-1 text-center">
                         {weekday}
                     </div>
                 ))}
             </div>
-            <div id='day-container' className='w-full'
-            >
+            <div id="day-container" className="w-full">
                 {weekCalendarList.map((item) => (
-                    <div className="grid grid-cols-7 w-full h-[14vw] text-center" key={Math.random()}>
+                    <div
+                        className="grid grid-cols-7 w-full h-[14vw] text-center"
+                        key={Math.random()}
+                    >
                         {item.map((day, index) => {
-                            const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-                            const isBetween = startDate && endDate && selectedDate > startDate && selectedDate < endDate;
-                            const isStartOrEnd = (startDate?.getDate() === day && startDate.getMonth() === currentDate.getMonth()) || (endDate && endDate.getDate() === day && endDate.getMonth() === currentDate.getMonth());
+                            const selectedDate = new Date(
+                                currentDate.getFullYear(),
+                                currentDate.getMonth(),
+                                day
+                            );
+                            const isBetween =
+                                startDate &&
+                                endDate &&
+                                selectedDate > startDate &&
+                                selectedDate < endDate;
+                            const isStartOrEnd =
+                                (startDate?.getDate() === day &&
+                                    startDate.getMonth() ===
+                                        currentDate.getMonth()) ||
+                                (endDate &&
+                                    endDate.getDate() === day &&
+                                    endDate.getMonth() ===
+                                        currentDate.getMonth());
                             return (
                                 <button
                                     onClick={() => {
-                                        const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+                                        const selectedDate = new Date(
+                                            currentDate.getFullYear(),
+                                            currentDate.getMonth(),
+                                            day
+                                        );
 
                                         if (startDate && endDate) {
                                             handleDateChange(selectedDate);
@@ -123,17 +150,39 @@ export default function myCalendar(props: ChildProps) {
                                     className={`
                                         col-span-1 h-[14vw]
                                         ${day === 0 ? ' invisible ' : ''}
-                                        ${isBetween || isStartOrEnd ? 'color-bg-blue-4' : ''}
-                                        ${selectedDate.getTime() === startDate?.getTime() ? 'rounded-tl-full rounded-bl-full' : ''}
-                                        ${selectedDate.getTime() === endDate?.getTime() ? 'rounded-tr-full rounded-br-full' : ''}
+                                        ${
+                                            isBetween || isStartOrEnd
+                                                ? 'color-bg-blue-4'
+                                                : ''
+                                        }
+                                        ${
+                                            selectedDate.getTime() ===
+                                            startDate?.getTime()
+                                                ? 'rounded-tl-full rounded-bl-full'
+                                                : ''
+                                        }
+                                        ${
+                                            selectedDate.getTime() ===
+                                            endDate?.getTime()
+                                                ? 'rounded-tr-full rounded-br-full'
+                                                : ''
+                                        }
                                     `}
                                     key={index}
                                 >
-                                    <div className={`
+                                    <div
+                                        className={`
                                         ${index === 0 ? 'text-red-500' : ''}
-                                        ${currentDate.getMonth() === new Date().getMonth() && day === new Date().getDate() ? 'color-text-blue-1 font-bold' : ''}
+                                        ${
+                                            currentDate.getMonth() ===
+                                                new Date().getMonth() &&
+                                            day === new Date().getDate()
+                                                ? 'color-text-blue-1 font-bold'
+                                                : ''
+                                        }
                                     
-                                    `}>
+                                    `}
+                                    >
                                         <div>{day}</div>
                                     </div>
                                 </button>

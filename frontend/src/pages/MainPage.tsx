@@ -4,11 +4,12 @@ import TabBarMain from '../components/TabBar/TabBarMain';
 
 //dummy data(api완료 시 삭제 요망)
 import tourList from '../dummy-data/get_tour.json';
-import user from '../dummy-data/get_user.json';
+// import user from '../dummy-data/get_user.json';
 
 import { TourCardInfo, UserInfo } from '../types/types';
 import { useDispatch } from 'react-redux';
 import { userWholeState } from '../util/reduxSlices/userSlice';
+import { getUserInfo } from '../util/api/user';
 
 export default function MainPage() {
     const [nowTourList, setNowTourList] = useState<TourCardInfo[]>([]);
@@ -19,27 +20,47 @@ export default function MainPage() {
 
     const dispatch = useDispatch();
 
+    const [user, setUser] = useState<UserInfo>({
+        userId: '',
+        userNickname: '',
+        userName: '',
+        userBirth: '',
+        userGender: 0,
+    });
+
     //유저 정보 불러오기
     //redux에 저장 + main페이지에서는 새로 불러오기
     useEffect(() => {
-        const userInfo: UserInfo = {
-            userId: '',
-            userNickname: '',
-            userName: '',
-            userBirth: '',
-            userGender: 0,
-            userProfileImageId: '',
-        };
-        //불러와서 저장
-        userInfo.userId = user.userId;
-        userInfo.userNickname = user.userNickname;
-        userInfo.userName = user.userName;
-        userInfo.userBirth = user.userBirth;
-        userInfo.userGender = user.userGender;
-        // if(user.userProfileImageId){
-        //     userInfo.userProfileImageId = user.userProfileImageId
-        // }
-        dispatch(userWholeState(userInfo));
+        //체크
+        getUserInfo()
+            .then((res) => {
+                console.log(res);
+
+                const userInfo: UserInfo = {
+                    userId: '',
+                    userNickname: '',
+                    userName: '',
+                    userBirth: '',
+                    userGender: 0,
+                };
+                //불러와서 저장
+                userInfo.userId = res.data.userId;
+                userInfo.userNickname = res.data.userNickname;
+                userInfo.userName = res.data.userName;
+                userInfo.userBirth = res.data.userBirth.split('T')[0];
+                userInfo.userGender = res.data.userGender;
+
+                setUser(userInfo);
+                // if(user.userProfileImageId){
+                //     userInfo.userProfileImageId = user.userProfileImageId
+                // }
+                dispatch(userWholeState(userInfo));
+            })
+            .catch((err) => {
+                if (err.response.status === 400) {
+                    window.location.href = '/info';
+                }
+            });
     }, []);
 
     //시간 설정, 여행 정보 불러오기

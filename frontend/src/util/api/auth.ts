@@ -4,5 +4,5 @@ const local = localAxios();
 
 /**로그아웃 */
 export async function logout() {
-    return await local.get(`/api/auth/logout`);
+    return await local.get(`/authapi/auth/logout`);
 }

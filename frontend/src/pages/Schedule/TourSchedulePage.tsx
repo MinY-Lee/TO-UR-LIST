@@ -41,8 +41,6 @@ export default function TourSchedulePage() {
     const address: string[] = window.location.href.split('/');
     const tourId: string = address[address.length - 2];
 
-    tourInfo['tourId'] = tourId;
-
     //-1 nothing, 0:d+0, 1:d+1...
     const [selectedDate, setSelectedDate] = useState<number>(-1);
 
@@ -50,10 +48,7 @@ export default function TourSchedulePage() {
         <>
             <section className="w-full h-full">
                 <div className="w-full h-[25%]">
-                    <TourHeader
-                        tourInfo={tourInfo}
-                        selectedDate={selectedDate}
-                    />
+                    <TourHeader tourInfo={tourInfo} />
                 </div>
                 <div className="w-full h-[65%] relative overflow-hidden">
                     <Wrapper

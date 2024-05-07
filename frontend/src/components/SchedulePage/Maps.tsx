@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { TourPlaceItem } from '../../types/types';
-import { Position } from '../../types/types';
 
 interface PropType {
     schedule: TourPlaceItem[][];
@@ -82,7 +81,10 @@ export default function Maps(props: PropType) {
                                 const lng = results.geometry?.location.lng();
 
                                 if (lat && lng) {
-                                    const pos = { lat, lng };
+                                    const pos = new google.maps.LatLng(
+                                        lat,
+                                        lng
+                                    );
 
                                     const marker = new google.maps.Marker({
                                         position: { lat, lng },

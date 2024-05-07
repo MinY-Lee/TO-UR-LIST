@@ -6,7 +6,7 @@ interface PropType {
 }
 
 export default function GenderSelectBox(props: PropType) {
-    const data = ['기입 안함', '남성', '여성', '기타'];
+    const data = ['기입 안함', '남성', '여성'];
 
     return (
         <>

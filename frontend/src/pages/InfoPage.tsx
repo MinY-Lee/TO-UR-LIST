@@ -1,20 +1,13 @@
-import { useSelector } from 'react-redux';
-import { UserInfo } from '../types/types';
 import { BaseSyntheticEvent, useEffect, useState } from 'react';
 import GenderSelectBox from '../components/MyPage/GenderSelectBox';
-import TabBarMain from '../components/TabBar/TabBarMain';
 import { useNavigate } from 'react-router-dom';
+import { checkDuplicatedNick, getUserInfo, register } from '../util/api/user';
+import { httpStatusCode } from '../util/api/http-status';
 
 export default function InfoPage() {
-    const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
-
-    const [userName, setUserName] = useState<string>(userInfo.userName);
-    const [userNickname, setUserNickname] = useState<string>(
-        userInfo.userNickname
-    );
-    const [userBirthDay, setUserBirthDay] = useState<string>(
-        userInfo.userBirth.replaceAll('-', '.')
-    );
+    const [userName, setUserName] = useState<string>('');
+    const [userNickname, setUserNickname] = useState<string>('');
+    const [userBirthDay, setUserBirthDay] = useState<string>('');
 
     const [userGender, setUserGender] = useState<number>(0);
     //0 : selectbox close, 1: selectbox open
@@ -32,6 +25,18 @@ export default function InfoPage() {
 
     //navigator
     const navigate = useNavigate();
+
+    //회원가입 정보 있으면 main페이지로 리다이렉트
+    useEffect(() => {
+        getUserInfo()
+            .then((res) => {
+                //회원정보 존재시 main으로
+                navigate('/main');
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
     useEffect(() => {
         if (userName.length >= 2 && userName.length <= 8) {
@@ -137,8 +142,18 @@ export default function InfoPage() {
      * 닉네임 중복 여부 확인
      */
     const checkDupleNickname = () => {
-        //원래 api 이용해야
-        setIsNicknameDupleChecked(true);
+        checkDuplicatedNick(userNickname)
+            .then((res) => {
+                if (res.data.isDuplicated) {
+                    setNicknameMsg('중복된 닉네임입니다.');
+                } else {
+                    setNicknameMsg('유효하지 않은 닉네임입니다.'); //오류 메시지 초기화
+                    setIsNicknameDupleChecked(true);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     const birtyDayChanged = (event: BaseSyntheticEvent) => {
@@ -170,9 +185,26 @@ export default function InfoPage() {
     /**submitChange() 수정을 완료한다. */
     const submitChange = () => {
         //api호출
+        // console.log(userBirthDay);
+        // console.log(new Date(userBirthDay));
+        const sendBirthday = userBirthDay.replaceAll('.', '-');
+        register({
+            userNickname: userNickname,
+            userName: userName,
+            userBirthDay: sendBirthday + 'T00:00:00',
+            userGender: userGender,
+        })
+            .then((res) => {
+                if (res.status === httpStatusCode.OK) {
+                    navigate(`/main`);
+                } else {
+                    console.log('failed');
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         //전송 후 올바르게 변형되면 redux 반영
-
-        navigate(`/main`);
     };
 
     return (

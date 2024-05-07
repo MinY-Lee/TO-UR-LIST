@@ -1,14 +1,14 @@
 import { useState } from 'react';
 
 interface ChildProps {
-    onChange: (data: String) => void;
+    onChange: (data: string) => void;
 }
 
 export default function searchBar(props: ChildProps) {
 
-    const [query, setQuery] = useState<String>(""); // 검색어
+    const [query, setQuery] = useState<string>(""); // 검색어
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(event.target.value);
       };
 

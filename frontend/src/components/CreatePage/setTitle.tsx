@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { BaseSyntheticEvent, useState, useEffect } from 'react';
 
 interface PropType {
     onChangeTitle: (data: string) => void;
@@ -13,7 +13,7 @@ export default function SetTitle(props: PropType) {
         onChangeTitle(title);
     }, [title]);
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: BaseSyntheticEvent) => {
         setTitle(event.target.value);
     };
 

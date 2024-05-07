@@ -31,7 +31,7 @@
     },
     {
         "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
-        "placeName": "USJ",
+        "placeName": "도톤보리",
         "tourDay": 2,
         "tourActivityList": [
             {
@@ -42,7 +42,7 @@
     },
     {
         "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
-        "placeName": "우메다 스카이 빌딩",
+        "placeName": "도톤보리",
         "tourDay": 3,
         "tourActivityList": [
             {
@@ -52,8 +52,8 @@
         ]
     },
     {
-        "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
-        "placeName": "오사카 성 천수각",
+        "placeId": "ChIJ7b9MGI3mAGARufc_HWvT3M0",
+        "placeName": "우메다",
         "tourDay": 3,
         "tourActivityList": [
             {
@@ -68,7 +68,7 @@
     },
     {
         "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
-        "placeName": "호텔",
+        "placeName": "도톤보리",
         "tourDay": 3,
         "tourActivityList": []
     }
