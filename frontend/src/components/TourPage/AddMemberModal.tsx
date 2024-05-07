@@ -27,17 +27,18 @@ export default function AddMemberModal(props: Proptype) {
         }
     }, [topOffset]);
 
-    const onChange = (updatedMember: MemberInfo) => {
-        console.log('멤버 변동 : ' + updatedMember.userNickname);
-
-        let newMembers: MemberInfo[] = [...updatedMemberList];
-        !memberList.includes(updatedMember)
-            ? [...newMembers, updatedMember]
-            : '';
-
+      const onChange = (updatedMember: MemberInfo) => {
+        // updatedMemberList에서 updatedMember의 id와 동일한 요소를 찾기
+        const existingMember = updatedMemberList.find(member => member.id === updatedMember.id);
+      
+        // existingMember가 존재하면 기존 멤버를 업데이트하고, 존재하지 않으면 새로운 멤버 추가
+        const newMembers = existingMember
+          ? updatedMemberList.map(member => (member.userId === updatedMember.userId ? updatedMember : member))
+          : [...updatedMemberList, updatedMember];
+      
         setUpdatedMemberList(newMembers);
-    };
-
+      }
+      
     return (
         <>
             <div className="absolute w-full h-full top-0 left-0 z-20 bg-black opacity-50"></div>
