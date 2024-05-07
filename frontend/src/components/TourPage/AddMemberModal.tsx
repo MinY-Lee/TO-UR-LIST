@@ -29,7 +29,7 @@ export default function AddMemberModal(props: Proptype) {
 
       const onChange = (updatedMember: MemberInfo) => {
         // updatedMemberList에서 updatedMember의 id와 동일한 요소를 찾기
-        const existingMember = updatedMemberList.find(member => member.id === updatedMember.id);
+        const existingMember = updatedMemberList.find(member => member.userId === updatedMember.userId);
       
         // existingMember가 존재하면 기존 멤버를 업데이트하고, 존재하지 않으면 새로운 멤버 추가
         const newMembers = existingMember
