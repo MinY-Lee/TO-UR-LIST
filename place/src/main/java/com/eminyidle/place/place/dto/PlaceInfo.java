@@ -23,6 +23,8 @@ public class PlaceInfo {
     private double placeLatitude;
     private double placeLongitude;
     private String placeAddress;
+    private boolean placeOpenNow;
+    private List<String> placeWeekdayDescriptions;
     private List<String> placePhotoList;
     // 추가 정보
 }
