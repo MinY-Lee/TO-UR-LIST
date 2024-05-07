@@ -2,6 +2,7 @@ package com.eminyidle.payment.service;
 
 import com.eminyidle.payment.dto.CountryCurrency;
 import com.eminyidle.payment.dto.ExchangeRate;
+import com.eminyidle.payment.dto.req.PayIdReq;
 import com.eminyidle.payment.dto.req.PaymentInfoReq;
 
 public interface PaymentService {
@@ -12,4 +13,6 @@ public interface PaymentService {
     String createPaymentInfo(PaymentInfoReq paymentInfo);
 
     void updatePaymentInfo(String payId, PaymentInfoReq paymentInfo);
+
+    void deletePaymentInfo(String payId, PayIdReq payIdReq);
 }

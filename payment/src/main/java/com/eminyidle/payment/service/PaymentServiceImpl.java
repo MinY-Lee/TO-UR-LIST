@@ -1,6 +1,7 @@
 package com.eminyidle.payment.service;
 
 import com.eminyidle.payment.dto.*;
+import com.eminyidle.payment.dto.req.PayIdReq;
 import com.eminyidle.payment.dto.req.PaymentInfoReq;
 import com.eminyidle.payment.exception.CurrencyNotExistException;
 import com.eminyidle.payment.exception.ExchangeRateNotExistException;
@@ -192,6 +193,73 @@ public class PaymentServiceImpl implements PaymentService {
                     throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
                 }
                 privatePaymentList.set(listIdx, updatePrivatePaymentInfo);
+                break;
+            }
+        }
+        // 디비에 저장
+        paymentInfoRepository.save(payment);
+    }
+
+    @Override
+    public void deletePaymentInfo(String payId, PayIdReq payIdReq) {
+        // 유저 ID 받기
+        String userId = "12345";
+        String tourId = payIdReq.getTourId();
+
+        // tourId로 기존 데이터 가져오기
+        PaymentInfo payment = paymentInfoRepository.findById(tourId)
+                .orElseThrow(() -> new PaymentNotExistException("해당하는 지출정보가 없습니다."));
+
+        switch (payIdReq.getPayType()) {
+            case "public" : {
+                // payId로 해당 지출 내역 찾기 - 공통
+                if(payment.getPublicPayment().containsKey(payId)) {
+                    // 해당하는 지출 제거
+                    PublicPayment removedPayment = payment.getPublicPayment().remove(payId);
+                    log.debug(removedPayment.toString());
+
+                    // 개인지출의 public 리스트에서도 제거
+                    List<String> publicPaymentList = payment.getPrivatePayment().get(userId).getPublicPaymentList();
+
+                    boolean flag = false;
+                    int listIdx = 0;
+                    for (String currPublicPaymentId : publicPaymentList) {
+                        if (currPublicPaymentId.equals(payId)) {
+                            flag = true;
+                            break;
+                        }
+                        listIdx++;
+                    }
+                    String removePaymentId = publicPaymentList.remove(listIdx);
+                    log.debug(removePaymentId);
+                }
+                else {
+                    throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
+                }
+                break;
+            }
+            case "private" : {
+                // 리스트에서 탐색
+                Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
+                List<PrivatePaymentInfo> privatePaymentList = privatePayment.get(userId).getPrivatePaymentList();
+
+                boolean flag = false;
+                int listIdx = 0;
+                for (PrivatePaymentInfo currPrivatePaymentInfo : privatePaymentList) {
+                    if (currPrivatePaymentInfo.getPrivatePaymentId().equals(payId)) {
+                        flag = true;
+                        break;
+                    }
+                    listIdx++;
+                }
+
+                // 없는 경우
+                if (!flag) {
+                    throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
+                }
+
+                PrivatePaymentInfo removePayment = privatePaymentList.remove(listIdx);
+                log.debug(removePayment.toString());
                 break;
             }
         }

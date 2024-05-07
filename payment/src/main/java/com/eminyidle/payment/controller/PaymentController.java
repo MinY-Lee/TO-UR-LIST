@@ -2,6 +2,7 @@ package com.eminyidle.payment.controller;
 
 import com.eminyidle.payment.dto.CountryCurrency;
 import com.eminyidle.payment.dto.ExchangeRate;
+import com.eminyidle.payment.dto.req.PayIdReq;
 import com.eminyidle.payment.dto.req.PaymentInfoReq;
 import com.eminyidle.payment.dto.res.ExchangeRateRes;
 import com.eminyidle.payment.service.PaymentService;
@@ -66,6 +67,15 @@ public class PaymentController {
 
         log.debug(paymentInfoReq.toString());
         paymentService.updatePaymentInfo(payId, paymentInfoReq);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{payId}")
+    public ResponseEntity<Void> deletePayment(@Valid @PathVariable("payId") String payId,
+                                              @Valid @RequestBody PayIdReq payIdReq) {
+
+        log.debug(payId);
+        paymentService.deletePaymentInfo(payId, payIdReq);
         return ResponseEntity.ok().build();
     }
 }
