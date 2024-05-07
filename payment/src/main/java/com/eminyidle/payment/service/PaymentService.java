@@ -4,6 +4,9 @@ import com.eminyidle.payment.dto.CountryCurrency;
 import com.eminyidle.payment.dto.ExchangeRate;
 import com.eminyidle.payment.dto.req.PayIdReq;
 import com.eminyidle.payment.dto.req.PaymentInfoReq;
+import com.eminyidle.payment.dto.res.PaymentInfoRes;
+
+import java.util.List;
 
 public interface PaymentService {
     ExchangeRate loadExchangeRate(String countryCode, String date);
@@ -15,4 +18,6 @@ public interface PaymentService {
     void updatePaymentInfo(String payId, PaymentInfoReq paymentInfo, String userId);
 
     void deletePaymentInfo(String payId, PayIdReq payIdReq, String userId);
+
+    List<PaymentInfoRes> searchPaymentInfoList(String tourId, String userId);
 }
