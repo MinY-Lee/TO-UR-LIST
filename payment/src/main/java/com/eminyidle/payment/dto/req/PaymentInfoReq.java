@@ -33,6 +33,6 @@ public class PaymentInfoReq {
     private String payCategory;
     @NotBlank
     private String payerId;
-    @NotNull
+
     List<PaymentMember> payMemberList;
  }
