@@ -71,7 +71,6 @@ export default function TourEditHeader(props: PropType) {
         // 수정에서 여행 정보로 돌아가
         //////////////////////
         // 그 전에 수정 api 먹이기
-        console.log(title);
         props.onChange(type);
     };
 
@@ -117,7 +116,7 @@ export default function TourEditHeader(props: PropType) {
                 return country;
             }
         });
-        return { countryCode: '', cityList: [] };
+        return { countryCode: "", cityList: [] };
     };
 
     // 여행할 도시 선택 또는 해제
@@ -148,7 +147,7 @@ export default function TourEditHeader(props: PropType) {
 
     const handleAddMember = () => {};
 
-    const handleClickOutside = (event: Event) => {
+    const handleClickOutside = (event: BaseSyntheticEvent) => {
         if (addMemberModalRef.current) {
             const addMemberModalElement =
                 addMemberModalRef.current as HTMLElement;
@@ -158,16 +157,21 @@ export default function TourEditHeader(props: PropType) {
                 !addMemberModalElement.contains(event.target as Node)
             ) {
                 // 모달 영역 외부를 클릭했을 때 모달 닫기
+                console.log("외부 클릭");
                 setAddModalClicked(false);
             }
         }
     };
 
+    const closeMemberModal = () => {
+        setAddModalClicked(false);
+    }
+
     return (
         <div>
             {addModalClicked ? (
                 <div ref={addMemberModalRef}>
-                    <MemberAddModal data={data} />
+                    <MemberAddModal data={data} closeMemberModal={closeMemberModal}/>
                 </div>
             ) : (
                 <></>

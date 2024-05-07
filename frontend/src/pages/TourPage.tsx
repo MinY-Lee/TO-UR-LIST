@@ -10,7 +10,7 @@ import TabBarTour from '../components/TabBar/TabBarTour';
 import TourEditHeader from '../components/TourPage/TourEditHeader';
 
 export default function TourPage() {
-    const [type, setType] = useState<string>('');
+    const [type, setType] = useState<string>("");
     const [data, setData] = useState<TourInfoDetail>({
         tourId: '',
         tourTitle: '',
@@ -36,7 +36,6 @@ export default function TourPage() {
 
     const onChange = (type: string) => {
         setType(type);
-        console.log(type);
     };
 
     return (

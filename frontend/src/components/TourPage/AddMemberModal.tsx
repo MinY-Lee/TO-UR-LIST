@@ -1,14 +1,17 @@
-import { useRef, useEffect, useState } from 'react';
+import { BaseSyntheticEvent, useRef, useEffect, useState } from 'react';
 import MyButton from '../Buttons/myButton';
 import UserSearch from '../TourPage/UserSearch';
 import { MemberInfo, TourInfoDetail, UserInfo } from '../../types/types';
 
 interface Proptype {
     data: TourInfoDetail;
+    closeMemberModal: () => void;
 }
 
 export default function AddMemberModal(props: Proptype) {
-    const [topOffset, setTopOffset] = useState(0);
+    const [topOffset, setTopOffset] = useState<number>(0);
+    const [addGhostState, setAddGhostState] = useState<boolean>(false);
+    const [ghostNickname, setGhostNickname] = useState<string>('');
     const [memberList, setMemberList] = useState<MemberInfo[]>([]);
     const [updatedMemberList, setUpdatedMemberList] = useState<MemberInfo[]>(
         []
@@ -25,7 +28,7 @@ export default function AddMemberModal(props: Proptype) {
 
             setTopOffset(calculatedTopOffset);
         }
-    }, [topOffset]);
+    }, []);
 
       const onChange = (updatedMember: MemberInfo) => {
         // updatedMemberList에서 updatedMember의 id와 동일한 요소를 찾기
@@ -38,6 +41,42 @@ export default function AddMemberModal(props: Proptype) {
       
         setUpdatedMemberList(newMembers);
       }
+
+      const handleInputChange = (event: BaseSyntheticEvent) => {
+        setGhostNickname(event.target.value);
+    };
+
+    const handleAddGhost = (event: React.KeyboardEvent<HTMLInputElement>) => {
+
+        if (event.key === 'Enter') {
+            const existingMember = updatedMemberList.find(member => member.memberType == 'ghost' && member.userNickname === ghostNickname);
+
+            if (existingMember && ghostNickname.trim() == "") {
+                event.preventDefault(); // 이미 있는 아이템이면 제출 막기
+            } else {
+                // 고스트 멤버 추가
+                // 리턴받은 ghostId, ghostNickname 으로 객체 만들어서 넣어라
+                const newGhostMember = {
+                    userId: '0000',
+                    userNickname: ghostNickname,
+                    userName: ghostNickname,
+                    memberType: 'ghost'
+                }
+
+                setUpdatedMemberList([...updatedMemberList, newGhostMember]);
+                setGhostNickname("");
+            }
+        }
+      };
+
+      const handleDelete = (target: MemberInfo) => {
+            const filteredMemberList = updatedMemberList.filter((member) => member !== target);
+            setUpdatedMemberList(filteredMemberList);
+      }
+
+      const handleDone = () => {
+        props.closeMemberModal();
+    }
       
     return (
         <>
@@ -53,7 +92,7 @@ export default function AddMemberModal(props: Proptype) {
                 <div className="w-full">
                     <UserSearch onChange={onChange} memberList={memberList} />
                 </div>
-                <div className="flex gap-2 w-full px-2 flex-wrap max-h-10vh] overflow-scroll">
+                <div className="flex gap-2 w-full px-2 flex-wrap max-h-[10vh] overflow-scroll">
                     {updatedMemberList.map((member: MemberInfo) => (
                         <div
                             key={member.userId}
@@ -63,16 +102,37 @@ export default function AddMemberModal(props: Proptype) {
                                     : 'color-bg-blue-3'
                             } rounded-full`}
                         >
-                            <div>x</div>
+                            <div onClick={() => handleDelete(member)}>x</div>
                             <div className="whitespace-nowrap">
-                                {member.userNickname} ({member.userName})
+                                {member.memberType == 'ghost'
+                                    ? <div>{member.userNickname}</div>
+                                    : <div>{member.userNickname} ({member.userName})</div>
+                                }
+                                
                             </div>
                         </div>
                     ))}
                 </div>
-                <div className="border-dashed border-black border-2 w-[90%] text-center py-3">
-                    + 고스트멤버 추가하기 👻
-                </div>
+                {!addGhostState
+                    ? <div onClick={()=> setAddGhostState(true)} className="border-dashed border-black border-2 w-[90%] text-center py-1">
+                        + 고스트멤버 추가하기 👻
+                    </div>
+                    : <div className="border-dashed border-black border-2 w-[90%] flex flex-col items-center justify-evenly gap-2 py-2">
+                        + 고스트멤버 추가하기 👻
+                        
+                        <input
+                            value={ghostNickname}
+                            onChange={handleInputChange}
+                            onKeyDown={handleAddGhost}
+                            className="border-neutral-400 border m-0 mr-0.5 px-2 flex-auto bg-clip-padding outline-none"
+                            aria-label="GhostNickname"
+                            aria-describedby="button-addon1"
+                            placeholder='고스트의 닉네임을 지어주세요.'
+                        />
+                        
+                    </div>
+                }
+                
                 <div className="w-[90%]">
                     <div className="font-bold">*고스트멤버란?</div>
                     <div className="whitespace-pre-line">
@@ -82,8 +142,8 @@ export default function AddMemberModal(props: Proptype) {
                 <div className="w-full">
                     <MyButton
                         isSelected={true}
-                        onClick={() => {}}
-                        text="추가하기"
+                        onClick={() => handleDone()}
+                        text="추가완료"
                         type="full"
                         className="font-medium py-2"
                     />
