@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tourlist-user-db-service
+spec:
+  selector:
+    app: tourlist-user-mariadb-pod
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: tourlist-user-mariadb-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tourlist-user-mariadb-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tourlist-user-mariadb-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tourlist-user-mariadb-pod
+  template:
+    metadata:
+      labels:
+        app: tourlist-user-mariadb-pod
+    spec:
+      containers:
+        - name: tourlist-user-mariadb
+          image: mariadb:10.11.7
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: tourlist-user-mariadb-volume
+              mountPath: /var/lib/mysql
+            - name: tourlist-user-mariadb-initdb
+              mountPath: /docker-entrypoint-initdb.d
+          envFrom:
+            - configMapRef:
+                name: tourlist-user-db-config
+            - secretRef:
+                name: tourlist-user-db-secrets
+      volumes:
+        - name: tourlist-user-mariadb-volume
+          persistentVolumeClaim:
+            claimName: tourlist-user-mariadb-pvc
+        - name: tourlist-user-mariadb-initdb
+          configMap:
+            name: tourlist-user-initdb-config

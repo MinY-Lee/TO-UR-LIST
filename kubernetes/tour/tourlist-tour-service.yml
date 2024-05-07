@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tourlist-tour-service
+spec:
+  type: ClusterIP
+  selector:
+    app: tourlist-tour-pod
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: 8083
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tourlist-tour-deployment
+  labels:
+    app: tourlist-tour-pod
+spec:
+  replicas: 2
+  revisionHistoryLimit: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: tourlist-tour-pod
+  template:
+    metadata:
+      labels:
+        app: tourlist-tour-pod
+    spec:
+      containers:
+        - name: tourlist-tour
+          image: ssuyas/tourlist_tour
+          ports:
+            - containerPort: 8083
+          envFrom:
+            - configMapRef:
+                name: tourlist-tour-config
+            - secretRef:
+                name: tourlist-tour-secrets
+

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tourlist-auth-db-config
+data:
+  MARIADB_DATABASE: "TOURLIST"
+  TZ: 'Asia/Seoul'
