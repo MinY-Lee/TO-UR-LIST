@@ -9,6 +9,7 @@ import GhostProfile from '../../assets/image/ghostProfile.png';
 
 import CountryList from '../../dummy-data/get_country.json';
 import CityList from '../../dummy-data/get_city.json';
+import GhostHandleModal from './GhostHandleModal';
 
 interface PropType {
     tourInfo: TourInfoDetail;
@@ -26,6 +27,11 @@ export default function TourEditHeader(props: PropType) {
     });
     const [hostChangeModal, setHostChangeModal] = useState<boolean>(false);
     const [addModalClicked, setAddModalClicked] = useState<boolean>(false);
+    const [memberDeleteModal, setMemberDeleteModal] = useState<boolean>(false);
+    const [ghostHandleModal, setGhostHandleModal] = useState<boolean>(false);
+    
+    const [memberList, setMemberList] = useState<MemberInfo[]>([]);
+    const [deleteMember, setDeleteMember] = useState<MemberInfo>();
     const [hoveredMember, setHoveredMember] = useState<MemberInfo | null>(null);
 
     const [searchbarClick, setSearchbarClick] = useState<boolean>(false);
@@ -38,8 +44,11 @@ export default function TourEditHeader(props: PropType) {
     const addMemberModalRef = useRef(null);
 
     useEffect(() => {
+        
         setData(props.tourInfo);
         setTitle(data ? data.tourTitle : '');
+        setMemberList(data.memberList);
+
     }, [data]);
 
     useEffect(() => {
@@ -147,7 +156,7 @@ export default function TourEditHeader(props: PropType) {
 
     const handleAddMember = () => {};
 
-    const handleClickOutside = (event: BaseSyntheticEvent) => {
+    const handleClickOutside = (event: Event) => {
         if (addMemberModalRef.current) {
             const addMemberModalElement =
                 addMemberModalRef.current as HTMLElement;
@@ -157,7 +166,6 @@ export default function TourEditHeader(props: PropType) {
                 !addMemberModalElement.contains(event.target as Node)
             ) {
                 // 모달 영역 외부를 클릭했을 때 모달 닫기
-                console.log("외부 클릭");
                 setAddModalClicked(false);
             }
         }
@@ -165,6 +173,29 @@ export default function TourEditHeader(props: PropType) {
 
     const closeMemberModal = () => {
         setAddModalClicked(false);
+    }
+
+    const handleMemberDelete = () => {
+        
+        const updatedList = memberList.filter((mem) => (
+            mem !== deleteMember
+        ))
+
+        setMemberDeleteModal(false);
+        setMemberList(updatedList);
+
+    }
+
+    const handleMemberDeleteModal = (member: MemberInfo) => {
+        setDeleteMember(member);
+        handleMemberDelete();
+        setMemberDeleteModal(true);
+
+    }
+
+    const closeMemberDeleteModal = () => {
+        setMemberDeleteModal(false);
+
     }
 
     return (
@@ -177,18 +208,24 @@ export default function TourEditHeader(props: PropType) {
                 <></>
             )}
 
-            {/* {hostChangeModal ? (
+            {memberDeleteModal ? (
                 <CheckModal
-                    mainText="로그아웃 하시겠습니까?"
+                    mainText="해당 멤버를 추방하시겠습니까?"
                     subText=""
                     OKText="확인"
                     CancelText="취소"
-                    clickOK={logoutProceed}
-                    clickCancel={closeModal}
+                    clickOK={handleMemberDelete}
+                    clickCancel={closeMemberDeleteModal}
                 />
             ) : (
                 <></>
-            )} */}
+            )}
+
+            {ghostHandleModal ? (
+                <GhostHandleModal/>
+            ) : (
+                <></>
+            )}
 
             <div className="w-full justify-between items-end p-5 bak">
                 <div className="">
@@ -202,11 +239,12 @@ export default function TourEditHeader(props: PropType) {
                         />
                     </div>
                     <div className="flex items-center mt-2 gap-1">
-                        {data?.memberList.map(
+                        {memberList && memberList?.length >= 1 && memberList.map(
                             (member: MemberInfo, index: number) => (
                                 <div
                                     key={index}
                                     className="relative"
+                                    onClick={member.memberType == 'ghost' ? ()=>setGhostHandleModal(true) : ()=>{}}
                                     onMouseEnter={() =>
                                         handleMouseEnter(member)
                                     }
@@ -236,7 +274,7 @@ export default function TourEditHeader(props: PropType) {
                                         </div>
                                     )}
                                     {member.memberType != 'host' ? (
-                                        <div className="absolute top-[5%] left-[70%] bg-black text-white flex justify-center items-center z-10 w-[40%] h-[40%] rounded-full">
+                                        <div onClick={() => handleMemberDeleteModal(member)} className="absolute top-[5%] left-[70%] bg-black text-white flex justify-center items-center z-10 w-[40%] h-[40%] rounded-full">
                                             x
                                         </div>
                                     ) : (
