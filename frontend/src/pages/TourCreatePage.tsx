@@ -16,11 +16,11 @@ export default function TourCreatePage() {
     const [endDate, setEndDate] = useState<Date>(new Date());
     const [title, setTitle] = useState<string>('');
     const [newTour, setNewTour] = useState<TourCardInfo>({
-        tourId: '0', 
-        tourTitle: "",
+        tourId: '0',
+        tourTitle: '',
         cityList: [],
-        startDate: "",
-        endDate: "",
+        startDate: '',
+        endDate: '',
     }); // 정보들로 만들 객체
 
     // setPlace 로부터 데이터 받기
@@ -86,12 +86,7 @@ export default function TourCreatePage() {
     let currentComponent;
     switch (step) {
         case 1:
-            currentComponent = (
-                <SetPlace
-                    onChangeQuery={''}
-                    onChangeSelected={handleCityData}
-                />
-            );
+            currentComponent = <SetPlace onChangeSelected={handleCityData} />;
             break;
         case 2:
             currentComponent = <SetDate onChangeDate={handleDateData} />;

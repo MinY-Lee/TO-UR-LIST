@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
-import MyButton from "../Buttons/myButton";
-import UserSearch from "../TourPage/UserSearch";
+import MyButton from '../Buttons/myButton';
+import UserSearch from '../TourPage/UserSearch';
 import { MemberInfo, TourInfoDetail, UserInfo } from '../../types/types';
 
 interface Proptype {
@@ -10,32 +10,33 @@ interface Proptype {
 export default function AddMemberModal(props: Proptype) {
     const [topOffset, setTopOffset] = useState(0);
     const [memberList, setMemberList] = useState<MemberInfo[]>([]);
-    const [updatedMemberList, setUpdatedMemberList] = useState<MemberInfo[]>([]);
-    const divRef = useRef(null);
+    const [updatedMemberList, setUpdatedMemberList] = useState<MemberInfo[]>(
+        []
+    );
+    const divRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setMemberList(props.data.memberList);
 
         if (divRef.current) {
-          const height = divRef.current.clientHeight;
-          const windowHeight = window.innerHeight;
-          const calculatedTopOffset = (windowHeight - height) / 2;
-        
-          setTopOffset(calculatedTopOffset);
-        }
+            const height = divRef.current.clientHeight;
+            const windowHeight = window.innerHeight;
+            const calculatedTopOffset = (windowHeight - height) / 2;
 
-      }, [topOffset]);
+            setTopOffset(calculatedTopOffset);
+        }
+    }, [topOffset]);
 
     const onChange = (updatedMember: MemberInfo) => {
-        console.log("멤버 변동 : " + updatedMember.userNickname);
+        console.log('멤버 변동 : ' + updatedMember.userNickname);
 
         let newMembers: MemberInfo[] = [...updatedMemberList];
-        !memberList.includes(updatedMember) ? [...newMembers, updatedMember] : ""
-        
+        !memberList.includes(updatedMember)
+            ? [...newMembers, updatedMember]
+            : '';
 
         setUpdatedMemberList(newMembers);
-
-    }
+    };
 
     return (
         <>
@@ -48,14 +49,23 @@ export default function AddMemberModal(props: Proptype) {
                 <div className="w-full flex flex-col justify-center text-xl font-bold">
                     멤버 추가하기
                 </div>
-                <div className='w-full'>
+                <div className="w-full">
                     <UserSearch onChange={onChange} memberList={memberList} />
                 </div>
-                <div className='flex gap-2 w-full px-2 flex-wrap max-h-10vh] overflow-scroll' >
+                <div className="flex gap-2 w-full px-2 flex-wrap max-h-10vh] overflow-scroll">
                     {updatedMemberList.map((member: MemberInfo) => (
-                        <div key={member.userId} className={`flex px-2 gap-3 ${member.memberType == "ghost" ? "bg-gray-300" : "color-bg-blue-3"} rounded-full`}>
+                        <div
+                            key={member.userId}
+                            className={`flex px-2 gap-3 ${
+                                member.memberType == 'ghost'
+                                    ? 'bg-gray-300'
+                                    : 'color-bg-blue-3'
+                            } rounded-full`}
+                        >
                             <div>x</div>
-                            <div className='whitespace-nowrap'>{member.userNickname} ({member.userName})</div>
+                            <div className="whitespace-nowrap">
+                                {member.userNickname} ({member.userName})
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -68,8 +78,14 @@ export default function AddMemberModal(props: Proptype) {
                         {`TO-UR-LIST 회원은 아니지만, 정확한 정산을 위해 임시로 넣어놓은 멤버를 말해요!\n추후 실제 회원으로 전환이 가능해요. `}
                     </div>
                 </div>
-                <div className="w-full">    
-                    <MyButton isSelected={true} onClick={() => {}} text="추가하기" type="full" className="font-medium py-2"/>
+                <div className="w-full">
+                    <MyButton
+                        isSelected={true}
+                        onClick={() => {}}
+                        text="추가하기"
+                        type="full"
+                        className="font-medium py-2"
+                    />
                 </div>
             </div>
         </>
