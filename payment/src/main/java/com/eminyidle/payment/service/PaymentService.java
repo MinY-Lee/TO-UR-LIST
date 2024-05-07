@@ -20,4 +20,8 @@ public interface PaymentService {
     void deletePaymentInfo(String payId, PayIdReq payIdReq, String userId);
 
     List<PaymentInfoRes> searchPaymentInfoList(String tourId, String userId);
+
+    PaymentInfoRes searchPaymentInfo(String payId, PayIdReq payIdReq, String userId);
+
+
 }

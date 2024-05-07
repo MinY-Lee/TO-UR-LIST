@@ -109,4 +109,19 @@ public class PaymentController {
         log.debug("리스트 사이즈: {}",paymentInfoResList.size());
         return ResponseEntity.ok().body(paymentInfoResList);
     }
+
+    @GetMapping("/detail/{payId}")
+    public ResponseEntity<?> searchPaymentInfo(@Valid @PathVariable("payId") String payId,
+                                               @Valid @RequestBody PayIdReq payIdReq,
+                                               @RequestHeader(value = HEADER_USER_ID, required = false) String userId) {
+
+        log.debug(payId);
+        if (userId == null || userId.isEmpty()) {
+            throw new UserIdNotExistException("유저 ID가 없습니다.");
+        }
+
+        PaymentInfoRes paymentInfoRes = paymentService.searchPaymentInfo(payId, payIdReq, userId);
+        log.debug(paymentInfoRes.toString());
+        return ResponseEntity.ok().body(paymentInfoRes);
+    }
 }
