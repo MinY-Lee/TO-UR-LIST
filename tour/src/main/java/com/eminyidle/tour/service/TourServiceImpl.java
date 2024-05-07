@@ -14,6 +14,7 @@ import com.eminyidle.tour.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional("neo4jTransactionManager")
 public class TourServiceImpl implements TourService {
 
     private final TourRepository tourRepository;
@@ -32,11 +34,7 @@ public class TourServiceImpl implements TourService {
     private final CityRepository cityRepository;
 
     private final MemberService memberService;
-
-    public void createUser(User user) {
-        userRepository.save(user);
-    }
-
+    private final RequestService requestService;
 
     @Override
     public Tour createTour(String userId, CreateTourReq createTourReq) {
@@ -56,13 +54,8 @@ public class TourServiceImpl implements TourService {
                 .build();
         tourRepository.save(tour);
 
-        User user = userRepository.findById(userId).orElse( //TODO - user서비스에서 정보 불러오기
-                User.builder()
-                        .userId(userId)
-                        .userNickname("ct")
-                        .userName("ct")
-                        .tourList(new ArrayList<>())
-                        .build()
+        User user = userRepository.findById(userId).orElseGet(() ->
+                requestService.getUser(userId)
         );
 
         user.getTourList().add(Attend.builder()
@@ -144,7 +137,7 @@ public class TourServiceImpl implements TourService {
     @Override
 
     public TourDetail searchTourDetail(String userId, String tourId) { //TODO- optional
-        TourDetail tourDetail = tourRepository.findTourDetailByUserIdAndTourId(userId, tourId);
+        TourDetail tourDetail = tourRepository.findTourDetailByUserIdAndTourId(userId, tourId).orElseThrow(NoSuchTourException::new);
         tourDetail.setMemberList(userRepository.findMembersByTourId(tourId));
         tourDetail.setCityList(cityRepository.findCitiesByTourId(tourId));
         System.out.println(tourDetail);

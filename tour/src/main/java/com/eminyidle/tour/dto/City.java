@@ -11,7 +11,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @ToString
-@Node
+@Node(primaryLabel = "CITY")
 public class City {
     @Id @GeneratedValue
     private String id;

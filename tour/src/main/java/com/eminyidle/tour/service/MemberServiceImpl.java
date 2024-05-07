@@ -12,7 +12,9 @@ import com.eminyidle.tour.repository.TourRepository;
 import com.eminyidle.tour.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class MemberServiceImpl implements MemberService {
     private final UserRepository userRepository;
     private final TourRepository tourRepository;
     private final GhostRepository ghostRepository;
+    private final RequestService requestService;
 
     private void assertHost(String userId, String tourId) {
         String memberType = userRepository.findMemberTypeByUserIdAndTourId(userId, tourId);
@@ -39,28 +42,28 @@ public class MemberServiceImpl implements MemberService {
     }
 
     //TODO - 바꿀 수 있으면.. 에러 없이 하는 방법...으로,....
-    private boolean isAttend(String userId, String tourId){
-        return userRepository.existsAttendRelationshipByUserIdAndTourId(userId,tourId);
+    private boolean isAttend(String userId, String tourId) {
+        return userRepository.existsAttendRelationshipByUserIdAndTourId(userId, tourId);
     }
 
+    private boolean isExist(String userId) {
+        return userRepository.existsById(userId);
+    }
+
+    //Refactor하면 좋을듯..
     @Override
     public void createMember(String hostId, TourMember tourMember) {
-        assertHost(hostId,tourMember.getTourId());
-        if(isAttend(tourMember.getUserId(),tourMember.getTourId())){
+        assertHost(hostId, tourMember.getTourId());
+        if (isExist(tourMember.getUserId()) && isAttend(tourMember.getUserId(), tourMember.getTourId())) {
             throw new AlreadyUserAttendTourException();
         }
         Tour tour = tourRepository.findById(tourMember.getTourId()).orElseThrow(NoSuchTourException::new);
         User user = userRepository.findById(tourMember.getUserId())
-                .orElse(userRepository.save(
-                        //TODO - 나의 노드에 없을 때, user서비스에 요청보내기
-                        //  없는 유저라면 exception
-                        User.builder()
-                                .userId(tourMember.getUserId())
-                                .tourList(new ArrayList<>())
-                                .userName("서버잉")
-                                .userNickname("servering")
-                                .build()
-                ));
+                .orElseGet(() ->
+                        userRepository.save(
+                                requestService.getUser(tourMember.getUserId())
+                        )
+                );
         userRepository.createGuestRelationship(hostId, tour.getTourId(), user.getUserId());
     }
 
@@ -68,8 +71,7 @@ public class MemberServiceImpl implements MemberService {
     public Ghost createGhostMember(String hostId, CreateGhostMemberReq createGhostMemberReq) {
         assertHost(hostId, createGhostMemberReq.getTourId());
 
-        Ghost existingGhost=ghostRepository.findByGhostNicknameAndTourId(createGhostMemberReq.getGhostNickname(), createGhostMemberReq.getTourId());
-        if(existingGhost!=null){
+        if (ghostRepository.existsGhostByGhostNicknameAndTourId(createGhostMemberReq.getGhostNickname(), createGhostMemberReq.getTourId())) {
             throw new DuplicatedGhostNicknameException();
         }
 
@@ -85,7 +87,7 @@ public class MemberServiceImpl implements MemberService {
     public void updateGhostMemberNickname(String hostId, UpdateGhostMemberReq updateGhostMemberReq) {
         assertHost(hostId, updateGhostMemberReq.getTourId());
 
-        Ghost ghost=ghostRepository.findById(updateGhostMemberReq.getGhostId()).orElseThrow(NoSuchGhostException::new);
+        Ghost ghost = ghostRepository.findById(updateGhostMemberReq.getGhostId()).orElseThrow(NoSuchGhostException::new);
         ghost.setGhostNickname(updateGhostMemberReq.getGhostNickname());
         ghostRepository.save(ghost);
     }
@@ -101,11 +103,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void updateGhostToGuest(String hostId, UpdateGhostToGuestReq updateGhostToGuestReq) {
-        Ghost ghost=ghostRepository.findById(updateGhostToGuestReq.getGhostId()).orElseThrow(NoSuchGhostException::new);
-        User user=userRepository.findById(updateGhostToGuestReq.getUserId()).orElseThrow(NoSuchUserException::new);
+        Ghost ghost = ghostRepository.findById(updateGhostToGuestReq.getGhostId()).orElseThrow(NoSuchGhostException::new);
+        User user = userRepository.findById(updateGhostToGuestReq.getUserId()).orElseThrow(NoSuchUserException::new);
 
         //여기에서 host임이 보장된다
-        createMember(hostId,TourMember.builder()
+        createMember(hostId, TourMember.builder()
                 .userId(user.getUserId())
                 .tourId(updateGhostToGuestReq.getTourId())
                 .userNickname(user.getUserNickname())
@@ -117,7 +119,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void updateHost(String hostId, TourMember tourMember) {
-        assertHost(hostId,tourMember.getTourId());
+        assertHost(hostId, tourMember.getTourId());
 
         User user = userRepository.findById(tourMember.getUserId())
                 .orElse(userRepository.save(
@@ -133,7 +135,7 @@ public class MemberServiceImpl implements MemberService {
     public void deleteMember(String hostId, DeleteMemberReq deleteMemberReq) {
         assertHost(hostId, deleteMemberReq.getTourId());
 
-        switch (deleteMemberReq.getMemberType()){
+        switch (deleteMemberReq.getMemberType()) {
             case "host":
                 throw new HostCanNotBeDeletedException();
             case "guest":
