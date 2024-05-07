@@ -1,8 +1,8 @@
 create table exchange_rate
 (
-    exchange_rate double not null,
+    currency_code char(3) not null unique,
     date timestamp not null,
-    currency_code varchar(3) not null,
-    PRIMARY KEY (currency_code,date),
-    FOREIGN KEY (currency_code) REFERENCES country_currency(currency_code)
+    exchange_rate double not null,
+    PRIMARY KEY (currency_code,date)
+#     FOREIGN KEY (country_code,currency_code) REFERENCES country_currency(country_code,currency_code)
 );

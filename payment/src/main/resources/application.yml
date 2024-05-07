@@ -34,6 +34,13 @@ spring:
       isolate-internal-queries: false
       validation-timeout: 5000
       validation-query: SELECT 1
+  data:
+    mongodb:
+      database: ${DB_NAME}
+      port: 27017
+      user: ${PAYMENT_MONGO_DB_ROOT_USER_NAME}
+      password: ${PAYMENT_MONGO_DB_ROOT_USER_PASSWORD}
+      uri: mongodb://${PAYMENT_MONGO_DB_ROOT_USER_NAME}:${PAYMENT_MONGO_DB_ROOT_USER_PASSWORD}@${MONGO_HOST}:27017/${DB_NAME}?authSource=admin
 logging:
   level:
     org:
@@ -41,7 +48,7 @@ logging:
         SQL: info
     com:
       eminyidle:
-        gateway: debug
+        payment: debug
     org.springframework.security: info
 
 server:

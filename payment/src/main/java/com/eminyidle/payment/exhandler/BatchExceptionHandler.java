@@ -2,6 +2,8 @@ package com.eminyidle.payment.exhandler;
 
 import com.eminyidle.payment.exception.CurrencyNotExistException;
 import com.eminyidle.payment.exception.ExchangeRateNotExistException;
+import com.eminyidle.payment.exception.PaymentNotExistException;
+import com.eminyidle.payment.exception.UserIdNotExistException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -50,4 +52,41 @@ public class BatchExceptionHandler {
         errorMessage.append("존재하지 않은 환율정보 입니다.");
         return ResponseEntity.badRequest().body(e.getMessage());
     }
+
+    @ExceptionHandler(PaymentNotExistException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ResponseEntity<String> paymentNotExistsExceptionHandler(
+            PaymentNotExistException e) {
+        StringBuilder errorMessage = new StringBuilder();
+
+        makeErrorMessage(errorMessage, e);
+
+        errorMessage.append("존재하지 않은 지출정보 입니다.");
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(UserIdNotExistException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ResponseEntity<String> userIdNotExistsExceptionHandler(
+            UserIdNotExistException e) {
+        StringBuilder errorMessage = new StringBuilder();
+
+        makeErrorMessage(errorMessage, e);
+
+        errorMessage.append("유저 ID가 없습니다.");
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+//    @ExceptionHandler(MissingRequestHeaderException.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    protected ResponseEntity<String> userIdNotExistsExceptionHandler(
+//            MissingRequestHeaderException e) {
+//        StringBuilder errorMessage = new StringBuilder();
+//
+//        makeErrorMessage(errorMessage, e);
+//
+//        errorMessage.append("유저 ID가 없습니다.");
+//        return ResponseEntity.badRequest().body(errorMessage.toString());
+//    }
+
 }
