@@ -43,7 +43,6 @@ export default function TourHeader(props: PropType) {
     };
 
     const handleTypeChange = (type: string) => {
-        console.log(`Selected type: ${type}`);
         if (type == 'edit') {
             props.onChange(type);
         }
