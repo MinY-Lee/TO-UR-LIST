@@ -71,8 +71,7 @@ public class MemberServiceImpl implements MemberService {
     public Ghost createGhostMember(String hostId, CreateGhostMemberReq createGhostMemberReq) {
         assertHost(hostId, createGhostMemberReq.getTourId());
 
-        Ghost existingGhost = ghostRepository.findByGhostNicknameAndTourId(createGhostMemberReq.getGhostNickname(), createGhostMemberReq.getTourId());
-        if (existingGhost != null) {
+        if (ghostRepository.existsGhostByGhostNicknameAndTourId(createGhostMemberReq.getGhostNickname(), createGhostMemberReq.getTourId())) {
             throw new DuplicatedGhostNicknameException();
         }
 
