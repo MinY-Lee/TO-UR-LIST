@@ -48,6 +48,24 @@ public class TourExceptionHandler {
                 .body(errorMessage.toString());
     }
 
+    @ExceptionHandler(NoSuchUserException.class)
+    public ResponseEntity<String> handleNoSuchUserException(Exception e){
+        StringBuilder errorMessage=new StringBuilder();
+        makeErrorMessage(errorMessage,e);
+        errorMessage.append("해당 유저가 없습니다");
+        return ResponseEntity.badRequest()
+                .body(errorMessage.toString());
+    }
+
+    @ExceptionHandler(NoSuchMemberException.class)
+    public ResponseEntity<String> handleNoSuchMemberException(Exception e){
+        StringBuilder errorMessage=new StringBuilder();
+        makeErrorMessage(errorMessage,e);
+        errorMessage.append("해당 유저는 멤버가 아닙니다");
+        return ResponseEntity.badRequest()
+                .body(errorMessage.toString());
+    }
+
     @ExceptionHandler(UserInfoInRequestNotFoundException.class)
     public ResponseEntity<String> handleUserInfoInRequestNotFoundException(Exception e){
         StringBuilder errorMessage=new StringBuilder();

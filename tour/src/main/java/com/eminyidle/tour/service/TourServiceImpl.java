@@ -86,7 +86,7 @@ public class TourServiceImpl implements TourService {
         if (!isHost(userId, tourId)) throw new NoHostPrivilegesException();
 
         tourRepository.deleteById(tourId);
-        //TODO - 연결된 모든 tourActivity도 지워져야 한다
+        //TODO - 연결된 모든 tourActivity도 지워져야 한다 (KAFKA)
     }
 
     @Override
@@ -136,7 +136,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
 
-    public TourDetail searchTourDetail(String userId, String tourId) { //TODO- optional
+    public TourDetail searchTourDetail(String userId, String tourId) {
         TourDetail tourDetail = tourRepository.findTourDetailByUserIdAndTourId(userId, tourId).orElseThrow(NoSuchTourException::new);
         tourDetail.setMemberList(userRepository.findMembersByTourId(tourId));
         tourDetail.setCityList(cityRepository.findCitiesByTourId(tourId));
@@ -170,7 +170,7 @@ public class TourServiceImpl implements TourService {
         if (tour.getEndDate().isBefore(LocalDateTime.now())) { //여행 후인 경우
             userRepository.createMemberRelationship(userId, tourId, "ghost");
         } else { //여행 전, 중 ...
-            //TODO- 관련 모든 아이템 삭제
+            //TODO- 관련 모든 아이템 삭제(KAFKA)
         }
     }
 }

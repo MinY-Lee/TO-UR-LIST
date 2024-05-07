@@ -120,7 +120,6 @@ public class TourController {
         memberService.updateGhostMemberNickname(userId,updateGhostMemberReq);
         return ResponseEntity.ok().build();
     }
-    // TODO -요거 해야 함!!!!
     @PostMapping("/member/resurrection")
     public ResponseEntity<Void> updateGhostToGuest(@RequestBody UpdateGhostToGuestReq updateGhostToGuestReq, @RequestHeader(HEADER_USER_ID) String userId){
         memberService.updateGhostToGuest(userId,updateGhostToGuestReq);

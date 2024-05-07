@@ -41,7 +41,6 @@ public class MemberServiceImpl implements MemberService {
         userRepository.findUserByAttendRelationship(userId, tourId).orElseThrow(UserNotAttendSuchTourException::new);
     }
 
-    //TODO - 바꿀 수 있으면.. 에러 없이 하는 방법...으로,....
     private boolean isAttend(String userId, String tourId) {
         return userRepository.existsAttendRelationshipByUserIdAndTourId(userId, tourId);
     }
@@ -121,11 +120,8 @@ public class MemberServiceImpl implements MemberService {
     public void updateHost(String hostId, TourMember tourMember) {
         assertHost(hostId, tourMember.getTourId());
 
-        User user = userRepository.findById(tourMember.getUserId())
-                .orElse(userRepository.save(
-                        //TODO - 나의 노드에 없을 때, 올바른 유저인지 확인 필요
-                        User.builder().userId(tourMember.getUserId()).userNickname(tourMember.getUserNickname()).build()
-                ));
+        //참여중인 유저가 아니라면, 권한을 넘겨줄 수 없다.
+        User user = userRepository.findUserByAttendRelationship(tourMember.getUserId(), tourMember.getTourId()).orElseThrow(NoSuchMemberException::new);
 
         userRepository.updateMemberRelationshipExceptGhost(hostId, tourMember.getTourId(), "guest");
         userRepository.updateMemberRelationshipExceptGhost(user.getUserId(), tourMember.getTourId(), "host");
@@ -140,7 +136,7 @@ public class MemberServiceImpl implements MemberService {
                 throw new HostCanNotBeDeletedException();
             case "guest":
                 userRepository.deleteMemberRelationship(deleteMemberReq.getUserId(), deleteMemberReq.getTourId(), deleteMemberReq.getMemberType());
-                //TODO- 모든 아이템 삭제 요청
+                //TODO- 모든 아이템 삭제 요청(KAFKA)
                 // 이용 ->deleteMemberReq.getUserId(), deleteMemberReq.getTourId()
                 break;
             case "ghost":
