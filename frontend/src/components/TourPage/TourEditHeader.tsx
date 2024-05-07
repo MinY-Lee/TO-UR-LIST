@@ -1,8 +1,11 @@
-import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { BaseSyntheticEvent, useEffect, useState, useRef } from "react";
 import { TourInfoDetail, MemberInfo } from "../../types/types";
 import MyButton from "../Buttons/myButton";
 import CheckModal from "../CheckModal";
+import MemberAddModal from "../TourPage/AddMemberModal";
 import SearchBar from "../SearchBar/mySearchBar";
+
+import GhostProfile from '../../assets/image/ghostProfile.png'
 
 import CountryList from '../../dummy-data/get_country.json';
 import CityList from '../../dummy-data/get_city.json';
@@ -15,8 +18,16 @@ interface PropType {
 
 export default function TourEditHeader(props: PropType) {
 
-    const [data, setData] = useState<TourInfoDetail>();
+    const [data, setData] = useState<TourInfoDetail>({
+        'tourId': "",
+        'tourTitle': "",
+        'cityList': [],
+        'startDate': "",
+        'endDate': "",
+        'memberList': []
+    });
     const [hostChangeModal, setHostChangeModal] = useState<boolean>(false);
+    const [addModalClicked, setAddModalClicked] = useState<boolean>(false);
     const [hoveredMember, setHoveredMember] = useState<MemberInfo | null>(null);
     
 
@@ -27,12 +38,22 @@ export default function TourEditHeader(props: PropType) {
     const [resultList, setResultList] = useState<string[]>([]); // 화면에 보여줄 검색 결과
     const [selectedCity, setSelectedCity] = useState<string[]>([]);
 
-
+    const addMemberModalRef = useRef(null);
 
     useEffect(() => {
         setData(props.tourInfo);
         setTitle(data ? data.tourTitle : "");
     }, [data])
+
+    useEffect(() => {
+        // 컴포넌트가 마운트될 때 전체 document에 클릭 이벤트 리스너 추가
+        document.addEventListener('click', handleClickOutside);
+        
+        return () => {
+            // 컴포넌트가 언마운트될 때 클릭 이벤트 리스너 제거
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, []);
 
     const isHost = (member: MemberInfo): string => {
         if (member.memberType === "host") {
@@ -120,8 +141,33 @@ export default function TourEditHeader(props: PropType) {
         }
     };
 
+    const handleAddMember = () => {
+
+    }
+
+    
+
+    const handleClickOutside = (event: Event) => {
+        const addMemberModalElement = addMemberModalRef.current as HTMLElement;
+        if (addModalClicked && addMemberModalElement && !addMemberModalElement.contains(event.target as Node)) {
+            // 모달 영역 외부를 클릭했을 때 모달 닫기
+            setAddModalClicked(false);
+        }
+    };
+
+
+
     return (
         <div>
+            {
+                addModalClicked 
+                ? (<div ref={addMemberModalRef}>
+                    <MemberAddModal data={data}/>
+                </div>)
+                : <></>
+
+            }
+           
             {/* {hostChangeModal ? (
                 <CheckModal
                     mainText="로그아웃 하시겠습니까?"
@@ -154,8 +200,8 @@ export default function TourEditHeader(props: PropType) {
                                         ? <div className="shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
                                             {member.userNickname[0]}
                                         </div>
-                                        : <div className="shadow-lg m-1 font-bold text-3xl bg-gray-400 w-12 h-12 rounded-full flex justify-center items-center">
-                                            👻
+                                        : <div className="shadow-lg m-1 font-bold text-3xl p-2 bg-gray-400 w-12 h-12 rounded-full flex justify-center items-center">
+                                            <img src={GhostProfile}></img>
                                         </div>
                                     }
                                     
@@ -171,7 +217,7 @@ export default function TourEditHeader(props: PropType) {
                                 }
                             </div>
                         ))}
-                        <div className="border-dashed border-2 color-text-blue-2 border-[#5faad9] m-1 font-bold text-3xl w-12 h-12 rounded-full flex justify-center items-center">
+                        <div onClick={() => setAddModalClicked(true)} className="border-dashed border-2 color-text-blue-2 border-[#5faad9] m-1 font-bold text-3xl w-12 h-12 rounded-full flex justify-center items-center">
                             +
                         </div>
                     </div>
@@ -179,14 +225,14 @@ export default function TourEditHeader(props: PropType) {
                         <input
                             className="px-[2vw] py-2 border-[0.3vw] border-neutral-300"
                             style={{ borderRadius: '1vw' }}
-                            value={data?.startDate}
+                            // value={data?.startDate}
                             placeholder="YYYY.MM.DD"
                             // onChange={startDateChange}
                         ></input>
                         <input
                             className="px-[2vw] py-2 border-[0.3vw] border-neutral-300"
                             style={{ borderRadius: '1vw' }}
-                            value={data?.endDate}
+                            // value={data?.endDate}
                             placeholder="YYYY.MM.DD"
                             // onChange={startDateChange}
                         ></input>

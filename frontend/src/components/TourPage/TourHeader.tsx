@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { TourInfoDetail, MemberInfo } from "../../types/types";
 import CheckModal from "../CheckModal";
 
+import GhostProfile from '../../assets/image/ghostProfile.png'
+
 interface PropType {
     tourInfo: TourInfoDetail;
     onChange: (type: string) => void;
@@ -146,8 +148,8 @@ export default function TourHeader(props: PropType) {
                                             ? <div className="shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
                                                 {member.userNickname[0]}
                                             </div>
-                                            : <div className="shadow-lg m-1 font-bold text-3xl  bg-gray-400 w-12 h-12 rounded-full flex justify-center items-center">
-                                                👻
+                                            : <div className="shadow-lg m-1 font-bold text-3xl p-2 bg-gray-400 w-12 h-12 rounded-full flex justify-center items-center">
+                                                <img src={GhostProfile}></img>
                                             </div>
                                         }
                                 </div>
