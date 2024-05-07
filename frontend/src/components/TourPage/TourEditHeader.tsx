@@ -31,7 +31,18 @@ export default function TourEditHeader(props: PropType) {
     const [ghostHandleModal, setGhostHandleModal] = useState<boolean>(false);
     
     const [memberList, setMemberList] = useState<MemberInfo[]>([]);
-    const [deleteMember, setDeleteMember] = useState<MemberInfo>();
+    const [deleteMember, setDeleteMember] = useState<MemberInfo>({
+        userId: "",
+        userNickname: "",
+        userName: "",
+        memberType: ""
+    });
+    const [selectedGhostMember, setSelectedGhostMember] = useState<MemberInfo>({
+        userId: "",
+        userNickname: "",
+        userName: "",
+        memberType: ""
+    });
     const [hoveredMember, setHoveredMember] = useState<MemberInfo | null>(null);
 
     const [searchbarClick, setSearchbarClick] = useState<boolean>(false);
@@ -154,7 +165,10 @@ export default function TourEditHeader(props: PropType) {
         }
     };
 
-    const handleAddMember = () => {};
+    const handleGhostModal = (member: MemberInfo) => {
+        setSelectedGhostMember(member);
+        setGhostHandleModal(true);
+    }
 
     const handleClickOutside = (event: Event) => {
         if (addMemberModalRef.current) {
@@ -198,10 +212,14 @@ export default function TourEditHeader(props: PropType) {
 
     }
 
+    const closeGhostHandleModal = () => {
+        setGhostHandleModal(false);
+
+    }
     return (
         <div>
             {addModalClicked ? (
-                <div ref={addMemberModalRef}>
+                <div ref={addMemberModalRef} className='h-fit'>
                     <MemberAddModal data={data} closeMemberModal={closeMemberModal}/>
                 </div>
             ) : (
@@ -222,7 +240,7 @@ export default function TourEditHeader(props: PropType) {
             )}
 
             {ghostHandleModal ? (
-                <GhostHandleModal/>
+                <GhostHandleModal selectedGhostMember={selectedGhostMember} closeGhostHandleModal={closeGhostHandleModal}/>
             ) : (
                 <></>
             )}
@@ -244,7 +262,7 @@ export default function TourEditHeader(props: PropType) {
                                 <div
                                     key={index}
                                     className="relative"
-                                    onClick={member.memberType == 'ghost' ? ()=>setGhostHandleModal(true) : ()=>{}}
+                                    onClick={member.memberType == 'ghost' ? ()=> handleGhostModal(member) : ()=>{}}
                                     onMouseEnter={() =>
                                         handleMouseEnter(member)
                                     }
