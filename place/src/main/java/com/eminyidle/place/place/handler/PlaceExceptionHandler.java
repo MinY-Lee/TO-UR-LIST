@@ -31,6 +31,7 @@ public class PlaceExceptionHandler {
 
         makeErrorMessage(errorMessage, e);
         log.error(errorMessage.toString());
-        return ResponseEntity.badRequest().body(e.getMessage());
+        return ResponseEntity.badRequest().build();
+//        혹은 return ResponseEntity.badRequest().body(e.getMessage());
     }
 }

@@ -2,6 +2,7 @@ package com.eminyidle.place.place.service;
 
 import com.eminyidle.place.place.dto.*;
 import com.eminyidle.place.place.dto.node.TourActivity;
+import com.eminyidle.place.place.dto.res.SearchPlaceDetailRes;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
 import com.eminyidle.place.place.exception.GetRequesterInfoFailException;
 import com.eminyidle.place.place.exception.PlaceAddFailException;
@@ -32,6 +33,7 @@ public class PlaceServiceImpl implements PlaceService{
 
     // 요청하는 기본 Url
     private static final String baseUrl = "https://places.googleapis.com/v1/places:searchText";
+    private static final String detailUrl = "https://places.googleapis.com/v1/places/";
 
     // POST 요청을 통해 장소 검색 결과 받아오기
     @Override
@@ -73,6 +75,44 @@ public class PlaceServiceImpl implements PlaceService{
         // 에러가 발생했거나 응답이 없는 경우 빈 리스트 반환
         log.info(responseEntity.toString());
         return Collections.emptyList();
+    }
+
+    // 장소 세부 검색
+    @Override
+    public SearchPlaceDetailRes searchPlaceDetail(String tourId, Integer tourDay, String placeId) {
+        String searchUrl = detailUrl + placeId;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON); // Json 형식으로 받겠다
+        headers.set("X-Goog-Api-Key", googleMapKey);    // 발급받은 Google Api key 설정
+        headers.set("X-Goog-FieldMask", "id,displayName,photos," +
+                "types,googleMapsUri,primaryType,addressComponents," +
+                "shortFormattedAddress,subDestinations,location,,paymentOptions,currentOpeningHours");   // 받아 올 정보
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        log.info(requestEntity.toString());
+        ResponseEntity<Place> responseEntity = restTemplate.exchange(
+                detailUrl,
+                HttpMethod.GET,
+                requestEntity,
+                Place.class
+        );
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            // 사진이 없는 경우는 빈 리스트로 대체하여 반환
+            if (responseEntity != null) {
+                PlaceInfo pLaceInfo = PlaceInfo.builder()
+                        .placeId(responseEntity.getBody().getId())
+                        .placeName(responseEntity.getBody().getDisplayName().getText())
+                        .placePrimaryType(responseEntity.getBody().getPrimaryType())
+                        .placeLatitude(responseEntity.getBody().getLocation().getLatitude())
+                        .placeLongitude(responseEntity.getBody().getLocation().getLongitude())
+                        .placeAddress(responseEntity.getBody().getShortFormattedAddress())
+                        .placePhotoList(responseEntity.getBody().getPhotos() == null ? new ArrayList<>() : responseEntity.getBody().getPhotos().stream().map(photo -> photo.getName()).toList())
+                        .build();
+            }
+        } else {
+            throw new PlaceSearchException("장소 세부 검색에서 오류");
+        }
+        return null;
     }
 
     // 장소 추가
