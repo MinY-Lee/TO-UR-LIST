@@ -120,8 +120,13 @@ export default function TourScheduleEditDetailPage() {
                                         >
                                             X
                                         </div>
-                                        <div className="w-[50%] text-[4vw] border-[#B5B5B5] border-[0.5vw] flex justify-between p-[1vw] m-[1vw] rounded-[2vw]">
-                                            {dateToString(activity.tourDay)}
+                                        <div className="w-[50%] text-[4vw] border-[#B5B5B5] border-[0.3vw] flex justify-between p-[1vw] m-[1vw] rounded-[2vw]">
+                                            <span>
+                                                {dateToString(activity.tourDay)}
+                                            </span>
+                                            <span className="material-symbols-outlined">
+                                                calendar_today
+                                            </span>
                                         </div>
                                         <div className="w-[20%] text-[4vw] color-text-blue-2 color-border-blue-2 border-[0.5vw] rounded-[2vw] m-[1vw] flex justify-center items-center">
                                             {activity.tourActivityList.length >
@@ -139,7 +144,7 @@ export default function TourScheduleEditDetailPage() {
                                                 : '활동없음'}
                                         </div>
                                         <div
-                                            className="w-[20%] text-[4vw] color-text-blue-2 color-border-blue-2 border-[0.5vw] rounded-[2vw] px-[1vw] flex justify-center items-center border-dashed"
+                                            className="w-[20%] text-[4vw] color-text-blue-2 color-border-blue-2 border-[0.5vw] rounded-[2vw] px-[1vw] flex justify-center items-center border-dotted"
                                             onClick={() => {
                                                 //활동 추가 로직
                                             }}

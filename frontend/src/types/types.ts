@@ -99,6 +99,17 @@ export interface Position {
 }
 
 //장소 정보 상세
+export interface PlaceInfo {
+    placeId: string;
+    placeName: string;
+    placePrimaryType: string;
+    placeLatitude: number;
+    placeLongitude: number;
+    placeAddress: string;
+    placePhotoList: string[];
+}
+
+//장소 정보 상세
 export interface PlaceInfoDetail {
     placeId: string;
     placeName: string;
