@@ -24,6 +24,9 @@ public class PublicPayment {
     private String unit;
 
     @NotBlank
+    private String currencyCode;
+
+    @NotBlank
     private String payMethod;
 
     @NotNull

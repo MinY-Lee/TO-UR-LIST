@@ -9,5 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 public class ExchangeRateRes {
     private String unit;
-    private double currency;
+    private double currencyRate;
+    private String currencyCode;
 }

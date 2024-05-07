@@ -33,8 +33,8 @@ public class PaymentController {
     public ResponseEntity<?> getCountryCurrencyRate(@NotBlank @PathVariable("countryCode") String countryCode,
                                                     @NotBlank @PathVariable("date") String date) {
 
-        log.info(countryCode);
-        log.info(date);
+        log.debug(countryCode);
+        log.debug(date);
         //날짜 파싱
         String parseDate = date.replace("-", "");
 
@@ -44,7 +44,8 @@ public class PaymentController {
         return ResponseEntity.ok().body(
                 ExchangeRateRes.builder()
                         .unit(countryCurrency.getCurrencySign())
-                        .currency(exchangeRate.getExchangeRate())
+                        .currencyRate(exchangeRate.getExchangeRate())
+                        .currencyCode(countryCurrency.getCountryCurrencyId().getCurrencyCode())
                         .build()
         );
     }

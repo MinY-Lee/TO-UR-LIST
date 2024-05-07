@@ -24,6 +24,8 @@ public class PaymentInfoReq {
     @NotBlank
     private String unit;
     @NotBlank
+    private String currencyCode;
+    @NotBlank
     private String payMethod;
     @NotNull
     private LocalDateTime payDatetime;
