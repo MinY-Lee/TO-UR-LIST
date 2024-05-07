@@ -11,7 +11,14 @@ import TourBasicInfo from "../../components/TourPage/TourBasicInfo";
 import TabBarTour from "../../components/TabBar/TabBarTour";
   
 export default function ChecklistPage() {
-    const [data, setData] = useState<TourInfoDetail>();
+    const [data, setData] = useState<TourInfoDetail>({
+        tourId: "",
+        tourTitle: "",
+        cityList: [],
+        startDate: "",
+        endDate: "",
+        memberList: []
+    });
     const [tourId, setTourId] = useState<string>("");
 
     useEffect(() => {
@@ -47,7 +54,7 @@ export default function ChecklistPage() {
                 
             </div>
             <footer>
-                <TabBarTour tabMode={2} tourMode={1} tourId={tourId} />
+                <TabBarTour tourMode={1} tourId={tourId} />
             </footer>
         </div>
     );

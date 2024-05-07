@@ -10,7 +10,14 @@ import TabBarTour from "../components/TabBar/TabBarTour";
 
 export default function TourPage() {
 
-    const [data, setData] = useState<TourInfoDetail>();
+    const [data, setData] = useState<TourInfoDetail>({
+        tourId: "",
+        tourTitle: "",
+        cityList: [],
+        startDate: "",
+        endDate: "",
+        memberList: []
+    });
 
     useEffect(() => {
         // 투어 아이디 불러오기
@@ -43,7 +50,7 @@ export default function TourPage() {
                 </div>
             </div>
             <footer>
-                <TabBarTour tabMode={2} tourMode={0} tourId={data ? data.tourId : ""} />
+                <TabBarTour tourMode={0} tourId={data ? data.tourId : ""} />
             </footer>
             
         </>

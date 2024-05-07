@@ -7,14 +7,15 @@ interface ChildProps {
 }
 
 export default function myCalendar(props: ChildProps) {
-    const { weekCalendarList, currentDate, setCurrentDate, weekDayList } =
-        getCalendar();
-
-    const [startDate, setStartDate] = useState<Date>();
-    const [endDate, setEndDate] = useState<Date>();
-
+    const { weekCalendarList, currentDate, setCurrentDate, weekDayList } = getCalendar();
+    
+    const [startDate, setStartDate] = useState<Date | undefined>();
+    const [endDate, setEndDate] = useState<Date | undefined>();
+    
     useEffect(() => {
+      if (startDate && endDate){
         props.onChange([startDate, endDate]);
+      }
     }, [startDate, endDate]);
 
     // 펴고 접는 버전 만들 때 쓸 예정

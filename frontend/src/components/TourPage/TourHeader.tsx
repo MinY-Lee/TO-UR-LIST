@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { TourInfoDetail, MemberInfo, TourCardInfo } from '../../types/types';
+import { useState } from "react";
+import { TourInfoDetail, MemberInfo } from "../../types/types";
 
 interface PropType {
     tourInfo: TourInfoDetail;

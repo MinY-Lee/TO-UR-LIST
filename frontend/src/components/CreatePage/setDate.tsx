@@ -2,15 +2,18 @@ import { useState, useEffect } from 'react';
 
 import MyCalendar from "../../components/Calendar/myCalendar";
 
-export default function SetDate(props) {
-    const { onChangeDate } = props;
+interface PropType {
+    onChangeDate: ([startDate, endDate]: Date[]) => void;
+}
 
-    const [startDate, setStartDate] = useState<Date>();
-    const [endDate, setEndDate] = useState<Date>();
+export default function SetDate(props: PropType) {
+
+    const [startDate, setStartDate] = useState<Date>(new Date());
+    const [endDate, setEndDate] = useState<Date>(new Date());
 
     useEffect(() => {
         // 부모 컴포넌트에 보내기
-        onChangeDate([startDate, endDate]);
+        props.onChangeDate([startDate, endDate]);
 
     }, [startDate, endDate]);
 

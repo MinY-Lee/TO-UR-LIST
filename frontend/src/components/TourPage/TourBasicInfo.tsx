@@ -16,9 +16,7 @@ export default function TourBasicInfo(props: PropType) {
     useEffect(() => {
         const countryCodes = data.cityList?.map(city => city.countryCode) || [];
         setCountryInfoList(getCountryInfo.filter(country => countryCodes.includes(country.countryCode) ));
-    }, [data.cityList]);
-
-    
+    }, [data.cityList]);    
 
     return (
         <>

@@ -20,7 +20,14 @@ interface ItemPerDayAndPlace {
 }
 
 export default function ChecklistByDay(props: PropType) {
-    const [data, setData] = useState<TourInfoDetail>({});
+    const [data, setData] = useState<TourInfoDetail>({
+        tourId: "",
+        tourTitle: "",
+        cityList: [],
+        startDate: "",
+        endDate: "",
+        memberList: []
+    });
     const [daysDifference, setDaysDifference] = useState<number>(0);
     const [daysList, setDaysList] = useState<number[]>([]);
     const [groupedItems, setGroupedItems] = useState<ItemPerDayAndPlace>({});
@@ -86,7 +93,7 @@ export default function ChecklistByDay(props: PropType) {
         setGroupedItems(grouped);
     };
 
-    const formatNumberToTwoDigits: string = (num: number) => {
+    const formatNumberToTwoDigits = (num: number): string => {
         return `${num < 10 && num > 0 ? '0' : ''}${num}`;
     }
 

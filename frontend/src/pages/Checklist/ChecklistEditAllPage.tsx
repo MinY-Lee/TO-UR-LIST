@@ -27,7 +27,7 @@ export default function ChecklistEditAllPage() {
     const [tourId, setTourId] = useState<string>("");
 
     const [checkModalActive, setIsCheckModalActive] = useState<boolean>(false);
-    const [deleteItem, setDeleteItem] = useState<Item>({});
+    const [deleteItem, setDeleteItem] = useState<Item>();
 
 
     useEffect(() => {
@@ -41,7 +41,10 @@ export default function ChecklistEditAllPage() {
 
     }, [tourId]);
 
-    
+    const handleEditChecklist = (item: Item) => {
+        // state로 데이터 전달하며 페이지 이동
+        navigate(`/tour/${tourId}/checklist/edit`, { state: { item: item } });
+    };
 
     const mapping: Mapping = {
         'walking' : ['👣 산책', 'color-bg-blue-3'],
@@ -91,11 +94,10 @@ export default function ChecklistEditAllPage() {
         return uniqueItems;
     };
 
-    const filteredGroups = prepareData(Checklist); // 중복 횟수 카운트
+    const filteredGroups = prepareData(data); // 중복 횟수 카운트
     
     // 중복 하나씩만 남김
     const [filteredChecklist, setFilteredChecklist] = useState<Item[]>(filterUniqueItems(Checklist));
-    const [isClicked, setIsClicked] = useState<boolean>(false);
 
     const onUpdate = (item: Item) => {
         const updatedChecklist = [...filteredChecklist, item];
@@ -114,6 +116,8 @@ export default function ChecklistEditAllPage() {
         // 데이터 삭제 api
         const updatedChecklist = filteredChecklist.filter((currentItem) => currentItem !== deleteItem);
         setFilteredChecklist(updatedChecklist);
+        setIsCheckModalActive(false);
+
     }
 
     const handleDeleteModal = (item: Item) => {
@@ -147,7 +151,7 @@ export default function ChecklistEditAllPage() {
                 <div className="mb-5">
                     <ChecklistInput tourId={tourId} checklist={filteredChecklist} onUpdate={onUpdate}/>
                 </div>
-                <div className="flex flex-col justify-start h-[65vh] overflow-y-scroll">
+                <div className="flex flex-col justify-start h-[65vh] overflow-y-scroll pt-2">
                     {filteredChecklist.map((item, index) => (
                         <div key={index} className="grid grid-cols-6 justify-center mb-2">
                             <div className='ml-2 flex items-center'>
@@ -161,7 +165,12 @@ export default function ChecklistEditAllPage() {
                                     }
                             </div>
                             <div className="col-span-4 grid grid-cols-3 justify-center">
-                                <div className="col-span-2 text-lg flex items-center">
+                                <div 
+                                    className="col-span-2 text-lg flex items-center"
+                                    onClick={() => {
+                                        handleEditChecklist(item);
+                                    }}
+                                >
                                     {item.item}
                                 </div>
                                 <div className='relative w-fit'>
@@ -193,7 +202,7 @@ export default function ChecklistEditAllPage() {
                 
             </div>
             <footer className="h-[]">
-                <TabBarTour tabMode={2} tourMode={1} tourId={tourId} />
+                <TabBarTour tourMode={1} tourId={tourId} />
             </footer>
         </>
     );

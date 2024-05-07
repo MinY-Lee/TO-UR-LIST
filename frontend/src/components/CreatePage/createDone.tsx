@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { TourCardInfo } from '../../types/types';
 import TourCard from "../MainPage/TourCard";
 
+interface PropType {
+  tourCardInfo: TourCardInfo;
+}
 
-export default function CreateDone(props) {
+export default function CreateDone(props: PropType) {
     const [tourCardComponent, setTourCardComponent] = useState<JSX.Element | null>(null);
 
     useEffect(() => {
-        console.log(props);
         if (props) {
             setTourCardComponent(<TourCard tourInfo={props.tourCardInfo}/>);
         }
