@@ -14,4 +14,6 @@ public interface ActivityService {
     boolean addActivity(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> simpSessionAttributes);
 
     Boolean checkActivityDuplication(String tourId, String placeId, Integer tourDay, String activity);
+
+    boolean deleteActivity(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> simpSessionAttributes);
 }
