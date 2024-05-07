@@ -14,6 +14,9 @@ import tourSchedule from '../../dummy-data/get_tour_place_tourId.json';
 export default function TourSchedulePage() {
     const [period, setPeriod] = useState<number>(0);
 
+    //헤더 타입
+    const [type, setType] = useState<string>('');
+
     //스케줄 저장 배열 schedule[i]는 i일째 일정(0은 일정 없음)
     const [schedule, setSchedule] = useState<TourPlaceItem[][]>([[]]);
 
@@ -44,11 +47,16 @@ export default function TourSchedulePage() {
     //-1 nothing, 0:d+0, 1:d+1...
     const [selectedDate, setSelectedDate] = useState<number>(-1);
 
+    //헤더 타입 변환
+    const onChange = (type: string) => {
+        setType(type);
+    };
+
     return (
         <>
             <section className="w-full h-full">
                 <div className="w-full h-[25%]">
-                    <TourHeader tourInfo={tourInfo} />
+                    <TourHeader tourInfo={tourInfo} onChange={onChange} />
                 </div>
                 <div className="w-full h-[65%] relative overflow-hidden">
                     <Wrapper

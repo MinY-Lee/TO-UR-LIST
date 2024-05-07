@@ -1,6 +1,15 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-export default function SearchSlideBar() {
+import { PlaceInfo } from '../../types/types';
+import PlaceSearchCard from './PlaceSearchCard';
+
+interface PropType {
+    searchedPlaces: PlaceInfo[];
+    tourId: string;
+    selectedDate: number;
+}
+
+export default function SearchSlideBar(props: PropType) {
     const navigate = useNavigate();
 
     const [mode, setMode] = useState<number>(1);
@@ -27,6 +36,16 @@ export default function SearchSlideBar() {
 
     let dragStartPosY = 0;
     let touchStartPosY = 0;
+
+    const goDetail = (placeId: string) => {
+        navigate(`/tour/${props.tourId}/schedule/add/detail`, {
+            state: {
+                tourId: props.tourId,
+                tourDay: props.selectedDate,
+                placeId: placeId,
+            },
+        });
+    };
 
     return (
         <>
@@ -91,7 +110,17 @@ export default function SearchSlideBar() {
                     <div className="w-[20%] h-[1vw] bg-[#929292] rounded-[0.5vw]"></div>
                 </div>
                 {/* 일정 정보 표시 */}
-                <div className="w-full h-[85%] overflow-y-scroll flex flex-col"></div>
+                <div className="w-full h-[85%] overflow-y-scroll flex flex-col items-center">
+                    {props.searchedPlaces.map((place) => {
+                        return (
+                            <PlaceSearchCard
+                                placeInfo={place}
+                                goDetail={goDetail}
+                                key={place.placeId}
+                            />
+                        );
+                    })}
+                </div>
             </div>
         </>
     );
