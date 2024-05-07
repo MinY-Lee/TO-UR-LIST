@@ -47,7 +47,7 @@ export default function MainPage() {
                 userInfo.userId = res.data.userId;
                 userInfo.userNickname = res.data.userNickname;
                 userInfo.userName = res.data.userName;
-                userInfo.userBirth = res.data.userBirth;
+                userInfo.userBirth = res.data.userBirth.split('T')[0];
                 userInfo.userGender = res.data.userGender;
 
                 setUser(userInfo);

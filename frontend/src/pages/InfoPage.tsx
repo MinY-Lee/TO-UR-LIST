@@ -187,11 +187,11 @@ export default function InfoPage() {
         //api호출
         // console.log(userBirthDay);
         // console.log(new Date(userBirthDay));
-        const sendBirthday = userBirthDay.replace('.', '-');
+        const sendBirthday = userBirthDay.replaceAll('.', '-');
         register({
             userNickname: userNickname,
             userName: userName,
-            userBirthDay: sendBirthday,
+            userBirthDay: sendBirthday + 'T00:00:00',
             userGender: userGender,
         })
             .then((res) => {

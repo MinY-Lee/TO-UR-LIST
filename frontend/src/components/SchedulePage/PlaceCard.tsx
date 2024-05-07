@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { BaseSyntheticEvent, useState } from 'react';
 import { TourPlaceItem } from '../../types/types';
 import CheckModal from '../CheckModal';
 
@@ -15,7 +15,7 @@ export default function PlaceCard(props: PropType) {
 
     const bgColor = ['color-bg-blue-5', 'bg-[#FFD4D4]', 'color-bg-blue-2`'];
 
-    const deleteItem = (event) => {
+    const deleteItem = (event: BaseSyntheticEvent) => {
         setIsDeleteModalActive(true);
         event.stopPropagation();
     };

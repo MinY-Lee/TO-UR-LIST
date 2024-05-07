@@ -7,7 +7,6 @@ const initialState: UserInfo = {
     userName: '',
     userBirth: '2001-01-01T00:00:00',
     userGender: 0,
-    userProfileImageId: '',
 };
 
 export const userSlice = createSlice({
@@ -35,9 +34,7 @@ export const userSlice = createSlice({
             state.userGender = action.payload;
         },
         //프로필 이미지 설정
-        userProfileImageIdState: (state, action) => {
-            state.userProfileImageId = action.payload;
-        },
+
         //유저 정보 전체 저장
         userWholeState: (state, action) => {
             state.userId = action.payload.userId;
@@ -45,9 +42,6 @@ export const userSlice = createSlice({
             state.userName = action.payload.userName;
             state.userBirth = action.payload.userBirth;
             state.userGender = action.payload.userGender;
-            if (action.payload.userProfileImageId !== '') {
-                state.userProfileImageId = action.payload.userProfileImageId;
-            }
         },
     },
 });
@@ -58,7 +52,6 @@ export const {
     userNameState,
     userBirthState,
     userGenderState,
-    userProfileImageIdState,
     userWholeState,
 } = userSlice.actions;
 

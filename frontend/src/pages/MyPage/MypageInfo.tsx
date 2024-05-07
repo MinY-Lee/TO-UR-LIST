@@ -24,19 +24,19 @@ export default function MypageInfo() {
         userInfo.userBirth ? userInfo.userBirth.replaceAll('-', '.') : ''
     );
 
-    const [userGender, setUserGender] = useState<number>(0);
+    const [userGender, setUserGender] = useState<number>(userInfo.userGender);
     //0 : selectbox close, 1: selectbox open
     const [selectBoxMode, setSelectBoxMode] = useState<number>(0);
 
     //유효성 검사
-    const [isValidName, setIsValidName] = useState<boolean>(false);
-    const [isValidNickname, setIsValidNickname] = useState<boolean>(false);
+    const [isValidName, setIsValidName] = useState<boolean>(true);
+    const [isValidNickname, setIsValidNickname] = useState<boolean>(true);
     const [isNicknameDupleChecked, setIsNicknameDupleChecked] =
-        useState<boolean>(false);
+        useState<boolean>(true);
     const [nicknameMsg, setNicknameMsg] = useState<string>('');
-    const [isValidBirthday, setIsValidBirthDay] = useState<boolean>(false);
+    const [isValidBirthday, setIsValidBirthDay] = useState<boolean>(true);
 
-    const [isChangePossible, setIsChangePossible] = useState<boolean>(false);
+    const [isChangePossible, setIsChangePossible] = useState<boolean>(true);
 
     //navigator
     const navigate = useNavigate();
@@ -197,9 +197,8 @@ export default function MypageInfo() {
         });
 
         const sendBirthday = userBirthDay.replaceAll('.', '-');
-        changeBirthDay(sendBirthday + 'T00:00:00');
         const res3 = await changeBirthDay({
-            userBirth: sendBirthday,
+            userBirth: sendBirthday + 'T00:00:00',
         });
 
         const res4 = await changeGender({

@@ -35,3 +35,8 @@ export async function changeGender(userGender: any) {
 export async function changeBirthDay(userBirth: any) {
     return await local.put(`/api/user/birth`, userBirth);
 }
+
+/**회원 탈퇴 */
+export async function withdraw() {
+    return await local.delete(`/api/user`);
+}
