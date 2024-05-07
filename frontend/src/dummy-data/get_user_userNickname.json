@@ -1,0 +1,22 @@
+[ 
+    {
+        "userId": "2345",
+        "userName": "고싸피",
+        "userNickname": "고구마"
+    },
+    {
+        "userId": "1234",
+        "userName": "김싸피",
+        "userNickname": "감자"
+    },
+    {
+        "userId": "3456",
+        "userName": "옥싸피",
+        "userNickname": "옥수수"
+    },
+    {
+        "userId": "4567",
+        "userName": "유싸피",
+        "userNickname": "고구마빵"
+    }
+]

@@ -13,7 +13,7 @@
             },
             {
                 "countryCode": "TWN",
-                "cityName": "타이베이"
+                "cityName": "타이페이"
             }
         ],
         "startDate": "2024-04-22",
@@ -33,7 +33,7 @@
                 "userId" : "3456",
                 "userNickname" : "옥수수",
                 "userName" : "옥싸피",
-                "memberType" : "guest"
+                "memberType" : "ghost"
             }
         ]
     },
