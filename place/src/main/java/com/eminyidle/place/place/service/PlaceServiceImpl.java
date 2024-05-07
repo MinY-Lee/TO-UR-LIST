@@ -11,6 +11,7 @@ import com.eminyidle.place.place.repository.DoRelationRepository;
 import com.eminyidle.place.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -29,7 +30,8 @@ public class PlaceServiceImpl implements PlaceService{
 
 //    @Value("${spring.googleMap.key}")
 //    private String googleMapKey;
-    private String googleMapKey = "AIzaSyBjN4O5KFlbNe8GayyZDNy4WRaeNFUH3mY";
+    @Value("${PLACE_GOOGLE_API_KEY}")
+    private String googleMapKey;
 
     // 요청하는 기본 Url
     private static final String baseUrl = "https://places.googleapis.com/v1/places:searchText";
