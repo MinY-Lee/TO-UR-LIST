@@ -17,10 +17,10 @@ import static org.springframework.data.neo4j.core.schema.Relationship.Direction.
 public class City {
 
     @Id
-    @Property("city_id")
+    @Property("cityId")
     private Integer cityId;
 
-    @Property("city_name")
+    @Property("cityName")
     private String cityName;
 
     @Relationship(type = "IN", direction = OUTGOING)

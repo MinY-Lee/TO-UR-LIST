@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Places {
+public class PlaceList {
     // Place에서 받아 온 객체를 리스트로 받는 부분
-    private List<Place> places;
+    private List<Place> placeList;
 }

@@ -20,10 +20,10 @@ import static org.springframework.data.neo4j.core.schema.Relationship.Direction.
 public class Country {
 
     @Id
-    @Property("country_code")
+    @Property("countryCode")
     private String countryCode;
 
-    @Property("country_name")
+    @Property("countryName")
     private String countryName;
 
     @Relationship(type = "IN", direction = INCOMING)
