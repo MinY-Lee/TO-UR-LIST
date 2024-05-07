@@ -5,6 +5,7 @@ import com.eminyidle.payment.dto.ExchangeRate;
 import com.eminyidle.payment.dto.req.PayIdReq;
 import com.eminyidle.payment.dto.req.PaymentInfoReq;
 import com.eminyidle.payment.dto.res.ExchangeRateRes;
+import com.eminyidle.payment.exception.UserIdNotExistException;
 import com.eminyidle.payment.service.PaymentService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -26,6 +27,7 @@ import java.util.Map;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final String HEADER_USER_ID = "userId";
 
     @GetMapping("/currency/{countryCode}/{date}")
     public ResponseEntity<?> getCountryCurrencyRate(@NotBlank @PathVariable("countryCode") String countryCode,
@@ -48,11 +50,15 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPayment(@Valid @RequestBody PaymentInfoReq paymentInfoReq) {
+    public ResponseEntity<?> createPayment(@Valid @RequestBody PaymentInfoReq paymentInfoReq,
+                                           @RequestHeader(value = HEADER_USER_ID, required = false) String userId) {
 
         log.debug(paymentInfoReq.toString());
+        if (userId == null || userId.isEmpty()) {
+            throw new UserIdNotExistException("유저 ID가 없습니다.");
+        }
 
-        String payId = paymentService.createPaymentInfo(paymentInfoReq);
+        String payId = paymentService.createPaymentInfo(paymentInfoReq, userId);
         // 저장 결과
         Map<String, String> responsePayment = new HashMap<>();
         responsePayment.put("payId", payId);
@@ -63,19 +69,29 @@ public class PaymentController {
 
     @PutMapping("/{payId}")
     public ResponseEntity<Void> updatePayment(@Valid @PathVariable("payId") String payId,
-                                              @Valid @RequestBody PaymentInfoReq paymentInfoReq) {
+                                              @Valid @RequestBody PaymentInfoReq paymentInfoReq,
+                                              @RequestHeader(value = HEADER_USER_ID, required = false) String userId) {
 
         log.debug(paymentInfoReq.toString());
-        paymentService.updatePaymentInfo(payId, paymentInfoReq);
+        if (userId == null || userId.isEmpty()) {
+            throw new UserIdNotExistException("유저 ID가 없습니다.");
+        }
+
+        paymentService.updatePaymentInfo(payId, paymentInfoReq, userId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{payId}")
     public ResponseEntity<Void> deletePayment(@Valid @PathVariable("payId") String payId,
-                                              @Valid @RequestBody PayIdReq payIdReq) {
+                                              @Valid @RequestBody PayIdReq payIdReq,
+                                              @RequestHeader(value = HEADER_USER_ID, required = false) String userId) {
 
         log.debug(payId);
-        paymentService.deletePaymentInfo(payId, payIdReq);
+        if (userId == null || userId.isEmpty()) {
+            throw new UserIdNotExistException("유저 ID가 없습니다.");
+        }
+
+        paymentService.deletePaymentInfo(payId, payIdReq, userId);
         return ResponseEntity.ok().build();
     }
 }

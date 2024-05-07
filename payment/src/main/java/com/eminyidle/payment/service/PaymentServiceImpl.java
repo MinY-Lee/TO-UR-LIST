@@ -65,7 +65,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     // 가계부 저장
     @Override
-    public String createPaymentInfo(PaymentInfoReq paymentInfo) {
+    public String createPaymentInfo(PaymentInfoReq paymentInfo, String userId) {
         String payId = null;
 
         // tourId로 기존 데이터 가져오기, 없으면 생성
@@ -76,8 +76,6 @@ public class PaymentServiceImpl implements PaymentService {
                         .privatePayment(new LinkedHashMap<>())
                         .build());
 
-        // userId 받아오기
-        String userId = "12345";
         switch (paymentInfo.getPayType()) {
             // 공동 지출
             case ("public"): {
@@ -150,14 +148,12 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void updatePaymentInfo(String payId, PaymentInfoReq paymentInfo) {
+    public void updatePaymentInfo(String payId, PaymentInfoReq paymentInfo, String userId) {
 
         // tourId로 기존 데이터 가져오기
         PaymentInfo payment = paymentInfoRepository.findById(paymentInfo.getTourId())
                 .orElseThrow(() -> new PaymentNotExistException("해당하는 지출정보가 없습니다."));
 
-        // userId 받아오기
-        String userId = "12345";
         switch (paymentInfo.getPayType()) {
             // 공동 지출 내용만 변경
             case ("public"): {
@@ -201,9 +197,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void deletePaymentInfo(String payId, PayIdReq payIdReq) {
-        // 유저 ID 받기
-        String userId = "12345";
+    public void deletePaymentInfo(String payId, PayIdReq payIdReq, String userId) {
+        // 투어 ID
         String tourId = payIdReq.getTourId();
 
         // tourId로 기존 데이터 가져오기
@@ -211,9 +206,9 @@ public class PaymentServiceImpl implements PaymentService {
                 .orElseThrow(() -> new PaymentNotExistException("해당하는 지출정보가 없습니다."));
 
         switch (payIdReq.getPayType()) {
-            case "public" : {
+            case "public": {
                 // payId로 해당 지출 내역 찾기 - 공통
-                if(payment.getPublicPayment().containsKey(payId)) {
+                if (payment.getPublicPayment().containsKey(payId)) {
                     // 해당하는 지출 제거
                     PublicPayment removedPayment = payment.getPublicPayment().remove(payId);
                     log.debug(removedPayment.toString());
@@ -232,13 +227,12 @@ public class PaymentServiceImpl implements PaymentService {
                     }
                     String removePaymentId = publicPaymentList.remove(listIdx);
                     log.debug(removePaymentId);
-                }
-                else {
+                } else {
                     throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
                 }
                 break;
             }
-            case "private" : {
+            case "private": {
                 // 리스트에서 탐색
                 Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
                 List<PrivatePaymentInfo> privatePaymentList = privatePayment.get(userId).getPrivatePaymentList();

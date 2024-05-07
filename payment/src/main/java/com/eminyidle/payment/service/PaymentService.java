@@ -10,9 +10,9 @@ public interface PaymentService {
 
     CountryCurrency loadCountryCurrency(String countryCode);
 
-    String createPaymentInfo(PaymentInfoReq paymentInfo);
+    String createPaymentInfo(PaymentInfoReq paymentInfo, String userId);
 
-    void updatePaymentInfo(String payId, PaymentInfoReq paymentInfo);
+    void updatePaymentInfo(String payId, PaymentInfoReq paymentInfo, String userId);
 
-    void deletePaymentInfo(String payId, PayIdReq payIdReq);
+    void deletePaymentInfo(String payId, PayIdReq payIdReq, String userId);
 }
