@@ -3,6 +3,7 @@ package com.eminyidle.payment.service;
 import com.eminyidle.payment.dto.*;
 import com.eminyidle.payment.dto.req.PayIdReq;
 import com.eminyidle.payment.dto.req.PaymentInfoReq;
+import com.eminyidle.payment.dto.res.PaymentInfoRes;
 import com.eminyidle.payment.exception.CurrencyNotExistException;
 import com.eminyidle.payment.exception.ExchangeRateNotExistException;
 import com.eminyidle.payment.exception.PaymentNotExistException;
@@ -216,11 +217,9 @@ public class PaymentServiceImpl implements PaymentService {
                     // 개인지출의 public 리스트에서도 제거
                     List<String> publicPaymentList = payment.getPrivatePayment().get(userId).getPublicPaymentList();
 
-                    boolean flag = false;
                     int listIdx = 0;
                     for (String currPublicPaymentId : publicPaymentList) {
                         if (currPublicPaymentId.equals(payId)) {
-                            flag = true;
                             break;
                         }
                         listIdx++;
@@ -261,6 +260,84 @@ public class PaymentServiceImpl implements PaymentService {
         paymentInfoRepository.save(payment);
     }
 
+    @Override
+    public List<PaymentInfoRes> searchPaymentInfoList(String tourId, String userId) {
+        List<PaymentInfoRes> result = new ArrayList<>();
+
+        // tourId로 기존 데이터 가져오기
+        PaymentInfo payment = paymentInfoRepository.findById(tourId)
+                .orElseThrow(() -> new PaymentNotExistException("해당하는 지출정보가 없습니다."));
+
+        // 개인 지출 가져오기
+        Map<String, PrivatePayment> privatePaymentMap = payment.getPrivatePayment();
+        if (!privatePaymentMap.containsKey(userId)) {
+            return result;
+        }
+        // 개인 지출, 공동 지출
+        PrivatePayment privatePayment = privatePaymentMap.get(userId);
+
+        // 개인 지출 리스트
+        List<PrivatePaymentInfo> privatePaymentList = privatePayment.getPrivatePaymentList();
+
+        // 개인 지출 반영
+        for (PrivatePaymentInfo currPrivatePayment : privatePaymentList) {
+            PaymentInfoRes paymentInfoRes = makePaymentInfoRes(tourId, userId, currPrivatePayment);
+            result.add(paymentInfoRes);
+        }
+
+        // 공동 지출 가져오기
+        Map<String, PublicPayment> publicPaymentMap = payment.getPublicPayment();
+        List<String> publicPaymentList = privatePayment.getPublicPaymentList();
+
+        for (String publicPaymentId : publicPaymentList) {
+            if (!publicPaymentMap.containsKey(publicPaymentId)) {
+                throw new PaymentNotExistException("해당하는 지출 정보가 없습니다.");
+            }
+            PublicPayment publicPayment = publicPaymentMap.get(publicPaymentId);
+            PaymentInfoRes paymentInfoRes = makePaymentInfoRes(tourId, publicPaymentId, publicPayment);
+            result.add(paymentInfoRes);
+        }
+        return result;
+    }
+
+    @Override
+    public PaymentInfoRes searchPaymentInfo(String payId, PayIdReq payIdReq, String userId) {
+        // 투어 ID
+        String tourId = payIdReq.getTourId();
+
+        // tourId로 기존 데이터 가져오기
+        PaymentInfo payment = paymentInfoRepository.findById(tourId)
+                .orElseThrow(() -> new PaymentNotExistException("해당하는 지출정보가 없습니다."));
+
+        switch (payIdReq.getPayType()) {
+            case "public": {
+                // payId로 해당 지출 내역 찾기 - 공통
+                if (payment.getPublicPayment().containsKey(payId)) {
+                    // 해당하는 정보 반환
+                    PublicPayment publicPayment = payment.getPublicPayment().get(payId);
+                    log.debug(publicPayment.toString());
+                    return makePaymentInfoRes(tourId, payId, publicPayment);
+                } else {
+                    throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
+                }
+            }
+            case "private": {
+                // 리스트에서 탐색
+                Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
+                List<PrivatePaymentInfo> privatePaymentList = privatePayment.get(userId).getPrivatePaymentList();
+
+                for (PrivatePaymentInfo currPrivatePaymentInfo : privatePaymentList) {
+                    if (currPrivatePaymentInfo.getPrivatePaymentId().equals(payId)) {
+                        log.debug(currPrivatePaymentInfo.toString());
+                        return makePaymentInfoRes(tourId, payId, currPrivatePaymentInfo);
+                    }
+                }
+                break;
+            }
+        }
+        // 없는 경우
+        throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
+    }
 
     private PublicPayment makePublicPayment(PaymentInfoReq paymentInfo) {
         return PublicPayment.builder()
@@ -286,6 +363,40 @@ public class PaymentServiceImpl implements PaymentService {
                 .payDatetime(paymentInfo.getPayDatetime())
                 .payContent(paymentInfo.getPayContent())
                 .payCategory(paymentInfo.getPayCategory())
+                .build();
+    }
+
+    private PaymentInfoRes makePaymentInfoRes(String tourId, String publicPaymentId, PublicPayment publicPayment) {
+        return PaymentInfoRes.builder()
+                .payId(publicPaymentId)
+                .payType("public")
+                .tourId(tourId)
+                .payAmount(publicPayment.getPayAmount())
+                .unit(publicPayment.getUnit())
+                .currencyCode(publicPayment.getCurrencyCode())
+                .payMethod(publicPayment.getPayMethod())
+                .payDatetime(publicPayment.getPayDatetime())
+                .payContent(publicPayment.getPayContent())
+                .payCategory(publicPayment.getPayCategory())
+                .payerId(publicPayment.getPayerId())
+                .payMemberList(publicPayment.getPayMemberList())
+                .build();
+    }
+
+    private PaymentInfoRes makePaymentInfoRes(String tourId, String userId, PrivatePaymentInfo currPrivatePayment) {
+        return PaymentInfoRes.builder()
+                .payId(currPrivatePayment.getPrivatePaymentId())
+                .payType("private")
+                .tourId(tourId)
+                .payAmount(currPrivatePayment.getPayAmount())
+                .unit(currPrivatePayment.getUnit())
+                .currencyCode(currPrivatePayment.getCurrencyCode())
+                .payMethod(currPrivatePayment.getPayMethod())
+                .payDatetime(currPrivatePayment.getPayDatetime())
+                .payContent(currPrivatePayment.getPayContent())
+                .payCategory(currPrivatePayment.getPayCategory())
+                .payerId(userId)
+                .payMemberList(new ArrayList<>())
                 .build();
     }
 }

@@ -21,6 +21,7 @@ public class Place {
     private String primaryType;
     private Location location;
     private String shortFormattedAddress;
+    private CurrentOpeningHours currentOpeningHours;
     private List<Photo> photos;
 
 
@@ -54,6 +55,16 @@ public class Place {
     public static class Location {
         private double latitude;
         private double longitude;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class CurrentOpeningHours {
+        private boolean openNow;
+        private List<String> weekdayDescriptions;
     }
 
     @Getter

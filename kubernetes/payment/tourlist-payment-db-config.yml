@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tourlist-payment-db-config
+data:
+  DB_NAME: "TOURLIST"
+  TZ: 'Asia/Seoul'

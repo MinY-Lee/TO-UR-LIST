@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tourlist-payment-config
+data:
+  PAYMENT_MONGO_DB_NAME: "TOURLIST"
+  MONGO_HOST: "tourlist-payment-db-service"

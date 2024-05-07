@@ -27,10 +27,10 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public void searchTourActivityByPlaceId(String tourActivityId) {
+    public void searchTourPlaceByPlaceId(String tourActivityId) {
         log.info("서비스 실행");
 //        String ans = placeRepository.findByTourActivityId(tourActivityId).get().getActivity().getActivity().toString();
-        String ans = placeRepository.findByTourActivityId(tourActivityId).get().toString();
+        String ans = placeRepository.findByTourPlaceId(tourActivityId).get().toString();
         log.info(ans);
 
     }
@@ -77,11 +77,11 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public boolean deleteActivity(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> simpSessionAttributes) {
         // 받아 온 body = requestbody
-        String tourActivityId = (String) body.get("tourActivityId");
+        String tourPlaceId = (String) body.get("tourPlaceId");
         String activity = (String) body.get("activity");
         // 냅다 삭제를 갈기고 오류가 나면 잡아주기
         try {
-            activityRepository.deleteByTourActivityIdAndActivity(tourActivityId, activity);
+            activityRepository.deleteByTourPlaceIdAndActivity(tourPlaceId, activity);
             log.info("해당하는 활동 삭제");
             return true;
         } catch (NoSuchElementException e) {

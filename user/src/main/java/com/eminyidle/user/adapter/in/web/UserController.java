@@ -99,7 +99,7 @@ public class UserController {
 
 	@GetMapping("/nickname/{userNickname}")
 	public ResponseEntity<CheckNicknameDuplicationRes> checkNicknameDuplication(
-		@PathVariable String userNickname) {
+		@PathVariable(value="userNickname") String userNickname) {
 		Boolean result = checkNicknameDuplicationUsecase.checkNicknameDuplication(userNickname);
 		return ResponseEntity.ok()
 			.body(CheckNicknameDuplicationRes.builder().isDuplicated(result).build());

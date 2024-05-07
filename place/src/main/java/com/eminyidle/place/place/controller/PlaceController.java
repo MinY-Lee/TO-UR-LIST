@@ -1,7 +1,7 @@
 package com.eminyidle.place.place.controller;
 
 import com.eminyidle.place.place.dto.PlaceRequesterInfo;
-import com.eminyidle.place.place.dto.TourPlace;
+import com.eminyidle.place.place.dto.TourPlaceInfo;
 import com.eminyidle.place.place.dto.TourPlaceMessageInfo;
 import com.eminyidle.place.place.dto.req.TourPlaceReq;
 import com.eminyidle.place.place.dto.res.SearchPlaceDetailRes;
@@ -37,7 +37,7 @@ public class PlaceController {
     }
 
     // 장소 검색
-    @GetMapping("/tour/place/search/{keyword}")
+    @GetMapping("/place/search/{keyword}")
     public ResponseEntity<List<SearchPlaceListRes>> searchPlaceList(@PathVariable String keyword) throws IOException {
         log.info(keyword);
         return ResponseEntity.ok().body(placeService.searchPlaceList(keyword));
@@ -45,7 +45,7 @@ public class PlaceController {
 
 
     // 장소 상세 정보 조회
-    @GetMapping("/tour/place/{tourId}/{tourDay}/{placeId}")
+    @GetMapping("/place/{tourId}/{tourDay}/{placeId}")
     public ResponseEntity<SearchPlaceDetailRes> searchPlaceDetail(@PathVariable String tourId, @PathVariable Integer tourDay, @PathVariable String placeId) throws IOException {
         log.info("tourId: " + tourId + "    placeId: " + placeId);
         // try - catch 여부에 따라서 return 값을 바꿔주
@@ -94,9 +94,13 @@ public class PlaceController {
             }
             // 장소 날짜 수정
             case UPDATE_PLACE_DATE: {
-                tourPlaceMessageInfo = placeService.updatePlace(body, tourId, simpSessionAttributes);
-                responseBody = tourPlaceMessageInfo.getBody();
-                isSuccess = tourPlaceMessageInfo.getIsSuccess();
+                try {
+                    tourPlaceMessageInfo = placeService.updatePlace(body, tourId, simpSessionAttributes);
+                    responseBody = tourPlaceMessageInfo.getBody();
+                    isSuccess = tourPlaceMessageInfo.getIsSuccess();
+                } catch (Exception e) {
+                    log.info("장소 날짜 업데이트 과정에서 오류 발생");
+                }
                 break;
             }
             // 활동 추가
@@ -127,10 +131,10 @@ public class PlaceController {
 
 
     // 액티비티 아이디로 활동까지 조회
-    @GetMapping("/test/{tourActivityId}")
-    public void testPlace(@PathVariable String tourActivityId) {
+    @GetMapping("/test/{tourPlaceId}")
+    public void testPlace(@PathVariable String tourPlaceId) {
         log.info("장소 리스트 조회");
-        activityService.searchTourActivityByPlaceId(tourActivityId);
+        activityService.searchTourPlaceByPlaceId(tourPlaceId);
     }
 
     @GetMapping("/test/{tourId}/{tourDay}/{placeId}")
@@ -139,8 +143,8 @@ public class PlaceController {
     }
 
     // 장소 리스트 조회
-    @GetMapping("/tour/place/{tourId}")
-    public ResponseEntity<List<TourPlace>> searchTourPlace(@PathVariable String tourId) throws IOException {
+    @GetMapping("/place/{tourId}")
+    public ResponseEntity<List<TourPlaceInfo>> searchTourPlace(@PathVariable String tourId) throws IOException {
         return null;
     }
 }

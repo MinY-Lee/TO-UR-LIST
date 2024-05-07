@@ -102,7 +102,7 @@ export interface Position {
 export interface PlaceInfo {
     placeId: string;
     placeName: string;
-    placePrimaryType: string;
+    placePrimaryType: string | null;
     placeLatitude: number;
     placeLongitude: number;
     placeAddress: string;
