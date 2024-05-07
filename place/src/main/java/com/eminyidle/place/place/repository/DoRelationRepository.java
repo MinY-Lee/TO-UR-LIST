@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface DoRelationRepository extends Neo4jRepository<Do, String> {
-    @Query("MATCH (:TOUR{tourId: $tourId})-[r:DO{placeId: $placeId, tourDay: $tourDay}]->(t:TOUR_ACTIVITY)" +
+    @Query("MATCH (:TOUR{tourId: $tourId})-[r:DO{placeId: $placeId, tourDay: $tourDay}]->(t:TOUR_PLACE)" +
 //            "RETURN id(r) AS id, r.doId AS doId, r.placeName AS placeName, r.placeId AS placeId, r.tourDay AS tourDay")
             "RETURN r.placeId AS placeId")
 //            "RETURN r")

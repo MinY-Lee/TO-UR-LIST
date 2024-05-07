@@ -1,7 +1,7 @@
 package com.eminyidle.place.place.service;
 
 import com.eminyidle.place.place.dto.*;
-import com.eminyidle.place.place.dto.node.TourActivity;
+import com.eminyidle.place.place.dto.node.TourPlace;
 import com.eminyidle.place.place.dto.res.SearchPlaceDetailRes;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
 import com.eminyidle.place.place.exception.GetRequesterInfoFailException;
@@ -50,17 +50,17 @@ public class PlaceServiceImpl implements PlaceService{
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
         log.info(requestEntity.toString());
-        ResponseEntity<Places> responseEntity = restTemplate.exchange(
+        ResponseEntity<PlaceList> responseEntity = restTemplate.exchange(
                 baseUrl,
                 HttpMethod.POST,
                 requestEntity,
-                Places.class
+                PlaceList.class
         );
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             // 사진이 없는 경우는 빈 리스트로 대체하여 반환
             if(responseEntity != null) {
-                return responseEntity.getBody().getPlaces().stream().map(place -> {
+                return responseEntity.getBody().getPlaceList().stream().map(place -> {
                     SearchPlaceListRes searchPlaceRes = SearchPlaceListRes.builder()
                             .placeId(place.getId())
                             .placeName(place.getDisplayName().getText())
@@ -129,7 +129,7 @@ public class PlaceServiceImpl implements PlaceService{
         String placeId = (String) body.get("placeId");
         Integer tourDay = (Integer) body.get("tourDay");
         try {
-            responseBody = AddPlaceInfo.builder()
+            responseBody = PlaceRequesterInfo.builder()
                     .userId(userId)
                     .build();
         } catch (PlaceAddFailException e) {
@@ -138,12 +138,12 @@ public class PlaceServiceImpl implements PlaceService{
         log.info(headers.toString());
 
         if (checkPlaceDuplication(tourId, tourDay, placeId) == false) {
-            TourActivity tourActivity = TourActivity.builder().build();
+            TourPlace tourPlace = TourPlace.builder().build();
             try {
-                placeRepository.save(tourActivity);
+                placeRepository.save(tourPlace);
                 // DO 관계 생성해주기
-                // TourActivity의 Id는 저장된 값을 불러온다
-                placeRepository.createDoRelationship((String) body.get("tourId"), UUID.randomUUID().toString(), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourActivity.getTourActivityId());
+                // TourPlace의 Id는 저장된 값을 불러온다
+                placeRepository.createDoRelationship((String) body.get("tourId"), UUID.randomUUID().toString(), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourPlace.getTourPlaceId());
                 isSuccess = true;
             } catch (Exception e) {
                 log.error("{}", e);
@@ -151,7 +151,7 @@ public class PlaceServiceImpl implements PlaceService{
         } else {
             isSuccess = false;
         }
-//        TourActivity tourActivity = TourActivity.builder().build();
+//        TourPlace tourActivity = TourPlace.builder().build();
 //        try {
 //            placeRepository.save(tourActivity);
 //            // DO 관계 생성해주기
@@ -219,7 +219,10 @@ public class PlaceServiceImpl implements PlaceService{
                     .build();
         }
         if (checkPlaceDuplication(tourId, newTourDay, placeId)) {
-            throw new PlaceSearchException("place already exist");
+            return TourPlaceMessageInfo.builder()
+                    .body(responseBody)
+                    .isSuccess(isSuccess)
+                    .build();
         }
 
         try {
@@ -254,9 +257,9 @@ public class PlaceServiceImpl implements PlaceService{
 
     // 장소 리스트 조회
     @Override
-    public List<TourPlace> searchTourPlace(String tourId) {
+    public List<TourPlaceInfo> searchTourPlace(String tourId) {
         // tourId를 받아서 해당 아이디와 DO로 연결된 TourActivity를 전부 가져오기
-        // Tour-DO-TourActivity 를 모두 한번에 가져옵니다...
+        // Tour-DO-TourPlace 를 모두 한번에 가져옵니다...
 
         return null;
     }

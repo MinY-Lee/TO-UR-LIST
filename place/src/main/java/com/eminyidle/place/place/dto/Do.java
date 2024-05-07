@@ -1,10 +1,8 @@
 package com.eminyidle.place.place.dto;
 
-import com.eminyidle.place.place.dto.node.TourActivity;
+import com.eminyidle.place.place.dto.node.TourPlace;
 import lombok.*;
 import org.springframework.data.neo4j.core.schema.*;
-
-import java.util.UUID;
 
 @RelationshipProperties
 @Getter
@@ -27,6 +25,6 @@ public class Do {
     private Integer tourDay;
 
     @TargetNode
-    private TourActivity tourActivity;
+    private TourPlace tourPlace;
 
 }

@@ -1,6 +1,6 @@
 package com.eminyidle.place.place.dto;
 
-import com.eminyidle.place.place.dto.node.TourActivity;
+import com.eminyidle.place.place.dto.node.TourPlace;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,10 +12,12 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TourPlace {    // 장소 리스트 조회 시 반환할...
+public class TourPlaceInfo {    // 장소 리스트 조회 시 반환할 객체
 
     private String placeId;
     private String placeName;
     private Integer tourDay;
-    private List<TourActivity> tourActivityList;
+    private String tourPlaceId;
+    private List<String> tourPlaceList;
+//    private List<TourPlace> tourPlaceList;
 }
