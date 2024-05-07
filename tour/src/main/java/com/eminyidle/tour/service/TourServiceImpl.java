@@ -137,7 +137,7 @@ public class TourServiceImpl implements TourService {
     @Override
 
     public TourDetail searchTourDetail(String userId, String tourId) { //TODO- optional
-        TourDetail tourDetail = tourRepository.findTourDetailByUserIdAndTourId(userId, tourId);
+        TourDetail tourDetail = tourRepository.findTourDetailByUserIdAndTourId(userId, tourId).orElseThrow(NoSuchTourException::new);
         tourDetail.setMemberList(userRepository.findMembersByTourId(tourId));
         tourDetail.setCityList(cityRepository.findCitiesByTourId(tourId));
         System.out.println(tourDetail);
