@@ -22,6 +22,7 @@ public class Place {
     private Location location;
     private String shortFormattedAddress;
     private CurrentOpeningHours currentOpeningHours;
+    private PaymentOptions paymentOptions;
     private List<Photo> photos;
 
 
@@ -53,8 +54,8 @@ public class Place {
     @NoArgsConstructor
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Location {
-        private double latitude;
-        private double longitude;
+        private Double latitude;
+        private Double longitude;
     }
 
     @Getter
@@ -63,8 +64,19 @@ public class Place {
     @NoArgsConstructor
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class CurrentOpeningHours {
-        private boolean openNow;
+        private Boolean openNow;
         private List<String> weekdayDescriptions;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+
+    public static class PaymentOptions {
+        private Boolean acceptsCreditCards;
+        private Boolean acceptsCashOnly;
     }
 
     @Getter
@@ -74,8 +86,8 @@ public class Place {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Photo {   // 사진 - 업로드 한 사람 정보는 빼고 가져옴
         private String name;
-        private int widthPx;
-        private int heightPx;
+        private Integer widthPx;
+        private Integer heightPx;
     }
 }
 

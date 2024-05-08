@@ -8,7 +8,7 @@ public interface ActivityService {
 
     List<String> searchActivityList();
 
-    void searchTourPlaceByPlaceId(String placeId);
+    List<String> searchEnrollActivity(String placeId);
 
     // 활동 추가
     boolean addActivity(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> simpSessionAttributes);

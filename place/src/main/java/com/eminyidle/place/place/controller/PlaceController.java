@@ -48,8 +48,8 @@ public class PlaceController {
     @GetMapping("/place/{tourId}/{tourDay}/{placeId}")
     public ResponseEntity<SearchPlaceDetailRes> searchPlaceDetail(@PathVariable String tourId, @PathVariable Integer tourDay, @PathVariable String placeId) throws IOException {
         log.info("tourId: " + tourId + "    placeId: " + placeId);
-        // try - catch 여부에 따라서 return 값을 바꿔주
-        // 서비스에서 오류를 던져주기 때문에 여기서는 리턴값을 다르게 안해줘도된다
+        // try - catch 여부에 따라서 return 값을 바꿔주기
+        // 서비스에서 오류를 던져주기 때문에 여기서는 리턴값을 다르게 안해줘도 된다
         // 오류가 떠도 200 처리를 해서 빈 객체를 전달해야 하면 여기서 try-catch 처리를 해줄 수도 있다.
         return ResponseEntity.ok().body(placeService.searchPlaceDetail(tourId, tourDay, placeId));
     }
@@ -130,11 +130,11 @@ public class PlaceController {
     }
 
 
-    // 액티비티 아이디로 활동까지 조회
+    // tourPlaceId로 연결되어있는 모든 활동 반환
     @GetMapping("/test/{tourPlaceId}")
-    public void testPlace(@PathVariable String tourPlaceId) {
-        log.info("장소 리스트 조회");
-        activityService.searchTourPlaceByPlaceId(tourPlaceId);
+    public ResponseEntity<List<String>>testPlace(@PathVariable String tourPlaceId) {
+        log.info("장소 활동 리스트 조회");
+        return ResponseEntity.ok().body(activityService.searchEnrollActivity(tourPlaceId));
     }
 
     @GetMapping("/test/{tourId}/{tourDay}/{placeId}")

@@ -12,7 +12,6 @@ import java.util.Map;
 public interface PlaceService {
     List<SearchPlaceListRes> searchPlaceList(String keyword);
 
-
     // 장소 세부 검색
     SearchPlaceDetailRes searchPlaceDetail(String tourId, Integer tourDay, String placeId);
 
@@ -30,4 +29,5 @@ public interface PlaceService {
 
     List<TourPlaceInfo> searchTourPlace(String tourId);
 
+    String searchPlaceActivity(String tourId, Integer tourDay, String placeId);
 }

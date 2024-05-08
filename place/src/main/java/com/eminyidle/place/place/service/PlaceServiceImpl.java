@@ -101,19 +101,24 @@ public class PlaceServiceImpl implements PlaceService{
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             // 사진이 없는 경우는 빈 리스트로 대체하여 반환
             if (responseEntity != null) {
-                PlaceInfo pLaceInfo = PlaceInfo.builder()
+                PlaceInfo placeInfo = PlaceInfo.builder()
                         .placeId(responseEntity.getBody().getId())
                         .placeName(responseEntity.getBody().getDisplayName().getText())
                         .placePrimaryType(responseEntity.getBody().getPrimaryType())
                         .placeLatitude(responseEntity.getBody().getLocation().getLatitude())
                         .placeLongitude(responseEntity.getBody().getLocation().getLongitude())
                         .placeAddress(responseEntity.getBody().getShortFormattedAddress())
+                        .placeOpenNow(responseEntity.getBody().getCurrentOpeningHours().getOpenNow())
+                        .placeAcceptCreditCards(responseEntity.getBody().getPaymentOptions().getAcceptsCreditCards())
+                        .placeAcceptCashOnly(responseEntity.getBody().getPaymentOptions().getAcceptsCashOnly())
                         .placePhotoList(responseEntity.getBody().getPhotos() == null ? new ArrayList<>() : responseEntity.getBody().getPhotos().stream().map(photo -> photo.getName()).toList())
                         .build();
             }
         } else {
             throw new PlaceSearchException("장소 세부 검색에서 오류");
         }
+        // tourPlaceId를 찾아서 등록된 활동들 찾아오기
+//        if ()
         return null;
     }
 
@@ -261,6 +266,12 @@ public class PlaceServiceImpl implements PlaceService{
         // tourId를 받아서 해당 아이디와 DO로 연결된 TourActivity를 전부 가져오기
         // Tour-DO-TourPlace 를 모두 한번에 가져옵니다...
 
+        return null;
+    }
+
+    // 장소의 활동 리스트 조회
+    @Override
+    public String searchPlaceActivity(String tourId, Integer tourDay, String placeId) {
         return null;
     }
 }

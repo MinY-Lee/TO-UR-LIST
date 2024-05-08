@@ -1,6 +1,6 @@
 package com.eminyidle.place.config;
 
-import com.eminyidle.place.place.exception.RestTemplateResponseErrorHandler;
+import com.eminyidle.place.place.handler.RestTemplateResponseErrorHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
