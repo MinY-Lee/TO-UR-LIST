@@ -85,8 +85,6 @@ public class PlaceController {
                 isSuccess = tourPlaceMessageInfo.getIsSuccess();
                 break;
             }
-            // 장소 변경사항
-
             // 장소 삭제
             case DELETE_PLACE: {
                 tourPlaceMessageInfo = placeService.deletePlace(body, tourId, simpSessionAttributes);
@@ -138,7 +136,7 @@ public class PlaceController {
                 .build();
         simpMessagingTemplate.convertAndSend("/topic/place/"+tourId, tourPlaceRes);
 
-        // 장소 변경사항 반환
+        // 장소 변경사항 반환 (모든 메시지에 관해 전송)
         return UpdatePlaceRes.builder()
                 .type(MessageType.UPDATE_PLACE)
                 .body(responseBody)
@@ -147,7 +145,8 @@ public class PlaceController {
 
     // 장소 리스트 조회
     @GetMapping("/place/{tourId}")
-    public ResponseEntity<List<TourPlaceInfo>> searchTourPlace(@PathVariable String tourId) throws IOException {
+    public ResponseEntity<List<TourPlaceInfo>> searchTourPlace(@PathVariable String tourId){
+        log.info("장소 리스트 조회");
         return ResponseEntity.ok().body(placeService.searchTourPlace(tourId));
     }
 

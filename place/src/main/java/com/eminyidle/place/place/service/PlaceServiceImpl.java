@@ -1,7 +1,6 @@
 package com.eminyidle.place.place.service;
 
 import com.eminyidle.place.place.dto.*;
-import com.eminyidle.place.place.dto.node.Activity;
 import com.eminyidle.place.place.dto.node.Tour;
 import com.eminyidle.place.place.dto.node.TourPlace;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
@@ -276,10 +275,11 @@ public class PlaceServiceImpl implements PlaceService{
     public List<TourPlaceInfo> searchTourPlace(String tourId) {
         // tourId를 받아서 해당 아이디와 DO로 연결된 TourActivity를 전부 가져오기
         // Tour-DO-TourPlace 를 모두 한번에 가져옵니다...
-        Optional<Tour> tour = tourRepository.findById(tourId);
+        Tour tour = tourRepository.findById(tourId).orElseThrow(NoSuchElementException::new);
+        // Optional 로 받으면 get()이 필요하지만 Tour로 받게 되면 어차피 Tour 자체로 받는 것이기 때문에 get()을 할 필요가 없다.
         log.info(tour.toString());
         try {
-            return tour.get().getPlaceList().stream().map(place -> {
+            return tour.getPlaceList().stream().map(place -> {
                 TourPlaceInfo tourPlaceInfo = TourPlaceInfo.builder()
                         .placeId(place.getPlaceId())
                         .placeName(place.getPlaceName())
@@ -292,7 +292,8 @@ public class PlaceServiceImpl implements PlaceService{
 //            responseEntity.getBody().getPlaces().stream().map(place -> {
 //                SearchPlaceListRes searchPlaceRes = SearchPlaceListRes.builder()
 //                        .placeId(place.getId())
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
+            log.info("해당하는 여행이 없음");
             return null;
         }
 
