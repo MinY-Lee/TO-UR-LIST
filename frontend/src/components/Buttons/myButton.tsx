@@ -10,9 +10,7 @@ interface MyButtonProps {
 
 const MyButton: React.FC<MyButtonProps> = ({ className, type, text, isSelected, onClick }) => {
     // const [buttonColor, setButtonColor] = useState<String>(isSelected ? 'color-bg-blue-1 text-white text-bold' : 'color-bg-blue-5 text-white');
-    const buttonColor = isSelected
-        ? 'color-bg-blue-1 text-white'
-        : 'box-border border-[#5faad9] border-2 color-text-blue-2';
+    const buttonColor = isSelected ? 'color-bg-blue-1' : 'box-border border-[#5faad9] border-2';
     return (
         <div className="">
             {type === 'full' ? (
@@ -20,7 +18,7 @@ const MyButton: React.FC<MyButtonProps> = ({ className, type, text, isSelected, 
                     {text}
                 </button>
             ) : (
-                <button className={`rounded-xl px-5  ${buttonColor}  ${className}`} onClick={onClick}>
+                <button className={`rounded-xl px-5 ${buttonColor} ${className}`} onClick={onClick}>
                     {text}
                 </button>
             )}
