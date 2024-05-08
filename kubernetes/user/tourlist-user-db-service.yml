@@ -22,6 +22,9 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ""
+  volumeMode: Filesystem
+  local:
+    path: /home/ubuntu/volume/tourlist-user-mariadb-pv
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

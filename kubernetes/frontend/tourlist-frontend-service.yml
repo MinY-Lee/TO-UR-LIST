@@ -35,7 +35,4 @@ spec:
           image: ssuyas/tourlist_frontend
           ports:
             - containerPort: 80
-          envFrom:
-            - configMapRef:
-                name: tourlist-frontend-config
 
