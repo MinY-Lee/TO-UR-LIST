@@ -1,6 +1,8 @@
 package com.eminyidle.tour.service;
 
 import com.eminyidle.tour.dto.*;
+import com.eminyidle.tour.dto.entity.CountryCurrency;
+import com.eminyidle.tour.dto.entity.CountryEntity;
 import com.eminyidle.tour.exception.NoSuchCountryException;
 import com.eminyidle.tour.repository.maria.CountryCityRepository;
 import com.eminyidle.tour.repository.maria.CountryCurrencyRepository;
@@ -45,7 +47,7 @@ public class CountryServiceImpl implements CountryService {
         CountryCurrency currency=countryCurrencyRepository.findById(countryCode).orElseThrow(NoSuchCountryException::new);
 
         return CountryInfo.builder()
-                .KST(country.getUtc()-9)
+                .KST(country.getUtc()-9) //KOR utc기준(=9)와의 차이
                 .climate(country.getClimate())
                 .currencyUnit(currency.getCurrencySign())
                 .language(country.getLanguage())

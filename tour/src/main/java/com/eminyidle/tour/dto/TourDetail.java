@@ -9,13 +9,6 @@ import java.util.List;
 @Node
 @NoArgsConstructor
 public class TourDetail extends Tour{
-    // TODO - 상속과 롬복 잘 되는지 확인!
-    //제목, 기간, 도시, 멤버
-//    String tourId;
-//    String tourTitle;
-//    LocalDateTime startDate;
-//    LocalDateTime endDate;
-//    List<City> cityList;
     private List<Member> memberList;
     public TourDetail(String tourId,String tourTitle,LocalDateTime startDate,LocalDateTime endDate,List<City> cityList,List<Member> memberList){
         super(tourId,tourTitle,startDate,endDate,cityList);

@@ -10,7 +10,6 @@ import java.util.Optional;
 
 public interface TourRepository extends Neo4jRepository<Tour, String> {
 
-    //TODO - 얘는 왜 t로만 정의 안 되는지 확인 필요!
     @Query("MATCH (:USER{userId: $userId})-[at:ATTEND]->(t:TOUR {tourId: $tourId}) " +
             "RETURN t.tourId AS tourId, t.startDate AS startDate, t.endDate AS endDate, at.tourTitle AS tourTitle")
     Optional<TourDetail> findTourDetailByUserIdAndTourId(String userId, String tourId);
