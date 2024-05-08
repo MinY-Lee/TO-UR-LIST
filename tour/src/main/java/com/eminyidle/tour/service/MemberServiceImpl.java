@@ -12,11 +12,8 @@ import com.eminyidle.tour.repository.TourRepository;
 import com.eminyidle.tour.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,7 +42,7 @@ public class MemberServiceImpl implements MemberService {
         return userRepository.existsAttendRelationshipByUserIdAndTourId(userId, tourId);
     }
 
-    private boolean isExist(String userId) {
+    private boolean isExistUser(String userId) {
         return userRepository.existsById(userId);
     }
 
@@ -53,7 +50,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void createMember(String hostId, TourMember tourMember) {
         assertHost(hostId, tourMember.getTourId());
-        if (isExist(tourMember.getUserId()) && isAttend(tourMember.getUserId(), tourMember.getTourId())) {
+        if (isExistUser(tourMember.getUserId()) && isAttend(tourMember.getUserId(), tourMember.getTourId())) {
             throw new AlreadyUserAttendTourException();
         }
         Tour tour = tourRepository.findById(tourMember.getTourId()).orElseThrow(NoSuchTourException::new);
@@ -64,6 +61,7 @@ public class MemberServiceImpl implements MemberService {
                         )
                 );
         userRepository.createGuestRelationship(hostId, tour.getTourId(), user.getUserId());
+        // TODO - 연결된 모든 체크리스트 생성 (Kafka)
     }
 
     @Override
@@ -103,16 +101,15 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void updateGhostToGuest(String hostId, UpdateGhostToGuestReq updateGhostToGuestReq) {
         Ghost ghost = ghostRepository.findById(updateGhostToGuestReq.getGhostId()).orElseThrow(NoSuchGhostException::new);
-        User user = userRepository.findById(updateGhostToGuestReq.getUserId()).orElseThrow(NoSuchUserException::new);
 
         //여기에서 host임이 보장된다
         createMember(hostId, TourMember.builder()
-                .userId(user.getUserId())
+                .userId(updateGhostToGuestReq.getUserId())
                 .tourId(updateGhostToGuestReq.getTourId())
-                .userNickname(user.getUserNickname())
+                .userNickname(updateGhostToGuestReq.getUserNickname())
                 .build()
         );
-        //TODO- ghost에 있던 연결 guest에 잇기
+        //TODO- ghost에 있던 연결(가계부) guest에 잇기 : Kafka or RestTemplate
         ghostRepository.delete(ghost);
     }
 
@@ -125,6 +122,7 @@ public class MemberServiceImpl implements MemberService {
 
         userRepository.updateMemberRelationshipExceptGhost(hostId, tourMember.getTourId(), "guest");
         userRepository.updateMemberRelationshipExceptGhost(user.getUserId(), tourMember.getTourId(), "host");
+
     }
 
     @Override
@@ -135,7 +133,7 @@ public class MemberServiceImpl implements MemberService {
             case "host":
                 throw new HostCanNotBeDeletedException();
             case "guest":
-                userRepository.deleteMemberRelationship(deleteMemberReq.getUserId(), deleteMemberReq.getTourId(), deleteMemberReq.getMemberType());
+                userRepository.deleteGuestRelationship(deleteMemberReq.getUserId(), deleteMemberReq.getTourId());
                 //TODO- 모든 아이템 삭제 요청(KAFKA)
                 // 이용 ->deleteMemberReq.getUserId(), deleteMemberReq.getTourId()
                 break;
@@ -143,7 +141,7 @@ public class MemberServiceImpl implements MemberService {
                 ghostRepository.deleteById(deleteMemberReq.getUserId());
                 break;
             default:
-                throw new InvalidMemberTypeException();
+                throw new UndefinedMemberTypeException();
         }
     }
 }

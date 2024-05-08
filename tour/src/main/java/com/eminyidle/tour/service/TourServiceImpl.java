@@ -38,10 +38,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public Tour createTour(String userId, CreateTourReq createTourReq) {
-        //만약 내 DB에 user있는지 확인
-        //있다면 그거 챙겨온다
-        //없다면 유저주라! 한 뒤 유저노드 만들기
-        log.debug(createTourReq.toString());
+//        log.debug(createTourReq.toString());
         Tour tour = Tour.builder()
                 .tourId(UUID.randomUUID().toString())
                 .tourTitle(createTourReq.getTourTitle())
@@ -62,10 +59,11 @@ public class TourServiceImpl implements TourService {
                 .tourTitle(createTourReq.getTourTitle())
                 .tour(tour)
                 .build());
-        log.debug(user.toString());
+//        log.debug(user.toString());
         userRepository.save(user);
         userRepository.createMemberRelationship(user.getUserId(), tour.getTourId(), "host");
 
+        // TODO - 나라와 연계된 체크리스트 생성(Kafka)
         return tour;
     }
 
@@ -126,6 +124,8 @@ public class TourServiceImpl implements TourService {
         tour.setCityList(citySet.stream().toList());
 
         tourRepository.save(tour);
+
+        // TODO - 나라와 연계된 체크리스트 업데이트(Kafka)
     }
 
     @Override
@@ -155,10 +155,11 @@ public class TourServiceImpl implements TourService {
         if (isHost(userId, tourId)) {
             List<Member> memberList = userRepository.findMembersByTourId(tourId).stream()
                     .filter(member -> "guest".equals(member.getMemberType())).toList();
-            if (memberList.isEmpty()) { //guest 아무도 없음
+            if (memberList.isEmpty()) { //guest 아무도 없음 -> 삭제 처리
                 deleteTour(userId, tourId);
                 return;
             }
+            //게스트가 있다면 랜덤하게 다음 게스트에게 호스트 권한 위임
             memberService.updateHost(userId, TourMember.builder()
                     .tourId(tourId)
                     .userId(memberList.get(0).getUserId())
@@ -166,11 +167,10 @@ public class TourServiceImpl implements TourService {
                     .build());
         }
         Tour tour = tourRepository.findByUserIdAndTourId(userId, tourId).orElseThrow(NoSuchTourException::new);
-        userRepository.deleteMemberRelationship(userId, tourId, "guest");
-        if (tour.getEndDate().isBefore(LocalDateTime.now())) { //여행 후인 경우
+        userRepository.deleteGuestRelationship(userId, tourId);
+        //TODO- 관련 모든 아이템 삭제(KAFKA)
+        if (tour.getEndDate().isBefore(LocalDateTime.now())) { //여행 후인 경우 - 다른 멤버들에게는 연결 정보 유지: 유저이지만, 타입을 고스트로 변경
             userRepository.createMemberRelationship(userId, tourId, "ghost");
-        } else { //여행 전, 중 ...
-            //TODO- 관련 모든 아이템 삭제(KAFKA)
         }
     }
 }
