@@ -2,6 +2,7 @@ package com.eminyidle.place.place.service;
 
 import com.eminyidle.place.place.dto.*;
 import com.eminyidle.place.place.dto.node.Activity;
+import com.eminyidle.place.place.dto.node.Tour;
 import com.eminyidle.place.place.dto.node.TourPlace;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
 import com.eminyidle.place.place.dto.res.TourPlaceDetailRes;
@@ -10,6 +11,7 @@ import com.eminyidle.place.place.exception.PlaceAddFailException;
 import com.eminyidle.place.place.exception.PlaceSearchException;
 import com.eminyidle.place.place.repository.DoRelationRepository;
 import com.eminyidle.place.place.repository.PlaceRepository;
+import com.eminyidle.place.place.repository.TourRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +30,7 @@ public class PlaceServiceImpl implements PlaceService{
 
     private final PlaceRepository placeRepository;
     private final DoRelationRepository doRelationRepository;
+    private final TourRepository tourRepository;
 
 //    @Value("${spring.googleMap.key}")
 //    private String googleMapKey;
@@ -273,8 +276,27 @@ public class PlaceServiceImpl implements PlaceService{
     public List<TourPlaceInfo> searchTourPlace(String tourId) {
         // tourId를 받아서 해당 아이디와 DO로 연결된 TourActivity를 전부 가져오기
         // Tour-DO-TourPlace 를 모두 한번에 가져옵니다...
+        Optional<Tour> tour = tourRepository.findById(tourId);
+        log.info(tour.toString());
+        try {
+            return tour.get().getPlaceList().stream().map(place -> {
+                TourPlaceInfo tourPlaceInfo = TourPlaceInfo.builder()
+                        .placeId(place.getPlaceId())
+                        .placeName(place.getPlaceName())
+                        .tourDay(place.getTourDay())
+                        .tourPlaceId(place.getPlaceId())
+                        .activityList(place.getTourPlace().getActivityList() == null ? new ArrayList<>() : place.getTourPlace().getActivityList().stream().map(activity -> activity.getActivity()).toList())
+                        .build();
+                return tourPlaceInfo;
+            }).toList();
+//            responseEntity.getBody().getPlaces().stream().map(place -> {
+//                SearchPlaceListRes searchPlaceRes = SearchPlaceListRes.builder()
+//                        .placeId(place.getId())
+        } catch (Exception e) {
+            return null;
+        }
 
-        return null;
+//        .placePhotoList(responseEntity.getBody().getPhotos() == null ? new ArrayList<>() : responseEntity.getBody().getPhotos().stream().map(photo -> photo.getName()).toList())
     }
 
     // 장소 상세 정보 조회 - 활동 리스트 조회

@@ -4,16 +4,15 @@ import com.eminyidle.place.place.dto.PlaceRequesterInfo;
 import com.eminyidle.place.place.dto.TourPlaceInfo;
 import com.eminyidle.place.place.dto.TourPlaceMessageInfo;
 import com.eminyidle.place.place.dto.req.TourPlaceReq;
-import com.eminyidle.place.place.dto.res.SearchPlaceDetailRes;
-import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
-import com.eminyidle.place.place.dto.res.TourPlaceDetailRes;
-import com.eminyidle.place.place.dto.res.TourPlaceRes;
+import com.eminyidle.place.place.dto.res.*;
 import com.eminyidle.place.place.service.ActivityService;
 import com.eminyidle.place.place.service.PlaceService;
+import com.eminyidle.place.resource.type.MessageType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.*;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +30,7 @@ public class PlaceController {
 
     private final ActivityService activityService;
     private final PlaceService placeService;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     // 활동 리스트 조회
     @GetMapping("/activity/{placeId}")
@@ -45,7 +45,6 @@ public class PlaceController {
         return ResponseEntity.ok().body(placeService.searchPlaceList(keyword));
     }
 
-
     // 장소 상세 정보 조회
     @GetMapping("/place/{tourId}/{tourDay}/{placeId}")
     public ResponseEntity<TourPlaceDetailRes> searchPlaceDetail(@PathVariable String tourId, @PathVariable Integer tourDay, @PathVariable String placeId) throws IOException {
@@ -56,14 +55,12 @@ public class PlaceController {
         return ResponseEntity.ok().body(placeService.searchPlaceDetail(tourId, tourDay, placeId));
     }
 
-
     // 장소 관련 MESSAGE
     @MessageMapping("/place/{tourId}")  // 클라이언트에서 보낸 메시지 받을 메서드
     @SendTo("/topic/place/{tourId}")    // 메서드가 처리한 결과 보낼 목적지
-    public TourPlaceRes sendMessage(@DestinationVariable("tourId") String tourId,
+    public UpdatePlaceRes sendMessage(@DestinationVariable("tourId") String tourId,
                                     @Payload TourPlaceReq tourPlaceReq,
                                     @Header("simpSessionAttributes") Map<String, Object> simpSessionAttributes) {
-//                                    SimpMessageHeaderAccessor headerAccessor) {
         /*
         @DestinationVariable: 메시지의 목적지에서 변수를 추출
         @Payload: 메시지 본문(body)의 내용을 메서드의 인자로 전달할 때 사용
@@ -73,6 +70,7 @@ public class PlaceController {
         // 초기화
         LinkedHashMap<String, Object> body = tourPlaceReq.getBody();
         Object responseBody = body;
+        Object commonResponse = body;
         boolean isSuccess = false;
         TourPlaceMessageInfo tourPlaceMessageInfo;
         String userId = (String) (simpSessionAttributes.get("userId"));
@@ -87,6 +85,8 @@ public class PlaceController {
                 isSuccess = tourPlaceMessageInfo.getIsSuccess();
                 break;
             }
+            // 장소 변경사항
+
             // 장소 삭제
             case DELETE_PLACE: {
                 tourPlaceMessageInfo = placeService.deletePlace(body, tourId, simpSessionAttributes);
@@ -121,17 +121,38 @@ public class PlaceController {
                         .build();
                 break;
             }
+            // 기타 예외처리
+            default: {
+                isSuccess = false;
+                responseBody = PlaceRequesterInfo.builder()
+                        .userId(userId)
+                        .build();
+                break;
+            }
         }
-
-        // 바로 반환하지 말고 변수로 받았다가 반환해주기
-        return TourPlaceRes.builder()
+        // 알맞은 response로 반환
+        TourPlaceRes tourPlaceRes = TourPlaceRes.builder()
                 .type(tourPlaceReq.getType())
                 .isSuccess(isSuccess)
                 .body(responseBody)
                 .build();
+        simpMessagingTemplate.convertAndSend("/topic/place/"+tourId, tourPlaceRes);
+
+        // 장소 변경사항 반환
+        return UpdatePlaceRes.builder()
+                .type(MessageType.UPDATE_PLACE)
+                .body(responseBody)
+                .build();
+    }
+
+    // 장소 리스트 조회
+    @GetMapping("/place/{tourId}")
+    public ResponseEntity<List<TourPlaceInfo>> searchTourPlace(@PathVariable String tourId) throws IOException {
+        return ResponseEntity.ok().body(placeService.searchTourPlace(tourId));
     }
 
 
+    // 테스트용 api들
     // tourPlaceId로 연결되어있는 모든 활동 반환
     @GetMapping("/test/{tourPlaceId}")
     public ResponseEntity<List<String>>testPlace(@PathVariable String tourPlaceId) {
@@ -142,12 +163,6 @@ public class PlaceController {
     @GetMapping("/test/{tourId}/{tourDay}/{placeId}")
     public void testSearchPlace(@PathVariable String tourId, @PathVariable Integer tourDay, @PathVariable String placeId){
         placeService.checkPlaceDuplication(tourId, tourDay, placeId);
-    }
-
-    // 장소 리스트 조회
-    @GetMapping("/place/{tourId}")
-    public ResponseEntity<List<TourPlaceInfo>> searchTourPlace(@PathVariable String tourId) throws IOException {
-        return null;
     }
 }
 

@@ -5,7 +5,8 @@ public enum MessageType {
     DELETE_PLACE(2),
     UPDATE_PLACE_DATE(3),
     ADD_ACTIVITY(4),
-    DELETE_ACTIVITY(5);
+    DELETE_ACTIVITY(5),
+    UPDATE_PLACE(6);
 
     private int code;
 
