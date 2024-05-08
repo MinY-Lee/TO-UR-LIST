@@ -128,7 +128,15 @@ public class TourExceptionHandler {
     public ResponseEntity<String> handleDataAccessException(Exception e){
         StringBuilder errorMessage=new StringBuilder();
         makeErrorMessage(errorMessage,e);
-        errorMessage.append("일시적으로 DB접근이 불가합니다.");
+        errorMessage.append("DB접근 중 오류가 발생했습니다.");
+        return ResponseEntity.badRequest().body(errorMessage.toString());
+    }
+
+    @ExceptionHandler(NoSuchCityException.class)
+    public ResponseEntity<String> handleNoSuchCityException(Exception e){
+        StringBuilder errorMessage=new StringBuilder();
+        makeErrorMessage(errorMessage,e);
+        errorMessage.append("주어진 도시가 없습니다.");
         return ResponseEntity.badRequest().body(errorMessage.toString());
     }
 }

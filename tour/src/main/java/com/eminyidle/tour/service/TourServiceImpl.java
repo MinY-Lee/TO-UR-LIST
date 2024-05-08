@@ -51,10 +51,10 @@ public class TourServiceImpl implements TourService {
                         (city) ->
                                 cityRepository.findCity(city.getCityName(), city.getCountryCode()).orElseGet(() -> {
                                     countryCityRepository.findCityEntityByCountryCodeAndCityNameKor(city.getCountryCode(),city.getCityName()).orElseThrow(NoSuchCityException::new);
-                                    return City.builder()
+                                    return cityRepository.save(City.builder()
                                             .countryCode(city.getCountryCode())
                                             .cityName(city.getCityName())
-                                            .build();
+                                            .build());
                                 })
                 ).toList())
                 .build();
@@ -122,10 +122,11 @@ public class TourServiceImpl implements TourService {
                 (city) ->
                         cityRepository.findCity(city.getCityName(), city.getCountryCode()).orElseGet(() -> {
                             countryCityRepository.findCityEntityByCountryCodeAndCityNameKor(city.getCountryCode(),city.getCityName()).orElseThrow(NoSuchCityException::new);
-                            return City.builder()
+                            log.debug(city.toString());
+                            return cityRepository.save(City.builder()
                                     .countryCode(city.getCountryCode())
                                     .cityName(city.getCityName())
-                                    .build();
+                                    .build());
                         })
         ).collect(Collectors.toSet());
         cityRepository.findCitiesByTourId(updateTourCityReq.getTourId()).stream().forEach(
