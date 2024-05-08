@@ -5,8 +5,20 @@ import HeaderBar from '../../components/HeaderBar/HeaderBar';
 import TabBarTour from '../../components/TabBar/TabBarTour';
 
 import CategoryToImg from '../../components/AccountPage/categoryToImg';
+import { TourInfoDetail } from '../../types/types';
+
+import TourDetail from '../../dummy-data/get_tour_detail.json';
 
 export default function AccountAddPage() {
+    const [tourId, setTourId] = useState<string>('');
+    const [data, setData] = useState<TourInfoDetail>({
+        tourId: '',
+        tourTitle: '',
+        cityList: [],
+        startDate: '',
+        endDate: '',
+        memberList: [],
+    });
     const [wonDropdownClick, setWonDropdownClick] = useState<boolean>(false);
     const [typeDropdownClick, setTypeDropdownClick] = useState<boolean>(false);
     const [unit, setUnit] = useState<string>('원');
@@ -17,9 +29,17 @@ export default function AccountAddPage() {
     const [date, setDate] = useState<string>('');
     const [isValidDate, setIsValidDate] = useState<boolean>(true);
 
-    // 투어 아이디 불러오기
-    const address: string[] = window.location.href.split('/');
-    const tourId: string = address[address.length - 3];
+    useEffect(() => {
+        // 투어 아이디 불러오기
+        const address: string[] = window.location.href.split('/');
+        setTourId(address[address.length - 3]);
+
+        // 투어 아이디로 더미데이터에서 데이터 찾기 (임시)
+        const tourData = TourDetail.find((tour) => tour.tourId === tourId);
+        if (tourData) {
+            setData(tourData);
+        }
+    }, []);
 
     const handleUnit = (unit: string) => {
         setUnit(unit);
@@ -170,6 +190,67 @@ export default function AccountAddPage() {
                             ></MyButton>
                         </div>
                     </div>
+                    {isPublic ? (
+                        <>
+                            <div className="grid grid-cols-3 items-center">
+                                <div className="col-span-1">결제자</div>
+                                <div className="col-span-2 flex gap-1">
+                                    <button
+                                        onClick={() => setTypeDropdownClick(!typeDropdownClick)}
+                                        id="dropdown-button"
+                                        className="flex items-center p-3 text-sm text-gray-900 border py-1 px-2 rounded-lg w-full justify-between"
+                                        type="button"
+                                    >
+                                        {type || '선택하세요'}
+                                        <svg
+                                            className={`${typeDropdownClick ? 'rotate-180' : ''} w-2.5 h-2.5`}
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 10 6"
+                                        >
+                                            <path
+                                                stroke="currentColor"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="m1 1 4 4 4-4"
+                                            />
+                                        </svg>
+                                    </button>
+                                    <div
+                                        id="dropdown"
+                                        className={`${
+                                            typeDropdownClick ? '' : 'hidden'
+                                        } absolute top-[42%] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
+                                    >
+                                        <ul
+                                            className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                            aria-labelledby="dropdown-button"
+                                        >
+                                            <li onClick={() => handleTypeChange('카드')}>
+                                                <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                    카드
+                                                </div>
+                                            </li>
+                                            <li onClick={() => handleTypeChange('현금')}>
+                                                <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                    현금
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-3 items-center">
+                                <div className="col-span-1">정산멤버</div>
+                                <div className="col-span-2 flex max-h-[15vh] overflow-y-scroll"></div>
+                            </div>
+                        </>
+                    ) : (
+                        ''
+                    )}
+
                     <div className="grid grid-cols-3 items-center">
                         <div className="col-span-1">카테고리</div>
                         <div className="grid grid-cols-5 col-span-2">
