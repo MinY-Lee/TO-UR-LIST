@@ -25,6 +25,14 @@ spec:
   volumeMode: Filesystem
   local:
     path: /home/ubuntu/volume/tourlist-user-mariadb-pv
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - worker-node
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
