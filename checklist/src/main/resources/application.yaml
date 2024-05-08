@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: checklist
+  config:
+    import:
+      - optional:file:.env[.properties]
+  neo4j:
+    authentication:
+      username: ${TOUR_NEO4J_USER_NAME}
+      password: ${TOUR_NEO4J_USER_PASSWORD}
+    uri: ${TOUR_NEO4J_URI}
+
+server:
+  port: 8087
+
+logging:
+  level:
+    com:
+      eminyidle:
+        checklist: DEBUG
