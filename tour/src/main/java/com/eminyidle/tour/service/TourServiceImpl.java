@@ -7,10 +7,12 @@ import com.eminyidle.tour.dto.req.UpdateTourPeriodReq;
 import com.eminyidle.tour.dto.req.UpdateTourTitleReq;
 import com.eminyidle.tour.exception.AbnormalTourDateException;
 import com.eminyidle.tour.exception.NoHostPrivilegesException;
+import com.eminyidle.tour.exception.NoSuchCityException;
 import com.eminyidle.tour.exception.NoSuchTourException;
 import com.eminyidle.tour.repository.CityRepository;
 import com.eminyidle.tour.repository.TourRepository;
 import com.eminyidle.tour.repository.UserRepository;
+import com.eminyidle.tour.repository.maria.CountryCityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,7 @@ public class TourServiceImpl implements TourService {
     private final TourRepository tourRepository;
     private final UserRepository userRepository;
     private final CityRepository cityRepository;
+    private final CountryCityRepository countryCityRepository;
 
     private final MemberService memberService;
     private final RequestService requestService;
@@ -46,7 +49,13 @@ public class TourServiceImpl implements TourService {
                 .endDate(createTourReq.getEndDate())
                 .cityList(createTourReq.getCityList().stream().map(
                         (city) ->
-                                cityRepository.findCity(city.getCityName(), city.getCountryCode()).orElse(city)
+                                cityRepository.findCity(city.getCityName(), city.getCountryCode()).orElseGet(() -> {
+                                    countryCityRepository.findCityEntityByCountryCodeAndCityNameKor(city.getCountryCode(),city.getCityName()).orElseThrow(NoSuchCityException::new);
+                                    return City.builder()
+                                            .countryCode(city.getCountryCode())
+                                            .cityName(city.getCityName())
+                                            .build();
+                                })
                 ).toList())
                 .build();
         tourRepository.save(tour);
@@ -104,17 +113,24 @@ public class TourServiceImpl implements TourService {
         tourRepository.save(tour);
     }
 
-    @Override
+    @Override //FIXME - 로직 변경
     public void updateTourCity(String userId, UpdateTourCityReq updateTourCityReq) {
         //DB에 도시 있으면 그 도시와 연결하고.. 없으면 새로운 도시 노드 만들어서 맞는 국가랑 연결..
         Tour tour = tourRepository.findByUserIdAndTourId(userId, updateTourCityReq.getTourId()).orElseThrow(NoSuchTourException::new);
         log.debug(tour.toString());
         Set<City> citySet = updateTourCityReq.getCityList().stream().map(
                 (city) ->
-                        cityRepository.findCity(city.getCityName(), city.getCountryCode()).orElse(city)
+                        cityRepository.findCity(city.getCityName(), city.getCountryCode()).orElseGet(() -> {
+                            countryCityRepository.findCityEntityByCountryCodeAndCityNameKor(city.getCountryCode(),city.getCityName()).orElseThrow(NoSuchCityException::new);
+                            return City.builder()
+                                    .countryCode(city.getCountryCode())
+                                    .cityName(city.getCityName())
+                                    .build();
+                        })
         ).collect(Collectors.toSet());
         cityRepository.findCitiesByTourId(updateTourCityReq.getTourId()).stream().forEach(
                 (city) -> {
+//                    log.debug("chceking..." + city);
                     if (!citySet.contains(city)) {
                         tourRepository.deleteTourCityRelationshipByTourIdAndCityName(updateTourCityReq.getTourId(), city.getCityName());
                         log.debug("deleted " + city.getCityName());
