@@ -139,4 +139,20 @@ public class TourExceptionHandler {
         errorMessage.append("주어진 도시가 없습니다.");
         return ResponseEntity.badRequest().body(errorMessage.toString());
     }
+
+    @ExceptionHandler(InvalidTourTitleFormatException.class)
+    public ResponseEntity<String> handleInvalidTourTitleFormatException(Exception e){
+        StringBuilder errorMessage=new StringBuilder();
+        makeErrorMessage(errorMessage,e);
+        errorMessage.append("여행 제목은 1~16자 사이 문자열이어야 합니다.");
+        return ResponseEntity.badRequest().body(errorMessage.toString());
+    }
+
+    @ExceptionHandler(InvalidTourDateException.class)
+    public ResponseEntity<String> handleInvalidTourDateException(Exception e){
+        StringBuilder errorMessage=new StringBuilder();
+        makeErrorMessage(errorMessage,e);
+        errorMessage.append("여행날짜 형식이 올바르지 않습니다.");
+        return ResponseEntity.badRequest().body(errorMessage.toString());
+    }
 }
