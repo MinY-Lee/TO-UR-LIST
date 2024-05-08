@@ -6,6 +6,7 @@ import com.eminyidle.place.place.dto.TourPlaceMessageInfo;
 import com.eminyidle.place.place.dto.req.TourPlaceReq;
 import com.eminyidle.place.place.dto.res.SearchPlaceDetailRes;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
+import com.eminyidle.place.place.dto.res.TourPlaceDetailRes;
 import com.eminyidle.place.place.dto.res.TourPlaceRes;
 import com.eminyidle.place.place.service.ActivityService;
 import com.eminyidle.place.place.service.PlaceService;
@@ -16,13 +17,14 @@ import org.springframework.messaging.handler.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @Slf4j
 @RequiredArgsConstructor
 public class PlaceController {
@@ -46,7 +48,7 @@ public class PlaceController {
 
     // 장소 상세 정보 조회
     @GetMapping("/place/{tourId}/{tourDay}/{placeId}")
-    public ResponseEntity<SearchPlaceDetailRes> searchPlaceDetail(@PathVariable String tourId, @PathVariable Integer tourDay, @PathVariable String placeId) throws IOException {
+    public ResponseEntity<TourPlaceDetailRes> searchPlaceDetail(@PathVariable String tourId, @PathVariable Integer tourDay, @PathVariable String placeId) throws IOException {
         log.info("tourId: " + tourId + "    placeId: " + placeId);
         // try - catch 여부에 따라서 return 값을 바꿔주기
         // 서비스에서 오류를 던져주기 때문에 여기서는 리턴값을 다르게 안해줘도 된다

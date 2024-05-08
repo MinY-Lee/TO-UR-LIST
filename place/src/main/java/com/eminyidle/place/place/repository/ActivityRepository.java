@@ -30,4 +30,6 @@ public interface ActivityRepository extends Neo4jRepository<Activity, String> {
             "DELETE r")
     void deleteByTourPlaceIdAndActivity(String tourPlaceId, String activity);
 
+    // 활동 조회
+
 }

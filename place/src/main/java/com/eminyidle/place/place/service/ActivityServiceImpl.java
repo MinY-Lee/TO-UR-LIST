@@ -87,7 +87,7 @@ public class ActivityServiceImpl implements ActivityService {
     // 등록한 활동 조회
     @Override
     public List<String> searchEnrollActivity(String tourPlaceId) {
-        log.info("서비스 실행");
+        log.info("등록된 활동 찾기");
 //        String ans = placeRepository.findByTourActivityId(tourActivityId).get().getActivity().getActivity().toString();
         List<String> enrollActivity = placeRepository.findByTourPlaceId(tourPlaceId).get().getActivityList().stream().map(activity -> activity.getActivity()).toList();
         log.info(enrollActivity.toString());

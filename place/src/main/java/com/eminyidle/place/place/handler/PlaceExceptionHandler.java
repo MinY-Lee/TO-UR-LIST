@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice(basePackages = "com.eminyidle.place.controller")
+@RestControllerAdvice(basePackages = "com.eminyidle.place.place.controller")
 @Slf4j
 public class PlaceExceptionHandler {
 

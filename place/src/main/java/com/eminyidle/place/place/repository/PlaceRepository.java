@@ -1,6 +1,7 @@
 package com.eminyidle.place.place.repository;
 
 import com.eminyidle.place.place.dto.TourPlaceInfo;
+import com.eminyidle.place.place.dto.node.Activity;
 import com.eminyidle.place.place.dto.node.TourPlace;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
@@ -37,4 +38,9 @@ public interface PlaceRepository extends Neo4jRepository<TourPlace, String> {
 //    @Query("MATCH (:TOUR{tourId: $tourId})-[r:DO{placeId: $placeId}]->(:TOUR_ACTIVITY)" +
 //            "RETURN r")
 //    Optional<Do> findPlaceByTourIdAndPlaceId(String tourId, String placeId);
+
+    // 장소 상세 정보 조회 - 활동 리스트 찾기
+    @Query("MATCH (:TOUR{tourId: $tourId})-[:DO{placeId: $placeId, tourDay: $tourDay}]->(:TOUR_PLACE)-[:REFERENCE]->(a:ACTIVITY)" +
+            "RETURN a.activity")
+    List<String> findActivityByTourIdAndTourDayAndTourPlaceId(String tourId, Integer tourDay, String placeId);
 }
