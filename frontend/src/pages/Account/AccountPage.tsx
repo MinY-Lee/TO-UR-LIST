@@ -1,17 +1,23 @@
 import { useState, useEffect } from 'react';
 import HeaderBar from '../../components/HeaderBar/HeaderBar';
 
-import { AccountInfo, PayMember } from '../../types/types';
+import { AccountInfo, CurrencyInfo, PayMember } from '../../types/types';
 import MyButton from '../../components/Buttons/myButton';
 import TabBarTour from '../../components/TabBar/TabBarTour';
 import AccountDetail from '../../components/AccountPage/accountDetail';
 
 import getUser from '../../dummy-data/get_user_userNickname.json';
 import getPayTourId from '../../dummy-data/get_pay_tourId.json';
+import getCurrency from '../../dummy-data/get_pay_currency_countryCode_date.json';
 
 export default function AccountPage() {
     const [tourId, setTourId] = useState<string>('');
     const [data, setData] = useState<AccountInfo[]>([]);
+    const [currency, setCurrency] = useState<CurrencyInfo>({
+        currencyCode: '',
+        currencyRate: 0,
+        unit: '',
+    });
 
     const [tapIdx, setTabIdx] = useState<number>(1);
 
@@ -22,6 +28,9 @@ export default function AccountPage() {
 
         // 데이터 불러오기
         setData(getPayTourId);
+
+        // 환율 저장
+        setCurrency(getCurrency);
     });
 
     const calcPrivateTotal = () => {
@@ -93,7 +102,9 @@ export default function AccountPage() {
             return (
                 <div>
                     <div className="text-xl">오늘의 환율</div>
-                    <div className="font-bold">{tourId} 로 여행국가 가져와서 해당 환율 가져오기</div>
+                    <div className="font-bold text-2xl">
+                        1{currency.unit} = {currency.currencyRate.toString()} 원
+                    </div>
                     <div className="mt-3">*지출 내역 클릭시 환율 상세 지정이 가능합니다.</div>
                 </div>
             );

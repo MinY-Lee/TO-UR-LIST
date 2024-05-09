@@ -147,3 +147,9 @@ export interface AccountInfo {
     payerId: string;
     payMemberList: PayMember[];
 }
+
+export interface CurrencyInfo {
+    unit: String;
+    currencyRate: Number;
+    currencyCode: String;
+}

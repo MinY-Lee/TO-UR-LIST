@@ -3,6 +3,8 @@ import { AccountInfo, PayMember } from '../../types/types';
 
 import CategoryToImg from './categoryToImg';
 
+import getCurrency from '../../dummy-data/get_pay_currency_countryCode_date.json';
+
 interface PropType {
     data: AccountInfo[];
 }
@@ -19,6 +21,7 @@ export default function AccountDetail(props: PropType) {
     const [isClicked, setIsClicked] = useState<boolean>(false); // 드롭다운 클릭 여부
     const [groupedData, setGroupedData] = useState<DataPerDay[]>([]);
     const [filter, setFilter] = useState<string>('전체 내역');
+    const [currency, setCurrency] = useState<number>(0);
 
     const DataPerDay = (data: AccountInfo[]) => {
         // 결과를 저장할 배열
@@ -61,7 +64,7 @@ export default function AccountDetail(props: PropType) {
         // 데이터 날짜별로 정리
         setRowData(props.data);
         DataPerDay(rowData);
-    }, [props.data]);
+    }, [tourId, rowData]);
 
     const getTabClass = (idx: number) => {
         if (idx != tabIdx) {

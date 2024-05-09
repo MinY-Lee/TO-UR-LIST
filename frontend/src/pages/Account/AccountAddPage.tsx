@@ -1,15 +1,20 @@
 import { BaseSyntheticEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import MyButton from '../../components/Buttons/myButton';
 import HeaderBar from '../../components/HeaderBar/HeaderBar';
 import TabBarTour from '../../components/TabBar/TabBarTour';
+import MyCalendar from '../../components/Calendar/myCalendar';
 
 import CategoryToImg from '../../components/AccountPage/categoryToImg';
-import { TourInfoDetail } from '../../types/types';
+import { AccountInfo, MemberInfo, TourInfoDetail } from '../../types/types';
 
 import TourDetail from '../../dummy-data/get_tour_detail.json';
+import getCurrency from '../../dummy-data/get_pay_currency_countryCode_date.json';
 
 export default function AccountAddPage() {
+    const navigate = useNavigate();
+
     const [tourId, setTourId] = useState<string>('');
     const [data, setData] = useState<TourInfoDetail>({
         tourId: '',
@@ -23,14 +28,17 @@ export default function AccountAddPage() {
     const [typeDropdownClick, setTypeDropdownClick] = useState<boolean>(false);
     const [typeDropdownPosition, setTypeDropdownPosition] = useState<string>('');
     const [payerDropdownClick, setPayerDropdownClick] = useState<boolean>(false);
-    const [unit, setUnit] = useState<string>('원');
+    const [unit, setUnit] = useState<string>('₩');
     const [type, setType] = useState<string>('');
     const [amount, setAmount] = useState<number>(0);
+    const [currency, setCurrency] = useState<number>(0);
     const [category, setCategory] = useState<string>('');
+    const [content, setContent] = useState<string>('');
     const [isPublic, setIsPublic] = useState<boolean>(false);
     const [date, setDate] = useState<string>('');
     const [isValidDate, setIsValidDate] = useState<boolean>(true);
     const [payer, setPayer] = useState<string>('');
+    const [payMember, setPayMember] = useState<MemberInfo[]>([]);
 
     useEffect(() => {
         // 투어 아이디 불러오기
@@ -45,6 +53,9 @@ export default function AccountAddPage() {
 
         // payer 디폴트는 현재 가계부 작성하는 사람
         setPayer('김싸피');
+        // 디폴트 환율 = 현재 환율
+        const currencyData = getCurrency;
+        setCurrency(8.79);
     }, [tourId, data]);
 
     useEffect(() => {
@@ -69,6 +80,13 @@ export default function AccountAddPage() {
         }
     };
 
+    const handleCurrency = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (Number(event.target.value)) {
+            setCurrency(Number(event.target.value));
+        } else {
+            setCurrency(0);
+        }
+    };
     const handleTypeChange = (type: string) => {
         setType(type);
         setTypeDropdownClick(false);
@@ -84,30 +102,47 @@ export default function AccountAddPage() {
     };
 
     const handleDateChange = (event: BaseSyntheticEvent) => {
-        const dateString = event.target.value.replaceAll('.', '');
-
-        //숫자만 입력 가능
-        if (isNaN(dateString)) {
-            return;
-        }
-        if (dateString.length > 8) {
-            return;
-        }
-
-        let tempString = '';
-        for (let i = 0; i < dateString.length; i++) {
-            if (i === 4 || i === 6) {
-                tempString += '.';
-            }
-            tempString += dateString[i];
-        }
-
-        setDate(tempString);
+        setDate(event.target.value);
     };
 
     const handlePayerChange = (payer: string) => {
         setPayer(payer);
         setPayerDropdownClick(false);
+    };
+
+    const handleContent = (event: BaseSyntheticEvent) => {
+        setContent(event.target.value);
+    };
+
+    const handlePayMember = (member: MemberInfo) => {
+        let updatedMember: MemberInfo[] = [];
+        if (payMember.includes(member)) {
+            updatedMember = payMember.filter((item) => item != member);
+        } else {
+            updatedMember = [...payMember, member];
+        }
+
+        setPayMember(updatedMember);
+    };
+
+    const handleSave = () => {
+        const newAccountItem = {
+            payType: isPublic,
+            tourId: tourId,
+            payAmount: amount,
+            unit: unit,
+            currencyCode: 'JPY',
+            payMethod: type,
+            payDatetime: date,
+            payContent: content,
+            payCategory: category,
+            payerId: '1234',
+            payMemberList: payMember,
+        };
+        // payId 리턴값으로 받아오기
+
+        console.log(newAccountItem);
+        navigate(-1);
     };
 
     return (
@@ -160,7 +195,7 @@ export default function AccountAddPage() {
                                     className="py-2 text-center text-sm text-gray-700"
                                     aria-labelledby="dropdown-button"
                                 >
-                                    {['원', '엔'].map((unit) => (
+                                    {['₩', '￥'].map((unit) => (
                                         <li key={unit} onClick={() => handleUnit(unit)}>
                                             <div className="block px-4 py-2">{unit}</div>
                                         </li>
@@ -177,7 +212,8 @@ export default function AccountAddPage() {
                             <div>
                                 <div>
                                     <input
-                                        // onChange={handleCurrency}
+                                        value={currency}
+                                        onChange={handleCurrency}
                                         type="number"
                                         className="block w-20 px-2 text-sm text-gray-900 border"
                                     />
@@ -188,21 +224,27 @@ export default function AccountAddPage() {
                     </div>
                     <div className="grid grid-cols-3">
                         <div className="col-span-1">결제날짜</div>
-                        <div>데이트피커</div>
+                        <div className="col-span-2">
+                            <input
+                                onChange={handleDateChange}
+                                type="date"
+                                className="w-full text-sm text-gray-900 border py-1 px-2 rounded-lg"
+                            />
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-3 items-center">
                         <div className="col-span-1">분류</div>
                         <div className="col-span-2 flex gap-1">
                             <MyButton
-                                className={`${setButtonProp('private')} rounded-[10px]`}
+                                className={`${setButtonProp('private')} rounded-[8px]`}
                                 isSelected={false}
                                 type="small"
                                 onClick={() => setIsPublic(false)}
                                 text="개인"
                             ></MyButton>
                             <MyButton
-                                className={`${setButtonProp('public')} rounded-[10px]`}
+                                className={`${setButtonProp('public')} rounded-[8px]`}
                                 isSelected={false}
                                 type="small"
                                 onClick={() => setIsPublic(true)}
@@ -211,7 +253,7 @@ export default function AccountAddPage() {
                         </div>
                     </div>
                     {isPublic ? (
-                        <div id="new-element">
+                        <div className="flex flex-col gap-4">
                             <div className="grid grid-cols-3 items-center">
                                 <div className="col-span-1">결제자</div>
                                 <div className="col-span-2 grid grid-cols-4 gap-1 items-center">
@@ -261,10 +303,16 @@ export default function AccountAddPage() {
                             </div>
                             <div className="grid grid-cols-3">
                                 <div className="col-span-1">정산멤버</div>
-                                <div className="col-span-2 flex max-h-[15vh] gap-2 overflow-y-scroll flex-col">
+                                <div className="col-span-2 flex max-h-[11vh] gap-2 overflow-y-scroll flex-col">
                                     {data.memberList.map((member, index) => (
-                                        <div key={index} className="flex gap-2 grayscale items-center">
-                                            <div>+</div>
+                                        <div
+                                            onClick={() => handlePayMember(member)}
+                                            key={index}
+                                            className={`flex gap-2 ${
+                                                payMember.includes(member) ? '' : 'grayscale'
+                                            } items-center`}
+                                        >
+                                            <div>{payMember.includes(member) ? 'x' : '+'}</div>
                                             <div>
                                                 <div className="text-white col-span-1 color-bg-blue-2 w-7 h-7 flex justify-center shadow-lg items-center rounded-full">
                                                     {member.userName[0]}
@@ -302,7 +350,7 @@ export default function AccountAddPage() {
                         <div className="col-span-1">내용</div>
                         <div className="w-full col-span-2">
                             <input
-                                // onChange={handleContent}
+                                onChange={handleContent}
                                 type="text"
                                 className="w-full text-sm text-gray-900 border py-1 px-2 rounded-lg"
                             />
@@ -364,17 +412,17 @@ export default function AccountAddPage() {
                 <div className="grid grid-cols-2 w-[90%] gap-2">
                     <MyButton
                         isSelected={true}
-                        onClick={() => {}}
+                        onClick={handleSave}
                         text="저장"
                         type="full"
                         className="py-1 text-white"
                     ></MyButton>
                     <MyButton
                         isSelected={true}
-                        onClick={() => {}}
+                        onClick={() => navigate(-1)}
                         text="취소"
                         type="full"
-                        className="py-1 color-bg-blue-3 text-black"
+                        className="py-1 color-bg-blue-4 text-black"
                     ></MyButton>
                 </div>
             </div>
