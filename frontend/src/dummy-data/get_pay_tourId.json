@@ -88,10 +88,6 @@
             {
                 "userId": "2345",
                 "payAmount": 10000
-            },
-            {
-                "userId": "3456",
-                "payAmount": 10000
             }
         ]
     }

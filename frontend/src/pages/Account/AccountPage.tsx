@@ -6,7 +6,6 @@ import MyButton from '../../components/Buttons/myButton';
 import TabBarTour from '../../components/TabBar/TabBarTour';
 import AccountDetail from '../../components/AccountPage/accountDetail';
 
-import getUser from '../../dummy-data/get_user_userNickname.json';
 import getPayTourId from '../../dummy-data/get_pay_tourId.json';
 import getCurrency from '../../dummy-data/get_pay_currency_countryCode_date.json';
 import getTourInfo from '../../dummy-data/get_tour_detail.json';
