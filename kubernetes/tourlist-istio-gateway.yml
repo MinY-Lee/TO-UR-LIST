@@ -1,0 +1,24 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: tourlist-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - tourlist.me
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+      - tourlist.me
+    tls: SIMPLE
+    serverCertificate: /etc

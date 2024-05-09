@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: tourlist-frontend-service
+  namespace: istio-system # istio 설치경로
+spec:
+  secretName: tourlist-tls
+  issuerRef:
+    name: letsencrypt-istio
+    kind: ClusterIssuer
+  commonName: tourlist.me
+  dnsNames:
+  - tourlist.me
