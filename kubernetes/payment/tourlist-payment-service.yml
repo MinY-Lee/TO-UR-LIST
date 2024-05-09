@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: tourlist-payment
-          image: ssuyas/tourlist_payment
+          image: ssuyas/tourlist_payment:latest
           ports:
             - containerPort: 8085
           envFrom:
