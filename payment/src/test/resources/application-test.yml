@@ -1,0 +1,55 @@
+spring:
+  messages:
+    basename: errors, messages
+    encoding: UTF-8
+  config:
+    import:
+      - optional:file:.env[.properties]
+  batch:
+    job:
+      enabled: false # 서버 재시작시 배치 자동실행 방지
+    jdbc:
+      initialize-schema: always
+  #  main:
+  #    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:tc:mariadb:10.5:///${DB_NAME}?TC_INITSCRIPT=file:src/test/resources/init.sql&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false
+    username: ${USER_NAME}
+    password: ${USER_PASSWORD}
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    hikari:
+      driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+      jdbc-url: jdbc:tc:mariadb:10.5:///${DB_NAME}?TC_INITSCRIPT=file:src/test/resources/init.sql&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false
+      username: ${USER_NAME}
+      password: ${USER_PASSWORD}
+      maximum-pool-size: 50
+      minimum-idle: 10
+      connection-timeout: 5000
+      connection-init-sql: SELECT 1
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      auto-commit: true
+      leak-detection-threshold: 30000
+      connection-test-query: SELECT 1
+      isolate-internal-queries: false
+      validation-timeout: 5000
+      validation-query: SELECT 1
+  data:
+    mongodb:
+      database: ${DB_NAME}
+      port: 27017
+      user: ${PAYMENT_MONGO_DB_ROOT_USER_NAME}
+      password: ${PAYMENT_MONGO_DB_ROOT_USER_PASSWORD}
+      uri: mongodb://${PAYMENT_MONGO_DB_ROOT_USER_NAME}:${PAYMENT_MONGO_DB_ROOT_USER_PASSWORD}@${MONGO_HOST}:27017/${DB_NAME}?authSource=admin
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: info
+#    com:
+#      eminyidle:
+#        payment: debug
+#    org.springframework.security: info
+
+server:
+  port: 8085

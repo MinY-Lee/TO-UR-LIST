@@ -34,7 +34,14 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: "com.vaadin.external.google", module:"android-json"
+	}
+	testImplementation "org.testcontainers:testcontainers:1.19.8"
+	testImplementation "org.testcontainers:junit-jupiter:1.19.8"
+	testImplementation 'org.testcontainers:jdbc:1.19.8'
+	testImplementation "org.testcontainers:mariadb:1.19.8"
+	testImplementation "org.testcontainers:mongodb:1.19.8"
 }
 
 tasks.named('test') {
