@@ -140,43 +140,63 @@ export default function AccountAddPage() {
                     <div>
                         <div className="font-bold text-2xl">보낼 금액 💸</div>
                         <div className="border-t-2 border-neutral-500 flex flex-col gap-3 text-lg">
-                            {Object.keys(sendData).map((member, index) => (
-                                <div key={index} className="grid grid-cols-3 mt-5">
-                                    <div className="grid grid-cols-3">
-                                        <div className="col-span-1 color-bg-blue-4 rounded-full text-white shadow-md font-bold w-8 h-8 justify-center items-center flex">
-                                            {member[0]}
+                            {Object.keys(sendData).length !== 0 ? (
+                                <div>
+                                    {Object.keys(sendData).map((member, index) => (
+                                        <div key={index} className="grid grid-cols-3 mt-5">
+                                            <div className="grid grid-cols-3">
+                                                <div className="col-span-1 color-bg-blue-4 rounded-full text-white shadow-md font-bold w-8 h-8 justify-center items-center flex">
+                                                    {member[0]}
+                                                </div>
+                                                <div className="font-bold color-text-blue-1">{member}</div>
+                                            </div>
+                                            <div className="text-neutral-500">
+                                                {sendData[member].length > 1
+                                                    ? `${sendData[member][0].payContent} (+${
+                                                          sendData[member].length - 1
+                                                      })`
+                                                    : sendData[member][0].payContent}
+                                            </div>
+                                            <div className="text-end">
+                                                {calcTotal(false, member).toLocaleString()} 원
+                                            </div>
                                         </div>
-                                        <div className="font-bold color-text-blue-1">{member}</div>
-                                    </div>
-                                    <div className="text-neutral-500">
-                                        {acceptData[member].length > 1
-                                            ? `${acceptData[member][0].payContent} (+${acceptData[member].length - 1})`
-                                            : acceptData[member][0].payContent}
-                                    </div>
-                                    <div className="text-end">{calcTotal(true, member).toLocaleString()} 원</div>
+                                    ))}
                                 </div>
-                            ))}
+                            ) : (
+                                <div className="text-center m-10 text-lg">보낼 금액이 없습니다!</div>
+                            )}
                         </div>
                     </div>
                     <div>
                         <div className="font-bold text-2xl">받을 금액 💰</div>
                         <div className="border-t-2 border-neutral-500 flex flex-col gap-3 text-lg">
-                            {Object.keys(acceptData).map((member, index) => (
-                                <div key={index} className="grid grid-cols-3 mt-5">
-                                    <div className="grid grid-cols-3">
-                                        <div className="col-span-1 color-bg-blue-4 rounded-full text-white shadow-md font-bold w-8 h-8 justify-center items-center flex">
-                                            {member[0]}
+                            {Object.keys(acceptData).length !== 0 ? (
+                                <div>
+                                    {Object.keys(acceptData).map((member, index) => (
+                                        <div key={index} className="grid grid-cols-3 mt-5">
+                                            <div className="grid grid-cols-3">
+                                                <div className="col-span-1 color-bg-blue-4 rounded-full text-white shadow-md font-bold w-8 h-8 justify-center items-center flex">
+                                                    {member[0]}
+                                                </div>
+                                                <div className="font-bold color-text-blue-1">{member}</div>
+                                            </div>
+                                            <div className="text-neutral-500">
+                                                {acceptData[member].length > 1
+                                                    ? `${acceptData[member][0].payContent} (+${
+                                                          acceptData[member].length - 1
+                                                      })`
+                                                    : acceptData[member][0].payContent}
+                                            </div>
+                                            <div className="text-end">
+                                                {calcTotal(true, member).toLocaleString()} 원
+                                            </div>
                                         </div>
-                                        <div className="font-bold color-text-blue-1">{member}</div>
-                                    </div>
-                                    <div className="text-neutral-500">
-                                        {acceptData[member].length > 1
-                                            ? `${acceptData[member][0].payContent} (+${acceptData[member].length - 1})`
-                                            : acceptData[member][0].payContent}
-                                    </div>
-                                    <div className="text-end">{calcTotal(true, member).toLocaleString()} 원</div>
+                                    ))}
                                 </div>
-                            ))}
+                            ) : (
+                                <div className="text-center m-10 text-lg">받을 금액이 없습니다!</div>
+                            )}
                         </div>
                     </div>
                 </div>
