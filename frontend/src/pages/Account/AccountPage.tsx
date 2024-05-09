@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import HeaderBar from '../../components/HeaderBar/HeaderBar';
 
-import { AccountInfo, CurrencyInfo, PayMember } from '../../types/types';
+import { AccountInfo, CurrencyInfo, PayMember, TourInfoDetail } from '../../types/types';
 import MyButton from '../../components/Buttons/myButton';
 import TabBarTour from '../../components/TabBar/TabBarTour';
 import AccountDetail from '../../components/AccountPage/accountDetail';
@@ -9,10 +9,19 @@ import AccountDetail from '../../components/AccountPage/accountDetail';
 import getUser from '../../dummy-data/get_user_userNickname.json';
 import getPayTourId from '../../dummy-data/get_pay_tourId.json';
 import getCurrency from '../../dummy-data/get_pay_currency_countryCode_date.json';
+import getTourInfo from '../../dummy-data/get_tour_detail.json';
 
 export default function AccountPage() {
     const [tourId, setTourId] = useState<string>('');
     const [data, setData] = useState<AccountInfo[]>([]);
+    const [tourData, setTourData] = useState<TourInfoDetail>({
+        tourId: '',
+        tourTitle: '',
+        cityList: [],
+        startDate: '',
+        endDate: '',
+        memberList: [],
+    });
     const [currency, setCurrency] = useState<CurrencyInfo>({
         currencyCode: '',
         currencyRate: 0,
@@ -28,6 +37,9 @@ export default function AccountPage() {
 
         // 데이터 불러오기
         setData(getPayTourId);
+
+        // 여행 정보 가져오기
+        setTourData(getTourInfo[0]);
 
         // 환율 저장
         setCurrency(getCurrency);
@@ -148,7 +160,7 @@ export default function AccountPage() {
                     </div>
                 </div>
                 <div className="w-full">
-                    <AccountDetail data={data} />
+                    <AccountDetail data={data} tourData={tourData} />
                 </div>
                 <div className="w-[90%] absolute bottom-36">
                     <MyButton

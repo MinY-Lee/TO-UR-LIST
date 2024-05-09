@@ -1,45 +1,59 @@
 import { useState, useEffect, useRef } from 'react';
-import { AccountInfo, PayMember } from '../../types/types';
+import { AccountInfo, PayMember, TourInfoDetail } from '../../types/types';
 
 import CategoryToImg from './categoryToImg';
 
 interface PropType {
     data: AccountInfo[];
+    tourData: TourInfoDetail;
 }
 
-interface DataPerDay {
+interface DataPerDayInfo {
     payDatetime: string;
     data: AccountInfo[];
 }
 
 export default function AccountDetail(props: PropType) {
     const [tourId, setTourId] = useState<string>('');
+    const [startDate, setStartDate] = useState<Date | undefined>();
+    const [endDate, setEndDate] = useState<Date | undefined>(new Date());
     const [rowData, setRowData] = useState<AccountInfo[]>([]);
     const [tabIdx, setTabIdx] = useState<number>(1);
     const [isClicked, setIsClicked] = useState<boolean>(false); // 드롭다운 클릭 여부
-    const [groupedData, setGroupedData] = useState<DataPerDay[]>([]);
+    const [groupedData, setGroupedData] = useState<DataPerDayInfo[]>([]);
     const [filter, setFilter] = useState<string>('전체 내역');
 
     const DataPerDay = (data: AccountInfo[]) => {
         // 결과를 저장할 배열
-        const groupedData: DataPerDay[] = [];
+        const groupedData: DataPerDayInfo[] = [];
 
         const groupedByDate: { [date: string]: AccountInfo[] } = {};
 
         // data를 날짜별로 그룹화
-        data.forEach((info: AccountInfo) => {
-            const date = info.payDatetime;
-            if (isPayMember('1234', info)) {
-                if (!groupedByDate[date]) {
-                    groupedByDate[date] = [];
+        if (startDate) {
+            const tempDate = new Date(startDate.getTime() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            data.forEach((info: AccountInfo) => {
+                const date = info.payDatetime;
+
+                if (isPayMember('1234', info)) {
+                    if (calcDay(new Date(date), startDate) <= 0) {
+                        if (!groupedByDate[tempDate]) {
+                            groupedByDate[tempDate] = [];
+                        }
+                        groupedByDate[tempDate] = [info, ...groupedByDate[tempDate]];
+                    } else {
+                        if (!groupedByDate[date]) {
+                            groupedByDate[date] = [];
+                        }
+                        groupedByDate[date] = [info, ...groupedByDate[date]];
+                    }
                 }
-                groupedByDate[date].push(info);
-            }
-        });
+            });
+        }
 
         for (const date in groupedByDate) {
             if (groupedByDate.hasOwnProperty(date)) {
-                const dataPerDay: DataPerDay = {
+                const dataPerDay: DataPerDayInfo = {
                     payDatetime: date,
                     data: groupedByDate[date],
                 };
@@ -57,11 +71,14 @@ export default function AccountDetail(props: PropType) {
         // 투어 아이디 불러오기
         const address: string[] = window.location.href.split('/');
         setTourId(address[address.length - 2]);
-
-        // 데이터 날짜별로 정리
+        if (props.tourData.startDate) {
+            setStartDate(new Date(props.tourData.startDate));
+            setEndDate(new Date(props.tourData.endDate));
+        }
         setRowData(props.data);
+        // 데이터 날짜별로 그룹핑
         DataPerDay(rowData);
-    }, [tourId, rowData]);
+    }, [tourId, props, rowData]);
 
     const getTabClass = (idx: number) => {
         if (idx != tabIdx) {
@@ -140,6 +157,9 @@ export default function AccountDetail(props: PropType) {
         return amount;
     };
 
+    const calcDay = (date1: Date, date2: Date) => {
+        return (date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24) + 1;
+    };
     return (
         <div>
             <div className="px-5 flex justify-between items-center mt-3">
@@ -220,10 +240,16 @@ export default function AccountDetail(props: PropType) {
                 <div className="text-neutral-500 underline">엑셀로 내보내기</div>
             </div>
 
-            <div className="">
+            <div className="border-2 border-neutral-400 py-3 rounded-lg mx-8 mt-2">
                 {groupedData.map((data, index) => (
-                    <div key={index} className="px-10 mb-3">
-                        <div className="border-b-2 text-lg text-neutral-500 mb-2">DAY | {data.payDatetime}</div>
+                    <div key={index} className="px-5 mb-5">
+                        <div className="border-b-2 text-lg text-neutral-500 mb-2">
+                            DAY{' '}
+                            {calcDay(new Date(data.payDatetime), startDate) <= 0
+                                ? `- | ~`
+                                : `${calcDay(new Date(data.payDatetime), startDate)} | `}
+                            {data.payDatetime}
+                        </div>
                         <div>
                             {data.data.map((item, index) => (
                                 <div
