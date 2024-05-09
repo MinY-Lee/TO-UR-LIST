@@ -39,4 +39,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: tourlist-gateway-config
+            - secretRef:
+                name: tourlist-gateway-secrets
 
