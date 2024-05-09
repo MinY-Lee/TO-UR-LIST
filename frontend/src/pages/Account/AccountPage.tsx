@@ -84,7 +84,7 @@ export default function AccountPage() {
                         }}
                         text="정산하기"
                         type="full"
-                        className="font-medium py-1 mt-3 shadow-lg color-bg-blue-2"
+                        className="font-medium py-1 mt-3 shadow-lg color-bg-blue-2 text-white"
                     />
                 </div>
             );
@@ -147,7 +147,7 @@ export default function AccountPage() {
                         }}
                         text="기록하기"
                         type="full"
-                        className="py-3 shadow-lg"
+                        className="py-3 shadow-lg text-white text-xl"
                     />
                 </div>
             </div>

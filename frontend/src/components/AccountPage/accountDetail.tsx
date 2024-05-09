@@ -14,19 +14,20 @@ interface DataPerDay {
 
 export default function AccountDetail(props: PropType) {
     const [tourId, setTourId] = useState<string>('');
-
+    const [rowData, setRowData] = useState<AccountInfo[]>([]);
     const [tabIdx, setTabIdx] = useState<number>(1);
     const [isClicked, setIsClicked] = useState<boolean>(false); // 드롭다운 클릭 여부
     const [groupedData, setGroupedData] = useState<DataPerDay[]>([]);
+    const [filter, setFilter] = useState<string>('전체 내역');
 
-    const DataPerDay = () => {
+    const DataPerDay = (data: AccountInfo[]) => {
         // 결과를 저장할 배열
         const groupedData: DataPerDay[] = [];
 
         const groupedByDate: { [date: string]: AccountInfo[] } = {};
 
         // data를 날짜별로 그룹화
-        props.data.forEach((info: AccountInfo) => {
+        data.forEach((info: AccountInfo) => {
             const date = info.payDatetime;
             if (isPayMember('1234', info)) {
                 if (!groupedByDate[date]) {
@@ -51,13 +52,15 @@ export default function AccountDetail(props: PropType) {
 
         setGroupedData(groupedData);
     };
+
     useEffect(() => {
         // 투어 아이디 불러오기
         const address: string[] = window.location.href.split('/');
         setTourId(address[address.length - 2]);
 
         // 데이터 날짜별로 정리
-        DataPerDay();
+        setRowData(props.data);
+        DataPerDay(rowData);
     }, [props.data]);
 
     const getTabClass = (idx: number) => {
@@ -68,9 +71,37 @@ export default function AccountDetail(props: PropType) {
     };
 
     const handleTypeChange = (type: string) => {
-        // type === "private" ? setIsPublicInput(false) : setIsPublicInput(true);
-        // setIsClicked(false);
-        console.log(type);
+        if (type === 'all') {
+            setFilter('전체 내역');
+            getFilteredData(rowData);
+        } else {
+            // 개인 - 공동 지출 나누기
+            let privateData: AccountInfo[] = [];
+            let publicData: AccountInfo[] = [];
+            rowData.forEach((item) => {
+                if (item.payType == 'private' && item.payerId == '1234') {
+                    privateData.push(item);
+                }
+                if (item.payType == 'public' && isPayMember('1234', item)) {
+                    publicData.push(item);
+                }
+            });
+
+            if (type == 'private') {
+                setFilter('개인 지출');
+                getFilteredData(privateData);
+            }
+            if (type == 'public') {
+                setFilter('공동 지출');
+                getFilteredData(publicData);
+            }
+        }
+
+        setIsClicked(false);
+    };
+
+    const getFilteredData = (data: AccountInfo[]) => {
+        DataPerDay(data);
     };
 
     const setDropdown = (isClicked: boolean) => {
@@ -120,7 +151,7 @@ export default function AccountDetail(props: PropType) {
                     className={`flex-shrink-0 z-10 inline-flex items-center py-2 px-3 text-center text-gray-900`}
                     type="button"
                 >
-                    전체 내역
+                    {filter}
                     {/* 드롭다운 svg */}
                     <svg
                         className={`${isClicked ? 'rotate-180' : ''} w-2.5 h-2.5 ms-2.5`}
