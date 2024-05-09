@@ -31,9 +31,17 @@ public interface PlaceRepository extends Neo4jRepository<TourPlace, String> {
             "DETACH DELETE a")
     void deletePlaceByTourIdAndPlaceIdAndTourDay(String tourId, String placeId, Integer tourDay);
 
+    // 장소 수정(새로운 날에)
     @Query("MATCH (:TOUR{tourId: $tourId})-[r:DO{placeId: $placeId, tourDay: $oldTourDay}]->(:TOUR_PLACE)" +
             "SET r.tourDay = $newTourDay")
     void updateTourDay(String tourId, String placeId, Integer oldTourDay, Integer newTourDay);
+
+    // 장소 수정(기존 장소와 합치기)
+    @Query("MATCH (:TOUR{tourId: $tourId})-[oldr:DO{placeId: $placeId, tourDay: $oldTourDay}]->(ot:TOUR_PLACE)-[:REFERENCE]->(a:ACTIVITY)" +
+            "MATCH (:TOUR{tourId: $tourId})-[newr:DO{placeId: $placeId, tourDay: $newTourDay}]->(nt:TOUR_PLACE)" +
+            "MERGE (nt)-[:REFERENCE]->(a)" +
+            "DETACH DELETE ot")
+    void mergeTourDay(String tourId, String placeId, Integer oldTourDay, Integer newTourDay);
 
 //    @Query("MATCH (:TOUR{tourId: $tourId})-[r:DO{placeId: $placeId}]->(:TOUR_ACTIVITY)" +
 //            "RETURN r")

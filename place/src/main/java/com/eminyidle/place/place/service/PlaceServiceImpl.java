@@ -232,19 +232,28 @@ public class PlaceServiceImpl implements PlaceService{
                     .isSuccess(isSuccess)
                     .build();
         }
-        if (checkPlaceDuplication(tourId, newTourDay, placeId)) {
-            return TourPlaceMessageInfo.builder()
-                    .body(responseBody)
-                    .isSuccess(isSuccess)
-                    .build();
-        }
+        // 새로 바꿀 날에 해당 장소가 있는지 확인 -> 있으면 활동 옮겨주고 해당하는 원래 tourPlace를 삭제해주기
+//        if (checkPlaceDuplication(tourId, newTourDay, placeId)) {
+//            return TourPlaceMessageInfo.builder()
+//                    .body(responseBody)
+//                    .isSuccess(isSuccess)
+//                    .build();
+//        }
 
         try {
-            placeRepository.updateTourDay(tourId, placeId, oldTourDay, newTourDay);
+            // 새로 바꿀 날에 해당 장소가 있는지 확인 -> 있으면 활동 옮겨주고 해당하는 원래 tourPlace를 삭제해주기
+            if (checkPlaceDuplication(tourId, newTourDay, placeId)) {
+                log.info("있는 장소에 합치기");
+                placeRepository.mergeTourDay(tourId, placeId, oldTourDay, newTourDay);
+                isSuccess = true;
+            } else {    // 새로 추가하는 경우
+                log.info("새로운 장소 생성");
+                placeRepository.updateTourDay(tourId, placeId, oldTourDay, newTourDay);
 //            responseBody = PlaceRequesterInfo.builder()
 //                    .userId(userId)
 //                    .build();
-            isSuccess = true;
+                isSuccess = true;
+            }
         } catch (Exception e) {
             log.error("{}", e);
         }
