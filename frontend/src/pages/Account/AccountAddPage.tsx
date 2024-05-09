@@ -21,6 +21,8 @@ export default function AccountAddPage() {
     });
     const [wonDropdownClick, setWonDropdownClick] = useState<boolean>(false);
     const [typeDropdownClick, setTypeDropdownClick] = useState<boolean>(false);
+    const [typeDropdownPosition, setTypeDropdownPosition] = useState<string>('');
+    const [payerDropdownClick, setPayerDropdownClick] = useState<boolean>(false);
     const [unit, setUnit] = useState<string>('원');
     const [type, setType] = useState<string>('');
     const [amount, setAmount] = useState<number>(0);
@@ -28,6 +30,7 @@ export default function AccountAddPage() {
     const [isPublic, setIsPublic] = useState<boolean>(false);
     const [date, setDate] = useState<string>('');
     const [isValidDate, setIsValidDate] = useState<boolean>(true);
+    const [payer, setPayer] = useState<string>('');
 
     useEffect(() => {
         // 투어 아이디 불러오기
@@ -39,7 +42,21 @@ export default function AccountAddPage() {
         if (tourData) {
             setData(tourData);
         }
-    }, []);
+
+        // payer 디폴트는 현재 가계부 작성하는 사람
+        setPayer('김싸피');
+    }, [tourId, data]);
+
+    useEffect(() => {
+        const dropdown = document.querySelector('#type-dropdown'); // 드롭다운 요소 선택
+        const input = document.querySelector('#type-input'); // 인풋 요소 선택
+
+        if (dropdown && input) {
+            const inputRect = input.getBoundingClientRect();
+            const topPosition = inputRect.top + inputRect.height;
+            setTypeDropdownPosition(`${topPosition}px`);
+        }
+    }, [isPublic]);
 
     const handleUnit = (unit: string) => {
         setUnit(unit);
@@ -88,6 +105,11 @@ export default function AccountAddPage() {
         setDate(tempString);
     };
 
+    const handlePayerChange = (payer: string) => {
+        setPayer(payer);
+        setPayerDropdownClick(false);
+    };
+
     return (
         <>
             <header>
@@ -101,14 +123,13 @@ export default function AccountAddPage() {
                                 <input
                                     onChange={handleAmount}
                                     type="number"
-                                    className="block p-2.5 w-full z-20 text-sm text-gray-900 rounded-lg"
+                                    className="block p-2.5 w-full z-20 text-sm text-gray-900 rounded-l-lg"
                                     placeholder="금액을 입력하세요"
                                 />
                             </div>
                             <div className="w-0.5 h-7  bg-neutral-200"></div>
                             <button
                                 id="dropdown-button"
-                                data-dropdown-toggle="dropdown"
                                 className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 "
                                 type="button"
                                 onClick={() => setWonDropdownClick(!wonDropdownClick)}
@@ -131,7 +152,6 @@ export default function AccountAddPage() {
                                 </svg>
                             </button>
                             <div
-                                id="dropdown"
                                 className={`${
                                     wonDropdownClick ? '' : 'hidden'
                                 } absolute top-[14%] right-[15%] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-16`}
@@ -163,7 +183,7 @@ export default function AccountAddPage() {
                                     />
                                 </div>
                             </div>
-                            <div>엔 / 1 원</div>
+                            <div>원 / 1 엔</div>
                         </div>
                     </div>
                     <div className="grid grid-cols-3">
@@ -191,19 +211,22 @@ export default function AccountAddPage() {
                         </div>
                     </div>
                     {isPublic ? (
-                        <>
+                        <div id="new-element">
                             <div className="grid grid-cols-3 items-center">
                                 <div className="col-span-1">결제자</div>
-                                <div className="col-span-2 flex gap-1">
+                                <div className="col-span-2 grid grid-cols-4 gap-1 items-center">
+                                    <div className="text-white col-span-1 color-bg-blue-2 w-7 h-7 flex justify-center shadow-lg items-center rounded-full">
+                                        {payer[0]}
+                                    </div>
                                     <button
-                                        onClick={() => setTypeDropdownClick(!typeDropdownClick)}
+                                        onClick={() => setPayerDropdownClick(!payerDropdownClick)}
                                         id="dropdown-button"
-                                        className="flex items-center p-3 text-sm text-gray-900 border py-1 px-2 rounded-lg w-full justify-between"
+                                        className="flex col-span-3 items-center p-3 text-sm text-gray-900 border py-1 px-2 rounded-lg justify-between"
                                         type="button"
                                     >
-                                        {type || '선택하세요'}
+                                        {payer} {payer == '김싸피' ? ' (나)' : ''}
                                         <svg
-                                            className={`${typeDropdownClick ? 'rotate-180' : ''} w-2.5 h-2.5`}
+                                            className={`${payerDropdownClick ? 'rotate-180' : ''} w-2.5 h-2.5`}
                                             aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
@@ -219,34 +242,41 @@ export default function AccountAddPage() {
                                         </svg>
                                     </button>
                                     <div
-                                        id="dropdown"
                                         className={`${
-                                            typeDropdownClick ? '' : 'hidden'
-                                        } absolute top-[42%] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
+                                            payerDropdownClick ? '' : 'hidden'
+                                        } absolute top-[36%] right-[15%] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-36`}
                                     >
                                         <ul
-                                            className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                            className="py-2 text-sm text-gray-700 max-h-[30vh] overflow-y-scroll"
                                             aria-labelledby="dropdown-button"
                                         >
-                                            <li onClick={() => handleTypeChange('카드')}>
-                                                <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                                    카드
-                                                </div>
-                                            </li>
-                                            <li onClick={() => handleTypeChange('현금')}>
-                                                <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                                    현금
-                                                </div>
-                                            </li>
+                                            {data.memberList.map((member, index) => (
+                                                <li key={index} onClick={() => handlePayerChange(member.userName)}>
+                                                    <div className="block px-4 py-2">{member.userName}</div>
+                                                </li>
+                                            ))}
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center">
+                            <div className="grid grid-cols-3">
                                 <div className="col-span-1">정산멤버</div>
-                                <div className="col-span-2 flex max-h-[15vh] overflow-y-scroll"></div>
+                                <div className="col-span-2 flex max-h-[15vh] gap-2 overflow-y-scroll flex-col">
+                                    {data.memberList.map((member, index) => (
+                                        <div key={index} className="flex gap-2 grayscale items-center">
+                                            <div>+</div>
+                                            <div>
+                                                <div className="text-white col-span-1 color-bg-blue-2 w-7 h-7 flex justify-center shadow-lg items-center rounded-full">
+                                                    {member.userName[0]}
+                                                </div>
+                                            </div>
+                                            {member.userName} {member.userName == '김싸피' ? ' (나)' : ''}
+                                            <div></div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </>
+                        </div>
                     ) : (
                         ''
                     )}
@@ -258,9 +288,7 @@ export default function AccountAddPage() {
                                 <div key={index} className="text-center" onClick={() => setCategory(cat)}>
                                     <div
                                         className={`${
-                                            category !== cat
-                                                ? 'bg-gray-200'
-                                                : 'color-bg-blue-4 border-neutral-500 border'
+                                            category !== cat ? 'bg-gray-200' : 'color-bg-blue-4 border-[#559bd9] border'
                                         } w-9 h-9 bg-gray-200 justify-center items-center rounded-full flex flex-col`}
                                     >
                                         {CategoryToImg(cat)}
@@ -285,8 +313,8 @@ export default function AccountAddPage() {
                         <div className="flex col-span-2">
                             <button
                                 onClick={() => setTypeDropdownClick(!typeDropdownClick)}
-                                id="dropdown-button"
-                                className="flex items-center p-3 text-sm text-gray-900 border py-1 px-2 rounded-lg w-full justify-between"
+                                id="type-input"
+                                className={` flex items-center p-3 text-sm text-gray-900 border py-1 px-2 rounded-lg w-full justify-between`}
                                 type="button"
                             >
                                 {type || '선택하세요'}
@@ -307,10 +335,11 @@ export default function AccountAddPage() {
                                 </svg>
                             </button>
                             <div
-                                id="dropdown"
+                                id="type-dropdown"
+                                style={{ top: `${typeDropdownPosition}` }}
                                 className={`${
                                     typeDropdownClick ? '' : 'hidden'
-                                } absolute top-[42%] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
+                                } absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700`}
                             >
                                 <ul
                                     className="py-2 text-sm text-gray-700 dark:text-gray-200"
