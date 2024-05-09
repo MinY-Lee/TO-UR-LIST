@@ -4,6 +4,7 @@ import com.eminyidle.place.place.dto.TourPlaceInfo;
 import com.eminyidle.place.place.dto.TourPlaceMessageInfo;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
 import com.eminyidle.place.place.dto.res.TourPlaceDetailRes;
+import com.eminyidle.place.place.dto.res.UpdatePlaceBodyRes;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,6 +29,9 @@ public interface PlaceService {
     Boolean checkPlaceDuplication(String tourId, Integer tourDay, String placeId);
 
     List<TourPlaceInfo> searchTourPlace(String tourId);
+
+    // 장소 변경사항
+    UpdatePlaceBodyRes alertPlaceUpdate(String tourId);
 
     List<String> searchTourPlaceActivity(String tourId, Integer tourDay, String placeId);
 }

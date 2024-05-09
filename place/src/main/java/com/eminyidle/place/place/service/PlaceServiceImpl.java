@@ -5,6 +5,7 @@ import com.eminyidle.place.place.dto.node.Tour;
 import com.eminyidle.place.place.dto.node.TourPlace;
 import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
 import com.eminyidle.place.place.dto.res.TourPlaceDetailRes;
+import com.eminyidle.place.place.dto.res.UpdatePlaceBodyRes;
 import com.eminyidle.place.place.exception.GetRequesterInfoFailException;
 import com.eminyidle.place.place.exception.PlaceAddFailException;
 import com.eminyidle.place.place.exception.PlaceSearchException;
@@ -139,8 +140,6 @@ public class PlaceServiceImpl implements PlaceService{
         Object responseBody = body;
         boolean isSuccess = false;
         String userId = (String) (headers.get("userId"));
-//        String userName = (String) (headers.get("userName"));
-//        String userNickname = (String) (headers.get("userNickname"));
         String placeId = (String) body.get("placeId");
         Integer tourDay = (Integer) body.get("tourDay");
         try {
@@ -284,20 +283,33 @@ public class PlaceServiceImpl implements PlaceService{
                         .placeId(place.getPlaceId())
                         .placeName(place.getPlaceName())
                         .tourDay(place.getTourDay())
-                        .tourPlaceId(place.getPlaceId())
+                        .tourPlaceId(place.getTourPlace().getTourPlaceId())
                         .activityList(place.getTourPlace().getActivityList() == null ? new ArrayList<>() : place.getTourPlace().getActivityList().stream().map(activity -> activity.getActivity()).toList())
                         .build();
                 return tourPlaceInfo;
             }).toList();
-//            responseEntity.getBody().getPlaces().stream().map(place -> {
-//                SearchPlaceListRes searchPlaceRes = SearchPlaceListRes.builder()
-//                        .placeId(place.getId())
         } catch (NoSuchElementException e) {
             log.info("해당하는 여행이 없음");
             return null;
         }
+    }
 
-//        .placePhotoList(responseEntity.getBody().getPhotos() == null ? new ArrayList<>() : responseEntity.getBody().getPhotos().stream().map(photo -> photo.getName()).toList())
+    // 장소 변경사항
+    @Override
+    public UpdatePlaceBodyRes alertPlaceUpdate(String tourId) {
+        // Message 전송 시 마다 반환되는 값
+        // tourId에 해당하는 장소 리스트 반환
+        log.info("장소 변경사항 실행");
+        List<TourPlaceInfo> tourPlaceInfo = searchTourPlace(tourId);
+        try {
+            return UpdatePlaceBodyRes.builder()
+                    .tourId(tourId)
+                    .placeList(tourPlaceInfo)
+                    .build();
+        } catch (NoSuchElementException e) {
+            log.info("해당하는 여행이 없음");
+            return null;
+        }
     }
 
     // 장소 상세 정보 조회 - 활동 리스트 조회

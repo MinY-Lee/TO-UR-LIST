@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 @Slf4j
@@ -71,62 +72,81 @@ public class PlaceController {
         LinkedHashMap<String, Object> body = tourPlaceReq.getBody();
         Object responseBody = body;
         Object commonResponse = body;
+        UpdatePlaceBodyRes updatePlaceBody = null;
         boolean isSuccess = false;
         TourPlaceMessageInfo tourPlaceMessageInfo;
         String userId = (String) (simpSessionAttributes.get("userId"));
 
 
         // 메시지 타입에 따른 분기
-        switch (tourPlaceReq.getType()){
-            // 장소 추가
-            case ADD_PLACE: {
-                tourPlaceMessageInfo = placeService.addPlace(body, tourId, simpSessionAttributes);
-                responseBody = tourPlaceMessageInfo.getBody();
-                isSuccess = tourPlaceMessageInfo.getIsSuccess();
-                break;
-            }
-            // 장소 삭제
-            case DELETE_PLACE: {
-                tourPlaceMessageInfo = placeService.deletePlace(body, tourId, simpSessionAttributes);
-                responseBody = tourPlaceMessageInfo.getBody();
-                isSuccess = tourPlaceMessageInfo.getIsSuccess();
-                break;
-            }
-            // 장소 날짜 수정
-            case UPDATE_PLACE_DATE: {
-                try {
-                    tourPlaceMessageInfo = placeService.updatePlace(body, tourId, simpSessionAttributes);
+        try {
+            switch (tourPlaceReq.getType()){
+                // 장소 추가
+                case ADD_PLACE: {
+                    tourPlaceMessageInfo = placeService.addPlace(body, tourId, simpSessionAttributes);
                     responseBody = tourPlaceMessageInfo.getBody();
                     isSuccess = tourPlaceMessageInfo.getIsSuccess();
-                } catch (Exception e) {
-                    log.info("장소 날짜 업데이트 과정에서 오류 발생");
+                    break;
                 }
-                break;
+                // 장소 삭제
+                case DELETE_PLACE: {
+                    tourPlaceMessageInfo = placeService.deletePlace(body, tourId, simpSessionAttributes);
+                    responseBody = tourPlaceMessageInfo.getBody();
+                    isSuccess = tourPlaceMessageInfo.getIsSuccess();
+                    break;
+                }
+                // 장소 날짜 수정
+                case UPDATE_PLACE_DATE: {
+                    try {
+                        tourPlaceMessageInfo = placeService.updatePlace(body, tourId, simpSessionAttributes);
+                        responseBody = tourPlaceMessageInfo.getBody();
+                        isSuccess = tourPlaceMessageInfo.getIsSuccess();
+                    } catch (Exception e) {
+                        log.info("장소 날짜 업데이트 과정에서 오류 발생");
+                    }
+                    break;
+                }
+                // 활동 추가
+                case ADD_ACTIVITY: {
+                    isSuccess = activityService.addActivity(body, tourId, simpSessionAttributes);
+                    responseBody = PlaceRequesterInfo.builder()
+                            .userId(userId)
+                            .build();
+                    break;
+                }
+                // 활동 삭제
+                case DELETE_ACTIVITY: {
+                    isSuccess = activityService.deleteActivity(body, tourId, simpSessionAttributes);
+                    responseBody = PlaceRequesterInfo.builder()
+                            .userId(userId)
+                            .build();
+                    break;
+                }
+                // 기타 예외처리
+                default: {
+                    isSuccess = false;
+                    responseBody = PlaceRequesterInfo.builder()
+                            .userId(userId)
+                            .build();
+                    break;
+                }
             }
-            // 활동 추가
-            case ADD_ACTIVITY: {
-                isSuccess = activityService.addActivity(body, tourId, simpSessionAttributes);
-                responseBody = PlaceRequesterInfo.builder()
-                        .userId(userId)
-                        .build();
-                break;
-            }
-            // 활동 삭제
-            case DELETE_ACTIVITY: {
-                isSuccess = activityService.deleteActivity(body, tourId, simpSessionAttributes);
-                responseBody = PlaceRequesterInfo.builder()
-                        .userId(userId)
-                        .build();
-                break;
-            }
-            // 기타 예외처리
-            default: {
-                isSuccess = false;
-                responseBody = PlaceRequesterInfo.builder()
-                        .userId(userId)
-                        .build();
-                break;
-            }
+
+//        // 알맞은 response로 반환
+//        TourPlaceRes tourPlaceRes = TourPlaceRes.builder()
+//                .type(tourPlaceReq.getType())
+//                .isSuccess(isSuccess)
+//                .body(responseBody)
+//                .build();
+//        simpMessagingTemplate.convertAndSend("/topic/place/"+tourId, tourPlaceRes);
+        updatePlaceBody = null;
+        updatePlaceBody = placeService.alertPlaceUpdate(tourId);
+        } catch (NoSuchElementException e) {
+            isSuccess = false;
+            responseBody = PlaceRequesterInfo.builder()
+                    .userId(userId)
+                    .build();
+            log.info("tour 에서 오류 발생");
         }
         // 알맞은 response로 반환
         TourPlaceRes tourPlaceRes = TourPlaceRes.builder()
@@ -135,11 +155,11 @@ public class PlaceController {
                 .body(responseBody)
                 .build();
         simpMessagingTemplate.convertAndSend("/topic/place/"+tourId, tourPlaceRes);
-
         // 장소 변경사항 반환 (모든 메시지에 관해 전송)
+        // TODO 없는 tour 구독하면 어떻게 되는지 해주기
         return UpdatePlaceRes.builder()
                 .type(MessageType.UPDATE_PLACE)
-                .body(responseBody)
+                .body(updatePlaceBody)
                 .build();
     }
 

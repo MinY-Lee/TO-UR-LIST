@@ -10,8 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TourPlaceInfo {    // 장소 리스트 조회 시 반환할 객체
-
+public class TourPlaceInfo {
+    // 장소 리스트 조회 시 반환할 객체
     private String placeId;
     private String placeName;
     private Integer tourDay;
