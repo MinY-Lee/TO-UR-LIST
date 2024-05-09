@@ -14,16 +14,16 @@ public class ChecklistItem {
     @Setter
     private String placeId;
     @Setter
-    private String tourActivityId; //TODO- 바꿔야 함
+    private String activity;
     private Integer tourDay;
     private String item;
     @Setter
     private Boolean isChecked;
 
-    public ChecklistItem(String tourId, String placeId, String tourActivityId, Integer tourDay, String item, Boolean isChecked) {
+    public ChecklistItem(String tourId, String placeId, String activity, Integer tourDay, String item, Boolean isChecked) {
         setTourId(tourId);
         setPlaceId(placeId);
-        setTourActivityId(tourActivityId);
+        setActivity(activity);
         setTourDay(tourDay);
         setItem(item);
         setIsChecked(isChecked);

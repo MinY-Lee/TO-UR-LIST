@@ -10,8 +10,8 @@ import lombok.Setter;
 public class ChecklistItemDetail extends ChecklistItem{
     private Boolean isPublic;
 
-    public ChecklistItemDetail(String tourId, String placeId, String tourActivityId, Integer tourDay, String item, Boolean isChecked, Boolean isPublic) {
-        super(tourId, placeId, tourActivityId, tourDay, item, isChecked);
+    public ChecklistItemDetail(String tourId, String placeId, String activity, Integer tourDay, String item, Boolean isChecked, Boolean isPublic) {
+        super(tourId, placeId, activity, tourDay, item, isChecked);
         setIsPublic(isPublic);
     }
 }
