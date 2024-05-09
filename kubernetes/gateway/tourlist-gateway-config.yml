@@ -6,6 +6,6 @@ data:
   AUTH_SERVER_URL: "http://tourlist-auth-service:8081"
   USER_SERVER_URL: "http://tourlist-user-service:8082"
   TOUR_SERVER_URL: "http:/tourlist-tour-service:8083"
-  PLACE_SERVER_URL: "http://tourlist-place service:8084"
+  PLACE_SERVER_URL: "http://tourlist-place-service:8084"
   PAYMENT_SERVER_URL: "http://tourlist-payment-service:8085"
   FEED_SERVER_URL: "http://tourlist-feed-service:8086"
