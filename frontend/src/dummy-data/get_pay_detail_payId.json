@@ -1,0 +1,27 @@
+{
+    "payId": "1",
+    "payType": "public",
+    "tourId": "11111",
+    "payAmount": 300000,
+    "unit": "₩",
+    "currencyCode": "KRW",
+    "payMethod": "카드",
+    "payDatetime": "2024-02-11",
+    "payContent": "오사카숙소",
+    "payCategory": "숙소",
+    "payerId": "1234",
+    "payMemberList": [
+        {
+            "userId": "1234",
+            "payAmount": 100000
+        },
+        {
+            "userId": "2345",
+            "payAmount": 100000
+        },
+        {
+            "userId": "3456",
+            "payAmount": 100000
+        }
+    ]
+}
