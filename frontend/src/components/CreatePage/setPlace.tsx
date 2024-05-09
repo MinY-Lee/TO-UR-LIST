@@ -22,9 +22,7 @@ export default function SetPlace(props: PropType) {
 
     useEffect(() => {
         // 선택된 도시가 변경될 때마다 resultList 업데이트
-        const updatedResultList = searchList.filter(
-            (city) => !selectedCity.includes(city)
-        );
+        const updatedResultList = searchList.filter((city) => !selectedCity.includes(city));
         setResultList(updatedResultList);
 
         // 부모 컴포넌트에 보내기
@@ -35,25 +33,18 @@ export default function SetPlace(props: PropType) {
     const handleDataFromChild = (data: string) => {
         setQuery(data);
         // 나라 -> 도시 로직인 경우 검색어를 나라 코드로 치환
-        const foundCountry = CountryList.find(
-            (country) => country.countryName === data
-        );
+        const foundCountry = CountryList.find((country) => country.countryName === data);
 
         if (foundCountry) {
             // 코드로 도시 검색 및 결과 포맷팅
             const cityListWithCountryName: string[] =
-                CityList.find(
-                    (country) =>
-                        country.countryCode === foundCountry.countryCode
-                )?.cityList?.map(
+                CityList.find((country) => country.countryCode === foundCountry.countryCode)?.cityList?.map(
                     (city) => `${foundCountry.countryCode}, ${city}`
                 ) || [];
 
             setSearchList(cityListWithCountryName);
             // 선택된 도시가 있을 때 결과를 업데이트
-            const updatedResultList = cityListWithCountryName.filter(
-                (city) => !selectedCity.includes(city)
-            );
+            const updatedResultList = cityListWithCountryName.filter((city) => !selectedCity.includes(city));
             setResultList(updatedResultList);
         }
     };
@@ -68,9 +59,7 @@ export default function SetPlace(props: PropType) {
             setSelectedCity([...selectedCity, city]);
         } else {
             // 이미 선택된 도시라면 제거
-            const updatedCities = selectedCity.filter(
-                (selected) => selected !== city
-            );
+            const updatedCities = selectedCity.filter((selected) => selected !== city);
             setSelectedCity(updatedCities);
         }
     };
@@ -78,16 +67,10 @@ export default function SetPlace(props: PropType) {
     return (
         <div className="flex flex-col items-center">
             <div className="text-2xl font-bold m-3">어디로 떠나시나요?</div>
-            <div
-                id="search-container"
-                className="w-[90%] shadow-md border border-black rounded-lg"
-            >
+            <div id="search-container" className="w-[90%] shadow-md border border-black rounded-lg">
                 <SearchBar onChange={handleDataFromChild} />
             </div>
-            <div
-                id="city-list-container"
-                className="m-2 h-[40vh] overflow-scroll w-[90%]"
-            >
+            <div id="city-list-container" className="m-2 h-[40vh] overflow-scroll w-[90%]">
                 {selectedCity.length > 0 &&
                     selectedCity.map((res) => (
                         <div key={res} className="flex justify-between m-2">
@@ -97,13 +80,12 @@ export default function SetPlace(props: PropType) {
                                 text="해제"
                                 isSelected={true}
                                 onClick={() => handleCitySelect(res)}
+                                className="text-white color-bg-blue-2"
                             />
                         </div>
                     ))}
                 {query !== '' && searchList.length === 0 ? (
-                    <div className="text-lg text-center text-gray-500">
-                        검색 결과가 없습니다.
-                    </div>
+                    <div className="text-lg text-center text-gray-500">검색 결과가 없습니다.</div>
                 ) : (
                     resultList.map((res) => (
                         <div key={res} className="flex justify-between m-2">
@@ -113,6 +95,7 @@ export default function SetPlace(props: PropType) {
                                 text="선택"
                                 isSelected={false}
                                 onClick={() => handleCitySelect(res)}
+                                className="color-text-blue-2"
                             />
                         </div>
                     ))

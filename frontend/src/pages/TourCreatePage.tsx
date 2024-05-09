@@ -8,6 +8,7 @@ import SetDate from '../components/CreatePage/setDate';
 import SetTitle from '../components/CreatePage/setTitle';
 import CreateDone from '../components/CreatePage/createDone';
 import { City, TourCardInfo } from '../types/types';
+import TabBarMain from '../components/TabBar/TabBarMain';
 
 export default function TourCreatePage() {
     const [step, setStep] = useState<number>(1);
@@ -105,16 +106,15 @@ export default function TourCreatePage() {
                 <HeaderBar />
                 <h1 className="m-3 text-3xl font-bold">여행 만들기</h1>
             </header>
-            <div className="gap-3 row-span-8 text-center">
-                {currentComponent}
-            </div>
+            <div className="gap-3 row-span-8 text-center">{currentComponent}</div>
             <div className="row-span-1">
                 {step != 4 ? (
                     <MyButton
                         type="full"
                         text={step != 3 ? '선택완료' : '입력완료'}
-                        isSelected={false}
+                        isSelected={true}
                         onClick={handleStep}
+                        className="text-white py-2"
                     />
                 ) : (
                     <div />
