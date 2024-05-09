@@ -2,7 +2,7 @@ package com.eminyidle.checklist.controller;
 
 import com.eminyidle.checklist.domain.ChecklistItem;
 import com.eminyidle.checklist.domain.ChecklistItemDetail;
-import com.eminyidle.checklist.dto.UpdateItemReq;
+import com.eminyidle.checklist.dto.req.UpdateItemReq;
 import com.eminyidle.checklist.service.ChecklistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
