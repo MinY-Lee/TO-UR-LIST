@@ -20,7 +20,7 @@ CMD="$CMD --dry-run=client -o yaml"
 # ConfigMap 생성
 echo "ConfigMap을 생성합니다: $CONFIGMAP_NAME"
 echo $CMD
-$CMD
+$CMD > "$CONFIGMAP_NAME.yml"
 
 # 성공 메시지
 if [ $? -eq 0 ]; then
