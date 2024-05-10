@@ -1,16 +1,18 @@
 import { BaseSyntheticEvent, useEffect, useState, useRef } from 'react';
-import { TourInfoDetail, MemberInfo } from '../../types/types';
+import { TourInfoDetail, MemberInfo, City } from '../../types/types';
 import MyButton from '../Buttons/myButton';
 import CheckModal from '../CheckModal';
 import MemberAddModal from '../TourPage/AddMemberModal';
 import SearchBar from '../SearchBar/mySearchBar';
 
-import GhostProfile from '../../assets/image/ghostProfile.png';
+import MapIcon from '../../assets/svg/mapIcon';
 
 import CountryList from '../../dummy-data/get_country.json';
 import CityList from '../../dummy-data/get_city.json';
 import GhostHandleModal from './GhostHandleModal';
 import HostHandleModal from './HostHandleModal';
+import EditMemberList from './EditMemberList';
+import SearchResult from './SearchResult';
 
 interface PropType {
     tourInfo: TourInfoDetail;
@@ -50,16 +52,15 @@ export default function TourEditHeader(props: PropType) {
         userName: '',
         memberType: '',
     });
-    const [hoveredMember, setHoveredMember] = useState<MemberInfo | null>(null);
 
     const [searchbarClick, setSearchbarClick] = useState<boolean>(false);
     const [title, setTitle] = useState<string>('');
     const [startDate, setStartDate] = useState<string>('');
     const [endDate, setEndDate] = useState<string>('');
     const [query, setQuery] = useState<string>('');
-    const [searchList, setSearchList] = useState<string[]>([]); // 실제 검색 결과
-    const [resultList, setResultList] = useState<string[]>([]); // 화면에 보여줄 검색 결과
-    const [selectedCity, setSelectedCity] = useState<string[]>([]);
+    const [searchList, setSearchList] = useState<City[]>([]); // 실제 검색 결과
+    const [resultList, setResultList] = useState<City[]>([]); // 화면에 보여줄 검색 결과
+    const [selectedCity, setSelectedCity] = useState<City[]>([]); // 선택된 도시
 
     const addMemberModalRef = useRef(null);
 
@@ -69,6 +70,7 @@ export default function TourEditHeader(props: PropType) {
         setMemberList(data.memberList);
         setStartDate(data.startDate);
         setEndDate(data.endDate);
+        setSelectedCity(data.cityList);
     }, [data]);
 
     useEffect(() => {
@@ -81,25 +83,17 @@ export default function TourEditHeader(props: PropType) {
         };
     }, []);
 
-    const isHost = (member: MemberInfo): string => {
-        if (member.memberType === 'host') {
-            return 'w-14 h-14 rounded-full flex border-gradient bg-gradient-to-b from-blue-500 via-blue-400 to-blue-100';
-        }
-        return '';
-    };
-
-    const handleMouseEnter = (member: MemberInfo) => {
-        setHoveredMember(member);
-    };
-
-    const handleMouseLeave = () => {
-        setHoveredMember(null);
-    };
+    useEffect(() => {
+        // 검색 결과를 업데이트
+        const updatedResultList = resultList.filter(
+            (res) => !selectedCity.some((selected) => JSON.stringify(selected) === JSON.stringify(res))
+        );
+        setResultList(updatedResultList);
+    }, [selectedCity]);
 
     const handleTypeChange = (type: string) => {
         // 수정에서 여행 정보로 돌아가
         //////////////////////
-        console.log(endDate);
         // 그 전에 수정 api 먹이기
         props.onChange(type);
     };
@@ -121,49 +115,44 @@ export default function TourEditHeader(props: PropType) {
 
         if (foundCountry) {
             // 코드로 도시 검색 및 결과 포맷팅
-            const cityListWithCountryName: string[] =
-                CityList.find((country) => country.countryCode === foundCountry.countryCode)?.cityList?.map(
-                    (city) => `${foundCountry.countryCode}, ${city}`
-                ) || [];
+            const search: City[] = [];
 
-            setSearchList(cityListWithCountryName);
+            const targetCountry = CityList.find((country) => country.countryCode === foundCountry.countryCode);
+            targetCountry?.cityList.map((city) => {
+                search.push({ countryCode: targetCountry.countryCode, cityName: city });
+            });
+
+            setSearchList(search);
+
             // 선택된 도시가 있을 때 결과를 업데이트
-            const updatedResultList = cityListWithCountryName.filter((city) => !selectedCity.includes(city));
+            const updatedResultList = search.filter(
+                (city) => !selectedCity.some((selected) => JSON.stringify(selected) === JSON.stringify(city))
+            );
             setResultList(updatedResultList);
         }
     };
 
-    const findCountryByCity = (city: string) => {
-        CityList.forEach((country) => {
-            if (country.cityList.includes(city)) {
-                return country;
-            }
-        });
-        return { countryCode: '', cityList: [] };
-    };
-
     // 여행할 도시 선택 또는 해제
-    const handleCitySelect = (city: string) => {
+    const handleCitySelect = (city: City) => {
+        console.log(selectedCity);
+        console.log(city);
         let idx = -1;
 
-        data?.cityList.forEach((target, index) => {
-            target.cityName == city ? (idx = index) : (idx = -1);
+        selectedCity.forEach((selected, index) => {
+            if (selected == city) {
+                idx = index;
+            }
         });
 
         if (idx === -1) {
             // 선택되지 않은 도시라면 추가
-            const newCity = {
-                countryCode: findCountryByCity(city).countryCode,
-                cityName: city,
-            };
-            data?.cityList.push(newCity);
-
-            console.log(data?.cityList);
+            setSelectedCity([...selectedCity, city]);
         } else {
             // 이미 선택된 도시라면 제거
             const updatedCities = selectedCity.filter((selected) => selected !== city);
             setSelectedCity(updatedCities);
         }
+        console.log(selectedCity);
     };
 
     const handleGhostModal = (member: MemberInfo) => {
@@ -262,8 +251,8 @@ export default function TourEditHeader(props: PropType) {
                 <></>
             )}
 
-            <div className="w-full justify-between items-end p-5 bak">
-                <div className="">
+            <div className="w-full justify-between items-end p-5">
+                <div className="flex flex-col">
                     <div className="w-full rounded-lg border border-solid border-neutral-300 text-3xl font-bold pl-5">
                         <input
                             value={title}
@@ -272,68 +261,6 @@ export default function TourEditHeader(props: PropType) {
                             aria-label="Title"
                             aria-describedby="button-addon1"
                         />
-                    </div>
-                    <div className="flex items-center mt-2 gap-1">
-                        {memberList &&
-                            memberList?.length >= 1 &&
-                            memberList.map((member: MemberInfo, index: number) => (
-                                <div
-                                    key={index}
-                                    className="relative"
-                                    onClick={member.memberType == 'ghost' ? () => handleGhostModal(member) : () => {}}
-                                    onMouseEnter={() => handleMouseEnter(member)}
-                                    onMouseLeave={handleMouseLeave}
-                                >
-                                    <div
-                                        className={`${isHost(member)}`}
-                                        onClick={member.memberType == 'host' ? handleHost : undefined}
-                                    >
-                                        {member.memberType !== 'ghost' ? (
-                                            <div className="shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
-                                                {member.userNickname[0]}
-                                            </div>
-                                        ) : (
-                                            <div className="shadow-lg m-1 font-bold text-3xl p-2 bg-gray-400 w-12 h-12 rounded-full flex justify-center items-center">
-                                                <img src={GhostProfile}></img>
-                                            </div>
-                                        )}
-                                    </div>
-                                    {hoveredMember === member && (
-                                        <div className="absolute whitespace-nowrap z-10 text-sm bottom-1 left-[40%] bg-gray-500 pl-1 pr-1 rounded-md text-white">
-                                            {member.userName}
-                                        </div>
-                                    )}
-                                    {member.memberType != 'host' ? (
-                                        <div
-                                            onClick={(event) => handleMemberDeleteModal(member, event)}
-                                            className="absolute top-[5%] left-[70%] bg-black text-white flex justify-center items-center z-10 w-5 h-5 rounded-full"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                strokeWidth="3"
-                                                stroke="currentColor"
-                                                className="w-3 h-3"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M6 18 18 6M6 6l12 12"
-                                                />
-                                            </svg>
-                                        </div>
-                                    ) : (
-                                        ''
-                                    )}
-                                </div>
-                            ))}
-                        <div
-                            onClick={() => setAddModalClicked(true)}
-                            className="border-dashed border-2 color-text-blue-2 border-[#5faad9] m-1 font-bold text-3xl w-12 h-12 rounded-full flex justify-center items-center"
-                        >
-                            +
-                        </div>
                     </div>
                     <div className="grid grid-cols-2 gap-2 my-3 justify-center">
                         <input
@@ -349,72 +276,33 @@ export default function TourEditHeader(props: PropType) {
                             onChange={handleEndDate}
                         ></input>
                     </div>
-                    <div className="text-[5vw] flex flex-col items-center">
+                    <div className="flex items-center px-3 w-[90vw] overflow-x-scroll gap-1 h-[7vh]">
+                        <EditMemberList
+                            memberList={memberList}
+                            handleGhostModal={handleGhostModal}
+                            handleMemberDeleteModal={handleMemberDeleteModal}
+                            handleHost={handleHost}
+                            setAddModalClicked={setAddModalClicked}
+                        />
+                    </div>
+
+                    <div className="text-[5vw] flex flex-col items-center mt-3">
                         <div className="grid grid-cols-10 w-full">
-                            <div className="relative col-span-1 justify-center">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-6 h-6 m-1 mt-2"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                                    />
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                                    />
-                                </svg>
+                            <div className="relative col-span-1 top-[3px]">
+                                <MapIcon />
                             </div>
-                            <div
-                                id="search-container"
-                                className="col-span-7 justify-center shadow-md border border-neutral-300 rounded-lg"
-                            >
-                                <div onClick={() => setSearchbarClick(!searchbarClick)}>
+                            <div id="search-container" className="col-span-7 justify-center shadow-md rounded-lg">
+                                <div className="text-base" onClick={() => setSearchbarClick(!searchbarClick)}>
                                     <SearchBar onChange={handleQuery} />
                                 </div>
-                                {searchbarClick ? (
-                                    <div id="city-list-container" className="h-fit overflow-scroll p-2 w-full">
-                                        {data?.cityList.length > 0 &&
-                                            data?.cityList.map((city, index) => (
-                                                <div key={index} className="flex justify-between m-2">
-                                                    <div className="text-lg">
-                                                        {city.countryCode}, {city.cityName}
-                                                    </div>
-                                                    <div className="flex items-center gap-2">
-                                                        <div className="text-sm color-text-blue-2">선택됨</div>
-                                                        <div onClick={() => handleCitySelect(city.cityName)}>x</div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        {query !== '' && searchList.length === 0 ? (
-                                            <div className="text-lg text-center text-gray-500">
-                                                검색 결과가 없습니다.
-                                            </div>
-                                        ) : (
-                                            resultList.map((res, index) => (
-                                                <div key={index} className="flex justify-between m-2">
-                                                    <div className="text-lg">{res}</div>
-                                                    <MyButton
-                                                        type="small"
-                                                        text="선택"
-                                                        isSelected={false}
-                                                        onClick={() => handleCitySelect(res)}
-                                                        className="text-sm px-2"
-                                                    />
-                                                </div>
-                                            ))
-                                        )}
-                                    </div>
-                                ) : (
-                                    ''
-                                )}
+                                <SearchResult
+                                    handleCitySelect={handleCitySelect}
+                                    query={query}
+                                    resultList={resultList}
+                                    searchList={searchList}
+                                    searchbarClick={searchbarClick}
+                                    selectedCity={selectedCity}
+                                />
                             </div>
                             <div className="col-span-2 pl-3 pt-1 justify-center">
                                 <MyButton
