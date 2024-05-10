@@ -245,9 +245,9 @@ export default function AccountDetail(props: PropType) {
                     <div key={index} className="px-5 mb-5">
                         <div className="border-b-2 text-lg text-neutral-500 mb-2">
                             DAY{' '}
-                            {calcDay(new Date(data.payDatetime), startDate) <= 0
+                            {startDate && calcDay(new Date(data.payDatetime), startDate) <= 0
                                 ? `- | ~`
-                                : `${calcDay(new Date(data.payDatetime), startDate)} | `}
+                                : `${startDate && calcDay(new Date(data.payDatetime), startDate)} | `}
                             {data.payDatetime}
                         </div>
                         <div>
