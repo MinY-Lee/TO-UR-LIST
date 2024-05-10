@@ -9,10 +9,6 @@ spec:
       enabled: true
     kiali: # 트래픽 시각화
       enabled: true
-      ingress:
-        dashboard:
-          auth:
-            strategy: anonymous
     prometheus: # 정보 수집
       enabled: true
     tracing: # 트래픽 흐름 추적가능
@@ -39,6 +35,11 @@ spec:
           minReplicas: 1
 
   profile: default
+  values:
+    kiali:
+      dashboard:
+        auth:
+          strategy: anonymous # kiali 로그인없이 접속가능
   meshConfig:
     enableTracing: true
     defaultConfig:
@@ -46,3 +47,4 @@ spec:
     accessLogFile: /dev/stdout
     outboundTrafficPolicy:
       mode: REGISTRY_ONLY
+
