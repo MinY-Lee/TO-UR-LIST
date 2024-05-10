@@ -1,9 +1,9 @@
 version: '3.7'
 
 services:
-  mariadb:
+  test-mariadb:
     image: mariadb:10.11.7
-    container_name: mariadb
+    container_name: test-mariadb
     restart: unless-stopped
     volumes:
       - mariadb-data:/lib/var/mysql
@@ -12,13 +12,13 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     environment:
-      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_DATABASE: ${DB_TEST_NAME}
       MARIADB_USER: ${USER_NAME}
       MARIADB_PASSWORD: ${USER_PASSWORD}
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       TZ: 'Asia/Seoul'
     ports:
-      - "3306:3306"
+      - "3309:3306"
   auth-mariadb:
     image: mariadb:10.11.7
     container_name: auth-mariadb
@@ -104,29 +104,29 @@ services:
       - "7476:7474"
       - "7689:7687"
 
-  payment-mongodb:
+  test-payment-mongodb:
     image: mongo:7.0
-    container_name: payment-mongodb
+    container_name: test-payment-mongodb
     restart: unless-stopped
     volumes:
       - payment-mongodb-data:/data
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${PAYMENT_MONGO_DB_ROOT_USER_NAME}
       MONGO_INITDB_ROOT_PASSWORD: ${PAYMENT_MONGO_DB_ROOT_USER_PASSWORD}
-      DB_NAME: ${PAYMENT_MONGO_DB_NAME}
+      DB_NAME: ${PAYMENT_MONGO_TEST_DB_NAME}
     ports:
-      - "27017:27017"
+      - "27018:27017"
 
-  payment-mongo-express:
+  test-payment-mongo-express:
     image: mongo-express
-    container_name: payment-mongo-express
+    container_name: test-payment-mongo-express
     restart: unless-stopped
     ports:
-      - "8888:8081"
+      - "8889:8081"
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${PAYMENT_MONGO_DB_ROOT_USER_NAME}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${PAYMENT_MONGO_DB_ROOT_USER_PASSWORD}
-      ME_CONFIG_MONGODB_SERVER: payment-mongodb
+      ME_CONFIG_MONGODB_SERVER: test-payment-mongodb
       ME_CONFIG_BASICAUTH_USERNAME: ${PAYMENT_MONGO_EXPRESS_USER_NAME}
       ME_CONFIG_BASICAUTH_PASSWORD: ${PAYMENT_MONGO_EXPRESS_USER_PASSWORD}
 

@@ -8,34 +8,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.MariaDBContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
 
-@Testcontainers
+
 @DataJpaTest
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 // Repository 단위 테스트
 class CountryCurrencyRepositoryTest {
-
-    @Container
-    static MariaDBContainer<?> mariaDBContainer = new MariaDBContainer<>("mariadb:10.5");
-
-    @DynamicPropertySource
-    static void dataSourceProperties(DynamicPropertyRegistry registry) {
-        mariaDBContainer.start();
-        registry.add("spring.datasource.url", mariaDBContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", mariaDBContainer::getUsername);
-        registry.add("spring.datasource.password", mariaDBContainer::getPassword);
-    }
 
     @Autowired
     CountryCurrencyRepository countryCurrencyRepository;
