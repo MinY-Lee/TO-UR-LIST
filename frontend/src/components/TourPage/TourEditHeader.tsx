@@ -54,6 +54,8 @@ export default function TourEditHeader(props: PropType) {
 
     const [searchbarClick, setSearchbarClick] = useState<boolean>(false);
     const [title, setTitle] = useState<string>('');
+    const [startDate, setStartDate] = useState<string>('');
+    const [endDate, setEndDate] = useState<string>('');
     const [query, setQuery] = useState<string>('');
     const [searchList, setSearchList] = useState<string[]>([]); // 실제 검색 결과
     const [resultList, setResultList] = useState<string[]>([]); // 화면에 보여줄 검색 결과
@@ -65,6 +67,8 @@ export default function TourEditHeader(props: PropType) {
         setData(props.tourInfo);
         setTitle(data ? data.tourTitle : '');
         setMemberList(data.memberList);
+        setStartDate(data.startDate);
+        setEndDate(data.endDate);
     }, [data]);
 
     useEffect(() => {
@@ -95,6 +99,7 @@ export default function TourEditHeader(props: PropType) {
     const handleTypeChange = (type: string) => {
         // 수정에서 여행 정보로 돌아가
         //////////////////////
+        console.log(endDate);
         // 그 전에 수정 api 먹이기
         props.onChange(type);
     };
@@ -205,6 +210,15 @@ export default function TourEditHeader(props: PropType) {
     const closeHostHandleModal = () => {
         setHostHandleModal(false);
     };
+
+    const handleStartDate = (event: BaseSyntheticEvent) => {
+        setStartDate(event.target.value);
+    };
+
+    const handleEndDate = (event: BaseSyntheticEvent) => {
+        setEndDate(event.target.value);
+    };
+
     return (
         <div>
             {addModalClicked ? (
@@ -325,14 +339,14 @@ export default function TourEditHeader(props: PropType) {
                         <input
                             className="px-[2vw] py-1 border border-neutral-300 rounded-lg"
                             type="date"
-                            // value={data?.startDate}
-                            // onChange={startDateChange}
+                            value={startDate}
+                            onChange={handleStartDate}
                         ></input>
                         <input
                             className="px-[2vw] py-1 border border-neutral-300 rounded-lg"
                             type="date"
-                            // value={data?.endDate}
-                            // onChange={endDateChange}
+                            value={endDate}
+                            onChange={handleEndDate}
                         ></input>
                     </div>
                     <div className="text-[5vw] flex flex-col items-center">
