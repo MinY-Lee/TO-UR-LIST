@@ -10,6 +10,7 @@ import GhostProfile from '../../assets/image/ghostProfile.png';
 import CountryList from '../../dummy-data/get_country.json';
 import CityList from '../../dummy-data/get_city.json';
 import GhostHandleModal from './GhostHandleModal';
+import HostHandleModal from './HostHandleModal';
 
 interface PropType {
     tourInfo: TourInfoDetail;
@@ -25,7 +26,7 @@ export default function TourEditHeader(props: PropType) {
         endDate: '',
         memberList: [],
     });
-    const [hostChangeModal, setHostChangeModal] = useState<boolean>(false);
+    const [hostHandleModal, setHostHandleModal] = useState<boolean>(false);
     const [addModalClicked, setAddModalClicked] = useState<boolean>(false);
     const [memberDeleteModal, setMemberDeleteModal] = useState<boolean>(false);
     const [ghostHandleModal, setGhostHandleModal] = useState<boolean>(false);
@@ -38,6 +39,12 @@ export default function TourEditHeader(props: PropType) {
         memberType: '',
     });
     const [selectedGhostMember, setSelectedGhostMember] = useState<MemberInfo>({
+        userId: '',
+        userNickname: '',
+        userName: '',
+        memberType: '',
+    });
+    const [selectedHostMember, setSelectedHostMember] = useState<MemberInfo>({
         userId: '',
         userNickname: '',
         userName: '',
@@ -97,7 +104,7 @@ export default function TourEditHeader(props: PropType) {
     };
 
     const handleHost = () => {
-        setHostChangeModal(true);
+        setHostHandleModal(true);
     };
 
     // searchBar로부터 데이터 받아서 검색 수행
@@ -180,7 +187,8 @@ export default function TourEditHeader(props: PropType) {
         setMemberList(updatedList);
     };
 
-    const handleMemberDeleteModal = (member: MemberInfo) => {
+    const handleMemberDeleteModal = (member: MemberInfo, event: React.MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation(); // 이벤트 버블링 중단
         setDeleteMember(member);
         handleMemberDelete();
         setMemberDeleteModal(true);
@@ -192,6 +200,10 @@ export default function TourEditHeader(props: PropType) {
 
     const closeGhostHandleModal = () => {
         setGhostHandleModal(false);
+    };
+
+    const closeHostHandleModal = () => {
+        setHostHandleModal(false);
     };
     return (
         <div>
@@ -221,6 +233,16 @@ export default function TourEditHeader(props: PropType) {
                     selectedGhostMember={selectedGhostMember}
                     data={data}
                     closeGhostHandleModal={closeGhostHandleModal}
+                />
+            ) : (
+                <></>
+            )}
+
+            {hostHandleModal ? (
+                <HostHandleModal
+                    selectedHostMember={selectedHostMember}
+                    data={data}
+                    closeHostHandleModal={closeHostHandleModal}
                 />
             ) : (
                 <></>
@@ -269,10 +291,23 @@ export default function TourEditHeader(props: PropType) {
                                     )}
                                     {member.memberType != 'host' ? (
                                         <div
-                                            onClick={() => handleMemberDeleteModal(member)}
-                                            className="absolute top-[5%] left-[70%] bg-black text-white flex justify-center items-center z-10 w-[40%] h-[40%] rounded-full"
+                                            onClick={(event) => handleMemberDeleteModal(member, event)}
+                                            className="absolute top-[5%] left-[70%] bg-black text-white flex justify-center items-center z-10 w-5 h-5 rounded-full"
                                         >
-                                            x
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                strokeWidth="3"
+                                                stroke="currentColor"
+                                                className="w-3 h-3"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M6 18 18 6M6 6l12 12"
+                                                />
+                                            </svg>
                                         </div>
                                     ) : (
                                         ''
@@ -286,20 +321,18 @@ export default function TourEditHeader(props: PropType) {
                             +
                         </div>
                     </div>
-                    <div className="flex gap-2 my-3 justify-center">
+                    <div className="grid grid-cols-2 gap-2 my-3 justify-center">
                         <input
-                            className="px-[2vw] py-2 border-[0.3vw] border-neutral-300"
-                            style={{ borderRadius: '1vw' }}
+                            className="px-[2vw] py-1 border border-neutral-300 rounded-lg"
+                            type="date"
                             // value={data?.startDate}
-                            placeholder="YYYY.MM.DD"
                             // onChange={startDateChange}
                         ></input>
                         <input
-                            className="px-[2vw] py-2 border-[0.3vw] border-neutral-300"
-                            style={{ borderRadius: '1vw' }}
+                            className="px-[2vw] py-1 border border-neutral-300 rounded-lg"
+                            type="date"
                             // value={data?.endDate}
-                            placeholder="YYYY.MM.DD"
-                            // onChange={startDateChange}
+                            // onChange={endDateChange}
                         ></input>
                     </div>
                     <div className="text-[5vw] flex flex-col items-center">
@@ -374,7 +407,7 @@ export default function TourEditHeader(props: PropType) {
                                     isSelected={true}
                                     text="적용"
                                     type="full"
-                                    className="py-1"
+                                    className="py-1 font-medium"
                                     onClick={() => handleTypeChange('default')}
                                 />
                             </div>
