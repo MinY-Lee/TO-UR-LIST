@@ -1,0 +1,17 @@
+spring:
+  config:
+    import:
+      - optional:file:.env[.properties]
+  application:
+    name: tour
+  neo4j:
+    authentication:
+      username: ${FEED_NEO4J_USER_NAME}
+      password: ${FEED_NEO4J_PASSWORD}
+    uri: ${FEED_NEO4J_URI}
+
+logging:
+  level:
+    com.eminyidle.tour: debug
+server:
+  port: 8086
