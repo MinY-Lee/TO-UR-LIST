@@ -29,19 +29,19 @@ export default function TourEditHeader(props: PropType) {
     const [addModalClicked, setAddModalClicked] = useState<boolean>(false);
     const [memberDeleteModal, setMemberDeleteModal] = useState<boolean>(false);
     const [ghostHandleModal, setGhostHandleModal] = useState<boolean>(false);
-    
+
     const [memberList, setMemberList] = useState<MemberInfo[]>([]);
     const [deleteMember, setDeleteMember] = useState<MemberInfo>({
-        userId: "",
-        userNickname: "",
-        userName: "",
-        memberType: ""
+        userId: '',
+        userNickname: '',
+        userName: '',
+        memberType: '',
     });
     const [selectedGhostMember, setSelectedGhostMember] = useState<MemberInfo>({
-        userId: "",
-        userNickname: "",
-        userName: "",
-        memberType: ""
+        userId: '',
+        userNickname: '',
+        userName: '',
+        memberType: '',
     });
     const [hoveredMember, setHoveredMember] = useState<MemberInfo | null>(null);
 
@@ -55,11 +55,9 @@ export default function TourEditHeader(props: PropType) {
     const addMemberModalRef = useRef(null);
 
     useEffect(() => {
-        
         setData(props.tourInfo);
         setTitle(data ? data.tourTitle : '');
         setMemberList(data.memberList);
-
     }, [data]);
 
     useEffect(() => {
@@ -107,25 +105,18 @@ export default function TourEditHeader(props: PropType) {
         setQuery(data);
 
         // 나라 -> 도시 로직인 경우 검색어를 나라 코드로 치환
-        const foundCountry = CountryList.find(
-            (country) => country.countryName === data
-        );
+        const foundCountry = CountryList.find((country) => country.countryName === data);
 
         if (foundCountry) {
             // 코드로 도시 검색 및 결과 포맷팅
             const cityListWithCountryName: string[] =
-                CityList.find(
-                    (country) =>
-                        country.countryCode === foundCountry.countryCode
-                )?.cityList?.map(
+                CityList.find((country) => country.countryCode === foundCountry.countryCode)?.cityList?.map(
                     (city) => `${foundCountry.countryCode}, ${city}`
                 ) || [];
 
             setSearchList(cityListWithCountryName);
             // 선택된 도시가 있을 때 결과를 업데이트
-            const updatedResultList = cityListWithCountryName.filter(
-                (city) => !selectedCity.includes(city)
-            );
+            const updatedResultList = cityListWithCountryName.filter((city) => !selectedCity.includes(city));
             setResultList(updatedResultList);
         }
     };
@@ -136,7 +127,7 @@ export default function TourEditHeader(props: PropType) {
                 return country;
             }
         });
-        return { countryCode: "", cityList: [] };
+        return { countryCode: '', cityList: [] };
     };
 
     // 여행할 도시 선택 또는 해제
@@ -158,9 +149,7 @@ export default function TourEditHeader(props: PropType) {
             console.log(data?.cityList);
         } else {
             // 이미 선택된 도시라면 제거
-            const updatedCities = selectedCity.filter(
-                (selected) => selected !== city
-            );
+            const updatedCities = selectedCity.filter((selected) => selected !== city);
             setSelectedCity(updatedCities);
         }
     };
@@ -168,17 +157,12 @@ export default function TourEditHeader(props: PropType) {
     const handleGhostModal = (member: MemberInfo) => {
         setSelectedGhostMember(member);
         setGhostHandleModal(true);
-    }
+    };
 
     const handleClickOutside = (event: Event) => {
         if (addMemberModalRef.current) {
-            const addMemberModalElement =
-                addMemberModalRef.current as HTMLElement;
-            if (
-                addModalClicked &&
-                addMemberModalElement &&
-                !addMemberModalElement.contains(event.target as Node)
-            ) {
+            const addMemberModalElement = addMemberModalRef.current as HTMLElement;
+            if (addModalClicked && addMemberModalElement && !addMemberModalElement.contains(event.target as Node)) {
                 // 모달 영역 외부를 클릭했을 때 모달 닫기
                 setAddModalClicked(false);
             }
@@ -187,40 +171,33 @@ export default function TourEditHeader(props: PropType) {
 
     const closeMemberModal = () => {
         setAddModalClicked(false);
-    }
+    };
 
     const handleMemberDelete = () => {
-        
-        const updatedList = memberList.filter((mem) => (
-            mem !== deleteMember
-        ))
+        const updatedList = memberList.filter((mem) => mem !== deleteMember);
 
         setMemberDeleteModal(false);
         setMemberList(updatedList);
-
-    }
+    };
 
     const handleMemberDeleteModal = (member: MemberInfo) => {
         setDeleteMember(member);
         handleMemberDelete();
         setMemberDeleteModal(true);
-
-    }
+    };
 
     const closeMemberDeleteModal = () => {
         setMemberDeleteModal(false);
-
-    }
+    };
 
     const closeGhostHandleModal = () => {
         setGhostHandleModal(false);
-
-    }
+    };
     return (
         <div>
             {addModalClicked ? (
-                <div ref={addMemberModalRef} className='h-fit'>
-                    <MemberAddModal data={data} closeMemberModal={closeMemberModal}/>
+                <div ref={addMemberModalRef} className="h-fit">
+                    <MemberAddModal data={data} closeMemberModal={closeMemberModal} />
                 </div>
             ) : (
                 <></>
@@ -240,7 +217,11 @@ export default function TourEditHeader(props: PropType) {
             )}
 
             {ghostHandleModal ? (
-                <GhostHandleModal selectedGhostMember={selectedGhostMember} closeGhostHandleModal={closeGhostHandleModal}/>
+                <GhostHandleModal
+                    selectedGhostMember={selectedGhostMember}
+                    data={data}
+                    closeGhostHandleModal={closeGhostHandleModal}
+                />
             ) : (
                 <></>
             )}
@@ -257,24 +238,19 @@ export default function TourEditHeader(props: PropType) {
                         />
                     </div>
                     <div className="flex items-center mt-2 gap-1">
-                        {memberList && memberList?.length >= 1 && memberList.map(
-                            (member: MemberInfo, index: number) => (
+                        {memberList &&
+                            memberList?.length >= 1 &&
+                            memberList.map((member: MemberInfo, index: number) => (
                                 <div
                                     key={index}
                                     className="relative"
-                                    onClick={member.memberType == 'ghost' ? ()=> handleGhostModal(member) : ()=>{}}
-                                    onMouseEnter={() =>
-                                        handleMouseEnter(member)
-                                    }
+                                    onClick={member.memberType == 'ghost' ? () => handleGhostModal(member) : () => {}}
+                                    onMouseEnter={() => handleMouseEnter(member)}
                                     onMouseLeave={handleMouseLeave}
                                 >
                                     <div
                                         className={`${isHost(member)}`}
-                                        onClick={
-                                            member.memberType == 'host'
-                                                ? handleHost
-                                                : undefined
-                                        }
+                                        onClick={member.memberType == 'host' ? handleHost : undefined}
                                     >
                                         {member.memberType !== 'ghost' ? (
                                             <div className="shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
@@ -292,15 +268,17 @@ export default function TourEditHeader(props: PropType) {
                                         </div>
                                     )}
                                     {member.memberType != 'host' ? (
-                                        <div onClick={() => handleMemberDeleteModal(member)} className="absolute top-[5%] left-[70%] bg-black text-white flex justify-center items-center z-10 w-[40%] h-[40%] rounded-full">
+                                        <div
+                                            onClick={() => handleMemberDeleteModal(member)}
+                                            className="absolute top-[5%] left-[70%] bg-black text-white flex justify-center items-center z-10 w-[40%] h-[40%] rounded-full"
+                                        >
                                             x
                                         </div>
                                     ) : (
                                         ''
                                     )}
                                 </div>
-                            )
-                        )}
+                            ))}
                         <div
                             onClick={() => setAddModalClicked(true)}
                             className="border-dashed border-2 color-text-blue-2 border-[#5faad9] m-1 font-bold text-3xl w-12 h-12 rounded-full flex justify-center items-center"
@@ -351,69 +329,36 @@ export default function TourEditHeader(props: PropType) {
                                 id="search-container"
                                 className="col-span-7 justify-center shadow-md border border-neutral-300 rounded-lg"
                             >
-                                <div
-                                    onClick={() =>
-                                        setSearchbarClick(!searchbarClick)
-                                    }
-                                >
+                                <div onClick={() => setSearchbarClick(!searchbarClick)}>
                                     <SearchBar onChange={handleQuery} />
                                 </div>
                                 {searchbarClick ? (
-                                    <div
-                                        id="city-list-container"
-                                        className="h-fit overflow-scroll p-2 w-full"
-                                    >
+                                    <div id="city-list-container" className="h-fit overflow-scroll p-2 w-full">
                                         {data?.cityList.length > 0 &&
-                                            data?.cityList.map(
-                                                (city, index) => (
-                                                    <div
-                                                        key={index}
-                                                        className="flex justify-between m-2"
-                                                    >
-                                                        <div className="text-lg">
-                                                            {city.countryCode},{' '}
-                                                            {city.cityName}
-                                                        </div>
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="text-sm color-text-blue-2">
-                                                                선택됨
-                                                            </div>
-                                                            <div
-                                                                onClick={() =>
-                                                                    handleCitySelect(
-                                                                        city.cityName
-                                                                    )
-                                                                }
-                                                            >
-                                                                x
-                                                            </div>
-                                                        </div>
+                                            data?.cityList.map((city, index) => (
+                                                <div key={index} className="flex justify-between m-2">
+                                                    <div className="text-lg">
+                                                        {city.countryCode}, {city.cityName}
                                                     </div>
-                                                )
-                                            )}
-                                        {query !== '' &&
-                                        searchList.length === 0 ? (
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="text-sm color-text-blue-2">선택됨</div>
+                                                        <div onClick={() => handleCitySelect(city.cityName)}>x</div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        {query !== '' && searchList.length === 0 ? (
                                             <div className="text-lg text-center text-gray-500">
                                                 검색 결과가 없습니다.
                                             </div>
                                         ) : (
                                             resultList.map((res, index) => (
-                                                <div
-                                                    key={index}
-                                                    className="flex justify-between m-2"
-                                                >
-                                                    <div className="text-lg">
-                                                        {res}
-                                                    </div>
+                                                <div key={index} className="flex justify-between m-2">
+                                                    <div className="text-lg">{res}</div>
                                                     <MyButton
                                                         type="small"
                                                         text="선택"
                                                         isSelected={false}
-                                                        onClick={() =>
-                                                            handleCitySelect(
-                                                                res
-                                                            )
-                                                        }
+                                                        onClick={() => handleCitySelect(res)}
                                                         className="text-sm px-2"
                                                     />
                                                 </div>
