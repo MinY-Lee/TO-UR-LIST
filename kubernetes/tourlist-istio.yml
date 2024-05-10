@@ -1,23 +1,32 @@
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
-
 metadata:
   namespace: istio-system
   name: istiocontrolplane
-
 spec:
-  profile: default
-  components:
-
-    egressGateways:
-    - name: istio-egressgateway
+  addonComponents: #add on component
+    grafana: # 시계열 데이터 시각화
       enabled: true
-      k8s:
-        hpaSpec:
-          minReplicas: 1
+    kiali: # 트래픽 시각화
+      enabled: true
+      ingress:
+        dashboard:
+          auth:
+            strategy: anonymous
+    prometheus: # 정보 수집
+      enabled: true
+    tracing: # 트래픽 흐름 추적가능
+      enabled: true
+  components:
+    egressGateways:
+      - name: istio-egressgateway
+        enabled: true
+        k8s:
+          hpaSpec:
+            minReplicas: 1
 
     ingressGateways:
-    - name: istio-ingressgateway
+    - name: istio-ingressgateway #기본게이트웨이
       enabled: true
       k8s:
         hpaSpec:
@@ -29,6 +38,7 @@ spec:
         hpaSpec:
           minReplicas: 1
 
+  profile: default
   meshConfig:
     enableTracing: true
     defaultConfig:

@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: tourlist-frontend-service
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: tourlist-frontend-pod
   ports:
