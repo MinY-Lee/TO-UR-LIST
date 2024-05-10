@@ -9,6 +9,7 @@ import MapIcon from '../../assets/svg/mapIcon';
 
 import CountryList from '../../dummy-data/get_country.json';
 import CityList from '../../dummy-data/get_city.json';
+
 import GhostHandleModal from './GhostHandleModal';
 import HostHandleModal from './HostHandleModal';
 import EditMemberList from './EditMemberList';
@@ -89,11 +90,24 @@ export default function TourEditHeader(props: PropType) {
             (res) => !selectedCity.some((selected) => JSON.stringify(selected) === JSON.stringify(res))
         );
         setResultList(updatedResultList);
+
+        // 결과에 있었던 거면 다시 들어가 (재검색)
+        handleQuery(query);
     }, [selectedCity]);
 
     const handleTypeChange = (type: string) => {
         // 수정에서 여행 정보로 돌아가
         //////////////////////
+        const updatedTourInfo: TourInfoDetail = {
+            tourTitle: title,
+            startDate: startDate,
+            endDate: endDate,
+            memberList: memberList,
+            cityList: selectedCity,
+        };
+
+        console.log(updatedTourInfo);
+
         // 그 전에 수정 api 먹이기
         props.onChange(type);
     };
@@ -134,8 +148,6 @@ export default function TourEditHeader(props: PropType) {
 
     // 여행할 도시 선택 또는 해제
     const handleCitySelect = (city: City) => {
-        console.log(selectedCity);
-        console.log(city);
         let idx = -1;
 
         selectedCity.forEach((selected, index) => {
@@ -152,7 +164,6 @@ export default function TourEditHeader(props: PropType) {
             const updatedCities = selectedCity.filter((selected) => selected !== city);
             setSelectedCity(updatedCities);
         }
-        console.log(selectedCity);
     };
 
     const handleGhostModal = (member: MemberInfo) => {
