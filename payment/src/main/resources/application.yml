@@ -51,5 +51,11 @@ logging:
         payment: debug
     org.springframework.security: info
 
+kafka:
+  bootstrap:
+    servers: ${KAFKA_BOOTSTRAP_SERVERS}
+  consumer:
+    group-id: ${KAFKA_CONSUMER_GROUP_ID}
+
 server:
   port: 8085

@@ -7,12 +7,15 @@ import com.eminyidle.payment.dto.req.PaymentInfoReq;
 import com.eminyidle.payment.dto.res.ExchangeRateRes;
 import com.eminyidle.payment.dto.res.PaymentInfoRes;
 import com.eminyidle.payment.exception.UserIdNotExistException;
+import com.eminyidle.payment.kafka.Message;
 import com.eminyidle.payment.service.PaymentService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +32,11 @@ import java.util.Map;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final KafkaTemplate<String, String> kafkaTemplate;
     private final String HEADER_USER_ID = "userId";
+
+    @Value("${KAFKA_PAYMENT_TOPIC}")
+    String paymentTopicName;
 
     @GetMapping("/currency/{countryCode}/{date}")
     public ResponseEntity<?> getCountryCurrencyRate(@NotBlank @PathVariable("countryCode") String countryCode,
@@ -123,5 +130,13 @@ public class PaymentController {
         PaymentInfoRes paymentInfoRes = paymentService.searchPaymentInfo(payId, payIdReq, userId);
         log.debug(paymentInfoRes.toString());
         return ResponseEntity.ok().body(paymentInfoRes);
+    }
+
+    @GetMapping("/kafka-test")
+    public ResponseEntity<Void> updateGhost(){
+        String key = "12345";
+        kafkaTemplate.send(paymentTopicName,key, "54321");
+
+        return ResponseEntity.ok().build();
     }
 }
