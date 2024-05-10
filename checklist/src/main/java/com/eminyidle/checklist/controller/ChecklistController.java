@@ -5,11 +5,13 @@ import com.eminyidle.checklist.domain.ChecklistItemDetail;
 import com.eminyidle.checklist.dto.req.UpdateItemReq;
 import com.eminyidle.checklist.service.ChecklistService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController()
 @RequestMapping("/checklist")
 @RequiredArgsConstructor
@@ -20,11 +22,13 @@ public class ChecklistController {
 
     @GetMapping("/{tourId}")
     ResponseEntity<List<ChecklistItemDetail>> searchChecklist(@RequestHeader(HEADER_USER_ID) String userId, @PathVariable String tourId) {
+        log.debug("tourId "+ userId);
         return ResponseEntity.ok(checklistService.searchItemList(userId, tourId));
     }
 
     @PostMapping("/private")
     ResponseEntity<Void> createPrivateItem(@RequestHeader(HEADER_USER_ID) String userId, @RequestBody ChecklistItem checklistItem) {
+        log.debug("** create private "+checklistItem.toString());
         checklistService.createPrivateItem(userId, checklistItem);
         return ResponseEntity.ok().build();
     }

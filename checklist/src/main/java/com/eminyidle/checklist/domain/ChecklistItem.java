@@ -5,9 +5,11 @@ import com.eminyidle.checklist.exception.InvalidTourDayException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class ChecklistItem {
     @Setter
     private String tourId;
