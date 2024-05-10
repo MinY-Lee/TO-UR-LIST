@@ -1,20 +1,23 @@
 package com.eminyidle.checklist.controller;
 
+import com.eminyidle.checklist.service.ChecklistService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.neo4j.AutoConfigureDataNeo4j;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.*;
-@AutoConfigureDataNeo4j
-@AutoConfigureMockMvc
-@SpringBootTest
+@WebMvcTest
 class ChecklistControllerTest {
 
     @Autowired
     private ChecklistController checklistController;
+    @MockBean
+    private ChecklistService checklistService;
 
     @Test
     @DisplayName("정상:체크리스트 조회")
