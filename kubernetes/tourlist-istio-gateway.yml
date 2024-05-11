@@ -12,13 +12,3 @@ spec:
       protocol: HTTP
     hosts:
     - tourlist.me
-    tls:
-      httpsRedirect: true
-  - port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    hosts:
-      - tourlist.me
-    tls: SIMPLE
-    serverCertificate: /etc

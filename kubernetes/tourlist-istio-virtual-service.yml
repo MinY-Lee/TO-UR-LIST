@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: tourlist-rule
+spec:
+  hosts:
+  - tourlist.me
+  gateways:
+  - tourlist-gateway
+  - mesh # applies to all the sidecars in the mesh
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        port:
+          number: 80 # can be omitted if it's the only port for reviews
+        host: tourlist-frontend-service
