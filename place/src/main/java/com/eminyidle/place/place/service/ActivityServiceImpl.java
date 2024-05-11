@@ -26,15 +26,6 @@ public class ActivityServiceImpl implements ActivityService {
         return activityRepository.findAll().stream().map(activity -> activity.getActivity()).toList();
     }
 
-    @Override
-    public void searchTourPlaceByPlaceId(String tourActivityId) {
-        log.info("서비스 실행");
-//        String ans = placeRepository.findByTourActivityId(tourActivityId).get().getActivity().getActivity().toString();
-        String ans = placeRepository.findByTourPlaceId(tourActivityId).get().toString();
-        log.info(ans);
-
-    }
-
     // 활동 추가
     @Override
     public boolean addActivity(LinkedHashMap<String, Object> body, String tourId, Map<String, Object> headers) {
@@ -91,5 +82,15 @@ public class ActivityServiceImpl implements ActivityService {
             log.info("활동 삭제 과정에서 오류 발생");
             return false;
         }
+    }
+
+    // 등록한 활동 조회
+    @Override
+    public List<String> searchEnrollActivity(String tourPlaceId) {
+        log.info("등록된 활동 찾기");
+//        String ans = placeRepository.findByTourActivityId(tourActivityId).get().getActivity().getActivity().toString();
+        List<String> enrollActivity = placeRepository.findByTourPlaceId(tourPlaceId).get().getActivityList().stream().map(activity -> activity.getActivity()).toList();
+        log.info(enrollActivity.toString());
+        return enrollActivity;
     }
 }

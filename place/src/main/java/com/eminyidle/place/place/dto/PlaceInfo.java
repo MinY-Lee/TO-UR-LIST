@@ -20,11 +20,13 @@ public class PlaceInfo {
     private String placeId;
     private String placeName;
     private String placePrimaryType;
-    private double placeLatitude;
-    private double placeLongitude;
+    private Double placeLatitude;
+    private Double placeLongitude;
     private String placeAddress;
-    private boolean placeOpenNow;
+    private Boolean placeOpenNow;
     private List<String> placeWeekdayDescriptions;
+    private Boolean placeAcceptCreditCards;
+    private Boolean placeAcceptCashOnly;
     private List<String> placePhotoList;
     // 추가 정보
 }

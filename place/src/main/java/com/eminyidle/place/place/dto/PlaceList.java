@@ -14,5 +14,5 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlaceList {
     // Place에서 받아 온 객체를 리스트로 받는 부분
-    private List<Place> placeList;
+    private List<Place> places;
 }

@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice(basePackages = "com.eminyidle.place.controller")
+import java.util.NoSuchElementException;
+
+@RestControllerAdvice(basePackages = "com.eminyidle.place.place.controller")
 @Slf4j
 public class PlaceExceptionHandler {
 
@@ -33,5 +35,15 @@ public class PlaceExceptionHandler {
         log.error(errorMessage.toString());
         return ResponseEntity.badRequest().build();
 //        혹은 return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ResponseEntity<String> placeSearchExceptionHandler(NoSuchElementException e) {
+        StringBuilder errorMessage = new StringBuilder();
+
+        makeErrorMessage(errorMessage, e);
+        log.error(errorMessage.toString());
+        return ResponseEntity.badRequest().build();
     }
 }

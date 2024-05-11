@@ -6,6 +6,7 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.data.neo4j.core.schema.Relationship.Direction.INCOMING;
@@ -26,7 +27,7 @@ public class TourPlace {
 //    private String tourActivityName;
 
     @Relationship(type = "REFERENCE", direction = OUTGOING)
-    private Activity activity;
+    private List<Activity> activityList;
 
 //    @Relationship(type = "DO", direction = INCOMING)
 //    private Tour tour;

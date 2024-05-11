@@ -1,4 +1,4 @@
-package com.eminyidle.place.place.exception;
+package com.eminyidle.place.place.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
