@@ -6,9 +6,9 @@ spring:
     name: tour
   neo4j:
     authentication:
-      username: neo4j
-      password: 20000813
-    uri: bolt://localhost:7687
+      username: ${PLACE_NEO4J_USER_NAME}
+      password: ${PLACE_NEO4J_USER_PASSWORD}
+    uri: ${PLACE_NEO4J_URI}
 
 logging:
   level:
