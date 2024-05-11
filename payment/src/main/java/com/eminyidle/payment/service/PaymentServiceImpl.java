@@ -339,6 +339,50 @@ public class PaymentServiceImpl implements PaymentService {
         throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
     }
 
+    @Override
+    public void updatePaymentUserId(String tourId, Message message) {
+        String ghostId = message.getGhostId();
+        String userId = message.getUserId();
+
+        // tourId로 기존 데이터 가져오기
+        PaymentInfo payment = paymentInfoRepository.findById(tourId)
+                .orElseThrow(() -> new PaymentNotExistException("해당하는 지출정보가 없습니다."));
+
+        Map<String, PublicPayment> publicPaymentMap = payment.getPublicPayment();
+        Map<String, PrivatePayment> privatePaymentMap = payment.getPrivatePayment();
+        PrivatePayment privatePayment = privatePaymentMap.get(message.getGhostId());
+        if(privatePayment == null) {
+            throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
+        }
+
+        // publicPayment의 ghostId 변경
+        List<String> publicPaymentList = privatePayment.getPublicPaymentList();
+
+        for(String payId : publicPaymentList) {
+            if(publicPaymentMap.containsKey(payId)) {
+                PublicPayment publicPayment = publicPaymentMap.get(payId);
+                // 공동 구매내역의 결제자 고스트 유저 변경
+                if(publicPayment.getPayerId().equals(ghostId)) {
+                    publicPayment.setPayerId(userId);
+                }
+                // 공동 구매내역의 고스트 유저 변경
+                List<PaymentMember> payMemberList = publicPayment.getPayMemberList();
+                for(PaymentMember member : payMemberList) {
+                    if(member.getUserId().equals(ghostId)) {
+                        member.setUserId(userId);
+                    }
+                }
+            }
+        }
+
+        // private의 ghostId 변경
+        privatePaymentMap.put(userId, privatePayment);
+        privatePaymentMap.remove(ghostId);
+
+        // 디비에 저장
+        paymentInfoRepository.save(payment);
+    }
+
     private PublicPayment makePublicPayment(PaymentInfoReq paymentInfo) {
         return PublicPayment.builder()
                 .payAmount(paymentInfo.getPayAmount())

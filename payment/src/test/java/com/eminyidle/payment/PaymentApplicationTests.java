@@ -1,4 +1,4 @@
-package com.eminyidle.tourlist_payment;
+package com.eminyidle.payment;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

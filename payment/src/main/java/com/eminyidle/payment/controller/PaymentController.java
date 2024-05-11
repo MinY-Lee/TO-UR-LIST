@@ -7,12 +7,17 @@ import com.eminyidle.payment.dto.req.PaymentInfoReq;
 import com.eminyidle.payment.dto.res.ExchangeRateRes;
 import com.eminyidle.payment.dto.res.PaymentInfoRes;
 import com.eminyidle.payment.exception.UserIdNotExistException;
+import com.eminyidle.payment.dto.Message;
 import com.eminyidle.payment.service.PaymentService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +34,11 @@ import java.util.Map;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final KafkaTemplate<String, String> kafkaTemplate;
     private final String HEADER_USER_ID = "userId";
+
+    @Value("${KAFKA_PAYMENT_TOPIC}")
+    String paymentTopicName;
 
     @GetMapping("/currency/{countryCode}/{date}")
     public ResponseEntity<?> getCountryCurrencyRate(@NotBlank @PathVariable("countryCode") String countryCode,
@@ -98,7 +107,7 @@ public class PaymentController {
 
     @GetMapping("/{tourId}")
     public ResponseEntity<?> searchPaymentList(@Valid @PathVariable("tourId") String tourId,
-                                                  @RequestHeader(value = HEADER_USER_ID, required = false) String userId) {
+                                               @RequestHeader(value = HEADER_USER_ID, required = false) String userId) {
 
         log.debug(tourId);
         if (userId == null || userId.isEmpty()) {
@@ -123,5 +132,27 @@ public class PaymentController {
         PaymentInfoRes paymentInfoRes = paymentService.searchPaymentInfo(payId, payIdReq, userId);
         log.debug(paymentInfoRes.toString());
         return ResponseEntity.ok().body(paymentInfoRes);
+    }
+
+    // 고스트 유저 변경 요청
+    @GetMapping("/ghost")
+    public ResponseEntity<Void> updateGhost(@Valid @RequestBody Message message,
+                                            @RequestHeader(value = HEADER_USER_ID, required = false) String userId) {
+
+        log.debug(message.toString());
+        if (userId == null || userId.isEmpty()) {
+            throw new UserIdNotExistException("유저 ID가 없습니다.");
+        }
+
+        String key = message.getTourId();
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String jsonMessage = objectMapper.writeValueAsString(message);
+            kafkaTemplate.send(paymentTopicName, key, jsonMessage);
+        } catch (JsonProcessingException e) {
+            log.error("Failed to serialize message", e);
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok().build();
     }
 }

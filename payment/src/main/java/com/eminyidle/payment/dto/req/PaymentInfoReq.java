@@ -33,7 +33,7 @@ public class PaymentInfoReq {
     private String payContent;
     @NotBlank
     private String payCategory;
-    @NotBlank
+
     private String payerId;
 
     List<PaymentMember> payMemberList;
