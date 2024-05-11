@@ -191,7 +191,7 @@ export default function ChecklistEditDayPage() {
                 <div className="flex justify-between items-center mb-5">
                     <h1 className="text-3xl font-bold">일정별 체크리스트</h1>
                     <MyButton
-                        className="text-xl text-white"
+                        className="text-xl text-white font-medium"
                         isSelected={true}
                         onClick={() => handleDone()}
                         text="완료"

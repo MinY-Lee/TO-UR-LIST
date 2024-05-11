@@ -86,12 +86,12 @@ export default function MyCheckList(props: PropType) {
                         <div className="flex w-full justify-end">
                             <MyButton
                                 type="small"
+                                className="text-white font-medium"
                                 text="편집"
                                 isSelected={true}
                                 onClick={() => {
                                     window.location.href = `/tour/${id}/checklist/all`;
                                 }}
-                                className="text-white"
                             />
                         </div>
                         <div className="flex flex-col">

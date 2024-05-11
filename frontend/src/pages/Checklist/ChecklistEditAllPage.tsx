@@ -144,7 +144,7 @@ export default function ChecklistEditAllPage() {
                 <div className="flex justify-between items-center mb-5">
                     <h1 className="text-3xl font-bold">전체 체크리스트</h1>
                     <MyButton
-                        className="text-xl text-white"
+                        className="text-xl font-medium"
                         isSelected={true}
                         onClick={() => handleDone()}
                         text="완료"

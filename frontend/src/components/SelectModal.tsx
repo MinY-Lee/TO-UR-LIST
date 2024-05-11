@@ -35,9 +35,7 @@ export default function SelectModal(props: Proptype) {
         setData(tourPlaceTourId);
 
         // 투어 아이디로 더미데이터에서 데이터 찾기 (임시)
-        const tourData = TourDetail.find(
-            (tour) => tour.tourId === props.tourId
-        );
+        const tourData = TourDetail.find((tour) => tour.tourId === props.tourId);
         if (tourData) {
             setTourData(tourData);
         }
@@ -46,13 +44,9 @@ export default function SelectModal(props: Proptype) {
         const start: Date = new Date(tourData ? tourData.startDate : '');
 
         // 밀리초(milliseconds) 단위의 차이를 날짜간 차이로 변환
-        setDaysDifference(
-            (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1
-        );
+        setDaysDifference((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
         // 0 제외
-        setDaysList(
-            Array.from({ length: daysDifference }, (_, index) => index + 1)
-        );
+        setDaysList(Array.from({ length: daysDifference }, (_, index) => index + 1));
 
         // day 별로 장소 및 활동 분류
         groupItems();
@@ -88,9 +82,7 @@ export default function SelectModal(props: Proptype) {
         const startDay = startDate.getDate();
         startDate.setDate(startDay + day);
 
-        return `${startDate.getFullYear()}.${
-            startDate.getMonth() + 1
-        }.${startDate.getDate()}`;
+        return `${startDate.getFullYear()}.${startDate.getMonth() + 1}.${startDate.getDate()}`;
     };
 
     return (
@@ -102,52 +94,36 @@ export default function SelectModal(props: Proptype) {
                     {daysList.map((day) => (
                         <div key={day}>
                             <div className="font-bold text-xl">
-                                Day{formatNumberToTwoDigits(day)}{' '}
-                                {day !== 0
-                                    ? `| ${calcDate(day)}`
-                                    : '| 날짜 없음'}
+                                Day{formatNumberToTwoDigits(day)} {`| ${calcDate(day)}`}
                             </div>
                             <div className="border-t-2 border-black mt-2 mb-2">
                                 {groupedItems &&
                                     groupedItems[day] &&
-                                    Object.keys(groupedItems[day]).map(
-                                        (placeId, index) => (
-                                            <div className="ml-3" key={index}>
-                                                <div className="text-lg font-semibold">
-                                                    {placeId != '' ? (
-                                                        <div>{placeId}</div>
-                                                    ) : (
-                                                        ''
-                                                    )}
-                                                </div>
-                                                <div className="ml-3">
-                                                    {groupedItems[day][
-                                                        placeId
-                                                    ].map((item, index) => (
-                                                        <div
-                                                            key={index}
-                                                            className=" grid grid-cols-3 justify-center m-1"
-                                                        >
-                                                            <div className="flex items-center col-span-2">
-                                                                <input
-                                                                    id={`checkbox-${index}`}
-                                                                    type="checkbox"
-                                                                    // onChange={() => handleCheckbox(item)}
-                                                                    // checked={item.isChecked}
-                                                                    className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
-                                                                />
-                                                                <label className="ms-2 text-lg w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
-                                                                    {
-                                                                        item.activity
-                                                                    }
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                                </div>
+                                    Object.keys(groupedItems[day]).map((placeId, index) => (
+                                        <div className="ml-3" key={index}>
+                                            <div className="text-lg font-semibold">
+                                                {placeId != '' ? <div>{placeId}</div> : ''}
                                             </div>
-                                        )
-                                    )}
+                                            <div className="ml-3">
+                                                {groupedItems[day][placeId].map((item, index) => (
+                                                    <div key={index} className=" grid grid-cols-3 justify-center m-1">
+                                                        <div className="flex items-center col-span-2">
+                                                            <input
+                                                                id={`checkbox-${index}`}
+                                                                type="checkbox"
+                                                                // onChange={() => handleCheckbox(item)}
+                                                                // checked={item.isChecked}
+                                                                className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
+                                                            />
+                                                            <label className="ms-2 text-lg w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
+                                                                {item.activity}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
                             </div>
                         </div>
                     ))}
@@ -160,12 +136,7 @@ export default function SelectModal(props: Proptype) {
                         type="full"
                         className="py-2"
                     ></MyButton>
-                    <MyButton
-                        isSelected={false}
-                        onClick={props.clickCancel}
-                        text="취소"
-                        type="full"
-                    ></MyButton>
+                    <MyButton isSelected={false} onClick={props.clickCancel} text="취소" type="full"></MyButton>
                 </div>
             </div>
         </>

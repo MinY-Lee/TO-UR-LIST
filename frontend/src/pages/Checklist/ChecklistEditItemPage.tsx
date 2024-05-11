@@ -130,7 +130,7 @@ export default function ChecklistEditItemPage(props: PropType) {
                 <div className="flex justify-between items-center mb-5">
                     <h1 className="text-3xl font-bold">항목 수정</h1>
                     <MyButton
-                        className="text-xl text-white"
+                        className="text-xl text-white font-medium"
                         isSelected={true}
                         onClick={() => handleDone()}
                         text="완료"
