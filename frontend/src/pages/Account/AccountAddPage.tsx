@@ -1,13 +1,28 @@
+import { useEffect, useState } from 'react';
+
+import HeaderBar from '../../components/HeaderBar/HeaderBar';
+import TabBarTour from '../../components/TabBar/TabBarTour';
+
+import AccountAddModify from '../../components/AccountPage/accountAddModify';
+
 export default function AccountAddPage() {
-    // 투어 아이디 불러오기
-    const address: string[] = window.location.href.split('/');
-    const tourId: string = address[address.length - 3];
+    const [tourId, setTourId] = useState<string>('');
+
+    useEffect(() => {
+        // 투어 아이디 불러오기
+        const address: string[] = window.location.href.split('/');
+        setTourId(address[address.length - 3]);
+    }, [tourId]);
 
     return (
         <>
-            <h1>지출 입력 페이지</h1>
-            <p>이번 지출을 등록합니다.</p>
-            <p>tourId : {tourId}</p>
+            <header>
+                <HeaderBar />
+            </header>
+            <AccountAddModify isModify={false} />
+            <footer>
+                <TabBarTour tourId={tourId} tourMode={3} />
+            </footer>
         </>
     );
 }

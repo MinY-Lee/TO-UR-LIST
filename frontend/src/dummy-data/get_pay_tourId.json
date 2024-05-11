@@ -1,0 +1,94 @@
+[
+    {
+        "payId": "1",
+        "payType": "public",
+        "tourId": "11111",
+        "payAmount": 300000,
+        "unit": "원",
+        "currencyCode": "KRW",
+        "payMethod": "카드",
+        "payDatetime": "2024-02-11",
+        "payContent": "오사카숙소",
+        "payCategory": "숙소",
+        "payerId": "1234",
+        "payMemberList": [
+            {
+                "userId": "1234",
+                "payAmount": 100000
+            },
+            {
+                "userId": "2345",
+                "payAmount": 100000
+            },
+            {
+                "userId": "3456",
+                "payAmount": 100000
+            }
+        ]
+    },
+    {
+        "payId": "2",
+        "payType": "private",
+        "tourId": "11111",
+        "payAmount": 320000,
+        "unit": "원",
+        "currencyCode": "KRW",
+        "payMethod": "카드",
+        "payDatetime": "2024-02-07",
+        "payContent": "왕복 항공권",
+        "payCategory": "교통",
+        "payerId": "1234",
+        "payMemberList": []
+    },
+    {
+        "payId": "3",
+        "payType": "private",
+        "tourId": "11111",
+        "payAmount": 1000,
+        "unit": "엔",
+        "currencyCode": "JPY",
+        "payMethod": "현금",
+        "payDatetime": "2024-03-04",
+        "payContent": "점심",
+        "payCategory": "식비",
+        "payerId": "1234",
+        "payMemberList": []
+    },
+    {
+        "payId": "4",
+        "payType": "private",
+        "tourId": "11111",
+        "payAmount": 900,
+        "unit": "엔",
+        "currencyCode": "JPY",
+        "payMethod": "카드",
+        "payDatetime": "2024-03-09",
+        "payContent": "러쉬향수",
+        "payCategory": "쇼핑",
+        "payerId": "1234",
+        "payMemberList": []
+    },
+    {
+        "payId": "5",
+        "payType": "public",
+        "tourId": "11111",
+        "payAmount": 30000,
+        "unit": "엔",
+        "currencyCode": "JPY",
+        "payMethod": "카드",
+        "payDatetime": "2024-03-09",
+        "payContent": "오마카세",
+        "payCategory": "식비",
+        "payerId": "1234",
+        "payMemberList": [
+            {
+                "userId": "1234",
+                "payAmount": 10000
+            },
+            {
+                "userId": "2345",
+                "payAmount": 10000
+            }
+        ]
+    }
+]

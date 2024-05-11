@@ -8,23 +8,33 @@ import SetDate from '../components/CreatePage/setDate';
 import SetTitle from '../components/CreatePage/setTitle';
 import CreateDone from '../components/CreatePage/createDone';
 import { City, TourCardInfo } from '../types/types';
+import TabBarMain from '../components/TabBar/TabBarMain';
+import { createTour } from '../util/api/tour';
+import { httpStatusCode } from '../util/api/http-status';
 
 export default function TourCreatePage() {
     const [step, setStep] = useState<number>(1);
-    const [selectedCity, setSelectedCity] = useState<string[]>([]);
+    const [isDone, setIsDone] = useState<boolean>(false);
+    const [selectedCity, setSelectedCity] = useState<City[]>([]);
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
     const [title, setTitle] = useState<string>('');
-    const [newTour, setNewTour] = useState<TourCardInfo>({
-        tourId: '0',
+    const [newTour, setNewTour] = useState<Object>({
         tourTitle: '',
         cityList: [],
         startDate: '',
         endDate: '',
-    }); // 정보들로 만들 객체
+    }); // api 보낼 객체
+    const [tourCard, setTourCard] = useState<TourCardInfo>({
+        tourId: '',
+        tourTitle: '',
+        cityList: [],
+        startDate: '',
+        endDate: '',
+    }); // 카드 만들 객체
 
     // setPlace 로부터 데이터 받기
-    const handleCityData = (data: string[]) => {
+    const handleCityData = (data: City[]) => {
         setSelectedCity(data);
     };
 
@@ -36,7 +46,9 @@ export default function TourCreatePage() {
 
     // setTitle 로부터 데이터 받기
     const handleTitleData = (data: string) => {
-        setTitle(data);
+        if (data.trim() != '') {
+            setTitle(data);
+        }
     };
 
     // TourInfoCard 객체화
@@ -48,19 +60,39 @@ export default function TourCreatePage() {
 
         // cityList를 순회하면서 각 요소를 처리
         selectedCity.forEach((item) => {
-            const [countryCode, cityName] = item.split(', ');
-            const city = { countryCode: countryCode, cityName: cityName };
+            const city = { countryCode: item.countryCode, cityName: item.cityName };
             cities.push(city);
         });
 
-        setNewTour({
-            tourId: '0', // 임시
-            tourTitle: title,
-            cityList: cities,
-            startDate: startDate.toISOString(),
-            endDate: endDate.toISOString(),
-        });
+        if (step == 2) {
+            setTitle(`${selectedCity[0].cityName} 여행`);
+        }
     }, [step, title]);
+
+    useEffect(() => {
+        //////////////////////////////////////////
+        // api 호출 후 id 받아와서 넣고 카드 띄우기
+        if (isDone) {
+            createTour(newTour)
+                .then((res) => {
+                    if (res.status === httpStatusCode.OK) {
+                        setTourCard({
+                            tourId: res.data,
+                            tourTitle: title,
+                            cityList: selectedCity,
+                            startDate: startDate.toISOString(),
+                            endDate: endDate.toISOString(),
+                        });
+                        setStep(step + 1);
+                    } else {
+                        console.log(res);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    }, [isDone]);
 
     const handleStep = () => {
         if (step == 1 && selectedCity.length > 0) {
@@ -73,12 +105,7 @@ export default function TourCreatePage() {
             setStep(step + 1);
         }
         if (step == 3) {
-            if (title == '') {
-                console.log('비었음');
-                setTitle(`${selectedCity} 여행`);
-            }
-            console.log(title);
-            setStep(step + 1);
+            setIsDone(true);
         }
     };
 
@@ -95,7 +122,7 @@ export default function TourCreatePage() {
             currentComponent = <SetTitle onChangeTitle={handleTitleData} />;
             break;
         case 4:
-            currentComponent = <CreateDone tourCardInfo={newTour} />;
+            currentComponent = <CreateDone tourCardInfo={tourCard} />;
             break;
     }
 
@@ -105,15 +132,14 @@ export default function TourCreatePage() {
                 <HeaderBar />
                 <h1 className="m-3 text-3xl font-bold">여행 만들기</h1>
             </header>
-            <div className="gap-3 row-span-8 text-center">
-                {currentComponent}
-            </div>
+            <div className="gap-3 row-span-8 text-center">{currentComponent}</div>
             <div className="row-span-1">
                 {step != 4 ? (
                     <MyButton
                         type="full"
+                        className="text-white py-2"
                         text={step != 3 ? '선택완료' : '입력완료'}
-                        isSelected={false}
+                        isSelected={true}
                         onClick={handleStep}
                     />
                 ) : (

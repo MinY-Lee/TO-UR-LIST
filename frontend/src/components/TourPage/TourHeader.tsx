@@ -4,6 +4,7 @@ import { TourInfoDetail, MemberInfo } from '../../types/types';
 import CheckModal from '../CheckModal';
 
 import GhostProfile from '../../assets/image/ghostProfile.png';
+import MapIcon from '../../assets/svg/mapIcon';
 
 interface PropType {
     tourInfo: TourInfoDetail;
@@ -57,10 +58,7 @@ export default function TourHeader(props: PropType) {
     const handleClickOutside = (event: Event) => {
         if (dropdownRef.current) {
             const dropdownElement = dropdownRef.current as HTMLElement;
-            if (
-                dropdownElement &&
-                !dropdownElement.contains(event.target as Node)
-            ) {
+            if (dropdownElement && !dropdownElement.contains(event.target as Node)) {
                 // 드롭다운 영역 외부를 클릭했을 때 드롭다운 닫기
                 setIsClicked(false);
             }
@@ -111,9 +109,7 @@ export default function TourHeader(props: PropType) {
         <div>
             {outModal ? (
                 <CheckModal
-                    mainText={`[ ${titleEllipsis(
-                        data?.tourTitle
-                    )} ]에서\n나가시겠습니까?`}
+                    mainText={`[ ${titleEllipsis(data?.tourTitle)} ]에서\n나가시겠습니까?`}
                     subText="나의 여행 내역에서 삭제됩니다."
                     OKText="나가기"
                     CancelText="취소"
@@ -143,77 +139,54 @@ export default function TourHeader(props: PropType) {
                     <div className="text-[7vw] font-bold w-[100%] overflow-ellipsis overflow-hidden whitespace-nowrap">
                         {data?.tourTitle}
                     </div>
-                    <div className="flex items-center mt-2">
-                        {data?.memberList.map(
-                            (member: MemberInfo, index: number) => (
-                                <div
-                                    key={index}
-                                    className="relative"
-                                    onMouseEnter={() =>
-                                        handleMouseEnter(member)
-                                    }
-                                    onMouseLeave={handleMouseLeave}
-                                >
-                                    <div className={`${isHost(member)}`}>
-                                        {member.memberType !== 'ghost' ? (
-                                            <div className="shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
-                                                {member.userNickname[0]}
-                                            </div>
-                                        ) : (
-                                            <div className="shadow-lg m-1 font-bold text-3xl p-2 bg-gray-400 w-12 h-12 rounded-full flex justify-center items-center">
-                                                <img src={GhostProfile}></img>
-                                            </div>
-                                        )}
-                                    </div>
-                                    {hoveredMember === member && (
-                                        <div className="absolute whitespace-nowrap z-10 text-sm bottom-1 left-[40%] bg-gray-500 pl-1 pr-1 rounded-md text-white">
-                                            {member.userNickname}
+                    <div className="text-[4vw]">{`${data?.startDate}~${data?.endDate}`}</div>
+
+                    <div className="flex items-center w-[90vw] overflow-x-scroll h-[8vh]">
+                        {data?.memberList.map((member: MemberInfo, index: number) => (
+                            <div
+                                key={index}
+                                className="relative"
+                                onMouseEnter={() => handleMouseEnter(member)}
+                                onMouseLeave={handleMouseLeave}
+                            >
+                                <div className={`${isHost(member)}`}>
+                                    {member.memberType !== 'ghost' ? (
+                                        <div className="drop-shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
+                                            {member.userNickname[0]}
+                                        </div>
+                                    ) : (
+                                        <div className="drop-shadow-lg m-1 font-bold text-3xl p-2 bg-gray-400 w-12 h-12 rounded-full flex justify-center items-center">
+                                            <img src={GhostProfile}></img>
                                         </div>
                                     )}
                                 </div>
-                            )
-                        )}
+                                {hoveredMember === member && (
+                                    <div className="absolute whitespace-nowrap z-10 text-sm bottom-1 left-[40%] bg-gray-500 pl-1 pr-1 rounded-md text-white">
+                                        {member.userNickname}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
                     </div>
-                    <div className="text-[4vw]">{`${data?.startDate}~${data?.endDate}`}</div>
-                    <div className="text-[5vw] flex items-center">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="w-6 h-6 m-1"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                            />
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                            />
-                        </svg>
+                    <div className="text-[5vw] flex items-center mt-3 ">
+                        <MapIcon />
 
-                        <div>
-                            {data.cityList.length >= 1
+                        <div className="flex flex-wrap">
+                            {data.cityList.map((city, index) => (
+                                <div key={index} className="whitespace-pre">
+                                    {city.cityName}
+                                    {index != data.cityList.length - 1 ? ', ' : ''}
+                                </div>
+                            ))}
+                            {/* {data.cityList.length >= 1
                                 ? `${data?.cityList[0].cityName} ${
-                                      data?.cityList.length >= 2
-                                          ? '(+' +
-                                            (data?.cityList.length - 1) +
-                                            ')'
-                                          : ''
+                                      data?.cityList.length >= 2 ? '(+' + (data?.cityList.length - 1) + ')' : ''
                                   }`
-                                : ``}
+                                : ``} */}
                         </div>
                     </div>
                 </div>
-                <div
-                    ref={dropdownRef}
-                    className="flex justify-center"
-                    onClick={() => setIsClicked(!isClicked)}
-                >
+                <div ref={dropdownRef} className="flex justify-center" onClick={() => setIsClicked(!isClicked)}>
                     <svg
                         className="w-6 h-6 text-gray-800"
                         aria-hidden="true"
@@ -236,10 +209,7 @@ export default function TourHeader(props: PropType) {
                             isClicked
                         )} absolute top-[25%] right-[10%] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow`}
                     >
-                        <ul
-                            className=" text-gray-700"
-                            aria-labelledby="dropdown-button"
-                        >
+                        <ul className=" text-gray-700" aria-labelledby="dropdown-button">
                             <li
                                 className="hover:bg-[#94cef2] py-2 px-5 rounded-t-lg border"
                                 onClick={() => handleTypeChange('edit')}

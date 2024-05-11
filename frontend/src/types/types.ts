@@ -126,3 +126,30 @@ export interface TourEditDetail {
     tourActivityList: TourActivity[];
     isSelected: boolean;
 }
+
+// 가계부
+export interface PayMember {
+    userId: string;
+    payAmount: number;
+}
+
+export interface AccountInfo {
+    payId: string;
+    payType: string;
+    tourId: string;
+    payAmount: number;
+    unit: string;
+    currencyCode: string;
+    payMethod: string;
+    payDatetime: string;
+    payContent: string;
+    payCategory: string;
+    payerId: string;
+    payMemberList: PayMember[];
+}
+
+export interface CurrencyInfo {
+    unit: String;
+    currencyRate: Number;
+    currencyCode: String;
+}

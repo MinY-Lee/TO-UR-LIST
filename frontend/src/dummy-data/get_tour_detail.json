@@ -16,24 +16,26 @@
                 "cityName": "타이페이"
             }
         ],
-        "startDate": "2024-04-22",
-        "endDate": "2024-04-28",
+        "startDate": "2024-03-04",
+        "endDate": "2024-03-09",
         "memberList": [
             {
-                "userId" : "1234",
-                "userNickname" : "감자",
-                "userName" : "김싸피",
-                "memberType" : "host"
-            }, {
-                "userId" : "2345",
-                "userNickname" : "고구마",
-                "userName" : "고싸피",
-                "memberType" : "guest"
-            }, {
-                "userId" : "3456",
-                "userNickname" : "옥수수",
-                "userName" : "옥싸피",
-                "memberType" : "ghost"
+                "userId": "1234",
+                "userNickname": "감자",
+                "userName": "김싸피",
+                "memberType": "host"
+            },
+            {
+                "userId": "2345",
+                "userNickname": "고구마",
+                "userName": "고싸피",
+                "memberType": "guest"
+            },
+            {
+                "userId": "3456",
+                "userNickname": "옥수수",
+                "userName": "옥싸피",
+                "memberType": "ghost"
             }
         ]
     },
@@ -50,20 +52,22 @@
         "endDate": "2024-05-28",
         "memberList": [
             {
-                "userId" : "1234",
-                "userNickname" : "감자",
-                "userName" : "김싸피",
-                "memberType" : "host"
-            }, {
-                "userId" : "2345",
-                "userNickname" : "고구마",
-                "userName" : "고싸피",
-                "memberType" : "guest"
-            }, {
-                "userId" : "3456",
-                "userNickname" : "옥수수",
-                "userName" : "옥싸피",
-                "memberType" : "guest"
+                "userId": "1234",
+                "userNickname": "감자",
+                "userName": "김싸피",
+                "memberType": "host"
+            },
+            {
+                "userId": "2345",
+                "userNickname": "고구마",
+                "userName": "고싸피",
+                "memberType": "guest"
+            },
+            {
+                "userId": "3456",
+                "userNickname": "옥수수",
+                "userName": "옥싸피",
+                "memberType": "guest"
             }
         ]
     },
@@ -84,20 +88,22 @@
         "endDate": "2024-02-25",
         "memberList": [
             {
-                "userId" : "2345",
-                "userNickname" : "감자",
-                "userName" : "김싸피",
-                "memberType" : "host"
-            }, {
-                "userId" : "2345",
-                "userNickname" : "고구마",
-                "userName" : "고싸피",
-                "memberType" : "guest"
-            }, {
-                "userId" : "4567",
-                "userNickname" : "고스트1",
-                "userName" : "고스트1",
-                "memberType" : "ghost"
+                "userId": "2345",
+                "userNickname": "감자",
+                "userName": "김싸피",
+                "memberType": "host"
+            },
+            {
+                "userId": "2345",
+                "userNickname": "고구마",
+                "userName": "고싸피",
+                "memberType": "guest"
+            },
+            {
+                "userId": "4567",
+                "userNickname": "고스트1",
+                "userName": "고스트1",
+                "memberType": "ghost"
             }
         ]
     },
@@ -122,20 +128,22 @@
         "endDate": "2024-07-05",
         "memberList": [
             {
-                "userId" : "1234",
-                "userNickname" : "감자",
-                "userName" : "김싸피",
-                "memberType" : "host"
-            }, {
-                "userId" : "2345",
-                "userNickname" : "고구마",
-                "userName" : "고싸피",
-                "memberType" : "guest"
-            }, {
-                "userId" : "3456",
-                "userNickname" : "옥수수",
-                "userName" : "옥싸피",
-                "memberType" : "guest"
+                "userId": "1234",
+                "userNickname": "감자",
+                "userName": "김싸피",
+                "memberType": "host"
+            },
+            {
+                "userId": "2345",
+                "userNickname": "고구마",
+                "userName": "고싸피",
+                "memberType": "guest"
+            },
+            {
+                "userId": "3456",
+                "userNickname": "옥수수",
+                "userName": "옥싸피",
+                "memberType": "guest"
             }
         ]
     },
@@ -152,20 +160,22 @@
         "endDate": "2024-04-21",
         "memberList": [
             {
-                "userId" : "2345",
-                "userNickname" : "감자",
-                "userName" : "김싸피",
-                "memberType" : "host"
-            }, {
-                "userId" : "2345",
-                "userNickname" : "고구마",
-                "userName" : "고싸피",
-                "memberType" : "guest"
-            }, {
-                "userId" : "4567",
-                "userNickname" : "고스트1",
-                "userName" : "고스트1",
-                "memberType" : "ghost"
+                "userId": "2345",
+                "userNickname": "감자",
+                "userName": "김싸피",
+                "memberType": "host"
+            },
+            {
+                "userId": "2345",
+                "userNickname": "고구마",
+                "userName": "고싸피",
+                "memberType": "guest"
+            },
+            {
+                "userId": "4567",
+                "userNickname": "고스트1",
+                "userName": "고스트1",
+                "memberType": "ghost"
             }
         ]
     }

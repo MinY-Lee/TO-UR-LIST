@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <link rel="icon" type="ico" href="icons/tourlist.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1" />
         <meta name="theme-color" content="#5FAAD9" />
         <link rel="manifest" href="/manifest.json" />
         <!-- 구글 아이콘 -->
@@ -23,16 +23,10 @@
                 navigator.serviceWorker
                     .register('/sw.js')
                     .then((registration) => {
-                        console.log(
-                            'Service worker registration succeeded:',
-                            registration
-                        );
+                        console.log('Service worker registration succeeded:', registration);
                     })
                     .catch((err) => {
-                        console.log(
-                            'Service worker registration failed:',
-                            error
-                        );
+                        console.log('Service worker registration failed:', error);
                     });
             } else {
                 console.log('Service workers are not supported');
