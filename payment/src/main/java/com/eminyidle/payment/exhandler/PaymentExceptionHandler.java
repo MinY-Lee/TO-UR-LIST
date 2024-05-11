@@ -1,9 +1,6 @@
 package com.eminyidle.payment.exhandler;
 
-import com.eminyidle.payment.exception.CurrencyNotExistException;
-import com.eminyidle.payment.exception.ExchangeRateNotExistException;
-import com.eminyidle.payment.exception.PaymentNotExistException;
-import com.eminyidle.payment.exception.UserIdNotExistException;
+import com.eminyidle.payment.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RequiredArgsConstructor
 @RestControllerAdvice
-public class BatchExceptionHandler {
+public class PaymentExceptionHandler {
 
     private void makeErrorMessage(StringBuilder errorMessage, Exception e) {
         StackTraceElement[] stackTrace = e.getStackTrace();
@@ -73,6 +70,17 @@ public class BatchExceptionHandler {
 
         makeErrorMessage(errorMessage, e);
 
+        errorMessage.append("유저 ID가 없습니다.");
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(KafkaDataNotExistException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ResponseEntity<String> kafkaDataNotExistsExceptionHandler(
+            KafkaDataNotExistException e) {
+        StringBuilder errorMessage = new StringBuilder();
+
+        makeErrorMessage(errorMessage, e);
         errorMessage.append("유저 ID가 없습니다.");
         return ResponseEntity.badRequest().body(e.getMessage());
     }

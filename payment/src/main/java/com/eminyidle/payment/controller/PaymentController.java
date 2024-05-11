@@ -7,8 +7,10 @@ import com.eminyidle.payment.dto.req.PaymentInfoReq;
 import com.eminyidle.payment.dto.res.ExchangeRateRes;
 import com.eminyidle.payment.dto.res.PaymentInfoRes;
 import com.eminyidle.payment.exception.UserIdNotExistException;
-import com.eminyidle.payment.kafka.Message;
+import com.eminyidle.payment.dto.Message;
 import com.eminyidle.payment.service.PaymentService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -105,7 +107,7 @@ public class PaymentController {
 
     @GetMapping("/{tourId}")
     public ResponseEntity<?> searchPaymentList(@Valid @PathVariable("tourId") String tourId,
-                                                  @RequestHeader(value = HEADER_USER_ID, required = false) String userId) {
+                                               @RequestHeader(value = HEADER_USER_ID, required = false) String userId) {
 
         log.debug(tourId);
         if (userId == null || userId.isEmpty()) {
@@ -132,11 +134,25 @@ public class PaymentController {
         return ResponseEntity.ok().body(paymentInfoRes);
     }
 
-    @GetMapping("/kafka-test")
-    public ResponseEntity<Void> updateGhost(){
-        String key = "12345";
-        kafkaTemplate.send(paymentTopicName,key, "54321");
+    // 고스트 유저 변경 요청
+    @GetMapping("/ghost")
+    public ResponseEntity<Void> updateGhost(@Valid @RequestBody Message message,
+                                            @RequestHeader(value = HEADER_USER_ID, required = false) String userId) {
 
+        log.debug(message.toString());
+        if (userId == null || userId.isEmpty()) {
+            throw new UserIdNotExistException("유저 ID가 없습니다.");
+        }
+
+        String key = message.getTourId();
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String jsonMessage = objectMapper.writeValueAsString(message);
+            kafkaTemplate.send(paymentTopicName, key, jsonMessage);
+        } catch (JsonProcessingException e) {
+            log.error("Failed to serialize message", e);
+            return ResponseEntity.internalServerError().build();
+        }
         return ResponseEntity.ok().build();
     }
 }

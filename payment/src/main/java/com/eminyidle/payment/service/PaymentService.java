@@ -2,6 +2,7 @@ package com.eminyidle.payment.service;
 
 import com.eminyidle.payment.dto.CountryCurrency;
 import com.eminyidle.payment.dto.ExchangeRate;
+import com.eminyidle.payment.dto.Message;
 import com.eminyidle.payment.dto.req.PayIdReq;
 import com.eminyidle.payment.dto.req.PaymentInfoReq;
 import com.eminyidle.payment.dto.res.PaymentInfoRes;
@@ -23,5 +24,5 @@ public interface PaymentService {
 
     PaymentInfoRes searchPaymentInfo(String payId, PayIdReq payIdReq, String userId);
 
-
+    void updatePaymentUserId(String tourId, Message message);
 }
