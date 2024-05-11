@@ -15,3 +15,12 @@ LOAD DATA INFILE '/docker-entrypoint-initdb.d/city_info_final.csv'
     LINES
     TERMINATED BY '\r\n'
     ignore 1 rows;
+
+LOAD DATA INFILE '/docker-entrypoint-initdb.d/city_info_final.csv'
+    INTO TABLE city
+    FIELDS
+    TERMINATED BY ','
+    OPTIONALLY ENCLOSED BY '"' ESCAPED BY '"'
+    LINES
+    TERMINATED BY '\n'
+    ignore 1 rows;
