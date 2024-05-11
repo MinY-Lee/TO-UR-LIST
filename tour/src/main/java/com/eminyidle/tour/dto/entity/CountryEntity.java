@@ -1,4 +1,4 @@
-package com.eminyidle.tour.dto;
+package com.eminyidle.tour.dto.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

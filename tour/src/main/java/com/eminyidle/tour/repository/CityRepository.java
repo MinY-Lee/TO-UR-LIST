@@ -14,7 +14,7 @@ public interface CityRepository extends Neo4jRepository<City,String> {
 
     @Query("match(c:CITY {countryCode:$countryCode, cityName: $cityName}) return c")
     Optional<City> findCity(@Param("cityName") String cityName,@Param("countryCode") String countryCode);
-    //TODO - 둘 다 같은 코드..인데..아래 같은 내용 뜬디.. 알아보잣.. 원하는대로 동작은 함
+    //TODO - 둘 다 같은 코드.. 중 결정
 
     @Query("MATCH (t:TOUR {tourId: $tourId})-[:TO]->(c:CITY) " +
             "RETURN collect(DISTINCT c) AS cityList")

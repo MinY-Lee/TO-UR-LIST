@@ -1,4 +1,4 @@
-package com.eminyidle.tour.dto;
+package com.eminyidle.tour.dto.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,9 +11,10 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-@Entity
+@Entity(name = "city")
 public class CityEntity {
     @Id
+    @Column(name = "city_id")
     private Integer id;
     @Column(name = "country_code")
     private String countryCode;

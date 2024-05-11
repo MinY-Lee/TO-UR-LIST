@@ -26,7 +26,7 @@ public class TourController {
 
     private final TourService tourService;
     private final MemberService memberService;
-    private final String HEADER_USER_ID="userId";
+    private final String HEADER_USER_ID="UserId";
 
     @PostMapping()
     public ResponseEntity<String> createTour(@RequestBody CreateTourReq createTourReq, @RequestHeader(HEADER_USER_ID) String userId) {
@@ -81,7 +81,7 @@ public class TourController {
         List<Tour> tourList=tourService.searchTourList(userId);
         return ResponseEntity.ok(tourList);
     }
-    @DeleteMapping() //TODO - 이렇게 정의하는게 맞을지 체크
+    @DeleteMapping()
     public ResponseEntity<Void> quitTour(@RequestBody QuitTourReq quitTourReq, @RequestHeader(HEADER_USER_ID) String userId) {
         log.debug("quitTour .. "+quitTourReq.getTourId());
         tourService.quitTour(userId, quitTourReq.getTourId());
@@ -93,7 +93,6 @@ public class TourController {
     @PutMapping("/host")
     public ResponseEntity<Void> updateHost(@RequestBody TourMember tourMember, @RequestHeader(HEADER_USER_ID) String userId){
         memberService.updateHost(userId,tourMember);
-        //TODO - 메서드를 boolean으로 선언해서 성공 여부를 확인해야 할까?
         return ResponseEntity.ok().build();
     }
 
@@ -106,7 +105,6 @@ public class TourController {
     @PostMapping("/member")
     public ResponseEntity<Void> createMember(@RequestBody TourMember tourMember, @RequestHeader(HEADER_USER_ID) String userId){
         memberService.createMember(userId,tourMember);
-        //TODO - 메서드를 boolean으로 선언해서 성공 여부를 확인해야 할까?
         return ResponseEntity.ok().build();
     }
     @PostMapping("/member/ghost")
@@ -120,18 +118,15 @@ public class TourController {
         memberService.updateGhostMemberNickname(userId,updateGhostMemberReq);
         return ResponseEntity.ok().build();
     }
-    // TODO -요거 해야 함!!!!
     @PostMapping("/member/resurrection")
     public ResponseEntity<Void> updateGhostToGuest(@RequestBody UpdateGhostToGuestReq updateGhostToGuestReq, @RequestHeader(HEADER_USER_ID) String userId){
         memberService.updateGhostToGuest(userId,updateGhostToGuestReq);
-        //TODO - 메서드를 boolean으로 선언해서 성공 여부를 확인해야 할까?
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/member")
     public ResponseEntity<Void> deleteMember(@RequestBody DeleteMemberReq deleteMemberReq, @RequestHeader(HEADER_USER_ID) String userId){
         memberService.deleteMember(userId,deleteMemberReq);
-        //TODO - 메서드를 boolean으로 선언해서 성공 여부를 확인해야 할까?
         return ResponseEntity.ok().build();
     }
 
