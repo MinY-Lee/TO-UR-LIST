@@ -35,25 +35,6 @@ public class ChecklistServiceImpl implements ChecklistService {
         assertUserInTour(userId, checklistItem.getTourId());
         return createItem(userId, checklistItem, false);
     }
-
-    private boolean createItem(String userId, ChecklistItem item, boolean isPublic, boolean isChecked, LocalDateTime createdAt) {
-        //내가 기존에 추가해둔 아이템인지 확인: 중복되는 경우, create를 수행하지 않는다
-        if (takeRepository.existsTakeRelationshipByUserId(userId, item.getTourId(), item.getPlaceId(), item.getTourDay(), item.getActivity(), item.getItem())) {
-            return true;
-        }
-
-        String itemType;
-        if (isPublic) itemType = "public";
-        else itemType = "private";
-
-        itemRepository.save(userId, item.getTourId(), item.getPlaceId(), item.getTourDay(), item.getActivity(), item.getItem(), itemType, createdAt, isChecked).orElseThrow(CreateItemException::new);
-        return false;
-    }
-
-    private boolean createItem(String userId, ChecklistItem item, boolean isPublic) {
-        return createItem(userId, item, isPublic, false, LocalDateTime.now());
-    }
-
     @Override
     public boolean createPublicItem(String userId, ChecklistItem checklistItem) {
         Tour tour = assertUserInTour(userId, checklistItem.getTourId());
@@ -77,6 +58,24 @@ public class ChecklistServiceImpl implements ChecklistService {
         return false;
     }
 
+    private boolean createItem(String userId, ChecklistItem item, boolean isPublic, boolean isChecked, LocalDateTime createdAt) {
+        //내가 기존에 추가해둔 아이템인지 확인: 중복되는 경우, create를 수행하지 않는다
+        if (takeRepository.existsTakeRelationshipByUserId(userId, item.getTourId(), item.getPlaceId(), item.getTourDay(), item.getActivity(), item.getItem())) {
+            return true;
+        }
+
+        String itemType;
+        if (isPublic) itemType = "public";
+        else itemType = "private";
+
+        itemRepository.save(userId, item.getTourId(), item.getPlaceId(), item.getTourDay(), item.getActivity(), item.getItem(), itemType, createdAt, isChecked).orElseThrow(CreateItemException::new);
+        return false;
+    }
+
+    private boolean createItem(String userId, ChecklistItem item, boolean isPublic) {
+        return createItem(userId, item, isPublic, false, LocalDateTime.now());
+    }
+
     @Override
     public boolean updateItem(String userId, ChecklistItem oldItem, ChecklistItem newItem) {
         assertUserInTour(userId, oldItem.getTourId());
@@ -84,19 +83,20 @@ public class ChecklistServiceImpl implements ChecklistService {
         Take takenItem = takeRepository.findTakeRelationshipByUserId(userId, oldItem.getTourId(), oldItem.getPlaceId(), oldItem.getTourDay(), oldItem.getActivity(), oldItem.getItem()).orElseThrow(NoSuchItemException::new);
         log.debug(takenItem.toString());
 
-//        createItem(userId, newItem, false);
-//        itemRepository.updateItemAsIsByIsCheckedAndCreatedAt(userId, newItem.getTourId(), newItem.getPlaceId(), newItem.getTourDay(), newItem.getActivity(), newItem.getItem(), takenItem.getIsChecked(), takenItem.getCreatedAt());
         if(createItem(userId, newItem, false, takenItem.getIsChecked(), takenItem.getCreatedAt())){
             return true;
         }
-//        itemRepository.deletePrivateItemRelationship(userId, oldItem.getTourId(), oldItem.getPlaceId(), oldItem.getTourDay(), oldItem.getActivity(), oldItem.getItem());
-        deleteItem(userId,oldItem);
+        assertedDeleteItem(userId,oldItem);
         return false;
     }
 
     @Override
     public void deleteItem(String userId, ChecklistItem checklistItem) {
         assertUserInTour(userId, checklistItem.getTourId());
+        assertedDeleteItem(userId, checklistItem);
+    }
+    //이미 asserted된 내용에 대해 삭제
+    private void assertedDeleteItem(String userId, ChecklistItem checklistItem){
         Take takenItem = takeRepository.findTakeRelationshipByUserId(userId, checklistItem.getTourId(), checklistItem.getPlaceId(), checklistItem.getTourDay(), checklistItem.getActivity(), checklistItem.getItem()).orElseThrow(NoSuchItemException::new);
         log.debug("ITEMTYPE: " + takenItem.toString());
         itemRepository.deletePrivateItemRelationship(userId, checklistItem.getTourId(), checklistItem.getPlaceId(), checklistItem.getTourDay(), checklistItem.getActivity(), checklistItem.getItem());
