@@ -1,6 +1,7 @@
 package com.eminyidle.checklist.exhandler;
 
 import com.eminyidle.checklist.exception.CreateItemException;
+import com.eminyidle.checklist.exception.NoSuchItemException;
 import com.eminyidle.checklist.exception.UserNotInTourException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +17,11 @@ public class ChecklistExceptionHandler {
 
     @ExceptionHandler(CreateItemException.class)
     public ResponseEntity<String> handleCreateItemException(Exception e){
-        return ResponseEntity.badRequest().body("");
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(NoSuchItemException.class)
+    public ResponseEntity<String> handleNoSuchItemException(Exception e){
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }

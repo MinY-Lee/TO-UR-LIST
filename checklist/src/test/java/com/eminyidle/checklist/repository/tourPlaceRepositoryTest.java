@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.*;
 class tourPlaceRepositoryTest {
 
     @Autowired
-    private tourPlaceRepository tourPlaceRepository;
+    private TourPlaceRepository tourPlaceRepository;
 
     @Test
     public void existRepository(){
