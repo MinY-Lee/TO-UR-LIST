@@ -126,12 +126,11 @@ export default function ChecklistByDay(props: PropType) {
                             <MyButton
                                 type="small"
                                 text="편집"
-                                className="font-medium"
+                                className="text-white font-medium"
                                 isSelected={true}
                                 onClick={() => {
                                     window.location.href = `/tour/${id}/checklist/day`;
                                 }}
-                                className="text-white"
                             />
                         </div>
                         <div className="flex flex-col">
