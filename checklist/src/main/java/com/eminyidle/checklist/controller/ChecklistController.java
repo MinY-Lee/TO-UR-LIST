@@ -3,6 +3,7 @@ package com.eminyidle.checklist.controller;
 import com.eminyidle.checklist.domain.ChecklistItem;
 import com.eminyidle.checklist.domain.ChecklistItemDetail;
 import com.eminyidle.checklist.dto.req.UpdateItemReq;
+import com.eminyidle.checklist.dto.res.CreateNewItemRes;
 import com.eminyidle.checklist.service.ChecklistService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,37 +23,42 @@ public class ChecklistController {
 
     @GetMapping("/{tourId}")
     ResponseEntity<List<ChecklistItemDetail>> searchChecklist(@RequestHeader(HEADER_USER_ID) String userId, @PathVariable String tourId) {
-        log.debug("tourId "+ userId);
+        log.debug("searchChecklist by "+ userId);
         return ResponseEntity.ok(checklistService.searchItemList(userId, tourId));
     }
 
     @PostMapping("/private")
-    ResponseEntity<Void> createPrivateItem(@RequestHeader(HEADER_USER_ID) String userId, @RequestBody ChecklistItem checklistItem) {
-        log.debug("** create private "+checklistItem.toString());
-        checklistService.createPrivateItem(userId, checklistItem);
-        return ResponseEntity.ok().build();
+    ResponseEntity<CreateNewItemRes> createPrivateItem(@RequestHeader(HEADER_USER_ID) String userId, @RequestBody ChecklistItem checklistItem) {
+        log.debug("createPrivateItem: "+checklistItem.toString());
+        CreateNewItemRes createPrivateItemRes=new CreateNewItemRes(checklistService.createPrivateItem(userId, checklistItem));
+        return ResponseEntity.ok(createPrivateItemRes);
     }
 
     @PostMapping("/public")
-    ResponseEntity<Void> createPublicItem(@RequestHeader(HEADER_USER_ID) String userId, @RequestBody ChecklistItem checklistItem) {
-        checklistService.createPublicItem(userId, checklistItem);
-        return ResponseEntity.ok().build();
+    ResponseEntity<CreateNewItemRes> createPublicItem(@RequestHeader(HEADER_USER_ID) String userId, @RequestBody ChecklistItem checklistItem) {
+        log.debug("createPublicItem: "+checklistItem.toString());
+        CreateNewItemRes createPublicItemRes=new CreateNewItemRes(checklistService.createPublicItem(userId, checklistItem));
+        return ResponseEntity.ok(createPublicItemRes);
     }
 
     @PutMapping("/item")
-    ResponseEntity<Void> updateItem(@RequestHeader(HEADER_USER_ID) String userId, @RequestBody UpdateItemReq updateItemReq) {
-        checklistService.updateItem(userId, updateItemReq.getOldItem(), updateItemReq.getNewItem());
-        return ResponseEntity.ok().build();
+    ResponseEntity<CreateNewItemRes> updateItem(@RequestHeader(HEADER_USER_ID) String userId, @RequestBody UpdateItemReq updateItemReq) {
+        log.debug("updateItem: "+updateItemReq.getOldItem().toString());
+        log.debug("to "+updateItemReq.getNewItem().toString());
+        CreateNewItemRes updateItemRes=new CreateNewItemRes(checklistService.updateItem(userId, updateItemReq.getOldItem(), updateItemReq.getNewItem()));
+        return ResponseEntity.ok(updateItemRes);
     }
 
     @DeleteMapping("/item")
     ResponseEntity<Void> deleteItem(@RequestHeader(HEADER_USER_ID) String userId, @RequestBody ChecklistItem checklistItem) {
+        log.debug("deleteItem: "+checklistItem.toString());
         checklistService.deleteItem(userId, checklistItem);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/check")
     ResponseEntity<Void> checkItem(@RequestHeader(HEADER_USER_ID) String userId, @RequestBody ChecklistItem checklistItem) {
+        log.debug("checkItem: "+checklistItem.toString());
         checklistService.checkItem(userId, checklistItem);
         return ResponseEntity.ok().build();
     }
