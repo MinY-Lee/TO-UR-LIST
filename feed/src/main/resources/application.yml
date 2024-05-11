@@ -7,7 +7,7 @@ spring:
   neo4j:
     authentication:
       username: ${FEED_NEO4J_USER_NAME}
-      password: ${FEED_NEO4J_PASSWORD}
+      password: ${FEED_NEO4J_USER_PASSWORD}
     uri: ${FEED_NEO4J_URI}
 
 logging:

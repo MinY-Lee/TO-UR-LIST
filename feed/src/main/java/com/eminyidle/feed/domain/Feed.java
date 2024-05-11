@@ -16,7 +16,7 @@ public class Feed {
     private String feedContent;
     private List<String> feedThemeTagList;
     private String feedMateTag;
-//    private String tourId;
+    private String tourId;
     private List<Integer> hiddenDayList;
     private List<HiddenPlace> hiddenPlaceList;
     private List<HiddenActivity> hiddenActivityList;

@@ -1,7 +1,8 @@
 package com.eminyidle.feed.application.port.out;
 
+import com.eminyidle.feed.adapter.dto.TourInfo;
 import reactor.core.publisher.Mono;
 
 public interface LoadTourPort {
-    Mono<Void> loadTour(String tourId);
+    Mono<TourInfo> loadTour(String tourId);
 }

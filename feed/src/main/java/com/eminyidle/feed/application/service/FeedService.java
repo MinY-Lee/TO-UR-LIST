@@ -4,6 +4,7 @@ import com.eminyidle.feed.adapter.dto.HiddenActivity;
 import com.eminyidle.feed.adapter.dto.HiddenItem;
 import com.eminyidle.feed.adapter.dto.HiddenPlace;
 import com.eminyidle.feed.application.port.in.CreateFeedUsecase;
+import com.eminyidle.feed.application.port.out.LoadTourPort;
 import com.eminyidle.feed.application.port.out.SaveFeedPort;
 import com.eminyidle.feed.domain.Feed;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 public class FeedService implements CreateFeedUsecase {
 
     private final SaveFeedPort saveFeedPort;
+    private final LoadTourPort loadTourPort;
 
     @Override
     public void createFeed(String feedId, String feedTitle, String feedContent, List<String> feedThemeTagList, String feedMateTag,
@@ -28,6 +30,7 @@ public class FeedService implements CreateFeedUsecase {
                 .feedContent(feedContent)
                 .feedThemeTagList(feedThemeTagList)
                 .feedMateTag(feedMateTag)
+                .tourId(tourId)
                 .hiddenDayList(hiddenDayList)
                 .hiddenPlaceList(hiddenPlaceList)
                 .hiddenActivityList(hiddenActivityList)
@@ -35,7 +38,9 @@ public class FeedService implements CreateFeedUsecase {
                 .build();
 
         // 외부 api 호출을 신청한다?
+        loadTourPort.loadTour(tourId);
         saveFeedPort.save(feed);
+
     }
 
 }
