@@ -186,11 +186,6 @@ export default function TourHeader(props: PropType) {
                   {index != props.tourInfo.cityList.length - 1 ? ", " : ""}
                 </div>
               ))}
-              {/* {data.cityList.length >= 1
-                                ? `${data?.cityList[0].cityName} ${
-                                      data?.cityList.length >= 2 ? '(+' + (data?.cityList.length - 1) + ')' : ''
-                                  }`
-                                : ``} */}
             </div>
           </div>
         </div>

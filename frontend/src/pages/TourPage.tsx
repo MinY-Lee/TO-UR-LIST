@@ -83,11 +83,11 @@ export default function TourPage() {
           <TourBasicInfo tourInfo={data} />
         </div>
         <div>
-          <TourCheckList tourId={data.tourId ? data.tourId : ""} />
+          <TourCheckList tourId={tourId} />
         </div>
       </div>
       <footer>
-        <TabBarTour tourMode={0} tourId={data.tourId ? data.tourId : ""} />
+        <TabBarTour tourMode={0} tourId={tourId} />
       </footer>
     </>
   );
