@@ -44,7 +44,7 @@ public class PaymentServiceImpl implements PaymentService {
         // 날짜 정보
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         LocalDate datePart = LocalDate.parse(date, formatter);
-        LocalDateTime dateTime = datePart.atTime(11, 5, 0);
+        LocalDateTime dateTime = datePart.atTime(11, 5, 0, 0);
         // 환율 가져오기
         return exchangeRateRepository.findByExchangeRateId(new ExchangeRateId(countryCurrency.getCountryCurrencyId().getCurrencyCode(), dateTime))
                 .orElseThrow(() -> new ExchangeRateNotExistException("해당하는 환율데이터가 없습니다."));

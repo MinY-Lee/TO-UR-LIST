@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.context.annotation.Bean;
@@ -21,9 +22,20 @@ public class ExchangeRateJobConfig {
     @Bean
     public Job exchangeRateJob(JobRepository jobRepository, Step getExchangeRateStep) {
         return new JobBuilder("exchangeRateJob", jobRepository)
+                .incrementer(new RunIdIncrementer())
                 .start(getExchangeRateStep)
                 .build();
     }
+    // 테스트 용
+//    @Bean
+//    public Job exchangeRateJob(JobRepository jobRepository, Step getExchangeRateStep) {
+//        return new JobBuilder("exchangeRateJob", jobRepository)
+//                .incrementer(new RunIdIncrementer())
+//                .start(getExchangeRateStep)
+//                .on("FAILED").stop() //실패할 경우 멈추기
+//                .end()
+//                .build();
+//    }
 //    // Chunk 방식
 //    @Bean
 //    public Step myFirstStep(JobRepository jobRepository){
