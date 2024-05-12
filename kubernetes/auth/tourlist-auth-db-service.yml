@@ -9,19 +9,6 @@ spec:
     - protocol: TCP
       port: 3306
       targetPort: 3306
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: tourlist-auth-mariadb-pv
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: ""
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -32,7 +19,8 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 2Gi
+  storageClassName: gp3
 ---
 apiVersion: apps/v1
 kind: Deployment

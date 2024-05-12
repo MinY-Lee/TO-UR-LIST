@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: tourlist-auth
-          image: ssuyas/tourlist_auth
+          image: ssuyas/tourlist_auth:latest
           ports:
             - containerPort: 8081
           envFrom:

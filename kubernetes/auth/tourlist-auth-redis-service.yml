@@ -32,4 +32,4 @@ spec:
             - containerPort: 6379
         - envFrom:
             - secretRef:
-                name: tourlist-auth-redis-secrets
+                name: tourlist-auth-db-secrets
