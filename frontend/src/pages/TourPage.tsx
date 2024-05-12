@@ -12,8 +12,8 @@ import { getTour } from "../util/api/tour";
 
 export default function TourPage() {
   const [type, setType] = useState<string>("");
+  const [tourId, setTourId] = useState<string>("");
   const [data, setData] = useState<TourInfoDetail>({
-    tourId: "",
     tourTitle: "",
     cityList: [],
     startDate: "",
@@ -24,13 +24,7 @@ export default function TourPage() {
   useEffect(() => {
     // 투어 아이디 불러오기
     const address: string[] = window.location.href.split("/");
-    const tourId: string = address[address.length - 1];
-
-    // 투어 아이디로 더미데이터에서 데이터 찾기 (임시)
-    // const tourData = TourDetail.find((tour) => tour.tourId === tourId);
-    // if (tourData) {
-    //     setData(tourData);
-    // }
+    setTourId(address[address.length - 1]);
 
     // 데이터 불러오기
     getTour(tourId)
@@ -49,7 +43,7 @@ export default function TourPage() {
       });
 
     setType("default");
-  }, []);
+  }, [tourId]);
 
   const onChange = (type: string) => {
     setType(type);
@@ -63,7 +57,11 @@ export default function TourPage() {
       <div className="h-[85vh] overflow-y-scroll">
         <div>
           {type == "default" ? (
-            <TourHeader tourInfo={data} onChange={(type) => onChange(type)} />
+            <TourHeader
+              tourId={tourId}
+              tourInfo={data}
+              onChange={(type) => onChange(type)}
+            />
           ) : (
             <TourEditHeader
               tourInfo={data}
