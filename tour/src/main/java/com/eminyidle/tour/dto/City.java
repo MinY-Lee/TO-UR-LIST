@@ -19,8 +19,8 @@ public class City {
     @Property
     private String cityName;
 
-    @Relationship(type = "IN")
-    private Country country;
+//    @Relationship(type = "IN")
+//    private Country country;
 
     public City(String cityName, String countryCode){
         setCityName(cityName);
