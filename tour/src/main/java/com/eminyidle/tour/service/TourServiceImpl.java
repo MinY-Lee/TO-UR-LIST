@@ -15,6 +15,9 @@ import com.eminyidle.tour.repository.UserRepository;
 import com.eminyidle.tour.repository.maria.CountryCityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +41,7 @@ public class TourServiceImpl implements TourService {
 
     private final MemberService memberService;
     private final RequestService requestService;
+    private final KafkaProducerService kafkaProducerService;
 
     @Override
     public Tour createTour(String userId, CreateTourReq createTourReq) {
@@ -73,7 +77,15 @@ public class TourServiceImpl implements TourService {
         userRepository.createMemberRelationship(user.getUserId(), tour.getTourId(), "host");
 
         // TODO - 나라와 연계된 체크리스트 생성(Kafka)
+
+        kafkaProducerService.produceMessage("create-tour",tour.toString());
+
         return tour;
+    }
+
+    @KafkaListener(topics = "create-tour")
+    private void consumerTest(@Payload String message){
+        log.debug("consumer get! "+message);
     }
 
     private boolean isHost(String userId, String tourId) {
