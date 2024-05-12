@@ -23,16 +23,9 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ""
   volumeMode: Filesystem
-  local:
-    path: /home/ubuntu/volume/tourlist-user-mariadb-pv
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-                - worker-node
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: fs-072504788f320cf5a
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
