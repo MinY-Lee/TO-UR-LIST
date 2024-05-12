@@ -70,8 +70,15 @@ export default function TourCreatePage() {
     }, [step, title]);
 
     useEffect(() => {
-        //////////////////////////////////////////
-        // api 호출 후 id 받아와서 넣고 카드 띄우기
+        setNewTour({
+            tourTitle: title,
+            cityList: selectedCity,
+            startDate: startDate,
+            endDate: endDate,
+        });
+    }, [newTour, isDone]);
+
+    useEffect(() => {
         if (isDone) {
             createTour(newTour)
                 .then((res) => {
