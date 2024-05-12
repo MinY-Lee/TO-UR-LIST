@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# 사용법: ./create-configmap.sh <디렉토리 경로> <ConfigMap 이름>
+# 사용법: ./create-configmap.sh <DB 파일 디렉토리 경로> <저장경로> <ConfigMap 이름>
 DIRECTORY=$1
-CONFIGMAP_NAME=$2
+SAVE_DIRECTORY=$2
+CONFIGMAP_NAME=$3
 
 # 디렉토리가 존재하는지 확인
 if [ ! -d "$DIRECTORY" ]; then
@@ -20,7 +21,7 @@ CMD="$CMD --dry-run=client -o yaml"
 # ConfigMap 생성
 echo "ConfigMap을 생성합니다: $CONFIGMAP_NAME"
 echo $CMD
-$CMD > "$CONFIGMAP_NAME.yml"
+$CMD > "$SAVE_DIRECTORY/$CONFIGMAP_NAME.yml"
 
 # 성공 메시지
 if [ $? -eq 0 ]; then
