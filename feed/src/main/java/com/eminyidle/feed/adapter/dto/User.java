@@ -6,17 +6,15 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
 @Builder
 @ToString
-public class TourInfo {
+public class User {
     private String userNickname;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
-    private List<City> cityList;
-    private List<Place> placeList;
-    private List<Item> itemList;
+    private String userName;
+    private LocalDateTime userBirth;
+    private Integer userGender;
+    private String userProfileImageId;
 }

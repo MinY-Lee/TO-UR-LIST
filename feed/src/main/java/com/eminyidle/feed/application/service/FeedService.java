@@ -3,16 +3,19 @@ package com.eminyidle.feed.application.service;
 import com.eminyidle.feed.adapter.dto.HiddenActivity;
 import com.eminyidle.feed.adapter.dto.HiddenItem;
 import com.eminyidle.feed.adapter.dto.HiddenPlace;
+import com.eminyidle.feed.adapter.dto.TourInfo;
 import com.eminyidle.feed.application.port.in.CreateFeedUsecase;
 import com.eminyidle.feed.application.port.out.LoadTourPort;
 import com.eminyidle.feed.application.port.out.SaveFeedPort;
 import com.eminyidle.feed.domain.Feed;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class FeedService implements CreateFeedUsecase {
 
@@ -38,7 +41,10 @@ public class FeedService implements CreateFeedUsecase {
                 .build();
 
         // 외부 api 호출을 신청한다?
-        loadTourPort.loadTour(tourId, userId);
+        // 에러처리는 서비스에서 해주기
+        TourInfo tourInfo = loadTourPort.loadTour(tourId, userId);
+        log.info("loadTour 실행 완료");
+        log.info(tourInfo.toString());
         saveFeedPort.save(feed);
 
     }
