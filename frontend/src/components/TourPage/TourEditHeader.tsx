@@ -1,5 +1,5 @@
 import { BaseSyntheticEvent, useEffect, useState, useRef } from "react";
-import { TourInfoDetail, MemberInfo, City } from "../../types/types";
+import { TourInfoDetail, MemberInfo, City, Country } from "../../types/types";
 import MyButton from "../Buttons/myButton";
 import CheckModal from "../CheckModal";
 import MemberAddModal from "../TourPage/AddMemberModal";
@@ -8,13 +8,19 @@ import SearchBar from "../SearchBar/mySearchBar";
 import MapIcon from "../../assets/svg/mapIcon";
 
 import CountryList from "../../dummy-data/get_country.json";
-import CityList from "../../dummy-data/get_city.json";
+// import CityList from "../../dummy-data/get_city.json";
 
 import GhostHandleModal from "./GhostHandleModal";
 import HostHandleModal from "./HostHandleModal";
 import EditMemberList from "./EditMemberList";
 import SearchResult from "./SearchResult";
-import { editCity, editPeriod, editTitle } from "../../util/api/tour";
+import {
+  editCity,
+  editPeriod,
+  editTitle,
+  getCity,
+  getCountry,
+} from "../../util/api/tour";
 
 interface PropType {
   tourId: string;
@@ -65,6 +71,9 @@ export default function TourEditHeader(props: PropType) {
   const [resultList, setResultList] = useState<City[]>([]); // 화면에 보여줄 검색 결과
   const [selectedCity, setSelectedCity] = useState<City[]>([]); // 선택된 도시
 
+  const [countryList, setCountryList] = useState<Country[]>([]);
+  const [cityList, setCityList] = useState<City[]>([]);
+
   const addMemberModalRef = useRef(null);
 
   useEffect(() => {
@@ -85,6 +94,14 @@ export default function TourEditHeader(props: PropType) {
       // 컴포넌트가 언마운트될 때 클릭 이벤트 리스너 제거
       document.removeEventListener("click", handleClickOutside);
     };
+  }, []);
+
+  useEffect(() => {
+    getCountry()
+      .then((res) => {
+        setCountryList(res.data);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
@@ -164,17 +181,28 @@ export default function TourEditHeader(props: PropType) {
       // 코드로 도시 검색 및 결과 포맷팅
       const search: City[] = [];
 
-      const targetCountry = CityList.find(
+      const targetCountry = countryList.find(
         (country) => country.countryCode === foundCountry.countryCode
       );
-      targetCountry?.cityList.map((city) => {
-        search.push({ countryCode: targetCountry.countryCode, cityName: city });
-      });
 
-      setSearchList(search);
+      if (targetCountry) {
+        getCity(targetCountry.countryCode)
+          .then((res) => {
+            const data: string[] = res.data;
+            let search: City[] = [];
+            data.forEach((cityName: string) => {
+              search.push({
+                countryCode: targetCountry.countryCode,
+                cityName: cityName,
+              });
+            });
+            setSearchList(search);
+          })
+          .catch((err) => console.log(err));
+      }
 
       // 선택된 도시가 있을 때 결과를 업데이트
-      const updatedResultList = search.filter(
+      const updatedResultList = searchList.filter(
         (city) =>
           !selectedCity.some(
             (selected) => JSON.stringify(selected) === JSON.stringify(city)
