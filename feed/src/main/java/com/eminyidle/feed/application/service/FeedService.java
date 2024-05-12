@@ -20,7 +20,7 @@ public class FeedService implements CreateFeedUsecase {
     private final LoadTourPort loadTourPort;
 
     @Override
-    public void createFeed(String feedId, String feedTitle, String feedContent, List<String> feedThemeTagList, String feedMateTag,
+    public void createFeed(String feedId, String userId, String feedTitle, String feedContent, List<String> feedThemeTagList, String feedMateTag,
                            String tourId, List<Integer> hiddenDayList, List<HiddenPlace> hiddenPlaceList,
                            List<HiddenActivity> hiddenActivityList, List<HiddenItem> hiddenItemList) {
 
@@ -38,7 +38,7 @@ public class FeedService implements CreateFeedUsecase {
                 .build();
 
         // 외부 api 호출을 신청한다?
-        loadTourPort.loadTour(tourId);
+        loadTourPort.loadTour(tourId, userId);
         saveFeedPort.save(feed);
 
     }

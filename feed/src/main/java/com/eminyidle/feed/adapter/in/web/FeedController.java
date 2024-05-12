@@ -24,7 +24,7 @@ public class FeedController {
         log.info("userId: {}", userId);
         String feedId = UUID.randomUUID().toString();
         createFeedUsecase.createFeed(
-                feedId, createFeedReq.getFeedTitle(), createFeedReq.getFeedContent(), createFeedReq.getFeedThemeTagList(),
+                feedId, userId, createFeedReq.getFeedTitle(), createFeedReq.getFeedContent(), createFeedReq.getFeedThemeTagList(),
                 createFeedReq.getFeedMateTag(), createFeedReq.getTourId(), createFeedReq.getHiddenDayList(),
                 createFeedReq.getHiddenPlaceList(), createFeedReq.getHiddenActivityList(), createFeedReq.getHiddenItemList());
 

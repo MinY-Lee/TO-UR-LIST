@@ -4,5 +4,5 @@ import com.eminyidle.feed.adapter.dto.TourInfo;
 import reactor.core.publisher.Mono;
 
 public interface LoadTourPort {
-    Mono<TourInfo> loadTour(String tourId);
+    Mono<TourInfo> loadTour(String tourId, String userId);
 }
