@@ -1,8 +1,17 @@
+import FeedSearchBar from '../../components/FeedPage/FeedSearchBar';
+import HeaderBar from '../../components/HeaderBar/HeaderBar';
+import TabBarMain from '../../components/TabBar/TabBarMain';
+
 export default function FeedPage() {
     return (
         <>
-            <h1>피드 페이지</h1>
-            <p>피드 목록이 주어져 있는 페이지입니다.</p>
+            <section className="w-full h-full">
+                <div className="w-full h-[90%] flex flex-col items-center overflow-y-scroll">
+                    <HeaderBar />
+                    <FeedSearchBar />
+                </div>
+                <TabBarMain tabMode={1} />
+            </section>
         </>
     );
 }

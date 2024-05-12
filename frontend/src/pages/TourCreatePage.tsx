@@ -19,12 +19,12 @@ export default function TourCreatePage() {
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
     const [title, setTitle] = useState<string>('');
-    const [newTour, setNewTour] = useState<Object>({
-        tourTitle: '',
-        cityList: [],
-        startDate: '',
-        endDate: '',
-    }); // api 보낼 객체
+    // const [newTour, setNewTour] = useState<Object>({
+    //     tourTitle: '',
+    //     cityList: [],
+    //     startDate: '',
+    //     endDate: '',
+    // }); // api 보낼 객체
     const [tourCard, setTourCard] = useState<TourCardInfo>({
         tourId: '',
         tourTitle: '',
@@ -60,7 +60,10 @@ export default function TourCreatePage() {
 
         // cityList를 순회하면서 각 요소를 처리
         selectedCity.forEach((item) => {
-            const city = { countryCode: item.countryCode, cityName: item.cityName };
+            const city = {
+                countryCode: item.countryCode,
+                cityName: item.cityName,
+            };
             cities.push(city);
         });
 
@@ -73,8 +76,17 @@ export default function TourCreatePage() {
         //////////////////////////////////////////
         // api 호출 후 id 받아와서 넣고 카드 띄우기
         if (isDone) {
+            const newTour = {
+                tourTitle: title,
+                cityList: selectedCity,
+                startDate: startDate,
+                endDate: endDate,
+            };
+            console.log(newTour);
+
             createTour(newTour)
                 .then((res) => {
+                    console.log(res);
                     if (res.status === httpStatusCode.OK) {
                         setTourCard({
                             tourId: res.data,
@@ -132,7 +144,9 @@ export default function TourCreatePage() {
                 <HeaderBar />
                 <h1 className="m-3 text-3xl font-bold">여행 만들기</h1>
             </header>
-            <div className="gap-3 row-span-8 text-center">{currentComponent}</div>
+            <div className="gap-3 row-span-8 text-center">
+                {currentComponent}
+            </div>
             <div className="row-span-1">
                 {step != 4 ? (
                     <MyButton

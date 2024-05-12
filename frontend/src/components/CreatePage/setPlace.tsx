@@ -4,9 +4,10 @@ import SearchBar from '../../components/SearchBar/mySearchBar';
 import MyButton from '../../components/Buttons/myButton';
 
 import { City } from '../../types/types';
+import { GetCityList, GetCountryList } from '../../util/api/country';
 
-import CountryList from '../../dummy-data/get_country.json';
-import CityList from '../../dummy-data/get_city.json';
+// import CountryList from '../../dummy-data/get_country.json';
+// import CityList from '../../dummy-data/get_city.json';
 
 interface PropType {
     onChangeSelected: (selectedCity: City[]) => void;
@@ -20,7 +21,9 @@ export default function SetPlace(props: PropType) {
 
     useEffect(() => {
         // 선택된 도시가 변경될 때마다 resultList 업데이트
-        const updatedResultList = searchList.filter((city) => !selectedCity.includes(city));
+        const updatedResultList = searchList.filter(
+            (city) => !selectedCity.includes(city)
+        );
         setResultList(updatedResultList);
 
         // 부모 컴포넌트에 보내기
@@ -31,28 +34,47 @@ export default function SetPlace(props: PropType) {
     const handleDataFromChild = (data: string) => {
         setQuery(data);
         // 나라 -> 도시 로직인 경우 검색어를 나라 코드로 치환
-        const foundCountry = CountryList.find((country) => country.countryName === data);
+        GetCountryList()
+            .then((res) => {
+                // console.log(res);
+                const CountryList = res.data;
+                // console.log(data);
 
-        if (foundCountry) {
-            // 코드로 도시 검색 및 결과 포맷팅
-            if (foundCountry) {
-                // 코드로 도시 검색 및 결과 포맷팅
-                const search: City[] = [];
-
-                const targetCountry = CityList.find((country) => country.countryCode === foundCountry.countryCode);
-                targetCountry?.cityList.map((city) => {
-                    search.push({ countryCode: targetCountry.countryCode, cityName: city });
-                });
-
-                setSearchList(search);
-
-                // 선택된 도시가 있을 때 결과를 업데이트
-                const updatedResultList = search.filter(
-                    (city) => !selectedCity.some((selected) => JSON.stringify(selected) === JSON.stringify(city))
+                const foundCountry = CountryList.find(
+                    (country: any) => country.countryName === data
                 );
-                setResultList(updatedResultList);
-            }
-        }
+                console.log(foundCountry);
+
+                if (foundCountry) {
+                    // 코드로 도시 검색 및 결과 포맷팅
+                    GetCityList(foundCountry.countryCode).then((res) => {
+                        console.log(res);
+                        const CityList: City[] = [];
+                        res.data.map((cityName: string) => {
+                            const newCity = {
+                                countryCode: foundCountry.countryCode,
+                                cityName: cityName,
+                            };
+                            CityList.push(newCity);
+                        });
+
+                        setSearchList(CityList);
+                        // 선택된 도시가 있을 때 결과를 업데이트
+                        const updatedResultList = CityList.filter(
+                            (city) =>
+                                !selectedCity.some(
+                                    (selected) =>
+                                        JSON.stringify(selected) ===
+                                        JSON.stringify(city)
+                                )
+                        );
+                        setResultList(updatedResultList);
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     // 여행할 도시 선택 또는 해제
@@ -64,7 +86,9 @@ export default function SetPlace(props: PropType) {
             setSelectedCity([...selectedCity, city]);
         } else {
             // 이미 선택된 도시라면 제거
-            const updatedCities = selectedCity.filter((selected) => selected !== city);
+            const updatedCities = selectedCity.filter(
+                (selected) => selected !== city
+            );
             setSelectedCity(updatedCities);
         }
     };
@@ -72,10 +96,16 @@ export default function SetPlace(props: PropType) {
     return (
         <div className="flex flex-col items-center">
             <div className="text-2xl font-bold m-3">어디로 떠나시나요?</div>
-            <div id="search-container" className="w-[90%] shadow-md border border-black rounded-lg">
+            <div
+                id="search-container"
+                className="w-[90%] shadow-md border border-black rounded-lg"
+            >
                 <SearchBar onChange={handleDataFromChild} />
             </div>
-            <div id="city-list-container" className="m-2 h-[40vh] overflow-scroll w-[90%]">
+            <div
+                id="city-list-container"
+                className="m-2 h-[40vh] overflow-scroll w-[90%]"
+            >
                 {selectedCity.length > 0 &&
                     selectedCity.map((res, index) => (
                         <div key={index} className="flex justify-between m-2">
@@ -92,7 +122,9 @@ export default function SetPlace(props: PropType) {
                         </div>
                     ))}
                 {query !== '' && searchList.length === 0 ? (
-                    <div className="text-lg text-center text-gray-500">검색 결과가 없습니다.</div>
+                    <div className="text-lg text-center text-gray-500">
+                        검색 결과가 없습니다.
+                    </div>
                 ) : (
                     resultList.map((res, index) => (
                         <div key={index} className="flex justify-between m-2">

@@ -5,3 +5,7 @@ const local = localAxios();
 export async function createTour(newTour: any) {
     return await local.post(`/api/tour`, JSON.stringify(newTour));
 }
+
+export async function getMyTourList() {
+    return await local.get(`/api/tour`);
+}

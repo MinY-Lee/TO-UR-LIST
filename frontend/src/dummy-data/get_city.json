@@ -2,7 +2,7 @@
     {
         "countryCode" : "JPN",
         "cityList" : [
-            "오사카",
+            "오사카시",
             "후쿠오카",
             "오키나와"
         ]
@@ -12,6 +12,13 @@
         "cityList" : [
             "타이페이",
             "가오슝"
+        ]
+    },
+    {
+        "countryCode" : "AFG",
+        "cityList" : [
+            "카불",
+            "칸다하르"
         ]
     }
 ]
