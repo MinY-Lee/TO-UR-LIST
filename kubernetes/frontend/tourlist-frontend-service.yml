@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: tourlist-frontend
-          image: ssuyas/tourlist_frontend
+          image: ssuyas/tourlist_frontend:latest
           ports:
             - containerPort: 80
 
