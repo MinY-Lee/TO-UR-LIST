@@ -12,22 +12,6 @@ spec:
 
 ---
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: tourlist-user-mariadb-pv
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: ""
-  volumeMode: Filesystem
-  csi:
-    driver: efs.csi.aws.com
-    volumeHandle: fs-072504788f320cf5a
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: tourlist-user-mariadb-pvc
@@ -36,7 +20,8 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 2Gi
+  storageClassName: gp3
 ---
 apiVersion: apps/v1
 kind: Deployment
