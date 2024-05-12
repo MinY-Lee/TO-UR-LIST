@@ -153,3 +153,9 @@ export interface CurrencyInfo {
     currencyRate: Number;
     currencyCode: String;
 }
+
+// 피드
+export interface Filter {
+    filterType: string;
+    filterValue: string;
+}

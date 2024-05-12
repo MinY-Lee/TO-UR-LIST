@@ -10,7 +10,7 @@ import TabBarTour from '../components/TabBar/TabBarTour';
 import TourEditHeader from '../components/TourPage/TourEditHeader';
 
 export default function TourPage() {
-    const [type, setType] = useState<string>("");
+    const [type, setType] = useState<string>('');
     const [data, setData] = useState<TourInfoDetail>({
         tourId: '',
         tourTitle: '',
@@ -19,12 +19,13 @@ export default function TourPage() {
         endDate: '',
         memberList: [],
     });
+    const [tourId, setTourId] = useState<string>('');
 
     useEffect(() => {
         // 투어 아이디 불러오기
         const address: string[] = window.location.href.split('/');
         const tourId: string = address[address.length - 1];
-
+        setTourId(tourId);
         // 투어 아이디로 더미데이터에서 데이터 찾기 (임시)
         const tourData = TourDetail.find((tour) => tour.tourId === tourId);
         if (tourData) {
@@ -65,10 +66,7 @@ export default function TourPage() {
                 </div>
             </div>
             <footer>
-                <TabBarTour
-                    tourMode={0}
-                    tourId={data.tourId ? data.tourId : ''}
-                />
+                <TabBarTour tourMode={0} tourId={tourId} />
             </footer>
         </>
     );
