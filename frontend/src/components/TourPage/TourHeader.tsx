@@ -16,8 +16,6 @@ interface PropType {
 export default function TourHeader(props: PropType) {
   const navigate = useNavigate();
 
-  const data = props.tourInfo;
-
   const [outModal, setOutModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
@@ -91,7 +89,9 @@ export default function TourHeader(props: PropType) {
   const handleDeleteTour = () => {
     // 여행 삭제 처리
     deleteTour(props.tourId)
-      .then((res) => {})
+      .then((res) => {
+        console.log("삭제완료");
+      })
       .catch((err) => console.log(err));
 
     setDeleteModal(false);
@@ -103,7 +103,6 @@ export default function TourHeader(props: PropType) {
   };
 
   const titleEllipsis = (text: string) => {
-    console.log(text.length);
     if (text.length > 10) {
       return text.substring(0, 10) + "...";
     }
@@ -115,7 +114,7 @@ export default function TourHeader(props: PropType) {
       {outModal ? (
         <CheckModal
           mainText={`[ ${titleEllipsis(
-            data?.tourTitle
+            props.tourInfo.tourTitle
           )} ]에서\n나가시겠습니까?`}
           subText="나의 여행 내역에서 삭제됩니다."
           OKText="나가기"
@@ -144,45 +143,47 @@ export default function TourHeader(props: PropType) {
       <div className="w-full grid grid-cols-6 justify-between items-end p-5 bak">
         <div className="col-span-5">
           <div className="text-[7vw] font-bold w-[100%] overflow-ellipsis overflow-hidden whitespace-nowrap">
-            {data?.tourTitle}
+            {props.tourInfo.tourTitle}
           </div>
-          <div className="text-[4vw]">{`${data?.startDate}~${data?.endDate}`}</div>
+          <div className="text-[4vw]">{`${props.tourInfo.startDate}~${props.tourInfo.endDate}`}</div>
 
           <div className="flex items-center w-[90vw] overflow-x-scroll h-[8vh]">
-            {data?.memberList.map((member: MemberInfo, index: number) => (
-              <div
-                key={index}
-                className="relative"
-                onMouseEnter={() => handleMouseEnter(member)}
-                onMouseLeave={handleMouseLeave}
-              >
-                <div className={`${isHost(member)}`}>
-                  {member.memberType !== "ghost" ? (
-                    <div className="drop-shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
-                      {member.userNickname[0]}
-                    </div>
-                  ) : (
-                    <div className="drop-shadow-lg m-1 font-bold text-3xl p-2 bg-gray-400 w-12 h-12 rounded-full flex justify-center items-center">
-                      <img src={GhostProfile}></img>
+            {props.tourInfo.memberList.map(
+              (member: MemberInfo, index: number) => (
+                <div
+                  key={index}
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter(member)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <div className={`${isHost(member)}`}>
+                    {member.memberType !== "ghost" ? (
+                      <div className="drop-shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
+                        {member.userNickname[0]}
+                      </div>
+                    ) : (
+                      <div className="drop-shadow-lg m-1 font-bold text-3xl p-2 bg-gray-400 w-12 h-12 rounded-full flex justify-center items-center">
+                        <img src={GhostProfile}></img>
+                      </div>
+                    )}
+                  </div>
+                  {hoveredMember === member && (
+                    <div className="absolute whitespace-nowrap z-10 text-sm bottom-1 left-[40%] bg-gray-500 pl-1 pr-1 rounded-md text-white">
+                      {member.userNickname}
                     </div>
                   )}
                 </div>
-                {hoveredMember === member && (
-                  <div className="absolute whitespace-nowrap z-10 text-sm bottom-1 left-[40%] bg-gray-500 pl-1 pr-1 rounded-md text-white">
-                    {member.userNickname}
-                  </div>
-                )}
-              </div>
-            ))}
+              )
+            )}
           </div>
           <div className="text-[5vw] flex items-center mt-3 ">
             <MapIcon />
 
             <div className="flex flex-wrap">
-              {data.cityList.map((city, index) => (
+              {props.tourInfo.cityList.map((city, index) => (
                 <div key={index} className="whitespace-pre">
                   {city.cityName}
-                  {index != data.cityList.length - 1 ? ", " : ""}
+                  {index != props.tourInfo.cityList.length - 1 ? ", " : ""}
                 </div>
               ))}
               {/* {data.cityList.length >= 1

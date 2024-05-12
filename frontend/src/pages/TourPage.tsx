@@ -12,6 +12,7 @@ import { getTour } from "../util/api/tour";
 
 export default function TourPage() {
   const [type, setType] = useState<string>("");
+  const [flag, setFlag] = useState<boolean>(false); // 여행정보 변화 감지 플래그
   const [tourId, setTourId] = useState<string>("");
   const [data, setData] = useState<TourInfoDetail>({
     tourTitle: "",
@@ -27,26 +28,33 @@ export default function TourPage() {
     setTourId(address[address.length - 1]);
 
     // 데이터 불러오기
-    getTour(tourId)
-      .then((res) => {
-        console.log(res.data);
-        setData({
-          tourTitle: res.data.tourTitle,
-          cityList: res.data.cityList,
-          startDate: res.data.startDate.split("T")[0],
-          endDate: res.data.endDate.split("T")[0],
-          memberList: res.data.memberList,
+    if (tourId) {
+      getTour(tourId)
+        .then((res) => {
+          console.log(res.data.cityList);
+          setData({
+            tourTitle: res.data.tourTitle,
+            cityList: res.data.cityList,
+            startDate: res.data.startDate.split("T")[0],
+            endDate: res.data.endDate.split("T")[0],
+            memberList: res.data.memberList,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
 
-    setType("default");
-  }, [tourId]);
+      setType("default");
+      setFlag(false);
+    }
+  }, [tourId, flag]);
 
   const onChange = (type: string) => {
     setType(type);
+  };
+
+  const onUpdate = (flag: boolean) => {
+    setFlag(flag);
   };
 
   return (
@@ -64,8 +72,10 @@ export default function TourPage() {
             />
           ) : (
             <TourEditHeader
+              tourId={tourId}
               tourInfo={data}
               onChange={(type) => onChange(type)}
+              onUpdate={onUpdate}
             />
           )}
         </div>

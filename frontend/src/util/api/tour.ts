@@ -25,3 +25,18 @@ export async function getTour(tourId: string) {
 export async function deleteTour(tourId: string) {
   return await local.delete(`/api/tour/${tourId}`);
 }
+
+/** 여행 제목 수정 **/
+export async function editTitle(updatedData: any) {
+  return await local.put(`/api/tour/title`, JSON.stringify(updatedData));
+}
+
+/** 여행 기간 수정 **/
+export async function editPeriod(updatedData: any) {
+  return await local.put(`/api/tour/period`, JSON.stringify(updatedData));
+}
+
+/** 여행 도시 수정 **/
+export async function editCity(updatedData: any) {
+  return await local.put(`/api/tour/city`, JSON.stringify(updatedData));
+}
