@@ -73,6 +73,7 @@ services:
     restart: unless-stopped
     volumes:
       - place-neo4j-data:/data
+      - place-neo4j-conf:/conf
     environment:
       TZ: 'Asia/Seoul'
     ports:
@@ -85,6 +86,7 @@ services:
     restart: unless-stopped
     volumes:
       - tour-neo4j-data:/data
+      - tour-neo4j-conf:/conf
     environment:
       NEO4J_AUTH: ${TOUR_NEO4J_USER_NAME}/${TOUR_NEO4J_USER_PASSWORD}
       TZ: 'Asia/Seoul'
@@ -98,8 +100,11 @@ services:
     restart: unless-stopped
     volumes:
       - checklist-neo4j-data:/data
+      - checklist-neo4j-conf:/conf
+      - ../checklist/import:/import
     environment:
       NEO4J_AUTH: ${TOUR_NEO4J_USER_NAME}/${TOUR_NEO4J_USER_PASSWORD}
+      NEO4J_dbms_security_allow__csv__import__from__file__urls: true
       TZ: 'Asia/Seoul'
     ports:
       - "7476:7474"
@@ -175,6 +180,9 @@ volumes:
   payment-mongodb-data:
   zookeeper-data:
   kafka-data:
+  place-neo4j-conf:
+  tour-neo4j-conf:
+  checklist-neo4j-conf:
 
 networks:
   default:
