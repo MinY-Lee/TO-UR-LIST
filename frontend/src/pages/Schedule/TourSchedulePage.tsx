@@ -10,7 +10,7 @@ import { TourInfoDetail, TourPlaceItem } from '../../types/types';
 //dummy data
 // import tourInfo from '../../dummy-data/get_tour_tourId.json';
 // import tourSchedule from '../../dummy-data/get_tour_place_tourId.json';
-import { getTourDetail } from '../../util/api/tour';
+import { getTour } from '../../util/api/tour';
 import { getPlaceList } from '../../util/api/place';
 
 export default function TourSchedulePage() {
@@ -37,7 +37,7 @@ export default function TourSchedulePage() {
 
     /**여행 정보 불러오기 */
     useEffect(() => {
-        getTourDetail(tourId)
+        getTour(tourId)
             .then((res) => {
                 console.log(res);
                 setTourInfo(res.data);
@@ -93,14 +93,24 @@ export default function TourSchedulePage() {
         <>
             <section className="w-full h-full">
                 <div className="w-full h-[25%]">
-                    <TourHeader tourId={tourId} tourInfo={tourInfo} onChange={onChange} />
+                    <TourHeader
+                        tourId={tourId}
+                        tourInfo={tourInfo}
+                        onChange={onChange}
+                    />
                 </div>
                 <div className="w-full h-[65%] relative overflow-hidden">
                     <Wrapper
-                        apiKey={`${import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY}`}
+                        apiKey={`${
+                            import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY
+                        }`}
                         libraries={['marker', 'places']}
                     >
-                        <Maps schedule={schedule} selectedDate={selectedDate} tourId={tourId} />
+                        <Maps
+                            schedule={schedule}
+                            selectedDate={selectedDate}
+                            tourId={tourId}
+                        />
                     </Wrapper>
                     <ScheduleBar
                         schedule={schedule}
