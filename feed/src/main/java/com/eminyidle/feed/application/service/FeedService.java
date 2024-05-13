@@ -46,6 +46,7 @@ public class FeedService implements CreateFeedUsecase {
         log.info("loadTour 실행 완료");
         log.info(tourInfo.toString());
 
+        // day, place 필터링
         List<Place> filteredPlace = tourInfo.getPlaceList().stream().filter(place -> {
                     // 숨기고싶은 날짜 지우기
                     if (hiddenDayList.contains(place.getTourDay())) return false;
@@ -58,6 +59,17 @@ public class FeedService implements CreateFeedUsecase {
                     return true;
                 }).collect(Collectors.toList());
 
+        // activity 필터링
+        hiddenActivityList.forEach(hiddenActivity -> {
+            log.info("start filter hiddenActivity");
+            filteredPlace.forEach(place -> {
+                if (hiddenActivity.getPlaceId().equals(place.getPlaceId()) && hiddenActivity.getTourDay().equals(place.getTourDay())) {
+                    place.getActivityList().remove(hiddenActivity.getActivity());
+                }
+            });
+        });
+        log.info(filteredPlace.toString());
+        // TODO ITEM 걸러주기
         // Activity 거르기
         log.info(filteredPlace.toString());
         // mongoDB 저장을 위한
@@ -67,7 +79,13 @@ public class FeedService implements CreateFeedUsecase {
                 .feedContent(feedContent)
                 .userNickname(tourInfo.getUserNickname())
                 .feedThemeTagList(feedThemeTagList)
+                .feedMateTag(feedMateTag)
+                .startDate(tourInfo.getStartDate())
                 .cityList(tourInfo.getCityList())
+                .placeList(filteredPlace)
+                .copyCount(0)
+                .likeCount(0)
+                .isLiked(false)
 //                .placeList(tourInfo.getPlaceList() == null ? new ArrayList<>() : tourInfo.getPlaceList().stream().filter(place -> {
 //                            // 숨기고싶은 날짜 지우기
 //                            if (hiddenDayList.contains(place.getTourDay())) return false;
@@ -91,6 +109,7 @@ public class FeedService implements CreateFeedUsecase {
 //                .collect(Collectors.toList())
                 .build();
         log.info(feedTourEntity.toString());
+        saveFeedPort.save(feedTourEntity);
         saveFeedPort.save(feed);
 
     }

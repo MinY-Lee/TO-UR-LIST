@@ -1,6 +1,7 @@
 package com.eminyidle.feed.adapter.dto;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,6 +24,8 @@ public class FeedTourEntity {
     private String userNickname;
     private List<String> feedThemeTagList;
     private String feedMateTag;
+//    @CreationTimestamp(source = SourceType.DB)
+    @CreatedDate
     private LocalDateTime createdAt;
     private LocalDateTime startDate;
     private LocalDateTime endDate;

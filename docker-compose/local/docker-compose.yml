@@ -136,6 +136,34 @@ services:
       ME_CONFIG_BASICAUTH_USERNAME: ${PAYMENT_MONGO_EXPRESS_USER_NAME}
       ME_CONFIG_BASICAUTH_PASSWORD: ${PAYMENT_MONGO_EXPRESS_USER_PASSWORD}
 
+  feed-mongodb:
+    image: mongo:7.0
+    container_name: feed-mongodb
+    restart: unless-stopped
+    volumes:
+      - feed-mongodb-data:/data
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${FEED_MONGO_DB_ROOT_USER_NAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${FEED_MONGO_DB_ROOT_USER_PASSWORD}
+      DB_NAME: ${FEED_MONGO_DB_NAME}
+    ports:
+      - "27018:27017"
+
+  feed-mongo-express:
+    image: mongo-express
+    container_name: feed-mongo-express
+    restart: unless-stopped
+    ports:
+      - "8889:8081"
+    environment:
+      ME_CONFIG_MONGODB_AUTH_USERNAME: ${FEED_MONGO_DB_ROOT_USER_NAME}
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: ${FEED_MONGO_DB_ROOT_USER_PASSWORD}
+      ME_CONFIG_MONGODB_AUTH_DATABASE: ${FEED_MONGO_DB_NAME}
+      ME_CONFIG_MONGODB_URL: mongodb://${FEED_MONGO_DB_ROOT_USER_NAME}:${FEED_MONGO_DB_ROOT_USER_PASSWORD}@feed-mongodb:27017/${FEED_MONGO_DB_NAME}?authSource=admin
+      ME_CONFIG_BASICAUTH_USERNAME: ${FEED_MONGO_EXPRESS_USER_NAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${FEED_MONGO_EXPRESS_USER_PASSWORD}
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: true
+
   zookeeper:
     image: bitnami/zookeeper:3.8.3
     container_name: zookeeper
@@ -178,6 +206,7 @@ volumes:
   tour-neo4j-data:
   checklist-neo4j-data:
   payment-mongodb-data:
+  feed-mongodb-data:
   zookeeper-data:
   kafka-data:
   place-neo4j-conf:
