@@ -13,7 +13,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: tourlist-common-kafka-service
+  name: tourlist-common-zookeeper-service
 spec:
   selector:
     app: tourlist-common-zookeeper-pod
