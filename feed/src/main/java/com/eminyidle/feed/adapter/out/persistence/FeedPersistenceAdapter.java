@@ -1,6 +1,7 @@
 package com.eminyidle.feed.adapter.out.persistence;
 
 import com.eminyidle.feed.adapter.dto.FeedEntity;
+import com.eminyidle.feed.adapter.dto.FeedTourEntity;
 import com.eminyidle.feed.application.port.out.LoadTourPort;
 import com.eminyidle.feed.application.port.out.SaveFeedPort;
 import com.eminyidle.feed.domain.Feed;
@@ -15,12 +16,17 @@ public class FeedPersistenceAdapter  implements SaveFeedPort {
 
     private final FeedRepository feedRepository;
     private final FeedMapper feedMapper;
+    private final FeedTourRepository feedTourRepository;
 
     @Override
     public void save(Feed feed) {
         FeedEntity feedEntity = feedMapper.toEntity(feed);
         feedRepository.save(feedEntity);
 
+    }
+    @Override
+    public void save(FeedTourEntity feedTourEntity) {
+        feedTourRepository.save(feedTourEntity);
     }
     // loadTour
 }
