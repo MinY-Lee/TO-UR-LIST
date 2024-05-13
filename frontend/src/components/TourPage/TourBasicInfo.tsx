@@ -20,7 +20,15 @@ export default function TourBasicInfo(props: PropType) {
       getCountryInfo(country)
         .then((res) => {
           if (res.status == HttpStatusCode.Ok) {
-            infoList.push(res.data);
+            console.log(res.data);
+            infoList.push({
+              climate: res.data.climate,
+              currencyUnit: res.data.currencyUnit,
+              kst: res.data.kst,
+              language: res.data.language,
+              plug_type: res.data.plug_type,
+              voltage: res.data.voltage,
+            });
           }
         })
         .catch((err) => console.log(err));
@@ -54,7 +62,7 @@ export default function TourBasicInfo(props: PropType) {
                   </div>
                   <div className="flex flex-col items-center">
                     <div className="text-gray-600">시차(한국기준)</div>
-                    <div className="text-lg">{countryInfo.KST}시간</div>
+                    <div className="text-lg">{countryInfo.kst}시간</div>
                   </div>
                 </div>
                 <div>

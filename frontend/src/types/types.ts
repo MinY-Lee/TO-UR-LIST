@@ -44,13 +44,12 @@ export interface Country {
 }
 
 export interface CountryInfo {
-  countryCode: string; // 나중에 없앨거임
-  language: string;
-  currencyUnit: string;
-  voltage: string;
-  plug_type: string;
   climate: string;
-  KST: string;
+  currencyUnit: string;
+  kst: number;
+  language: string;
+  plug_type: string;
+  voltage: string;
 }
 
 //피드 관련
