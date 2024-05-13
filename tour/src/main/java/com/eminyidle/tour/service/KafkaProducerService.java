@@ -23,11 +23,11 @@ public class KafkaProducerService {
     @Value("${KAFKA_TOUR_ALERT_TOPIC}")
     private String KAFKA_TOUR_TOPIC;
 
-    private final KafkaTemplate kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     public void produceMessage(String topic, String value) {
         log.debug("produce String Message-" + topic);
-        CompletableFuture send = kafkaTemplate.send(KAFKA_TOUR_TOPIC, value);
+        CompletableFuture send = kafkaTemplate.send(topic, value);
     }
 
     /**

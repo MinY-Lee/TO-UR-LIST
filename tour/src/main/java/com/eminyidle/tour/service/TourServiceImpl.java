@@ -42,7 +42,7 @@ public class TourServiceImpl implements TourService {
     private final MemberService memberService;
     private final RequestService requestService;
     private final KafkaProducerService kafkaProducerService;
-    @Value("${KAFKA_PAYMENT_TOPIC}")
+    @Value("${KAFKA_PAYMENT_REQUEST_TOPIC}")
     private String paymentTopic;
 
     @Override
@@ -66,8 +66,12 @@ public class TourServiceImpl implements TourService {
                 .build();
         tourRepository.save(tour);
 
-        User user = userRepository.findById(userId).orElseGet(() ->
-                requestService.getUser(userId)
+        User user = userRepository.findById(userId).orElseGet(() ->{
+            User dbUser=requestService.getUser(userId);
+            dbUser.setTourList(new ArrayList<>());
+            return dbUser;
+                }
+
         );
 
         user.getTourList().add(Attend.builder()

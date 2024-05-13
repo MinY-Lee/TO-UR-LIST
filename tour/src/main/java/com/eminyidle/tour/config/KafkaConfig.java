@@ -17,7 +17,7 @@ import java.util.Map;
 public class KafkaConfig {
     @Value("${KAFKA_BOOTSTRAP_SERVERS}")
     private String KAFKA_BOOTSTRAP_SERVERS;
-    @Value("${KAFKA_CONSUMER_GROUP_ID}")
+    @Value("${KAFKA_TOUR_CONSUMER_GROUP}")
     private String CONSUMER_GROUP_ID;
 
 
