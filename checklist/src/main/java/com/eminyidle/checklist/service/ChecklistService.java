@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface ChecklistService {
 
-    void createPrivateItem(String userId, ChecklistItem checklistItem);
+    boolean createPrivateItem(String userId, ChecklistItem checklistItem);
 
-    void createPublicItem(String userId, ChecklistItem checklistItem);
+    boolean createPublicItem(String userId, ChecklistItem checklistItem);
 
-    void updateItem(String userId, ChecklistItem oldItem, ChecklistItem newItem);
+    boolean updateItem(String userId, ChecklistItem oldItem, ChecklistItem newItem);
 
     void deleteItem(String userId, ChecklistItem checklistItem);
 

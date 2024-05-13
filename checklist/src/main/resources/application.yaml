@@ -9,6 +9,10 @@ spring:
       username: ${CHECKLIST_NEO4J_USER_NAME}
       password: ${CHECKLIST_NEO4J_USER_PASSWORD}
     uri: ${CHECKLIST_NEO4J_URI}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    consumer:
+      group-id: ${KAFKA_CHECKLIST_CONSUMER_GROUP}
 
 server:
   port: 8087
