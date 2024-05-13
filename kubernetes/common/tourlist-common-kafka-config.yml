@@ -4,7 +4,7 @@ metadata:
   name: tourlist-common-kafka-config
 data:
   ALLOW_ANONYMOUS_LOGIN: "yes"
-  KAFKA_ZOOKEEPER_CONNECT: "tourlist-zookeeper-service:2181"
+  KAFKA_ZOOKEEPER_CONNECT: "tourlist-common-zookeeper-service:2181"
   KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
   KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: "CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT"
   KAFKA_CFG_LISTENERS: "CLIENT://:9092,EXTERNAL://:9093"
