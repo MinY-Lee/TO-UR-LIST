@@ -1,4 +1,4 @@
-create table user
+create table if not exists user
 (
     user_id        CHAR(36) PRIMARY KEY,
     user_nickname  VARCHAR(45) UNIQUE NOT NULL,
