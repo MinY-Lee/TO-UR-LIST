@@ -1,6 +1,6 @@
 package com.eminyidle.tour.application.service;
 
-import com.eminyidle.tour.adapter.out.messaging.KafkaProducerService;
+import com.eminyidle.tour.adapter.out.messaging.TourKafkaProducer;
 import com.eminyidle.tour.adapter.out.web.RequestService;
 import com.eminyidle.tour.application.dto.*;
 import com.eminyidle.tour.application.port.MemberService;
@@ -46,7 +46,7 @@ public class TourServiceImpl implements TourService {
 
     private final MemberService memberService;
     private final RequestService requestService;
-    private final KafkaProducerService kafkaProducerService;
+    private final TourKafkaProducer kafkaProducer;
     @Value("${KAFKA_PAYMENT_REQUEST_TOPIC}")
     private String paymentTopic;
 
@@ -71,10 +71,10 @@ public class TourServiceImpl implements TourService {
                 .build();
         tourRepository.save(tour);
 
-        User user = userRepository.findById(userId).orElseGet(() ->{
-            User dbUser=requestService.getUser(userId);
-            dbUser.setTourList(new ArrayList<>());
-            return dbUser;
+        User user = userRepository.findById(userId).orElseGet(() -> {
+                    User dbUser = requestService.getUser(userId);
+                    dbUser.setTourList(new ArrayList<>());
+                    return dbUser;
                 }
 
         );
@@ -88,7 +88,8 @@ public class TourServiceImpl implements TourService {
         userRepository.createMemberRelationship(user.getUserId(), tour.getTourId(), "host");
 
         // TODO - 나라와 연계된 체크리스트 생성(Kafka)
-        kafkaProducerService.produceTourKafkaMessage("CREATE", tour);
+//        kafkaProducer.produceTourKafkaMessage("CREATE", tour);
+        kafkaProducer.produceCreateTour(tour);
         return tour;
     }
 
@@ -134,9 +135,10 @@ public class TourServiceImpl implements TourService {
 
         tourRepository.deleteById(tourId);
         //TODO - 연결된 모든 tourActivity도 지워져야 한다 (KAFKA)
-        kafkaProducerService.produceTourKafkaMessage("DELETE", Tour.builder()
-                .tourId(tourId)
-                .build());
+//        kafkaProducer.produceTourKafkaMessage("DELETE", Tour.builder()
+//                .tourId(tourId)
+//                .build());
+        kafkaProducer.produceDeleteTour(Tour.builder().tourId(tourId).build());
     }
 
     @Override
@@ -186,7 +188,8 @@ public class TourServiceImpl implements TourService {
         tourRepository.save(tour);
 
         // TODO - 나라와 연계된 체크리스트 업데이트(Kafka)
-        kafkaProducerService.produceTourKafkaMessage("UPDATE", tour);
+//        kafkaProducer.produceTourKafkaMessage("UPDATE", tour);
+        kafkaProducer.produceUpdateTourCity(tour);
     }
 
     @Override
@@ -230,6 +233,7 @@ public class TourServiceImpl implements TourService {
         Tour tour = tourRepository.findByUserIdAndTourId(userId, tourId).orElseThrow(NoSuchTourException::new);
         userRepository.deleteGuestRelationship(userId, tourId);
         //TODO- 관련 모든 아이템 삭제(KAFKA)
+        kafkaProducer.produceDeleteMember(userId,tourId);
         if (tour.getEndDate().isBefore(LocalDateTime.now())) { //여행 후인 경우 - 다른 멤버들에게는 연결 정보 유지: 유저이지만, 타입을 고스트로 변경
             userRepository.createMemberRelationship(userId, tourId, "ghost");
         }
