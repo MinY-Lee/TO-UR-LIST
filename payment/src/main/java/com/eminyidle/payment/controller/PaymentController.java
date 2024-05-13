@@ -30,14 +30,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
-@RequestMapping("/pay")
+@RequestMapping("/payment")
 public class PaymentController {
 
     private final PaymentService paymentService;
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final String HEADER_USER_ID = "userId";
 
-    @Value("${KAFKA_PAYMENT_TOPIC}")
+    @Value("${KAFKA_PAYMENT_REQUEST_TOPIC}")
     String paymentTopicName;
 
     @GetMapping("/currency/{countryCode}/{date}")
