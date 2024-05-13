@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableNeo4jRepositories(basePackages = "com.eminyidle.tour.repository",transactionManagerRef = "neo4jTransactionManager")
+@EnableNeo4jRepositories(basePackages = "com.eminyidle.tour.adapter.out.persistence.neo4j",transactionManagerRef = "neo4jTransactionManager")
 public class Neo4jConfig extends Neo4jAutoConfiguration {
 
     @Value("${TOUR_NEO4J_URI}")

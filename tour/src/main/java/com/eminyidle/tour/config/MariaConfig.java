@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.eminyidle.tour.repository.maria",transactionManagerRef = "mariaTransactionManager")
+@EnableJpaRepositories(basePackages = "com.eminyidle.tour.country.repository",transactionManagerRef = "mariaTransactionManager")
 @EnableTransactionManagement
 public class MariaConfig {
     @Bean(name = "maria")
