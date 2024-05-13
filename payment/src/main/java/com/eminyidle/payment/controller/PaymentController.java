@@ -119,10 +119,16 @@ public class PaymentController {
         return ResponseEntity.ok().body(paymentInfoResList);
     }
 
-    @GetMapping("/detail/{payId}")
-    public ResponseEntity<?> searchPaymentInfo(@Valid @PathVariable("payId") String payId,
-                                               @Valid @RequestBody PayIdReq payIdReq,
+    @GetMapping("/{tourId}/{payId}")
+    public ResponseEntity<?> searchPaymentInfo(@Valid @PathVariable("tourId") String tourId,
+                                               @Valid @PathVariable("payId") String payId,
+                                               @Valid @RequestParam("payType") String payType,
                                                @RequestHeader(value = HEADER_USER_ID, required = false) String userId) {
+
+        PayIdReq payIdReq = PayIdReq.builder()
+                        .tourId(tourId)
+                        .payType(payType)
+                        .build();
 
         log.debug(payId);
         if (userId == null || userId.isEmpty()) {
