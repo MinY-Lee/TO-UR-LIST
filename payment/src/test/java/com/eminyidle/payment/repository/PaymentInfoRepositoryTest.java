@@ -1,6 +1,7 @@
 package com.eminyidle.payment.repository;
 
 
+import com.eminyidle.payment.config.MongoDBInit;
 import com.eminyidle.payment.dto.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@DataMongoTest
+@MongoDBInit
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PaymentInfoRepositoryTest {

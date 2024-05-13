@@ -21,6 +21,8 @@ public class PaymentInfoReq {
     private String tourId;
     @NotNull
     private Integer payAmount;
+    @NotNull
+    private Double exchangeRate;
     @NotBlank
     private String unit;
     @NotBlank

@@ -40,7 +40,7 @@ spring:
       port: 27017
       user: ${PAYMENT_MONGO_DB_ROOT_USER_NAME}
       password: ${PAYMENT_MONGO_DB_ROOT_USER_PASSWORD}
-      uri: mongodb://${PAYMENT_MONGO_DB_ROOT_USER_NAME}:${PAYMENT_MONGO_DB_ROOT_USER_PASSWORD}@${MONGO_HOST}:27017/${DB_TEST_NAME}?authSource=admin
+      uri: mongodb://${PAYMENT_MONGO_DB_ROOT_USER_NAME}:${PAYMENT_MONGO_DB_ROOT_USER_PASSWORD}@${MONGO_HOST}:27018/${PAYMENT_MONGO_TEST_DB_NAME}?authSource=admin
 logging:
   level:
     org:

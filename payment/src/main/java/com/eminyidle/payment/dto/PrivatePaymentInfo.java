@@ -18,6 +18,9 @@ public class PrivatePaymentInfo {
     @NotNull
     private Integer payAmount;
 
+    @NotNull
+    private Double exchangeRate;
+
     @NotBlank
     private String unit;
 
