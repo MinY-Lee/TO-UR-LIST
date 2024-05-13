@@ -10,7 +10,6 @@ spec:
     - protocol: TCP
       port: 8084
       targetPort: 8084
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -37,8 +36,12 @@ spec:
           ports:
             - containerPort: 8084
           envFrom:
+#            - configMapRef:
+#                name: tourlist-place-config
             - configMapRef:
-                name: tourlist-place-config
+                name: tourlist-common-config
             - secretRef:
                 name: tourlist-place-secrets
+            - secretRef:
+                name: tourlist-common-secrets
 
