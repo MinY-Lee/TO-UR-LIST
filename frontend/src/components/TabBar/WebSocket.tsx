@@ -6,15 +6,24 @@ export default function WebSocket() {
     //handshake
     useEffect(() => {
         const newClient = new Client({
-            brokerURL: `ws://localhost:8080/place`,
+            brokerURL: `ws://localhost:8084/place`,
             debug: function (str) {
                 console.log(str);
             },
             reconnectDelay: 5000,
         });
 
+        newClient.onConnect = (frame) => {
+            console.log('hello');
+            console.log(frame);
+        };
+
+        newClient.activate();
+
+        console.log(newClient);
+
         setWsClient(newClient);
     }, []);
 
-    return <div className="w-0 h-0 hidden"></div>;
+    return <div className="w-0 h-0"></div>;
 }

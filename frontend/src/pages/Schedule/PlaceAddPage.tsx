@@ -87,7 +87,7 @@ export default function PlaceAddPage() {
                 <div className="w-full h-[80%] flex flex-col overflow-y-hidden">
                     {/* 현재 날짜 보여주기 */}
                     {selectedDate !== -1 ? (
-                        <div className="w-full h-[5%] text-[5vw] px-[2vw] flex items-center">
+                        <div className="w-full h-[5%] text-5vw px-2vw flex items-center">
                             Day {selectedDate + 1} | {dateToString()}
                         </div>
                     ) : (

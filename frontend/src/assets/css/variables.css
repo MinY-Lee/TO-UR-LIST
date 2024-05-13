@@ -154,6 +154,10 @@
     padding-right: min(1vw, 4.8px);
 }
 
+.p-2vw {
+    padding: min(2vw, 9.6px);
+}
+
 .p-vw {
     padding: min(1vw, 4.8px);
 }

@@ -12,7 +12,7 @@ export default function GenderSelectBox(props: PropType) {
         <>
             <div
                 className="w-full h-full z-10 flex justify-between items-center bg-white px-[2vw] mt-[1vw] border-[0.3vw] border-[#929292]"
-                style={{ borderRadius: '1vw' }}
+                style={{ borderRadius: 'min(1vw, 4.12px)' }}
                 onClick={() => {
                     props.setSelectBoxMode((prev) => (prev + 1) % 2);
                 }}

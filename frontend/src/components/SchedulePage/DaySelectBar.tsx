@@ -20,7 +20,7 @@ export default function DaySelectBar(props: PropType) {
             arr.push(
                 <div
                     key={i}
-                    className={`text-[5vw] w-[14.29%] flex justify-center items-center flex-shrink-0`}
+                    className={`text-5vw w-[14.29%] flex justify-center items-center flex-shrink-0`}
                     onClick={() => {
                         if (i !== props.selectedDate) {
                             props.setSelectedDate(i);

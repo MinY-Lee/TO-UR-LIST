@@ -243,14 +243,14 @@ export default function MypageInfo() {
             >
                 {/* 제목 */}
                 <div className="w-[90%] flex flex-col items-start pt-[3vw] flex-grow-0 flex-shrink-0">
-                    <h1 className="text-[7vw] weight-text-semibold">
+                    <h1 className="text-7vw weight-text-semibold">
                         개인정보 수정
                     </h1>
-                    <p className="text-[4vw]">*는 필수 입력사항입니다.</p>
+                    <p className="text-4vw">*는 필수 입력사항입니다.</p>
                 </div>
 
                 {/* 입력폼 */}
-                <div className="w-[90%] h-[80%] flex flex-col flex-grow-0 flex-shrink-0 text-[4vw]">
+                <div className="w-[90%] h-[80%] flex flex-col flex-grow-0 flex-shrink-0 text-4vw">
                     {/* 이름 */}
                     <div className="w-full h-[17vw] flex justify-between items-start">
                         <div className="w-[20%] my-[1vw]">이름 *</div>
@@ -263,11 +263,11 @@ export default function MypageInfo() {
                                 onChange={nameChanged}
                             ></input>
                             {isValidName ? (
-                                <div className="color-text-blue-2 text-[4vw] px-[2vw]">
+                                <div className="color-text-blue-2 text-4vw px-[2vw]">
                                     사용 가능한 이름입니다.
                                 </div>
                             ) : (
-                                <div className="text-red-400 text-[4vw] px-[2vw]">
+                                <div className="text-red-400 text-4vw px-[2vw]">
                                     이름은 최소 2자, 최대 8자로 구성되어야
                                     합니다.
                                 </div>
@@ -305,11 +305,11 @@ export default function MypageInfo() {
                                 )}
                             </div>
                             {isValidNickname && isNicknameDupleChecked ? (
-                                <div className="color-text-blue-2 text-[4vw] px-[2vw]">
+                                <div className="color-text-blue-2 text-4vw px-[2vw]">
                                     사용 가능한 닉네임입니다.
                                 </div>
                             ) : (
-                                <div className="text-red-400 text-[4vw] px-[2vw]">
+                                <div className="text-red-400 text-4vw px-[2vw]">
                                     {nicknameMsg}
                                 </div>
                             )}
@@ -327,11 +327,11 @@ export default function MypageInfo() {
                                 onChange={birtyDayChanged}
                             ></input>
                             {isValidBirthday ? (
-                                <div className="color-text-blue-2 text-[4vw] px-[2vw]">
+                                <div className="color-text-blue-2 text-4vw px-[2vw]">
                                     정확한 형식입니다.
                                 </div>
                             ) : (
-                                <div className="text-red-400 text-[4vw] px-[2vw]">
+                                <div className="text-red-400 text-4vw px-[2vw]">
                                     생년월일이 올바르지 않습니다.
                                 </div>
                             )}
