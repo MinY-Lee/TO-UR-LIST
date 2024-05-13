@@ -40,3 +40,7 @@ export async function editPeriod(updatedData: any) {
 export async function editCity(updatedData: any) {
     return await local.put(`/api/tour/city`, JSON.stringify(updatedData));
 }
+/**내 여행 목록 조회 */
+export async function getMyTourList() {
+    return await local.get(`/api/tour`);
+}

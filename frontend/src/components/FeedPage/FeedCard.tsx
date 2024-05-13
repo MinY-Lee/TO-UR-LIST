@@ -27,10 +27,10 @@ export default function FeedCard(props: PropType) {
                     window.location.href = `/feed/${feedInfo.feedId}`;
                 }}
             >
-                <p className="text-[5vw] weight-text-semibold">
+                <p className="text-5vw weight-text-semibold">
                     {feedInfo.feedTitle}
                 </p>
-                <div className="w-full flex justify-start text-[4vw]">
+                <div className="w-full flex justify-start text-4vw">
                     <span className="weight-text-semibold text-[#564EB3] mr-[1vw]">{`${
                         feedInfo.cityList[0].countryName
                     }, ${feedInfo.cityList[0].cityName} ${
@@ -42,7 +42,7 @@ export default function FeedCard(props: PropType) {
                         feedInfo.startDate
                     )} ~ ${dateStringToString(feedInfo.endDate)}`}</span>
                 </div>
-                <p className="text-[4vw] whitespace-nowrap overflow-hidden overflow-ellipsis">
+                <p className="text-4vw whitespace-nowrap overflow-hidden overflow-ellipsis">
                     {feedInfo.feedContent}
                 </p>
                 <div className="w-full flex justify-between items-center mb-[1vw]">

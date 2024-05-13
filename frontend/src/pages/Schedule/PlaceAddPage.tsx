@@ -1,12 +1,13 @@
 //dummyData
 import tourInfo from '../../dummy-data/get_tour_tourId.json';
-import tokyoTemporal from '../../dummy-data/tokyo_temporal.json';
+// import tokyoTemporal from '../../dummy-data/tokyo_temporal.json';
 
 import { useEffect, useState } from 'react';
 import HeaderBar from '../../components/HeaderBar/HeaderBar';
 import TabBarTour from '../../components/TabBar/TabBarTour';
 import { useLocation } from 'react-router-dom';
 import { Wrapper } from '@googlemaps/react-wrapper';
+import WebSocket from '../../components/TabBar/WebSocket';
 
 import { PlaceInfo } from '../../types/types';
 import SearchMaps from '../../components/SchedulePage/SearchMaps';
@@ -40,12 +41,11 @@ export default function PlaceAddPage() {
         searchPlace(tourInfo.cityList[0].cityName + ' 관광')
             .then((res) => {
                 console.log(res);
+                setSearchedPlaces(res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
-
-        setSearchedPlaces(tokyoTemporal);
     }, []);
 
     const dateToString = () => {
@@ -67,6 +67,7 @@ export default function PlaceAddPage() {
         if (e.key === 'Enter') {
             searchPlace(searchValue)
                 .then((res) => {
+                    console.log(res);
                     if (res.status === httpStatusCode.OK) {
                         setSearchedPlaces(res.data);
                     } else {
@@ -108,6 +109,7 @@ export default function PlaceAddPage() {
                     />
                 </div>
                 <TabBarTour tourMode={2} tourId={tourId} />
+                <WebSocket />
             </section>
         </>
     );

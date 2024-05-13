@@ -1,17 +1,14 @@
 [
     {
-        "countryCode" : "JPN",
-        "cityList" : [
-            "오사카시",
-            "후쿠오카시",
-            "오키나와현"
-        ]
+        "countryCode": "JPN",
+        "cityList": ["오사카시", "후쿠오카시", "오키나와현"]
     },
     {
-        "countryCode" : "TWN",
-        "cityList" : [
-            "타이페이",
-            "가오슝"
-        ]
+        "countryCode": "TWN",
+        "cityList": ["타이페이", "가오슝"]
+    },
+    {
+        "countryCode": "AFG",
+        "cityList": ["카불", "칸다하르"]
     }
 ]

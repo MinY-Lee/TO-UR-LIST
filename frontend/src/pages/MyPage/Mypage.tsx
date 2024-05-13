@@ -120,11 +120,11 @@ export default function MyPage() {
                 <HeaderBar />
                 <MyInfoCard />
                 <div className="w-[90%] border-b-[0.5vw] border-b-[#7E7E7E] flex justify-between items-end py-[1vw] weight-text-semibold">
-                    <p className="text-[6vw] color-bg-blue-4 px-[0.5vw]">
+                    <p className="text-6vw color-bg-blue-4 px-[0.5vw]">
                         내가 게시한 여행
                     </p>
                     <p
-                        className="text-[5vw]"
+                        className="text-5vw"
                         onClick={() => {
                             navigate(`/mypage/myfeed`, {
                                 state: myPublishList,
@@ -141,11 +141,11 @@ export default function MyPage() {
                     return <FeedCard feedInfo={feed} key={feed.feedId} />;
                 })}
                 <div className="w-[90%] mt-[2vw] border-b-[0.5vw] border-b-[#7E7E7E] flex justify-between items-end py-[1vw] weight-text-semibold">
-                    <p className="text-[6vw] color-bg-blue-4 px-[0.5vw]">
+                    <p className="text-6vw color-bg-blue-4 px-[0.5vw]">
                         내가 좋아요한 여행
                     </p>
                     <p
-                        className="text-[5vw]"
+                        className="text-5vw"
                         onClick={() => {
                             navigate(`/mypage/like`, {
                                 state: myLikedList,

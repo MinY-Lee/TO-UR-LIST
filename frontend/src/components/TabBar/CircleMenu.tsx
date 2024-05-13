@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import WebSocket from './WebSocket';
 
 interface PropType {
     width: number;
