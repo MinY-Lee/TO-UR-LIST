@@ -5,6 +5,7 @@ import TabBarTour from "../../components/TabBar/TabBarTour";
 
 import getPayTourId from "../../dummy-data/get_pay_tourId.json";
 import { AccountInfo, PayMember } from "../../types/types";
+import { getAccountList } from "../../util/api/pay";
 
 interface MemberCharge {
   [memberId: string]: {
@@ -26,7 +27,13 @@ export default function AccountAddPage() {
     setTourId(address[address.length - 3]);
 
     // 데이터 세팅
-    setData(getPayTourId);
+    if (tourId != "") {
+      getAccountList(tourId)
+        .then((res) => {
+          setData(res.data);
+        })
+        .catch((err) => console.log(err));
+    }
     // 받을 금액 판별
     calcAccept();
     // 보낼 금액 판별

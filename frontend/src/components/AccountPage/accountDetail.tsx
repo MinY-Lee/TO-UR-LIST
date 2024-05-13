@@ -38,6 +38,7 @@ export default function AccountDetail(props: PropType) {
     payType: "",
     tourId: "",
     payAmount: 0,
+    exchangeRate: 0,
     unit: "",
     currencyCode: "",
     payMethod: "",
