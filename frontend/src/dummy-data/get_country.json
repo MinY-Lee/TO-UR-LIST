@@ -1,10 +1,14 @@
 [
     {
-        "countryName" : "일본",
-        "countryCode" : "JPN"
+        "countryName": "일본",
+        "countryCode": "JPN"
     },
     {
-        "countryName" : "대만",
-        "countryCode" : "TWN"
+        "countryName": "대만",
+        "countryCode": "TWN"
+    },
+    {
+        "countryName": "아프가니스탄",
+        "countryCode": "AFG"
     }
 ]

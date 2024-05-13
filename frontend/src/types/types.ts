@@ -38,6 +38,11 @@ export interface City {
     cityName: string;
 }
 
+export interface Country {
+    countryCode: string;
+    cityList: City[];
+}
+
 export interface CountryInfo {
     countryCode: string; // 나중에 없앨거임
     language: string;
@@ -149,7 +154,13 @@ export interface AccountInfo {
 }
 
 export interface CurrencyInfo {
-    unit: String;
-    currencyRate: Number;
-    currencyCode: String;
+    unit: string;
+    currencyRate: number;
+    currencyCode: string;
+}
+
+// 피드
+export interface Filter {
+    filterType: string;
+    filterValue: string;
 }

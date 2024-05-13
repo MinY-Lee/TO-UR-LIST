@@ -33,20 +33,20 @@ export default function LoginPage() {
                     <div className="w-full h-[40%] flex flex-col justify-between items-center">
                         <div className="flex flex-col items-center">
                             <h1
-                                className="color-text-blue-1 text-[10vw]"
+                                className="color-text-blue-1 text-10vw"
                                 style={{ fontFamily: 'TTHakgyoansimSamulhamR' }}
                             >
                                 TO-UR-LIST
                             </h1>
                             <h5
-                                className="color-text-blue-1 text-[6vw]"
+                                className="color-text-blue-1 text-6vw"
                                 style={{ fontFamily: 'TTHakgyoansimSamulhamR' }}
                             >
                                 여행의 처음부터 끝까지!
                             </h5>
                         </div>
                         <div className="flex flex-col items-center">
-                            <p className="text-[#565656] text-[5vw]">
+                            <p className="text-[#565656] text-5vw">
                                 구글 아이디로 편리하게 로그인하세요!
                             </p>
                             <div

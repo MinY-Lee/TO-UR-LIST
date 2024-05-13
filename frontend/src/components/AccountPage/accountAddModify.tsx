@@ -6,68 +6,64 @@ import HeaderBar from '../../components/HeaderBar/HeaderBar';
 import TabBarTour from '../../components/TabBar/TabBarTour';
 
 import CategoryToImg from '../../components/AccountPage/categoryToImg';
-import { AccountInfo, MemberInfo, PayMember, TourInfoDetail } from '../../types/types';
+import { AccountInfo, MemberInfo, PayMember, TourInfoDetail, UserInfo } from '../../types/types';
 
-import TourDetail from '../../dummy-data/get_tour_detail.json';
-import getCurrency from '../../dummy-data/get_pay_currency_countryCode_date.json';
+import { useSelector } from 'react-redux';
+import { getCurrency } from '../../util/api/pay';
 
 interface PropType {
+    tourId: string;
+    tourData: TourInfoDetail;
     isModify: boolean;
     data?: AccountInfo;
+}
+
+interface Currency {
+    unit: string;
+    currencyCode: string;
+    currencyRate: number;
 }
 
 export default function AccountAddModify(props: PropType) {
     const navigate = useNavigate();
 
-    const [tourId, setTourId] = useState<string>('');
-    const [data, setData] = useState<TourInfoDetail>({
-        tourId: '',
-        tourTitle: '',
-        cityList: [],
-        startDate: '',
-        endDate: '',
-        memberList: [],
-    });
     const [wonDropdownClick, setWonDropdownClick] = useState<boolean>(false);
     const [typeDropdownClick, setTypeDropdownClick] = useState<boolean>(false);
     const [typeDropdownPosition, setTypeDropdownPosition] = useState<string>('');
     const [payerDropdownClick, setPayerDropdownClick] = useState<boolean>(false);
-    const [unit, setUnit] = useState<string>('₩');
+    const [currency, setCurrency] = useState<Currency>({ unit: '', currencyCode: '', currencyRate: 0 });
+    const [unit, setUnit] = useState<string>('');
     const [type, setType] = useState<string>('');
     const [amount, setAmount] = useState<number>(0);
-    const [currency, setCurrency] = useState<number>(0);
     const [category, setCategory] = useState<string>('');
     const [content, setContent] = useState<string>('');
     const [isPublic, setIsPublic] = useState<boolean>(false);
     const [date, setDate] = useState<string>('');
-    const [isValidDate, setIsValidDate] = useState<boolean>(true);
     const [payer, setPayer] = useState<string>('');
     const [payMember, setPayMember] = useState<PayMember[]>([]);
 
+    const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
+
     useEffect(() => {
-        // 투어 아이디 불러오기
-        const address: string[] = window.location.href.split('/');
-        setTourId(address[address.length - 3]);
-
-        // 투어 아이디로 더미데이터에서 데이터 찾기 (임시)
-        const tourData = TourDetail.find((tour) => tour.tourId === tourId);
-        if (tourData) {
-            setData(tourData);
-        }
-
-        const currencyData = getCurrency;
+        // const currencyData =
+        console.log(props.tourData);
+        getCurrency(props.tourData.cityList[0].countryCode, new Date().toISOString().split('T')[0])
+            .then((res) => {
+                setCurrency({
+                    unit: res.data.unit,
+                    currencyCode: res.data.currencyCode,
+                    currencyRate: res.data.currencyRate,
+                });
+            })
+            .catch((err) => console.log(err));
 
         if (!props.isModify) {
             // payer 디폴트는 현재 가계부 작성하는 사람
-            setPayer('김싸피');
-
-            // 디폴트 환율 = 현재 환율
-            setCurrency(currencyData.currencyRate);
+            setPayer(userInfo.userName);
         } else {
             if (props.data) {
                 setAmount(props.data.payAmount);
                 // 환율 지정 지금 안됨
-                setCurrency(currencyData.currencyRate);
                 setDate(props.data.payDatetime);
                 setIsPublic(props.data.payType == 'public' ? true : false);
                 setPayer(props.data.payerId); // 아이디 -> 이름 매칭 필요
@@ -77,7 +73,7 @@ export default function AccountAddModify(props: PropType) {
                 setType(props.data.payMethod);
             }
         }
-    }, [tourId, data]);
+    }, []);
 
     useEffect(() => {
         const dropdown = document.querySelector('#type-dropdown'); // 드롭다운 요소 선택
@@ -104,13 +100,14 @@ export default function AccountAddModify(props: PropType) {
         }
     };
 
-    const handleCurrency = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (Number(event.target.value)) {
-            setCurrency(Number(event.target.value));
-        } else {
-            setCurrency(0);
-        }
-    };
+    // const handleCurrency = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     if (Number(event.target.value)) {
+    //         setCurrency(Number(event.target.value));
+    //     } else {
+    //         setCurrency(0);
+    //     }
+    // };
+
     const handleTypeChange = (type: string) => {
         setType(type);
         setTypeDropdownClick(false);
@@ -154,15 +151,15 @@ export default function AccountAddModify(props: PropType) {
     const handleSave = () => {
         const newAccountItem = {
             payType: isPublic,
-            tourId: tourId,
+            tourId: props.tourId,
             payAmount: amount,
-            unit: unit,
-            currencyCode: 'JPY',
+            unit: currency.unit,
+            currencyCode: currency.currencyCode,
             payMethod: type,
             payDatetime: date,
             payContent: content,
             payCategory: category,
-            payerId: '1234',
+            payerId: payer,
             payMemberList: payMember,
         };
         // payId 리턴값으로 받아오기
@@ -193,7 +190,7 @@ export default function AccountAddModify(props: PropType) {
                                 type="button"
                                 onClick={() => setWonDropdownClick(!wonDropdownClick)}
                             >
-                                {unit}
+                                {currency.unit}
                                 <svg
                                     className={`${wonDropdownClick ? 'rotate-180' : ''} w-2.5 h-2.5 ms-2.5`}
                                     aria-hidden="true"
@@ -236,8 +233,9 @@ export default function AccountAddModify(props: PropType) {
                             <div>
                                 <div>
                                     <input
-                                        value={currency == 0 ? '' : currency}
-                                        onChange={handleCurrency}
+                                        value={currency.currencyRate}
+                                        readOnly={true}
+                                        // onChange={handleCurrency}
                                         type="number"
                                         className="block w-20 px-2 text-sm text-gray-900 border"
                                     />
@@ -291,7 +289,7 @@ export default function AccountAddModify(props: PropType) {
                                         className="flex col-span-3 items-center p-3 text-sm text-gray-900 border py-1 px-2 rounded-lg justify-between"
                                         type="button"
                                     >
-                                        {payer} {payer == '김싸피' ? ' (나)' : ''}
+                                        {payer} {payer == userInfo.userName ? ' (나)' : ''}
                                         <svg
                                             className={`${payerDropdownClick ? 'rotate-180' : ''} w-2.5 h-2.5`}
                                             aria-hidden="true"
@@ -317,7 +315,7 @@ export default function AccountAddModify(props: PropType) {
                                             className="py-2 text-sm text-gray-700 max-h-[30vh] overflow-y-scroll"
                                             aria-labelledby="dropdown-button"
                                         >
-                                            {data.memberList.map((member, index) => (
+                                            {props.tourData.memberList.map((member, index) => (
                                                 <li key={index} onClick={() => handlePayerChange(member.userName)}>
                                                     <div className="block px-4 py-2">{member.userName}</div>
                                                 </li>
@@ -329,7 +327,7 @@ export default function AccountAddModify(props: PropType) {
                             <div className="grid grid-cols-3">
                                 <div className="col-span-1">정산멤버</div>
                                 <div className="col-span-2 flex max-h-[11vh] gap-2 overflow-y-scroll flex-col">
-                                    {data.memberList.map((member, index) => (
+                                    {props.tourData.memberList.map((member, index) => (
                                         <div
                                             onClick={() => handlePayMember(member.userId)}
                                             key={index}

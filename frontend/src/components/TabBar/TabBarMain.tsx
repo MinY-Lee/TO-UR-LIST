@@ -38,13 +38,13 @@ export default function TabBarMain(props: PropType) {
                 >
                     {tabMode === 1 ? (
                         <div
-                            className="w-[75%] aspect-square rounded-full color-bg-blue-5 absolute left-[50%] flex justify-center items-center"
+                            className="w-[75%] aspect-square rounded-[50%] color-bg-blue-5 absolute left-[50%] flex justify-center items-center"
                             style={{ transform: `translate(-50%, -50%)` }}
                             onClick={() => {
                                 window.location.href = '/create';
                             }}
                         >
-                            <p className="text-white text-[12vw]">+</p>
+                            <p className="text-white text-12vw">+</p>
                         </div>
                     ) : (
                         <span className="material-symbols-outlined">home</span>

@@ -46,7 +46,7 @@ export default function TabBarTour(props: PropType) {
                                 tourId={props.tourId}
                             />
                             <div
-                                className="w-[75%] aspect-square rounded-full color-bg-blue-5 absolute left-[50%] flex justify-center items-center"
+                                className="w-[75%] aspect-square rounded-[50%] color-bg-blue-5 absolute left-[50%] flex justify-center items-center"
                                 style={{ transform: `translate(-50%, -50%)` }}
                                 onClick={() => {
                                     setIsMenuOpen(false);

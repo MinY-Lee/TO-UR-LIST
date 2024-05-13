@@ -8,7 +8,6 @@ import SetDate from '../components/CreatePage/setDate';
 import SetTitle from '../components/CreatePage/setTitle';
 import CreateDone from '../components/CreatePage/createDone';
 import { City, TourCardInfo } from '../types/types';
-import TabBarMain from '../components/TabBar/TabBarMain';
 import { createTour } from '../util/api/tour';
 import { httpStatusCode } from '../util/api/http-status';
 
@@ -19,12 +18,7 @@ export default function TourCreatePage() {
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
     const [title, setTitle] = useState<string>('');
-    const [newTour, setNewTour] = useState<Object>({
-        tourTitle: '',
-        cityList: [],
-        startDate: '',
-        endDate: '',
-    }); // api 보낼 객체
+
     const [tourCard, setTourCard] = useState<TourCardInfo>({
         tourId: '',
         tourTitle: '',
@@ -51,16 +45,16 @@ export default function TourCreatePage() {
         }
     };
 
-    // TourInfoCard 객체화
     useEffect(() => {
-        // 여행 생성 api 로 tourId 받아와야 함
-
         // City 객체를 담을 배열
         const cities: City[] = [];
 
         // cityList를 순회하면서 각 요소를 처리
         selectedCity.forEach((item) => {
-            const city = { countryCode: item.countryCode, cityName: item.cityName };
+            const city = {
+                countryCode: item.countryCode,
+                cityName: item.cityName,
+            };
             cities.push(city);
         });
 
@@ -70,10 +64,13 @@ export default function TourCreatePage() {
     }, [step, title]);
 
     useEffect(() => {
-        //////////////////////////////////////////
-        // api 호출 후 id 받아와서 넣고 카드 띄우기
         if (isDone) {
-            createTour(newTour)
+            createTour({
+                tourTitle: title,
+                cityList: selectedCity,
+                startDate: startDate,
+                endDate: endDate,
+            })
                 .then((res) => {
                     if (res.status === httpStatusCode.OK) {
                         setTourCard({
@@ -132,7 +129,9 @@ export default function TourCreatePage() {
                 <HeaderBar />
                 <h1 className="m-3 text-3xl font-bold">여행 만들기</h1>
             </header>
-            <div className="gap-3 row-span-8 text-center">{currentComponent}</div>
+            <div className="gap-3 row-span-8 text-center">
+                {currentComponent}
+            </div>
             <div className="row-span-1">
                 {step != 4 ? (
                     <MyButton

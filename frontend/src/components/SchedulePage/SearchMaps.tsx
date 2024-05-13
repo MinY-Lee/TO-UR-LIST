@@ -52,6 +52,8 @@ export default function SearchMaps(props: PropType) {
                     googleMap.setCenter(pos);
                 }
             });
+
+            setMarkers(newMarkers);
         }
     }, [props.searchedPlaces, googleMap]);
 

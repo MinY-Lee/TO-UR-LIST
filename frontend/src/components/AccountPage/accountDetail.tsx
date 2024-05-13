@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { AccountInfo, PayMember, TourInfoDetail } from '../../types/types';
+import { AccountInfo, PayMember, TourInfoDetail, UserInfo } from '../../types/types';
 
 import CategoryToImg from './categoryToImg';
+import { useSelector } from 'react-redux';
 
 interface PropType {
     data: AccountInfo[];
@@ -23,7 +24,10 @@ export default function AccountDetail(props: PropType) {
     const [groupedData, setGroupedData] = useState<DataPerDayInfo[]>([]);
     const [filter, setFilter] = useState<string>('전체 내역');
 
+    const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
+
     const DataPerDay = (data: AccountInfo[]) => {
+        console.log(props.data);
         // 결과를 저장할 배열
         const groupedData: DataPerDayInfo[] = [];
 
@@ -32,10 +36,10 @@ export default function AccountDetail(props: PropType) {
         // data를 날짜별로 그룹화
         if (startDate) {
             const tempDate = new Date(startDate.getTime() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-            data.forEach((info: AccountInfo) => {
+            props.data.forEach((info: AccountInfo) => {
                 const date = info.payDatetime;
 
-                if (isPayMember('1234', info)) {
+                if (isPayMember(userInfo.userId, info)) {
                     if (calcDay(new Date(date), startDate) <= 0) {
                         if (!groupedByDate[tempDate]) {
                             groupedByDate[tempDate] = [];

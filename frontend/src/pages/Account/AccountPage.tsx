@@ -1,20 +1,19 @@
 import { useState, useEffect } from 'react';
 import HeaderBar from '../../components/HeaderBar/HeaderBar';
 
-import { AccountInfo, CurrencyInfo, PayMember, TourInfoDetail } from '../../types/types';
+import { AccountInfo, CurrencyInfo, PayMember, TourInfoDetail, UserInfo } from '../../types/types';
 import MyButton from '../../components/Buttons/myButton';
 import TabBarTour from '../../components/TabBar/TabBarTour';
 import AccountDetail from '../../components/AccountPage/accountDetail';
 
-import getPayTourId from '../../dummy-data/get_pay_tourId.json';
-import getCurrency from '../../dummy-data/get_pay_currency_countryCode_date.json';
-import getTourInfo from '../../dummy-data/get_tour_detail.json';
+import { getAccountList, getCurrency } from '../../util/api/pay';
+import { getCountry, getTour } from '../../util/api/tour';
+import { useSelector } from 'react-redux';
 
 export default function AccountPage() {
     const [tourId, setTourId] = useState<string>('');
     const [data, setData] = useState<AccountInfo[]>([]);
     const [tourData, setTourData] = useState<TourInfoDetail>({
-        tourId: '',
         tourTitle: '',
         cityList: [],
         startDate: '',
@@ -29,30 +28,60 @@ export default function AccountPage() {
 
     const [tapIdx, setTabIdx] = useState<number>(1);
 
+    const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
+
     useEffect(() => {
         // 투어 아이디 불러오기
         const address: string[] = window.location.href.split('/');
         setTourId(address[address.length - 2]);
 
         // 데이터 불러오기
-        setData(getPayTourId);
+        if (tourId != '') {
+            getAccountList(tourId)
+                .then((res) => {
+                    setData(res.data);
+                })
+                .catch((err) => console.log(err));
+            getTour(tourId)
+                .then((res) => {
+                    setTourData(res.data);
+                })
+                .catch((err) => console.log(err));
+        }
 
-        // 여행 정보 가져오기
-        setTourData(getTourInfo[0]);
+        console.log(data);
+    }, [tourId]);
 
-        // 환율 저장
-        setCurrency(getCurrency);
-    });
+    useEffect(() => {
+        // 환율 정보 가져오기
+        if (tourData.tourTitle != '') {
+            getCurrency(tourData.cityList[0].countryCode, new Date().toISOString().split('T')[0])
+                .then((res) => {
+                    console.log(res.data);
+                    setCurrency({
+                        unit: res.data.unit,
+                        currencyCode: res.data.currencyCode,
+                        currencyRate: calcCurrency(res.data.currencyRate), // 1원당 가격 -> 화폐단위당 가격
+                    });
+                    return;
+                })
+                .catch((err) => console.log(err));
+        }
+    }, [tourData]);
+
+    const calcCurrency = (currencyRate: number) => {
+        return Number((1 / currencyRate).toFixed(2));
+    };
 
     const calcPrivateTotal = () => {
         let total = 0;
         // 개인 총 지출 계산
         data.forEach((item: AccountInfo) => {
             // 현재 나 1234 라고 쳐
-            if (item.payType == 'private' && item.payerId == '1234') {
-                if (item.currencyCode == 'JPY') {
+            if (item.payType == 'private' && item.payerId == userInfo.userId) {
+                if (item.currencyCode == currency.unit) {
                     // 환율 적용해서 한화로 수정 후 더해야 함
-                    total += item.payAmount * 8.8;
+                    total += item.payAmount * currency.currencyRate;
                 }
                 total += item.payAmount;
             }
@@ -64,13 +93,12 @@ export default function AccountPage() {
     const calcPublicTotal = () => {
         let total = 0;
         data.forEach((item: AccountInfo) => {
-            // 현재 나 1234 라고 쳐
             if (item.payType == 'public') {
                 item.payMemberList.map((payMember: PayMember) => {
-                    if (payMember.userId == '1234') {
-                        if (item.currencyCode == 'JPY') {
+                    if (payMember.userId == userInfo.userId) {
+                        if (item.currencyCode == currency.currencyCode) {
                             // 환율 적용해서 한화로 수정 후 더해야 함
-                            total += payMember.payAmount * 8.8;
+                            total += payMember.payAmount * currency.currencyRate;
                         }
                         total += payMember.payAmount;
                     }
@@ -116,7 +144,7 @@ export default function AccountPage() {
                     <div className="font-bold text-2xl">
                         1{currency.unit} = {currency.currencyRate.toString()} 원
                     </div>
-                    <div className="mt-3">*지출 내역 클릭시 환율 상세 지정이 가능합니다.</div>
+                    <div className="mt-3">*지출 내역 클릭시 환율 상세 지정이 가능합니다. (아직ㄴ)</div>
                 </div>
             );
         }

@@ -3,13 +3,14 @@ import TourCard from '../components/MainPage/TourCard';
 import TabBarMain from '../components/TabBar/TabBarMain';
 
 //dummy data(api완료 시 삭제 요망)
-import tourList from '../dummy-data/get_tour.json';
+// import tourList from '../dummy-data/get_tour.json';
 // import user from '../dummy-data/get_user.json';
 
 import { TourCardInfo, UserInfo } from '../types/types';
 import { useDispatch } from 'react-redux';
 import { userWholeState } from '../util/reduxSlices/userSlice';
 import { getUserInfo } from '../util/api/user';
+import { getMyTourList } from '../util/api/tour';
 
 export default function MainPage() {
     const [nowTourList, setNowTourList] = useState<TourCardInfo[]>([]);
@@ -36,76 +37,89 @@ export default function MainPage() {
             .then((res) => {
                 console.log(res);
 
-                const userInfo: UserInfo = {
-                    userId: '',
-                    userNickname: '',
-                    userName: '',
-                    userBirth: '',
-                    userGender: 0,
-                };
-                //불러와서 저장
-                userInfo.userId = res.data.userId;
-                userInfo.userNickname = res.data.userNickname;
-                userInfo.userName = res.data.userName;
-                userInfo.userBirth = res.data.userBirth.split('T')[0];
-                userInfo.userGender = res.data.userGender;
+                if (res.data.userId !== '') {
+                    const userInfo: UserInfo = {
+                        userId: '',
+                        userNickname: '',
+                        userName: '',
+                        userBirth: '',
+                        userGender: 0,
+                    };
+                    //불러와서 저장
+                    userInfo.userId = res.data.userId;
+                    userInfo.userNickname = res.data.userNickname;
+                    userInfo.userName = res.data.userName;
+                    if (res.data.userBirth) {
+                        userInfo.userBirth = res.data.userBirth.split('T')[0];
+                    }
+                    userInfo.userGender = res.data.userGender;
+                    console.log(userInfo);
 
-                setUser(userInfo);
-                // if(user.userProfileImageId){
-                //     userInfo.userProfileImageId = user.userProfileImageId
-                // }
-                dispatch(userWholeState(userInfo));
+                    setUser(userInfo);
+                    // if(user.userProfileImageId){
+                    //     userInfo.userProfileImageId = user.userProfileImageId
+                    // }
+                    dispatch(userWholeState(userInfo));
+                } else {
+                    window.location.href = '/info';
+                }
             })
             .catch((err) => {
-                if (err.response.status === 400) {
-                    window.location.href = '/info';
+                if (err.response) {
+                    if (err.response.status === 400) {
+                        window.location.href = '/info';
+                    }
                 }
             });
     }, []);
 
     //시간 설정, 여행 정보 불러오기
     useEffect(() => {
-        const tempNow: TourCardInfo[] = [];
-        const tempCome: TourCardInfo[] = [];
-        const tempPass: TourCardInfo[] = [];
+        getMyTourList().then((res) => {
+            const tourList: TourCardInfo[] = res.data;
 
-        //startDate 빠른 순으로 정렬
-        tourList.sort((a, b) => {
-            const date1 = new Date(a.startDate);
-            const date2 = new Date(b.startDate);
-            return date1.getTime() - date2.getTime();
+            const tempNow: TourCardInfo[] = [];
+            const tempCome: TourCardInfo[] = [];
+            const tempPass: TourCardInfo[] = [];
+
+            //startDate 빠른 순으로 정렬
+            tourList.sort((a, b) => {
+                const date1 = new Date(a.startDate);
+                const date2 = new Date(b.startDate);
+                return date1.getTime() - date2.getTime();
+            });
+
+            tourList.map((tour) => {
+                const nowTime = new Date();
+
+                const now = new Date(
+                    `${nowTime.getFullYear()}-${
+                        nowTime.getMonth() + 1
+                    }-${nowTime.getDate()}`
+                );
+
+                const startDate = new Date(tour.startDate);
+                const endDate = new Date(tour.endDate);
+                if (startDate > now) {
+                    //시작 날짜가 오늘 뒤 -> 아직 시작 안한 여행
+                    tempCome.push(tour);
+                } else if (endDate < now) {
+                    //끝난 날짜가 오늘 이전 -> 지나간 여행
+                    tempPass.push(tour);
+                } else {
+                    //나머지는 현재 진행중
+                    tempNow.push(tour);
+                }
+            });
+
+            setNowTourList(tempNow);
+            setComingTourList(tempCome);
+            setPassTourList(tempPass);
+
+            //set now date
+            const today = new Date();
+            setToday(dateToString(today));
         });
-
-        tourList.map((tour) => {
-            const nowTime = new Date();
-
-            const now = new Date(
-                `${nowTime.getFullYear()}-${
-                    nowTime.getMonth() + 1
-                }-${nowTime.getDate()}`
-            );
-
-            const startDate = new Date(tour.startDate);
-            const endDate = new Date(tour.endDate);
-            if (startDate > now) {
-                //시작 날짜가 오늘 뒤 -> 아직 시작 안한 여행
-                tempCome.push(tour);
-            } else if (endDate < now) {
-                //끝난 날짜가 오늘 이전 -> 지나간 여행
-                tempPass.push(tour);
-            } else {
-                //나머지는 현재 진행중
-                tempNow.push(tour);
-            }
-        });
-
-        setNowTourList(tempNow);
-        setComingTourList(tempCome);
-        setPassTourList(tempPass);
-
-        //set now date
-        const today = new Date();
-        setToday(dateToString(today));
     }, []);
 
     /**date -> YYYY-MM-DD */
@@ -121,29 +135,29 @@ export default function MainPage() {
     return (
         <section className="w-full h-[90%] overflow-y-scroll flex flex-col flex-nowrap items-center">
             <div className="w-[90%] h-[30%] flex items-center justify-between py-[1vh]">
-                <div className="text-[6vw] h-full flex flex-col justify-center items-start">
+                <div className="text-6vw h-full flex flex-col justify-center items-start">
                     <p>
-                        <span className="text-[7vw] weight-text-semibold mr-[1vw]">
+                        <span className="text-7vw weight-text-semibold mr-[1vw]">
                             {user.userNickname}
                         </span>
                         님의
                     </p>
                     <p>TO-UR-LIST</p>
                 </div>
-                <div className="text-[#5B5B5B] text-[4vw] h-full flex flex-col justify-center items-end">
+                <div className="text-[#5B5B5B] text-4vw h-full flex flex-col justify-center items-end">
                     <p>TODAY</p>
                     <p>{today}</p>
                 </div>
             </div>
-            <p className="w-[90%] text-[5vw] my-[0.5vh]">진행 중인 여행</p>
+            <p className="w-[90%] text-5vw my-[0.5vh]">진행 중인 여행</p>
             {nowTourList.map((tour) => {
                 return <TourCard key={tour.tourId} tourInfo={tour} />;
             })}
-            <p className="w-[90%] text-[5vw] my-[0.5vh]">다가오는 여행</p>
+            <p className="w-[90%] text-5vw my-[0.5vh]">다가오는 여행</p>
             {comingTourList.map((tour) => {
                 return <TourCard key={tour.tourId} tourInfo={tour} />;
             })}
-            <p className="w-[90%] text-[5vw] my-[0.5vh]">지난 여행</p>
+            <p className="w-[90%] text-5vw my-[0.5vh]">지난 여행</p>
             {passTourList.map((tour) => {
                 return <TourCard key={tour.tourId} tourInfo={tour} />;
             })}
