@@ -191,7 +191,7 @@ export default function InfoPage() {
         register({
             userNickname: userNickname,
             userName: userName,
-            userBirthDay: sendBirthday + 'T00:00:00',
+            userBirth: sendBirthday + 'T00:00:00',
             userGender: userGender,
         })
             .then((res) => {
@@ -219,31 +219,31 @@ export default function InfoPage() {
             >
                 {/* 제목 */}
                 <div className="w-[90%] flex flex-col items-start pt-[3vw] flex-grow-0 flex-shrink-0">
-                    <h1 className="text-[7vw] weight-text-semibold">
+                    <h1 className="text-7vw weight-text-semibold">
                         기본 정보 입력
                     </h1>
-                    <p className="text-[4vw]">*는 필수 입력사항입니다.</p>
+                    <p className="text-4vw">*는 필수 입력사항입니다.</p>
                 </div>
 
                 {/* 입력폼 */}
-                <div className="w-[90%] h-[80%] flex flex-col flex-grow-0 flex-shrink-0 text-[4vw]">
+                <div className="w-[90%] h-[80%] flex flex-col flex-grow-0 flex-shrink-0 text-4vw">
                     {/* 이름 */}
                     <div className="w-full h-[17vw] flex justify-between items-start">
                         <div className="w-[20%] my-[1vw]">이름 *</div>
                         <div className="w-[80%] flex flex-col">
                             <input
                                 className="px-[2vw] my-[1vw] border-[0.3vw] border-[#929292]"
-                                style={{ borderRadius: '1vw' }}
+                                style={{ borderRadius: 'min(1vw, 4.12px)' }}
                                 value={userName}
                                 placeholder="이름을 입력하세요."
                                 onChange={nameChanged}
                             ></input>
                             {isValidName ? (
-                                <div className="color-text-blue-2 text-[4vw] px-[2vw]">
+                                <div className="color-text-blue-2 text-4vw px-[2vw]">
                                     사용 가능한 이름입니다.
                                 </div>
                             ) : (
-                                <div className="text-red-400 text-[4vw] px-[2vw]">
+                                <div className="text-red-400 text-4vw px-[2vw]">
                                     이름은 최소 2자, 최대 8자로 구성되어야
                                     합니다.
                                 </div>
@@ -257,7 +257,7 @@ export default function InfoPage() {
                             <div className="w-full flex">
                                 <input
                                     className="px-[2vw] my-[1vw] border-[0.3vw] border-[#929292] w-[70%] mr-[1vw]"
-                                    style={{ borderRadius: '1vw' }}
+                                    style={{ borderRadius: 'min(1vw, 4.12px)' }}
                                     value={userNickname}
                                     placeholder="닉네임을 입력하세요."
                                     onChange={nicknameChanged}
@@ -266,7 +266,9 @@ export default function InfoPage() {
                                 {isValidNickname ? (
                                     <div
                                         className="w-[28%] my-[1vw] color-bg-blue-2 text-white flex justify-center items-center"
-                                        style={{ borderRadius: '1vw' }}
+                                        style={{
+                                            borderRadius: 'min(1vw, 4.12px)',
+                                        }}
                                         onClick={checkDupleNickname}
                                     >
                                         중복 체크
@@ -274,18 +276,20 @@ export default function InfoPage() {
                                 ) : (
                                     <div
                                         className="w-[28%] my-[1vw] bg-[#929292] text-white flex justify-center items-center"
-                                        style={{ borderRadius: '1vw' }}
+                                        style={{
+                                            borderRadius: 'min(1vw, 4.12px)',
+                                        }}
                                     >
                                         중복 체크
                                     </div>
                                 )}
                             </div>
                             {isValidNickname && isNicknameDupleChecked ? (
-                                <div className="color-text-blue-2 text-[4vw] px-[2vw]">
+                                <div className="color-text-blue-2 text-4vw px-[2vw]">
                                     사용 가능한 닉네임입니다.
                                 </div>
                             ) : (
-                                <div className="text-red-400 text-[4vw] px-[2vw]">
+                                <div className="text-red-400 text-4vw px-[2vw]">
                                     {nicknameMsg}
                                 </div>
                             )}
@@ -297,17 +301,17 @@ export default function InfoPage() {
                         <div className="w-[80%] flex flex-col">
                             <input
                                 className="px-[2vw] my-[1vw] border-[0.3vw] border-[#929292]"
-                                style={{ borderRadius: '1vw' }}
+                                style={{ borderRadius: 'min(1vw, 4.12px)' }}
                                 value={userBirthDay}
                                 placeholder="YYYY.MM.DD"
                                 onChange={birtyDayChanged}
                             ></input>
                             {isValidBirthday ? (
-                                <div className="color-text-blue-2 text-[4vw] px-[2vw]">
+                                <div className="color-text-blue-2 text-4vw px-[2vw]">
                                     정확한 형식입니다.
                                 </div>
                             ) : (
-                                <div className="text-red-400 text-[4vw] px-[2vw]">
+                                <div className="text-red-400 text-4vw px-[2vw]">
                                     생년월일이 올바르지 않습니다.
                                 </div>
                             )}
@@ -332,7 +336,7 @@ export default function InfoPage() {
                         {isChangePossible ? (
                             <div
                                 className="w-full color-bg-blue-2 text-white flex justify-center items-center py-[2vw]"
-                                style={{ borderRadius: '1vw' }}
+                                style={{ borderRadius: 'min(1vw, 4.12px)' }}
                                 onClick={submitChange}
                             >
                                 입력 완료
@@ -340,7 +344,7 @@ export default function InfoPage() {
                         ) : (
                             <div
                                 className="w-full bg-[#D9D9D9] text-[#646464] flex justify-center items-center py-[2vw]"
-                                style={{ borderRadius: '1vw' }}
+                                style={{ borderRadius: 'min(1vw, 4.12px)' }}
                             >
                                 입력 조건 미충족
                             </div>

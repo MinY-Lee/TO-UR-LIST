@@ -16,7 +16,7 @@ export default function FeedPage() {
                     <div className="w-full p-[2vw] flex justify-between">
                         <div>정렬</div>
                         <div
-                            className="text-[5vw] underline"
+                            className="text-5vw underline"
                             onClick={() => {
                                 setIsDetailActive((prev) => !prev);
                             }}

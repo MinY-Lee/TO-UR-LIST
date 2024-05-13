@@ -60,20 +60,20 @@ export default function FeedSearchBar(props: PropType) {
         <>
             <input
                 type="search"
-                className="w-[90%] h-[15vw] text-[7vw] mt-[2vw] p-[2vw] border-[0.5vw] border-[#929292] rounded-[5vw]"
+                className="w-[90%] h-15vw text-7vw mt-[2vw] p-[2vw] border-[0.5vw] border-[#929292] border-rad-5vw"
                 placeholder="원하시는 여행을 검색해 보세요!"
                 onKeyDown={searchEvent}
                 ref={inputRef}
             ></input>
             {props.isDetailActive ? (
-                <div className="w-[90%] h-[75vw] border-[0.5vw] color-border-blue-2 rounded-[5vw] flex flex-col justify-evenly items-center">
-                    <div className="w-[90%] h-[20%] flex text-[4vw] items-start">
+                <div className="w-[90%] h-75vw border-[0.5vw] color-border-blue-2 border-rad-5vw flex flex-col justify-evenly items-center">
+                    <div className="w-[90%] h-10vw flex text-4vw justify-around items-center relative">
                         <div className="w-[20%] h-full flex justify-center items-center">
                             나라/도시
                         </div>
                         <input
                             type="search"
-                            className="w-[35%] h-full px-[1vw]"
+                            className="w-[35%] h-full px-vw border-halfvw color-border-blue-2 border-rad-2vw"
                             placeholder="나라명을 입력하세요."
                             onKeyDown={countrySearch}
                             ref={countryRef}

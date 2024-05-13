@@ -1,6 +1,6 @@
 {
     "name": "tourlist",
-    "shor_name": "tourlist",
+    "short_name": "tourlist",
     "start_url": "/",
     "display": "standalone",
     "description": "당신을 위한 여행 관리 서비스, TO-UR-LIST",

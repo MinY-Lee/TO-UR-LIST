@@ -135,29 +135,29 @@ export default function MainPage() {
     return (
         <section className="w-full h-[90%] overflow-y-scroll flex flex-col flex-nowrap items-center">
             <div className="w-[90%] h-[30%] flex items-center justify-between py-[1vh]">
-                <div className="text-[6vw] h-full flex flex-col justify-center items-start">
+                <div className="text-6vw h-full flex flex-col justify-center items-start">
                     <p>
-                        <span className="text-[7vw] weight-text-semibold mr-[1vw]">
+                        <span className="text-7vw weight-text-semibold mr-[1vw]">
                             {user.userNickname}
                         </span>
                         님의
                     </p>
                     <p>TO-UR-LIST</p>
                 </div>
-                <div className="text-[#5B5B5B] text-[4vw] h-full flex flex-col justify-center items-end">
+                <div className="text-[#5B5B5B] text-4vw h-full flex flex-col justify-center items-end">
                     <p>TODAY</p>
                     <p>{today}</p>
                 </div>
             </div>
-            <p className="w-[90%] text-[5vw] my-[0.5vh]">진행 중인 여행</p>
+            <p className="w-[90%] text-5vw my-[0.5vh]">진행 중인 여행</p>
             {nowTourList.map((tour) => {
                 return <TourCard key={tour.tourId} tourInfo={tour} />;
             })}
-            <p className="w-[90%] text-[5vw] my-[0.5vh]">다가오는 여행</p>
+            <p className="w-[90%] text-5vw my-[0.5vh]">다가오는 여행</p>
             {comingTourList.map((tour) => {
                 return <TourCard key={tour.tourId} tourInfo={tour} />;
             })}
-            <p className="w-[90%] text-[5vw] my-[0.5vh]">지난 여행</p>
+            <p className="w-[90%] text-5vw my-[0.5vh]">지난 여행</p>
             {passTourList.map((tour) => {
                 return <TourCard key={tour.tourId} tourInfo={tour} />;
             })}
