@@ -40,6 +40,7 @@ export default function AccountAddModify(props: PropType) {
     const [isPublic, setIsPublic] = useState<boolean>(false);
     const [date, setDate] = useState<string>('');
     const [payer, setPayer] = useState<string>('');
+    const [payId, setPayId] = useState<string>('');
     const [payMember, setPayMember] = useState<PayMember[]>([]);
 
     const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
@@ -59,6 +60,10 @@ export default function AccountAddModify(props: PropType) {
     };
 
     useEffect(() => {
+        // payId 불러오기
+        const address: string[] = window.location.href.split('/');
+        setPayId(address[address.length - 1]);
+
         if (props.tourData.tourTitle != '') {
             getCurrency(props.tourData.cityList[0].countryCode, new Date().toISOString().split('T')[0])
                 .then((res) => {
@@ -162,7 +167,7 @@ export default function AccountAddModify(props: PropType) {
 
     const handleSave = () => {
         const newAccountItem: AccountInfo = {
-            payType: isPublic,
+            payType: isPublic ? 'public' : 'private',
             tourId: props.tourId,
             payAmount: amount,
             unit: unit,
