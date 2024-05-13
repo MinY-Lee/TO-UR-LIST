@@ -49,9 +49,9 @@ export default function PlaceCard(props: PropType) {
                 onClick={() => props.goToDetail(props.schedule)}
             >
                 <div className="w-full flex justify-between items-center">
-                    <p className="text-[6vw]">{props.schedule.placeName}</p>
+                    <p className="text-6vw">{props.schedule.placeName}</p>
                     <span
-                        className="text-[6vw] material-symbols-outlined z-10"
+                        className="text-6vw material-symbols-outlined z-10"
                         onClick={deleteItem}
                     >
                         close
@@ -61,7 +61,7 @@ export default function PlaceCard(props: PropType) {
                     {props.schedule.tourActivityList.map((activity, index) => {
                         return (
                             <p
-                                className={`text-[4vw] px-[1vw] mx-[0.5vw] rounded-[2vw] ${
+                                className={`text-4vw px-[1vw] mx-[0.5vw] rounded-[2vw] ${
                                     index <= 2 ? bgColor[index] : bgColor[0]
                                 }`}
                             >

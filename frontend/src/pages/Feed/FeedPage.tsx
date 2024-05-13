@@ -13,7 +13,7 @@ export default function FeedPage() {
                     <HeaderBar />
                     <FeedSearchBar isDetailActive={isDetailActive} />
 
-                    <div className="w-full p-[2vw] flex justify-between">
+                    <div className="w-full p-2vw flex justify-between">
                         <div>정렬</div>
                         <div
                             className="text-5vw underline"

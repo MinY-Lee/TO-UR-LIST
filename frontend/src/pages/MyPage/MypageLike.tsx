@@ -22,7 +22,7 @@ export default function MypageLike() {
         <>
             <section className="w-full h-[90%] py-[1vw] overflow-y-scroll flex flex-col items-center flex-grow-0 flex-shrink-0">
                 <HeaderBar />
-                <h1 className="text-[7vw] my-[2vw] w-[90%] weight-text-semibold">
+                <h1 className="text-7vw my-[2vw] w-[90%] weight-text-semibold">
                     내가 좋아요한 여행
                 </h1>
                 {myLikedList.map((feed) => {

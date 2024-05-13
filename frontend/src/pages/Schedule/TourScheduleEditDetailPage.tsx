@@ -79,15 +79,15 @@ export default function TourScheduleEditDetailPage() {
                     </div>
 
                     {/* 장소설명 */}
-                    <div className="w-full text-[7vw] flex justify-between items-center mb-[1vw]">
+                    <div className="w-full text-7vw flex justify-between items-center mb-[1vw]">
                         <span>{tourDetail?.placeInfo.placeName}</span>
                         {tourDetail?.isSelected ? (
-                            <div className="w-[20%] h-[7vw] text-[5vw] rounded-[3.5vw] bg-white color-text-blue-2 color-border-blue-2 border-[0.5vw] flex justify-center items-center">
+                            <div className="w-[20%] h-[7vw] text-5vw rounded-[3.5vw] bg-white color-text-blue-2 color-border-blue-2 border-[0.5vw] flex justify-center items-center">
                                 추가됨
                             </div>
                         ) : (
                             <div
-                                className="w-[20%] h-[7vw] text-[5vw] rounded-[3.5vw] color-bg-blue-2 text-white flex justify-center items-center"
+                                className="w-[20%] h-[7vw] text-5vw rounded-[3.5vw] color-bg-blue-2 text-white flex justify-center items-center"
                                 onClick={() => {
                                     //추가하는 요청 전송
                                 }}
@@ -96,7 +96,7 @@ export default function TourScheduleEditDetailPage() {
                             </div>
                         )}
                     </div>
-                    <div className="w-full text-[4vw] mb-[1vw]">
+                    <div className="w-full text-4vw mb-[1vw]">
                         주소 : {tourDetail?.placeInfo.placeAddress}
                     </div>
                     <div className="w-full h-[1vw] bg-[#828282]"></div>
@@ -104,14 +104,14 @@ export default function TourScheduleEditDetailPage() {
                     {/* 활동목록 */}
                     {activityList.length > 0 ? (
                         <div className="w-full flex flex-col mt-[3vw]">
-                            <p className="text-[6vw]">날짜 및 활동</p>
-                            <p className="text-[4vw] text-[#B5B5B5]">
+                            <p className="text-6vw">날짜 및 활동</p>
+                            <p className="text-4vw text-[#B5B5B5]">
                                 활동 추가 시 활동에 필요한 준비물이 체크리스트에
                                 추가돼요.
                             </p>
                             {activityList.map((activity) => {
                                 return (
-                                    <div className="w-full text-[6vw] flex items-center">
+                                    <div className="w-full text-6vw flex items-center">
                                         <div
                                             className="w-[10%] flex justify-center items-center"
                                             onClick={() => {
@@ -120,7 +120,7 @@ export default function TourScheduleEditDetailPage() {
                                         >
                                             X
                                         </div>
-                                        <div className="w-[50%] text-[4vw] border-[#B5B5B5] border-[0.3vw] flex justify-between p-[1vw] m-[1vw] rounded-[2vw]">
+                                        <div className="w-[50%] text-4vw border-[#B5B5B5] border-[0.3vw] flex justify-between p-[1vw] m-[1vw] rounded-[2vw]">
                                             <span>
                                                 {dateToString(activity.tourDay)}
                                             </span>
@@ -128,7 +128,7 @@ export default function TourScheduleEditDetailPage() {
                                                 calendar_today
                                             </span>
                                         </div>
-                                        <div className="w-[20%] text-[4vw] color-text-blue-2 color-border-blue-2 border-[0.5vw] rounded-[2vw] m-[1vw] flex justify-center items-center">
+                                        <div className="w-[20%] text-4vw color-text-blue-2 color-border-blue-2 border-[0.5vw] rounded-[2vw] m-[1vw] flex justify-center items-center">
                                             {activity.tourActivityList.length >
                                             1
                                                 ? activity.tourActivityList[0]
@@ -144,7 +144,7 @@ export default function TourScheduleEditDetailPage() {
                                                 : '활동없음'}
                                         </div>
                                         <div
-                                            className="w-[20%] text-[4vw] color-text-blue-2 color-border-blue-2 border-[0.5vw] rounded-[2vw] px-[1vw] flex justify-center items-center border-dotted"
+                                            className="w-[20%] text-4vw color-text-blue-2 color-border-blue-2 border-[0.5vw] rounded-[2vw] px-[1vw] flex justify-center items-center border-dotted"
                                             onClick={() => {
                                                 //활동 추가 로직
                                             }}
@@ -157,7 +157,7 @@ export default function TourScheduleEditDetailPage() {
                         </div>
                     ) : (
                         <div className="w-full flex flex-col">
-                            <p className="text-[4vw] text-[#B5B5B5]">
+                            <p className="text-4vw text-[#B5B5B5]">
                                 활동 추가 시 활동에 필요한 준비물이 체크리스트에
                                 추가돼요.
                             </p>

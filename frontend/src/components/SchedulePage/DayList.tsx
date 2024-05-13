@@ -39,17 +39,17 @@ export default function DayList(props: PropType) {
                     {props.dayNumber === 0 ? (
                         <>
                             <div className="w-[90%] flex flex-col text-[#828282] items-center">
-                                <p className="text-[6vw]">날짜 없음</p>
+                                <p className="text-6vw">날짜 없음</p>
                             </div>
                             <div className="w-[0.5vw] h-full bg-[#828282]"></div>
                         </>
                     ) : (
                         <>
                             <div className="w-[90%] flex flex-col text-[#828282] items-center">
-                                <p className="text-[7vw]">
+                                <p className="text-7vw">
                                     Day {props.dayNumber}
                                 </p>
-                                <p className="text-[4vw]">
+                                <p className="text-4vw">
                                     {dateToString(props.date)}
                                 </p>
                             </div>
@@ -59,7 +59,7 @@ export default function DayList(props: PropType) {
                 </div>
                 <div className="w-[75%] p-[1vw] flex flex-col items-center">
                     {props.dailySchedule.length === 0 ? (
-                        <p className="text-[6vw]">일정 없음</p>
+                        <p className="text-6vw">일정 없음</p>
                     ) : (
                         props.dailySchedule.map((schedule) => {
                             return (

@@ -70,7 +70,7 @@ export default function TourScheduleEditPage() {
                 <HeaderBar />
                 <div className="w-full h-[80%] px-[2vw] relative overflow-y-auto flex flex-col">
                     <div className="w-full h-[10%] flex justify-between items-center">
-                        <p className="text-[7vw]">일정 편집</p>
+                        <p className="text-7vw">일정 편집</p>
                         <div
                             className="w-[15%] h-[6vw] rounded-[3vw] color-bg-blue-2 text-white flex justify-center items-center"
                             onClick={() => {
