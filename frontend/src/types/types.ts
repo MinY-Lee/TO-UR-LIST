@@ -154,7 +154,7 @@ export interface AccountInfo {
 }
 
 export interface CurrencyInfo {
-    unit: String;
-    currencyRate: Number;
-    currencyCode: String;
+    unit: string;
+    currencyRate: number;
+    currencyCode: string;
 }

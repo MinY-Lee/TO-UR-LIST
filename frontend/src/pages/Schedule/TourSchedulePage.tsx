@@ -56,20 +56,14 @@ export default function TourSchedulePage() {
         <>
             <section className="w-full h-full">
                 <div className="w-full h-[25%]">
-                    <TourHeader tourInfo={tourInfo} onChange={onChange} />
+                    <TourHeader tourId={tourId} tourInfo={tourInfo} onChange={onChange} />
                 </div>
                 <div className="w-full h-[65%] relative overflow-hidden">
                     <Wrapper
-                        apiKey={`${
-                            import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY
-                        }`}
+                        apiKey={`${import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY}`}
                         libraries={['marker', 'places']}
                     >
-                        <Maps
-                            schedule={schedule}
-                            selectedDate={selectedDate}
-                            tourId={tourId}
-                        />
+                        <Maps schedule={schedule} selectedDate={selectedDate} tourId={tourId} />
                     </Wrapper>
                     <ScheduleBar
                         schedule={schedule}

@@ -4,9 +4,11 @@ import HeaderBar from '../../components/HeaderBar/HeaderBar';
 import TabBarTour from '../../components/TabBar/TabBarTour';
 
 import AccountAddModify from '../../components/AccountPage/accountAddModify';
-import { AccountInfo } from '../../types/types';
+import { AccountInfo, TourInfoDetail } from '../../types/types';
 
 import getAccountDetail from '../../dummy-data/get_pay_detail_payId.json';
+import { getAccountList } from '../../util/api/pay';
+import { getTour } from '../../util/api/tour';
 
 export default function AccountAddPage() {
     const [tourId, setTourId] = useState<string>('');
@@ -25,6 +27,13 @@ export default function AccountAddPage() {
         payerId: '',
         payMemberList: [],
     });
+    const [tourData, setTourData] = useState<TourInfoDetail>({
+        tourTitle: '',
+        cityList: [],
+        startDate: '',
+        endDate: '',
+        memberList: [],
+    });
 
     useEffect(() => {
         // 투어 아이디 및 payId 불러오기
@@ -32,8 +41,19 @@ export default function AccountAddPage() {
         setTourId(address[address.length - 3]);
         setPayId(address[address.length - 1]);
 
-        // payId 로 디테일 가져와
-        setData(getAccountDetail);
+        // 데이터 불러오기
+        if (tourId != '') {
+            getAccountList(tourId)
+                .then((res) => {
+                    setData(res.data);
+                })
+                .catch((err) => console.log(err));
+            getTour(tourId)
+                .then((res) => {
+                    setTourData(res.data);
+                })
+                .catch((err) => console.log(err));
+        }
     }, [tourId]);
 
     return (
@@ -41,7 +61,7 @@ export default function AccountAddPage() {
             <header>
                 <HeaderBar />
             </header>
-            <AccountAddModify isModify={true} data={data} />
+            <AccountAddModify tourId={tourId} tourData={tourData} isModify={true} data={data} />
             <footer>
                 <TabBarTour tourId={tourId} tourMode={3} />
             </footer>

@@ -47,7 +47,7 @@ export default function ChecklistPage() {
             </header>
             <div className="h-[85vh] overflow-y-scroll">
                 <div>
-                    <TourHeader tourInfo={data} onChange={onChange} />
+                    <TourHeader tourId={tourId} tourInfo={data} onChange={onChange} />
                 </div>
                 <div>
                     <TourBasicInfo tourInfo={data} />
