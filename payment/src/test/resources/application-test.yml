@@ -36,7 +36,7 @@ spring:
       validation-query: SELECT 1
   data:
     mongodb:
-      database: ${DB_TEST_URL}
+      database: ${PAYMENT_MONGO_TEST_DB_NAME}
       port: 27017
       user: ${PAYMENT_MONGO_DB_ROOT_USER_NAME}
       password: ${PAYMENT_MONGO_DB_ROOT_USER_PASSWORD}

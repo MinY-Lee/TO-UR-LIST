@@ -44,7 +44,7 @@ public class PaymentServiceImpl implements PaymentService {
         // 날짜 정보
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         LocalDate datePart = LocalDate.parse(date, formatter);
-        LocalDateTime dateTime = datePart.atTime(11, 5, 0);
+        LocalDateTime dateTime = datePart.atTime(11, 5, 0, 0);
         // 환율 가져오기
         return exchangeRateRepository.findByExchangeRateId(new ExchangeRateId(countryCurrency.getCountryCurrencyId().getCurrencyCode(), dateTime))
                 .orElseThrow(() -> new ExchangeRateNotExistException("해당하는 환율데이터가 없습니다."));
@@ -264,9 +264,20 @@ public class PaymentServiceImpl implements PaymentService {
     public List<PaymentInfoRes> searchPaymentInfoList(String tourId, String userId) {
         List<PaymentInfoRes> result = new ArrayList<>();
 
-        // tourId로 기존 데이터 가져오기
+//        // tourId로 기존 데이터 가져오기
+//        PaymentInfo payment = paymentInfoRepository.findById(tourId)
+//                .orElseThrow(() -> new PaymentNotExistException("해당하는 지출정보가 없습니다."));
+
+        // tourId로 기존 데이터 가져오기, 없으면 생성
         PaymentInfo payment = paymentInfoRepository.findById(tourId)
-                .orElseThrow(() -> new PaymentNotExistException("해당하는 지출정보가 없습니다."));
+                .orElseGet(() -> PaymentInfo.builder()
+                        .id(tourId)
+                        .publicPayment(new LinkedHashMap<>())
+                        .privatePayment(new LinkedHashMap<>())
+                        .build());
+
+        if(payment.getPublicPayment().isEmpty() && payment.getPrivatePayment().isEmpty())
+            return new ArrayList<>();
 
         // 개인 지출 가져오기
         Map<String, PrivatePayment> privatePaymentMap = payment.getPrivatePayment();

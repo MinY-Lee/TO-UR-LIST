@@ -18,10 +18,10 @@ public class KafkaPayment {
 
     private final PaymentService paymentService;
 
-    @Value("${KAFKA_PAYMENT_TOPIC}")
+    @Value("${KAFKA_PAYMENT_REQUEST_TOPIC}")
     String paymentTopicName;
 
-    @KafkaListener(topics = "${KAFKA_PAYMENT_TOPIC}", containerFactory = "kafkaListenerContainerFactory")
+    @KafkaListener(topics = "${KAFKA_PAYMENT_REQUEST_TOPIC}", containerFactory = "kafkaListenerContainerFactory")
     public void receiveUUIDDataResult(ConsumerRecord<String, String> consumerRecord) {
 
         if(consumerRecord.key().isBlank() || consumerRecord.value().isBlank()) {

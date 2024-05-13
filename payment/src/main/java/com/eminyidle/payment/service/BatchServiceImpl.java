@@ -28,7 +28,7 @@ public class BatchServiceImpl implements BatchService {
         conversionRates.keys().forEachRemaining(key -> {
             // 11시 05분 기준
             LocalDateTime now = LocalDateTime.now();
-            now = now.withHour(11).withMinute(5).withSecond(0);
+            now = now.withHour(11).withMinute(5).withSecond(0).withNano(0);
             // key에 해당하는 나라 찾기
             List<CountryCurrency> countryCurrency = countryCurrencyRepository.findByCountryCurrencyIdCurrencyCode(key);
 

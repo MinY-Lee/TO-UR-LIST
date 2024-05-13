@@ -36,7 +36,7 @@ spring:
       validation-query: SELECT 1
   data:
     mongodb:
-      database: ${DB_NAME}
+      database: ${PAYMENT_MONGO_DB_NAME}
       port: 27017
       user: ${PAYMENT_MONGO_DB_ROOT_USER_NAME}
       password: ${PAYMENT_MONGO_DB_ROOT_USER_PASSWORD}
@@ -55,7 +55,7 @@ kafka:
   bootstrap:
     servers: ${KAFKA_BOOTSTRAP_SERVERS}
   consumer:
-    group-id: ${KAFKA_CONSUMER_GROUP_ID}
+    group: ${KAFKA_PAYMENT_CONSUMER_GROUP}
 
 server:
   port: 8085
