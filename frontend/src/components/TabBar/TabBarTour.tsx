@@ -52,7 +52,7 @@ export default function TabBarTour(props: PropType) {
                                     setIsMenuOpen(false);
                                 }}
                             >
-                                <span className="material-symbols-outlined text-[8vw] text-white">
+                                <span className="material-symbols-outlined text-8vw text-white">
                                     close
                                 </span>
                             </div>
@@ -65,7 +65,7 @@ export default function TabBarTour(props: PropType) {
                                 setIsMenuOpen(true);
                             }}
                         >
-                            <span className="material-symbols-outlined text-[8vw] text-white">
+                            <span className="material-symbols-outlined text-8vw text-white">
                                 menu
                             </span>
                         </div>

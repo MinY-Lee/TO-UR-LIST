@@ -21,7 +21,7 @@ export default function PlaceSearchCard(props: PropType) {
                 onClick={() => props.goDetail(props.placeInfo.placeId)}
             >
                 <div className="w-full h-[30%] flex justify-between items-center">
-                    <span className="w-[80%] text-[5vw] text-ellipsis text-nowrap overflow-hidden">
+                    <span className="w-[80%] text-5vw text-ellipsis text-nowrap overflow-hidden">
                         {props.placeInfo.placeName}
                     </span>
                     <div className="w-[20%] h-[80%] rounded-[5vw] color-bg-blue-2 text-white flex justify-center items-center">
@@ -37,7 +37,7 @@ export default function PlaceSearchCard(props: PropType) {
                     ) : (
                         <div className="w-[30%] h-full aspect-square bg-white border-black border-[0.2vw]"></div>
                     )}
-                    <div className="w-[70%] h-full p-[1vw] text-[4vw]">
+                    <div className="w-[70%] h-full p-[1vw] text-4vw">
                         {props.placeInfo.placeAddress}
                     </div>
                 </div>
