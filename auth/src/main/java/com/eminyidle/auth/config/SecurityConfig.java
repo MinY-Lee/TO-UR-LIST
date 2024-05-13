@@ -111,6 +111,7 @@ public class SecurityConfig {
                 .requestMatchers("/error/**").permitAll() // 에러메세지 처리
                 .requestMatchers("/js/**").permitAll()
                 .requestMatchers("/test/**").permitAll()
+                .requestMatchers("/login/**").permitAll()
                 .anyRequest().authenticated());
 
         //JWTFilter 등록
