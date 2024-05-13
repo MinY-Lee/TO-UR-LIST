@@ -18,8 +18,12 @@ export default function WebSocket() {
             console.log(frame);
         };
 
+        newClient.activate();
+
+        console.log(newClient);
+
         setWsClient(newClient);
     }, []);
 
-    return <div className="w-0 h-0 hidden"></div>;
+    return <div className="w-0 h-0"></div>;
 }
