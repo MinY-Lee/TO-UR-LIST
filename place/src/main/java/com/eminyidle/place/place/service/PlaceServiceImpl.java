@@ -328,4 +328,10 @@ public class PlaceServiceImpl implements PlaceService{
         List<String> enrollActivity = placeRepository.findActivityByTourIdAndTourDayAndTourPlaceId(tourId, tourDay, placeId);
         return enrollActivity;
     }
+
+    // 투어 생성
+    @Override
+    public void createTour(Tour tour){
+        tourRepository.save(tour);
+    }
 }

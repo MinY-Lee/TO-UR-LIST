@@ -16,6 +16,7 @@ import static org.springframework.data.neo4j.core.schema.Relationship.Direction.
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Node("TOUR")
 @ToString
 public class Tour {
@@ -24,7 +25,7 @@ public class Tour {
     private String tourTitle;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    List<City> cityList;
+//    List<City> cityList;
 
     @Relationship(type = "DO", direction = OUTGOING)    // 관계 설정
     private List<Do> placeList;

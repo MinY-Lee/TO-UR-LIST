@@ -9,6 +9,15 @@ spring:
       username: ${PLACE_NEO4J_USER_NAME}
       password: ${PLACE_NEO4J_USER_PASSWORD}
     uri: ${PLACE_NEO4J_URI}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    consumer:
+      group-id: ${KAFKA_PLACE_CONSUMER_GROUP}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 logging:
   level:
