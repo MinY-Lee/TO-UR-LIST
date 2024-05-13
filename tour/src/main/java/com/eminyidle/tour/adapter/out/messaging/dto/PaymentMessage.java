@@ -1,4 +1,4 @@
-package com.eminyidle.tour.adapter.dto.messaging;
+package com.eminyidle.tour.adapter.out.messaging.dto;
 
 import lombok.Builder;
 import lombok.Getter;
