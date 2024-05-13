@@ -48,8 +48,6 @@ export default function AccountPage() {
                 })
                 .catch((err) => console.log(err));
         }
-
-        console.log(data);
     }, [tourId]);
 
     useEffect(() => {
@@ -57,13 +55,11 @@ export default function AccountPage() {
         if (tourData.tourTitle != '') {
             getCurrency(tourData.cityList[0].countryCode, new Date().toISOString().split('T')[0])
                 .then((res) => {
-                    console.log(res.data);
                     setCurrency({
                         unit: res.data.unit,
                         currencyCode: res.data.currencyCode,
                         currencyRate: calcCurrency(res.data.currencyRate), // 1원당 가격 -> 화폐단위당 가격
                     });
-                    return;
                 })
                 .catch((err) => console.log(err));
         }

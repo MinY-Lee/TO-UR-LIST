@@ -139,7 +139,6 @@ export interface PayMember {
 }
 
 export interface AccountInfo {
-    payId: string;
     payType: string;
     tourId: string;
     payAmount: number;

@@ -6,11 +6,13 @@ import TabBarTour from '../../components/TabBar/TabBarTour';
 import AccountAddModify from '../../components/AccountPage/accountAddModify';
 import { AccountInfo, TourInfoDetail } from '../../types/types';
 
-import getAccountDetail from '../../dummy-data/get_pay_detail_payId.json';
-import { getAccountList } from '../../util/api/pay';
+import { getAccount, getAccountList } from '../../util/api/pay';
 import { getTour } from '../../util/api/tour';
+import { useLocation } from 'react-router-dom';
 
 export default function AccountAddPage() {
+    const location = useLocation();
+
     const [tourId, setTourId] = useState<string>('');
     const [payId, setPayId] = useState<string>('');
     const [data, setData] = useState<AccountInfo>({
@@ -42,15 +44,16 @@ export default function AccountAddPage() {
         setPayId(address[address.length - 1]);
 
         // 데이터 불러오기
-        if (tourId != '') {
-            getAccountList(tourId)
-                .then((res) => {
-                    setData(res.data);
-                })
-                .catch((err) => console.log(err));
+        if (tourId != '' && location.state) {
             getTour(tourId)
                 .then((res) => {
                     setTourData(res.data);
+                })
+                .catch((err) => console.log(err));
+
+            getAccount(payId, tourId, location.state.item.payType)
+                .then((res) => {
+                    setData(res.data);
                 })
                 .catch((err) => console.log(err));
         }

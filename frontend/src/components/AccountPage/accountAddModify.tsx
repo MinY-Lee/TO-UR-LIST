@@ -1,5 +1,5 @@
 import { BaseSyntheticEvent, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import MyButton from '../../components/Buttons/myButton';
 import HeaderBar from '../../components/HeaderBar/HeaderBar';
@@ -9,7 +9,7 @@ import CategoryToImg from '../../components/AccountPage/categoryToImg';
 import { AccountInfo, MemberInfo, PayMember, TourInfoDetail, UserInfo } from '../../types/types';
 
 import { useSelector } from 'react-redux';
-import { getCurrency } from '../../util/api/pay';
+import { editAccount, getCurrency } from '../../util/api/pay';
 
 interface PropType {
     tourId: string;
@@ -44,18 +44,32 @@ export default function AccountAddModify(props: PropType) {
 
     const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
 
+    const idToName = (memberId: string): string => {
+        const member = props.tourData.memberList.find((member) => member.userId === memberId);
+
+        if (member) {
+            return member.userName;
+        } else {
+            return '';
+        }
+    };
+
+    const calcCurrency = (currencyRate: number) => {
+        return Number((1 / currencyRate).toFixed(2));
+    };
+
     useEffect(() => {
-        // const currencyData =
-        console.log(props.tourData);
-        getCurrency(props.tourData.cityList[0].countryCode, new Date().toISOString().split('T')[0])
-            .then((res) => {
-                setCurrency({
-                    unit: res.data.unit,
-                    currencyCode: res.data.currencyCode,
-                    currencyRate: res.data.currencyRate,
-                });
-            })
-            .catch((err) => console.log(err));
+        if (props.tourData.tourTitle != '') {
+            getCurrency(props.tourData.cityList[0].countryCode, new Date().toISOString().split('T')[0])
+                .then((res) => {
+                    setCurrency({
+                        unit: res.data.unit,
+                        currencyCode: res.data.currencyCode,
+                        currencyRate: calcCurrency(res.data.currencyRate),
+                    });
+                })
+                .catch((err) => console.log(err));
+        }
 
         if (!props.isModify) {
             // payer 디폴트는 현재 가계부 작성하는 사람
@@ -63,17 +77,16 @@ export default function AccountAddModify(props: PropType) {
         } else {
             if (props.data) {
                 setAmount(props.data.payAmount);
-                // 환율 지정 지금 안됨
-                setDate(props.data.payDatetime);
+                setDate(props.data.payDatetime.split('T')[0]);
                 setIsPublic(props.data.payType == 'public' ? true : false);
-                setPayer(props.data.payerId); // 아이디 -> 이름 매칭 필요
+                setPayer(idToName(props.data.payerId));
                 setPayMember(props.data.payMemberList);
                 setCategory(props.data.payCategory);
                 setContent(props.data.payContent);
                 setType(props.data.payMethod);
             }
         }
-    }, []);
+    }, [props]);
 
     useEffect(() => {
         const dropdown = document.querySelector('#type-dropdown'); // 드롭다운 요소 선택
@@ -136,7 +149,6 @@ export default function AccountAddModify(props: PropType) {
     };
 
     const handlePayMember = (memberId: string) => {
-        console.log(memberId);
         let updatedMember: PayMember[] = [];
         const payMemberIds = payMember.map((member) => member.userId);
         if (payMemberIds.includes(memberId)) {
@@ -149,11 +161,11 @@ export default function AccountAddModify(props: PropType) {
     };
 
     const handleSave = () => {
-        const newAccountItem = {
+        const newAccountItem: AccountInfo = {
             payType: isPublic,
             tourId: props.tourId,
             payAmount: amount,
-            unit: currency.unit,
+            unit: unit,
             currencyCode: currency.currencyCode,
             payMethod: type,
             payDatetime: date,
@@ -163,9 +175,12 @@ export default function AccountAddModify(props: PropType) {
             payMemberList: payMember,
         };
         // payId 리턴값으로 받아오기
+        editAccount(payId, newAccountItem)
+            .then((res) => console.log(res.data))
+            .catch((err) => console.log(err));
 
         console.log(newAccountItem);
-        // navigate(-1);
+        navigate(-1);
     };
 
     return (
@@ -241,7 +256,7 @@ export default function AccountAddModify(props: PropType) {
                                     />
                                 </div>
                             </div>
-                            <div>원 / 1 엔</div>
+                            <div>원 / 1 {currency.unit}</div>
                         </div>
                     </div>
                     <div className="grid grid-cols-3">
@@ -309,7 +324,7 @@ export default function AccountAddModify(props: PropType) {
                                     <div
                                         className={`${
                                             payerDropdownClick ? '' : 'hidden'
-                                        } absolute top-[37%] right-[15%] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-36`}
+                                        } absolute top-[36.5%] right-[16%] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-36`}
                                     >
                                         <ul
                                             className="py-2 text-sm text-gray-700 max-h-[30vh] overflow-y-scroll"
@@ -317,7 +332,10 @@ export default function AccountAddModify(props: PropType) {
                                         >
                                             {props.tourData.memberList.map((member, index) => (
                                                 <li key={index} onClick={() => handlePayerChange(member.userName)}>
-                                                    <div className="block px-4 py-2">{member.userName}</div>
+                                                    <div className="block px-4">
+                                                        {member.userName}
+                                                        {userInfo.userId == member.userId ? ' (나)' : ''}
+                                                    </div>
                                                 </li>
                                             ))}
                                         </ul>
