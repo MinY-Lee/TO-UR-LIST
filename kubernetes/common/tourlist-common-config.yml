@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tourlist-common-config
+data:
+  KAFKA_BOOTSTRAP_SERVERS: "tourlist-common-kafka-service:9093"
+  KAFKA_TOUR_CONSUMER_GROUP: "TourlistTour"
+  KAFKA_PLACE_CONSUMER_GROUP: "TourlistPlace"
+  KAFKA_CHECKLIST_CONSUMER_GROUP: "TourlistChecklist"
+  KAFKA_PAYMENT_CONSUMER_GROUP: "TourlistPayment"
+  KAFKA_CONSUMER_GROUP_ID: "tourlist.payment.group"
+  KAFKA_TOUR_ALERT_TOPIC: "tourlist.tour.alert"
+  KAFKA_PLACE_ALERT_TOPIC: "tourlist.tourplace.alert"
+  KAFKA_ACTIVITY_ALERT_TOPIC: "tourlist.activity.alert"
+  KAFKA_TOUR_REQUEST_TOPIC: "tourlist.tour.request"
+  KAFKA_PLACE_REQUEST_TOPIC: "tourlist.tourplace.request"
+  KAFKA_ACTIVITY_REQUEST_TOPIC: "tourlist.activity.request"
+  KAFKA_PAYMENT_REQUEST_TOPIC: "tourlist.payment.request"

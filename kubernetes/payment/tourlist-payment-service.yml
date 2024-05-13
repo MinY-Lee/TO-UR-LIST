@@ -39,6 +39,10 @@ spec:
           envFrom:
             - configMapRef:
                 name: tourlist-payment-config
+            - configMapRef:
+                name: tourlist-common-config
             - secretRef:
                 name: tourlist-payment-secrets
+            - secretRef:
+                name: tourlist-common-secrets
 
