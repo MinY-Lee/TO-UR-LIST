@@ -6,7 +6,7 @@ interface PropType {
 export default function Tag(props: PropType) {
     return (
         <div
-            className={`text-4vw weight-text-semibold px-[1.5vw] mr-[0.5vw] flex justify-center items-center rounded-full ${
+            className={`text-4vw weight-text-semibold px-2vw mr-dot5vw flex justify-center items-center rounded-full ${
                 props.tagType === 'theme' ? 'bg-[#FFD4D4]' : 'color-bg-blue-4'
             }`}
         >

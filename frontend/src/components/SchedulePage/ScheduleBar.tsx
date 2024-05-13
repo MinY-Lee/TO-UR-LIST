@@ -55,15 +55,15 @@ export default function ScheduleBar(props: PropType) {
     return (
         <>
             <div
-                className={`w-full bottom-0 absolute rounded-[2vw] border-[0.5vw] border-[#D9D9D9] z-10 bg-white ${
+                className={`w-full bottom-0 absolute border-rad-2vw border-halfvw border-[#D9D9D9] z-10 bg-white ${
                     mode === 0 ? 'h-full' : mode === 1 ? 'h-[50%]' : 'h-[20%]'
                 }`}
                 style={{ transitionDuration: '1s' }}
             >
                 {/* 추가 편집 버튼 */}
-                <div className="w-[30%] h-[6vw] absolute right-[5%] top-[2vw] flex justify-between items-center">
+                <div className="w-[30%] h-6vw absolute right-[5%] top-2vw flex justify-between items-center">
                     <div
-                        className="w-[48%] h-full text-white color-bg-blue-2 rounded-[4vw] flex justify-center items-center"
+                        className="w-[48%] h-full text-white color-bg-blue-2 border-rad-4vw flex justify-center items-center"
                         onClick={() => {
                             navigate(`/tour/${props.tourId}/schedule/add`, {
                                 state: { selectedDate: props.selectedDate },
@@ -73,7 +73,7 @@ export default function ScheduleBar(props: PropType) {
                         추가
                     </div>
                     <div
-                        className="w-[48%] h-full color-bg-blue-4 rounded-[4vw] flex justify-center items-center"
+                        className="w-[48%] h-full color-bg-blue-4 border-rad-4vw flex justify-center items-center"
                         onClick={() => {
                             navigate(`/tour/${props.tourId}/schedule/edit`, {
                                 state: { selectedDate: props.selectedDate },
@@ -85,7 +85,7 @@ export default function ScheduleBar(props: PropType) {
                 </div>
                 {/* 스크롤 */}
                 <div
-                    className="w-full h-[10vw] flex justify-center items-center"
+                    className="w-full h-10vw flex justify-center items-center"
                     draggable={true}
                     onDragStart={(e) => {
                         dragStartPosY = e.clientY;
@@ -135,7 +135,7 @@ export default function ScheduleBar(props: PropType) {
                     }}
                     ref={swipeRef}
                 >
-                    <div className="w-[20%] h-[1vw] bg-[#929292] rounded-[0.5vw]"></div>
+                    <div className="w-[20%] h-vw bg-[#929292] border-rad-dot5vw"></div>
                 </div>
                 {/* 일정 정보 표시 */}
                 <div className="w-full h-[85%] overflow-y-scroll flex flex-col">

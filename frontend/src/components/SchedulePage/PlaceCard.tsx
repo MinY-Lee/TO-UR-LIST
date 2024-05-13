@@ -45,7 +45,7 @@ export default function PlaceCard(props: PropType) {
                 <></>
             )}
             <div
-                className="w-full p-[1vw] my-[0.5vw] rounded-[2vw] border-[0.5vw] border-[#D9D9D9]"
+                className="w-full p-vw my-dot5vw border-rad-2vw border-halfvw border-[#D9D9D9]"
                 onClick={() => props.goToDetail(props.schedule)}
             >
                 <div className="w-full flex justify-between items-center">
@@ -61,7 +61,7 @@ export default function PlaceCard(props: PropType) {
                     {props.schedule.tourActivityList.map((activity, index) => {
                         return (
                             <p
-                                className={`text-4vw px-[1vw] mx-[0.5vw] rounded-[2vw] ${
+                                className={`text-4vw px-vw mx-dot5vw border-rad-2vw ${
                                     index <= 2 ? bgColor[index] : bgColor[0]
                                 }`}
                             >

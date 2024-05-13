@@ -15,16 +15,16 @@ export default function PlaceSearchCard(props: PropType) {
     }`;
 
     return (
-        <div className="w-full h-[35vw] flex justify-center items-center flex-shrink-0 p-[1vw]">
+        <div className="w-full h-35vw flex justify-center items-center flex-shrink-0 p-vw">
             <div
-                className="w-[95%] p-[1vw] h-full color-border-blue-2 border-[0.5vw] rounded-[2vw] flex flex-col"
+                className="w-[95%] p-vw h-full color-border-blue-2 border-halfvw border-rad-2vw flex flex-col"
                 onClick={() => props.goDetail(props.placeInfo.placeId)}
             >
                 <div className="w-full h-[30%] flex justify-between items-center">
                     <span className="w-[80%] text-5vw text-ellipsis text-nowrap overflow-hidden">
                         {props.placeInfo.placeName}
                     </span>
-                    <div className="w-[20%] h-[80%] rounded-[5vw] color-bg-blue-2 text-white flex justify-center items-center">
+                    <div className="w-[20%] h-[80%] border-rad-5vw color-bg-blue-2 text-white flex justify-center items-center">
                         추가
                     </div>
                 </div>
@@ -32,12 +32,12 @@ export default function PlaceSearchCard(props: PropType) {
                     {photoReference !== '' ? (
                         <img
                             src={photoUrl}
-                            className="w-[30%] h-full aspect-square rounded-[2vw]"
+                            className="w-[30%] h-full aspect-square border-rad-2vw"
                         />
                     ) : (
-                        <div className="w-[30%] h-full aspect-square bg-white border-black border-[0.2vw]"></div>
+                        <div className="w-[30%] h-full aspect-square bg-white border-black border-dot3vw"></div>
                     )}
-                    <div className="w-[70%] h-full p-[1vw] text-4vw">
+                    <div className="w-[70%] h-full p-vw text-4vw">
                         {props.placeInfo.placeAddress}
                     </div>
                 </div>

@@ -21,7 +21,7 @@ export default function TabBarTour(props: PropType) {
     return (
         <>
             <div
-                className={`w-full h-[10%] absolute bottom-0 left-0 flex justify-center items-center border-t-[0.4vw] border-t-gray-400 bg-white z-10`}
+                className={`w-full h-[10%] absolute bottom-0 left-0 flex justify-center items-center border-t-halfvw border-t-gray-400 bg-white z-10`}
             >
                 <div
                     className={`w-[33%] h-full flex justify-center items-center bg-white`}
@@ -31,11 +31,11 @@ export default function TabBarTour(props: PropType) {
                 >
                     <span className="material-symbols-outlined">search</span>
                 </div>
-                <div className="w-[0.4vw] h-full bg-white flex justify-center items-center">
+                <div className="w-dot5vw h-full bg-white flex justify-center items-center">
                     <div className="w-full h-[80%] bg-gray-400"></div>
                 </div>
                 <div
-                    className={`w-[33%] h-full relative color-border-blue-2 border-t-[0.6vw] bg-white`}
+                    className={`w-[33%] h-full relative color-border-blue-2 border-t-halfvw bg-white`}
                     ref={widthRef}
                 >
                     {isMenuOpen ? (
@@ -71,7 +71,7 @@ export default function TabBarTour(props: PropType) {
                         </div>
                     )}
                 </div>
-                <div className="w-[0.4vw] h-full bg-white flex justify-center items-center">
+                <div className="w-dot5vw h-full bg-white flex justify-center items-center">
                     <div className="w-full h-[80%] bg-gray-400"></div>
                 </div>
                 <div

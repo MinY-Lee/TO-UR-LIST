@@ -25,5 +25,5 @@ export default function WebSocket() {
         setWsClient(newClient);
     }, []);
 
-    return <div className="w-0 h-0"></div>;
+    return <div className="hidden"></div>;
 }

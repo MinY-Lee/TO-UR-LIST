@@ -67,7 +67,7 @@ export default function TourCard(props: PropType) {
             <div
                 className={`${
                     props.className
-                } box-border w-[90%] h-[20%] m-[2vw] p-[1vw] rounded-[2vw] flex items-center flex-shrink-0 ${
+                } box-border w-[90%] h-[20%] m-2vw p-vw border-rad-2vw flex items-center flex-shrink-0 ${
                     mode === 0
                         ? 'color-bg-blue-3'
                         : mode === 1
@@ -101,7 +101,7 @@ export default function TourCard(props: PropType) {
                         tour.startDate
                     )}~${dateStringToString(tour.endDate)}`}</p>
                     <div className="text-5vw flex items-center">
-                        <span className="material-symbols-outlined mr-[1vw]">
+                        <span className="material-symbols-outlined mr-vw">
                             location_on
                         </span>
                         <p>{`${tour.cityList[0].countryCode}, ${

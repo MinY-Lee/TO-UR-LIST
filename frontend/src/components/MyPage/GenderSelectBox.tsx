@@ -11,8 +11,8 @@ export default function GenderSelectBox(props: PropType) {
     return (
         <>
             <div
-                className="w-full h-full z-10 flex justify-between items-center bg-white px-[2vw] mt-[1vw] border-[0.3vw] border-[#929292]"
-                style={{ borderRadius: 'min(1vw, 4.12px)' }}
+                className="w-full h-full z-10 flex justify-between items-center bg-white px-2vw mt-vw border-dot3vw border-[#929292]"
+                style={{ borderRadius: 'min(1vw, 4.8px)' }}
                 onClick={() => {
                     props.setSelectBoxMode((prev) => (prev + 1) % 2);
                 }}
@@ -33,11 +33,11 @@ export default function GenderSelectBox(props: PropType) {
                     return (
                         <div
                             key={value}
-                            className={`w-full h-full flex justify-start items-center bg-white px-[2vw] border-x-[0.3vw] border-[#929292] ${
+                            className={`w-full h-full flex justify-start items-center bg-white px-2vw border-x-dot3vw border-[#929292] ${
                                 index === 0
-                                    ? 'border-t-[0.3vw]'
+                                    ? 'border-t-dot3vw'
                                     : index === data.length - 1
-                                    ? 'border-b-[0.3vw]'
+                                    ? 'border-b-dot3vw'
                                     : ''
                             }
                             ${
@@ -50,9 +50,9 @@ export default function GenderSelectBox(props: PropType) {
                             style={{
                                 borderRadius:
                                     index === 0
-                                        ? '1vw 1vw 0 0'
+                                        ? 'min(1vw, 4.8px) min(1vw, 4.8px) 0 0'
                                         : index === data.length - 1
-                                        ? '0 0 1vw 1vw'
+                                        ? '0 0 min(1vw, 4.8px) min(1vw, 4.8px)'
                                         : '',
                             }}
                             onClick={() => {
