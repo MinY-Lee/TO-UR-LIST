@@ -5,16 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Setter
 @Builder
 @ToString
-public class Place {
-    private String placeId;
-    private String placeName;
-    private Integer tourDay;
-    private String tourPlaceId;
-    private List<String> activityList;
+public class Tour {
+    private String tourTitle;
+    private List<City> cityList;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 }

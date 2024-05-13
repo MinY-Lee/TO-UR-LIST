@@ -7,7 +7,7 @@ import com.eminyidle.feed.adapter.dto.HiddenPlace;
 import java.util.List;
 
 public interface CreateFeedUsecase {
-    void createFeed(String feedId, String feedTitle, String feedContent, List<String> feedThemeTagList, String feedMateTag,
+    void createFeed(String feedId, String userId, String feedTitle, String feedContent, List<String> feedThemeTagList, String feedMateTag,
                     String tourId, List<Integer> hiddenDayList, List<HiddenPlace> hiddenPlaceList,
                     List<HiddenActivity> hiddenActivityList, List<HiddenItem> hiddenItemList);
 }

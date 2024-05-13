@@ -20,7 +20,7 @@ public class FeedEntity {
     private String feedContent;
     private List<String> feedThemeTagList;
     private String feedMateTag;
-//    private String tourId;
+    private String tourId;
     private List<Integer> hiddenDayList;
     @Property
 //    private List<Object> hiddenPlaceList;
