@@ -30,6 +30,6 @@ spec:
           image: redis:7.2.4
           ports:
             - containerPort: 6379
-        - envFrom:
+          envFrom:
             - secretRef:
                 name: tourlist-auth-db-secrets
