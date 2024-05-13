@@ -12,18 +12,6 @@ spec:
 
 ---
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: tourlist-common-mariadb-pv
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: ""
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: tourlist-common-mariadb-pvc
