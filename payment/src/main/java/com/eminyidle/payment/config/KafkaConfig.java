@@ -25,8 +25,8 @@ public class KafkaConfig {
     @Value("${kafka.bootstrap.servers}")
     private String KAFKA_BOOTSTRAP_SERVERS;
 
-    @Value("${kafka.consumer.group-id}")
-    private String KAFKA_CONSUMER_GROUP_ID;
+    @Value("${kafka.consumer.group}")
+    private String KAFKA_PAYMENT_CONSUMER_GROUP;
 
     // 카프카 producer 설정
     @Bean
@@ -48,7 +48,7 @@ public class KafkaConfig {
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BOOTSTRAP_SERVERS);
-        config.put(ConsumerConfig.GROUP_ID_CONFIG, KAFKA_CONSUMER_GROUP_ID);
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, KAFKA_PAYMENT_CONSUMER_GROUP);
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 
