@@ -60,7 +60,7 @@ spec:
     spec:
       containers:
         - name: tourlist-common-kafka
-          image: bitnami/kafka:3.6
+          image: bitnami/kafka:3.6.2
           ports:
             - containerPort: 9093
           volumeMounts:
