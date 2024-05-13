@@ -1,22 +1,21 @@
 package com.eminyidle.tour.dto.res;
 
-import com.eminyidle.tour.dto.City;
-import com.eminyidle.tour.dto.Member;
 import com.eminyidle.tour.dto.TourCity;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class SearchTourDetailRes {
+public class SearchTourRes {
+
+    String tourId;
     String tourTitle;
     LocalDateTime startDate;
     LocalDateTime endDate;
     List<TourCity> cityList;
-    List<Member> memberList;
 }

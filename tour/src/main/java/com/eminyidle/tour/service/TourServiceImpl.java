@@ -5,16 +5,19 @@ import com.eminyidle.tour.dto.req.CreateTourReq;
 import com.eminyidle.tour.dto.req.UpdateTourCityReq;
 import com.eminyidle.tour.dto.req.UpdateTourPeriodReq;
 import com.eminyidle.tour.dto.req.UpdateTourTitleReq;
-import com.eminyidle.tour.exception.AbnormalTourDateException;
-import com.eminyidle.tour.exception.NoHostPrivilegesException;
-import com.eminyidle.tour.exception.NoSuchCityException;
-import com.eminyidle.tour.exception.NoSuchTourException;
+import com.eminyidle.tour.exception.*;
 import com.eminyidle.tour.repository.CityRepository;
 import com.eminyidle.tour.repository.TourRepository;
 import com.eminyidle.tour.repository.UserRepository;
 import com.eminyidle.tour.repository.maria.CountryCityRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +41,9 @@ public class TourServiceImpl implements TourService {
 
     private final MemberService memberService;
     private final RequestService requestService;
+    private final KafkaProducerService kafkaProducerService;
+    @Value("${KAFKA_PAYMENT_REQUEST_TOPIC}")
+    private String paymentTopic;
 
     @Override
     public Tour createTour(String userId, CreateTourReq createTourReq) {
@@ -50,7 +56,7 @@ public class TourServiceImpl implements TourService {
                 .cityList(createTourReq.getCityList().stream().map(
                         (city) ->
                                 cityRepository.findCity(city.getCityName(), city.getCountryCode()).orElseGet(() -> {
-                                    countryCityRepository.findCityEntityByCountryCodeAndCityNameKor(city.getCountryCode(),city.getCityName()).orElseThrow(NoSuchCityException::new);
+                                    countryCityRepository.findCityEntityByCountryCodeAndCityNameKor(city.getCountryCode(), city.getCityName()).orElseThrow(NoSuchCityException::new);
                                     return cityRepository.save(City.builder()
                                             .countryCode(city.getCountryCode())
                                             .cityName(city.getCityName())
@@ -60,8 +66,12 @@ public class TourServiceImpl implements TourService {
                 .build();
         tourRepository.save(tour);
 
-        User user = userRepository.findById(userId).orElseGet(() ->
-                requestService.getUser(userId)
+        User user = userRepository.findById(userId).orElseGet(() ->{
+            User dbUser=requestService.getUser(userId);
+            dbUser.setTourList(new ArrayList<>());
+            return dbUser;
+                }
+
         );
 
         user.getTourList().add(Attend.builder()
@@ -73,7 +83,32 @@ public class TourServiceImpl implements TourService {
         userRepository.createMemberRelationship(user.getUserId(), tour.getTourId(), "host");
 
         // TODO - 나라와 연계된 체크리스트 생성(Kafka)
+        kafkaProducerService.produceTourKafkaMessage("CREATE", tour);
         return tour;
+    }
+
+    @KafkaListener(topics = "create-tour")
+    private void consumerTest(@Payload String message) {
+        log.debug("consumer get! " + message);
+    }
+
+    @KafkaListener(topics = "create-tour-ob")
+    private void consumerTest2(ConsumerRecord<String, String> consumerRecord) {
+        log.debug("get consume Object!");
+        if (consumerRecord.value().isBlank()) {
+            throw new KafkaDataNotExistException("ID 데이터가 없습니다.");
+        }
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            Tour message = mapper.readValue(consumerRecord.value(), Tour.class);
+
+            log.debug("tourId: {}", consumerRecord.key());
+            log.debug(message.toString());
+            // 고스트 유저를 실제 유저로 변경
+        } catch (Exception e) {
+            throw new KafkaDataNotExistException("Message 오류가 발생했습니다.");
+        }
     }
 
     private boolean isHost(String userId, String tourId) {
@@ -94,6 +129,9 @@ public class TourServiceImpl implements TourService {
 
         tourRepository.deleteById(tourId);
         //TODO - 연결된 모든 tourActivity도 지워져야 한다 (KAFKA)
+        kafkaProducerService.produceTourKafkaMessage("DELETE", Tour.builder()
+                .tourId(tourId)
+                .build());
     }
 
     @Override
@@ -121,7 +159,7 @@ public class TourServiceImpl implements TourService {
         Set<City> citySet = updateTourCityReq.getCityList().stream().map(
                 (city) ->
                         cityRepository.findCity(city.getCityName(), city.getCountryCode()).orElseGet(() -> {
-                            countryCityRepository.findCityEntityByCountryCodeAndCityNameKor(city.getCountryCode(),city.getCityName()).orElseThrow(NoSuchCityException::new);
+                            countryCityRepository.findCityEntityByCountryCodeAndCityNameKor(city.getCountryCode(), city.getCityName()).orElseThrow(NoSuchCityException::new);
                             log.debug(city.toString());
                             return cityRepository.save(City.builder()
                                     .countryCode(city.getCountryCode())
@@ -143,6 +181,7 @@ public class TourServiceImpl implements TourService {
         tourRepository.save(tour);
 
         // TODO - 나라와 연계된 체크리스트 업데이트(Kafka)
+        kafkaProducerService.produceTourKafkaMessage("UPDATE", tour);
     }
 
     @Override
