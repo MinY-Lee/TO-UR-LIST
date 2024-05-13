@@ -6,6 +6,7 @@ import CheckModal from "../CheckModal";
 import GhostProfile from "../../assets/image/ghostProfile.png";
 import MapIcon from "../../assets/svg/mapIcon";
 import { deleteTour } from "../../util/api/tour";
+import MenuIcon from "../../assets/svg/menuIcon";
 
 interface PropType {
   tourId: string;
@@ -145,7 +146,9 @@ export default function TourHeader(props: PropType) {
           <div className="text-[7vw] font-bold w-[100%] overflow-ellipsis overflow-hidden whitespace-nowrap">
             {props.tourInfo.tourTitle}
           </div>
-          <div className="text-[4vw]">{`${props.tourInfo.startDate}~${props.tourInfo.endDate}`}</div>
+          <div className="text-[4vw]">{`${
+            props.tourInfo.startDate.split("T")[0]
+          }~${props.tourInfo.endDate.split("T")[0]}`}</div>
 
           <div className="flex items-center w-[90vw] overflow-x-scroll h-[8vh]">
             {props.tourInfo.memberList.map(
@@ -194,21 +197,7 @@ export default function TourHeader(props: PropType) {
           className="flex justify-center"
           onClick={() => setIsClicked(!isClicked)}
         >
-          <svg
-            className="w-6 h-6 text-gray-800"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 17 14"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 1h15M1 7h15M1 13h15"
-            />
-          </svg>
+          <MenuIcon />
 
           <div
             id="dropdown"
