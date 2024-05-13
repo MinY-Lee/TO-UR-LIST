@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: tourlist-auth-config
 data:
-  GOOGLE_REDIRECT_URL: "https://tourlist.me"
+  GOOGLE_REDIRECT_URL: "https://tourlist.me/api/login/oauth2/code/google"
   AUTH_REDIRECT_URL: "https://tourlist.me"
   AUTH_DB_URL: "jdbc:mariadb://tourlist-auth-db-service:3306/TOURLIST?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false"
   AUTH_REDIS_HOST: "tourlist-auth-redis-service"
