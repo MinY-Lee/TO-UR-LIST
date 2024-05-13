@@ -154,6 +154,10 @@
     padding-right: min(1vw, 4.8px);
 }
 
+.p-vw {
+    padding: min(1vw, 4.8px);
+}
+
 /* rounded viewwidth */
 
 /* marigin viewwidth */
