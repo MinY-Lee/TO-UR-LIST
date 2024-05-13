@@ -4,4 +4,5 @@ metadata:
   name: tourlist-payment-config
 data:
   PAYMENT_MONGO_DB_NAME: "TOURLIST"
+  PAYMENT_MONGO_TEST_DB_NAME: "MONGO_TEST"
   MONGO_HOST: "tourlist-payment-db-service"
