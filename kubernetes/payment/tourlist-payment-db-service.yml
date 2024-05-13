@@ -7,21 +7,8 @@ spec:
     app: tourlist-payment-mongodb-pod
   ports:
     - protocol: TCP
-      port: 3306
-      targetPort: 3306
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: tourlist-payment-mongodb-pv
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: ""
+      port: 27017
+      targetPort: 27017
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -32,7 +19,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 2Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
