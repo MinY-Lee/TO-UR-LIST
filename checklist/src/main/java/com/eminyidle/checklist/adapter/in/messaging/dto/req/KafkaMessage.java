@@ -1,4 +1,4 @@
-package com.eminyidle.checklist.dto;
+package com.eminyidle.checklist.adapter.in.messaging.dto.req;
 
 import lombok.*;
 

@@ -1,10 +1,10 @@
-package com.eminyidle.checklist.controller;
+package com.eminyidle.checklist.adapter.in.web;
 
 import com.eminyidle.checklist.domain.ChecklistItem;
 import com.eminyidle.checklist.domain.ChecklistItemDetail;
 import com.eminyidle.checklist.dto.req.UpdateItemReq;
 import com.eminyidle.checklist.dto.res.CreateNewItemRes;
-import com.eminyidle.checklist.service.ChecklistService;
+import com.eminyidle.checklist.application.port.ChecklistService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

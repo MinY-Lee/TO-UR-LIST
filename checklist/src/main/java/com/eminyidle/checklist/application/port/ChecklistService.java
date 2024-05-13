@@ -1,4 +1,4 @@
-package com.eminyidle.checklist.service;
+package com.eminyidle.checklist.application.port;
 
 import com.eminyidle.checklist.domain.ChecklistItem;
 import com.eminyidle.checklist.domain.ChecklistItemDetail;

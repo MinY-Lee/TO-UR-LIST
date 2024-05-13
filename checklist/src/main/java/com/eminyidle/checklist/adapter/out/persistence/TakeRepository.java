@@ -1,4 +1,4 @@
-package com.eminyidle.checklist.repository;
+package com.eminyidle.checklist.adapter.out.persistence;
 
 import com.eminyidle.checklist.dto.Take;
 import org.springframework.data.neo4j.repository.Neo4jRepository;

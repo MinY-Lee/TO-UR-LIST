@@ -1,4 +1,4 @@
-package com.eminyidle.checklist.repository;
+package com.eminyidle.checklist.adapter.out.persistence;
 
 import com.eminyidle.checklist.dto.Tour;
 import com.eminyidle.checklist.dto.User;
