@@ -58,4 +58,4 @@ spec:
             claimName: tourlist-common-mariadb-pvc
         - name: tourlist-common-mariadb-initdb
           configMap:
-            name: tourlist-common-mariadb-initdb-config
+            name: tourlist-common-initdb-config
