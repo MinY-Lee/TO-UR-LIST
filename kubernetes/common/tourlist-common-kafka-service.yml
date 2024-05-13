@@ -22,28 +22,6 @@ spec:
       port: 2181
       targetPort: 2181
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: tourlist-common-kafka-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: tourlist-common-zookeeper-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -63,16 +41,9 @@ spec:
           image: bitnami/kafka:3.6.2
           ports:
             - containerPort: 9093
-          volumeMounts:
-            - name: tourlist-common-kafka-volume
-              mountPath: /bitnami/kafka
           envFrom:
             - configMapRef:
                 name: tourlist-common-kafka-config
-      volumes:
-        - name: tourlist-common-kafka-volume
-          persistentVolumeClaim:
-            claimName: tourlist-common-kafka-pvc
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -93,13 +64,6 @@ spec:
           image: bitnami/zookeeper:3.8.3
           ports:
             - containerPort: 2181
-          volumeMounts:
-            - name: tourlist-common-zookeeper-volume
-              mountPath: /bitnami/kafka
           envFrom:
             - configMapRef:
                 name: tourlist-common-kafka-config
-      volumes:
-        - name: tourlist-common-zookeeper-volume
-          persistentVolumeClaim:
-            claimName: tourlist-common-zookeeper-pvc
