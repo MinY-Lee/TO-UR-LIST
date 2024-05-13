@@ -91,10 +91,16 @@ public class PaymentController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{payId}")
-    public ResponseEntity<Void> deletePayment(@Valid @PathVariable("payId") String payId,
-                                              @Valid @RequestBody PayIdReq payIdReq,
+    @DeleteMapping("/{tourId}/{payId}")
+    public ResponseEntity<Void> deletePayment(@Valid @PathVariable("tourId") String tourId,
+                                              @Valid @PathVariable("payId") String payId,
+                                              @Valid @RequestParam("payType") String payType,
                                               @RequestHeader(value = HEADER_USER_ID, required = false) String userId) {
+
+        PayIdReq payIdReq = PayIdReq.builder()
+                .tourId(tourId)
+                .payType(payType)
+                .build();
 
         log.debug(payId);
         if (userId == null || userId.isEmpty()) {
