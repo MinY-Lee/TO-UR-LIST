@@ -38,6 +38,11 @@ export interface City {
     cityName: string;
 }
 
+export interface Country {
+    countryCode: string;
+    cityList: City[];
+}
+
 export interface CountryInfo {
     countryCode: string; // 나중에 없앨거임
     language: string;
