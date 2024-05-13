@@ -2,6 +2,10 @@ package com.eminyidle.tour.dto;
 
 import com.eminyidle.tour.exception.InvalidTourDateException;
 import com.eminyidle.tour.exception.InvalidTourTitleFormatException;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -25,8 +29,12 @@ public class Tour {
     @Property(readOnly = true)
     String tourTitle;
 
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     LocalDateTime startDate;
     @Property
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     LocalDateTime endDate;
     @Relationship(type = "TO") @Setter
     List<City> cityList;
