@@ -23,6 +23,8 @@ public class PaymentInfoRes {
     private String tourId;
     @NotNull
     private Integer payAmount;
+    @NotNull
+    private Double exchangeRate;
     @NotBlank
     private String unit;
     @NotBlank

@@ -20,6 +20,9 @@ public class PublicPayment {
     @NotNull
     private Integer payAmount;
 
+    @NotNull
+    private Double exchangeRate;
+
     @NotBlank
     private String unit;
 
