@@ -105,7 +105,9 @@ export default function TourCard(props: PropType) {
                     )}`}</p>
                     <div className="text-5vw flex items-center">
                         <span className="material-symbols-outlined mr-[1vw]">location_on</span>
-                        <p>{`${CountryCodeToName(tour.cityList[0].countryCode)}, ${tour.cityList[0].cityName}`}</p>
+                        <p>{`${CountryCodeToName(tour.cityList[0].countryCode, countryList)}, ${
+                            tour.cityList[0].cityName
+                        }`}</p>
                         <div>{tour.cityList.length >= 2 ? Badge(tour.cityList.length - 1) : ''}</div>
                     </div>
                 </div>
