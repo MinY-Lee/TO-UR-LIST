@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import MyButton from '../../components/Buttons/myButton';
 
 import Checklist from '../../dummy-data/get_checklist.json';
-import { Item } from '../../types/types';
+import { Item, ItemApi } from '../../types/types';
 import { HttpStatusCode } from 'axios';
-import { getChecklist } from '../../util/api/checklist';
+import { checkItem, getChecklist } from '../../util/api/checklist';
 import PayTypeIcon from '../../assets/svg/payTypeIcon';
 
 interface PropType {
@@ -89,10 +89,27 @@ export default function TourCheckList(props: PropType) {
     };
 
     const handleCheckbox = (index: number) => {
-        const updatedChecklist = [...filteredChecklist];
-        // 나중에 실제로 api 로 반영하기
-        updatedChecklist[index].isChecked = !updatedChecklist[index].isChecked;
-        setFilteredChecklist(updatedChecklist);
+        const { activity, isChecked, item, placeId, tourDay, tourId } = filteredChecklist[index];
+        const targetItem: ItemApi = {
+            activity: activity,
+            isChecked: !isChecked,
+            item: item,
+            placeId: placeId,
+            tourDay: tourDay,
+            tourId: tourId,
+        };
+
+        checkItem(targetItem)
+            .then((res) => {
+                if (res.status == HttpStatusCode.Ok) {
+                    console.log('체킹');
+                }
+            })
+            .catch((err) => console.log(err));
+        // const updatedChecklist = [...filteredChecklist];
+        // // 나중에 실제로 api 로 반영하기
+        // updatedChecklist[index].isChecked = !updatedChecklist[index].isChecked;
+        // setFilteredChecklist(updatedChecklist);
     };
 
     return (

@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import MyButton from '../../components/Buttons/myButton';
 
 // import Checklist from "../../dummy-data/get_checklist.json";
-import { Item } from '../../types/types';
+import { Item, ItemApi } from '../../types/types';
 import PayTypeIcon from '../../assets/svg/payTypeIcon';
-import { getChecklist } from '../../util/api/checklist';
+import { checkItem, getChecklist } from '../../util/api/checklist';
 import { HttpStatusCode } from 'axios';
 
 interface PropType {
@@ -88,9 +88,27 @@ export default function MyCheckList(props: PropType) {
     };
 
     const handleCheckbox = (index: number) => {
-        const updatedChecklist = [...filteredChecklist];
-        updatedChecklist[index].isChecked = !updatedChecklist[index].isChecked;
-        setFilteredChecklist(updatedChecklist);
+        const { activity, isChecked, item, placeId, tourDay, tourId } = filteredChecklist[index];
+        const targetItem: ItemApi = {
+            activity: activity,
+            isChecked: isChecked,
+            item: item,
+            placeId: placeId,
+            tourDay: tourDay,
+            tourId: tourId,
+        };
+
+        checkItem(targetItem)
+            .then((res) => {
+                if (res.status == HttpStatusCode.Ok) {
+                    console.log('체킹');
+                }
+            })
+            .catch((err) => console.log(err));
+
+        // const updatedChecklist = [...filteredChecklist];
+        // updatedChecklist[index].isChecked = !updatedChecklist[index].isChecked;
+        // setFilteredChecklist(updatedChecklist);
     };
 
     return (

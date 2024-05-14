@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import MyButton from '../../components/Buttons/myButton';
 
-import { Item, TourInfoDetail } from '../../types/types';
+import { Item, ItemApi, TourInfoDetail } from '../../types/types';
 
 import Checklist from '../../dummy-data/get_checklist.json';
 import TourDetail from '../../dummy-data/get_tour_detail.json';
 import PayTypeIcon from '../../assets/svg/payTypeIcon';
+import { checkItem } from '../../util/api/checklist';
+import { HttpStatusCode } from 'axios';
 
 interface PropType {
     tourId: string;
@@ -105,17 +107,34 @@ export default function ChecklistByDay(props: PropType) {
     };
 
     const handleCheckbox = (target: Item): void => {
-        const updatedChecklist: ItemPerDayAndPlace = { ...groupedItems };
+        const { activity, isChecked, item, placeId, tourDay, tourId } = target;
+        const targetItem: ItemApi = {
+            activity: activity,
+            isChecked: isChecked,
+            item: item,
+            placeId: placeId,
+            tourDay: tourDay,
+            tourId: tourId,
+        };
 
-        if (updatedChecklist[target.tourDay] && updatedChecklist[target.tourDay][target.placeId]) {
-            updatedChecklist[target.tourDay][target.placeId].forEach((item) => {
-                if (item.item === target.item) {
-                    item.isChecked = !item.isChecked;
+        checkItem(targetItem)
+            .then((res) => {
+                if (res.status == HttpStatusCode.Ok) {
+                    console.log('체킹');
                 }
-            });
+            })
+            .catch((err) => console.log(err));
+        // const updatedChecklist: ItemPerDayAndPlace = { ...groupedItems };
 
-            setGroupedItems(updatedChecklist);
-        }
+        // if (updatedChecklist[target.tourDay] && updatedChecklist[target.tourDay][target.placeId]) {
+        //     updatedChecklist[target.tourDay][target.placeId].forEach((item) => {
+        //         if (item.item === target.item) {
+        //             item.isChecked = !item.isChecked;
+        //         }
+        //     });
+
+        //     setGroupedItems(updatedChecklist);
+        // }
     };
 
     return (
