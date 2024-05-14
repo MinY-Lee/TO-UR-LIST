@@ -9,6 +9,7 @@ import com.eminyidle.checklist.adapter.in.messaging.dto.req.TourKafkaMessage;
 import com.eminyidle.checklist.adapter.in.messaging.dto.req.TourMemberKafkaMessage;
 import com.eminyidle.checklist.adapter.in.messaging.dto.req.TourPlaceKafkaMessage;
 import com.eminyidle.checklist.application.service.ChecklistServiceImpl;
+import com.eminyidle.checklist.exception.CreateTourException;
 import com.eminyidle.checklist.exception.KafkaDataNotExistException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -43,10 +44,11 @@ public class KafkaListenerService {
                 case "CREATE":
                     log.debug("created tour");
                     log.debug(tour.toString());
-                    log.debug(tour.getCityList().toString());
-                    log.debug(String.valueOf(tour.getStartDate()));
-                    log.debug(String.valueOf(Duration.between(tour.getStartDate(), tour.getEndDate()).toDays()));
-                    checklistService.createTour(tour.getTourId(), Duration.between(tour.getStartDate(), tour.getEndDate()).toDays() + 1, tour.getCityList().stream().map(City::getCountryCode).collect(Collectors.toSet()));
+                    if(message.getDesc()==null){
+                        throw new CreateTourException();
+                    }
+                    log.debug("hostUserId: "+message.getDesc());
+                    checklistService.createTour(tour.getTourId(), Duration.between(tour.getStartDate(), tour.getEndDate()).toDays() + 1, tour.getCityList().stream().map(City::getCountryCode).collect(Collectors.toSet()),message.getDesc());
                     break;
                 case "UPDATE_CITY":
                     log.debug("update country");

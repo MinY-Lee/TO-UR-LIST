@@ -131,7 +131,7 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
 
 
     @Override
-    public void createTour(String tourId, Long tourPeriod, Set<String> countryCodeSet) {
+    public void createTour(String tourId, Long tourPeriod, Set<String> countryCodeSet, String userId) {
         // tour 생성
 
         Tour tour = tourRepository.save(Tour.builder()
@@ -144,6 +144,7 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
         createPlace(tourId, "_default_" + tourId, "", 0);
 //        updateCountry(tourId, countryCodeSet);
         createCountry(tourId,countryCodeSet);
+        createMember(tourId,userId);
     }
 
     private void createCountry(String tourId, Set<String> countryCodeSet) {
@@ -189,13 +190,17 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
     @Override
     public void createMember(String tourId, String userId) {
         if(tourRepository.existsMemberRelationshipByTourIdAndUserId(tourId,userId)){
+            log.debug("중복된 멤버다아아아ㅏ아아아아아");
             //TODO- Exception일지 return일지..
             return; //중복된 경우
         }
+        log.debug("멤버 생성...");
         tourRepository.createMemberRelationshipByTourIdAndUserId(tourId,userId);
 
+        log.debug("멤버 생성끗...");
         //public 연결이 있는 모든 것들 찾아서.. private 그 유저아이디 연결
         itemRepository.createTakePublicRelationshipByUserIdAndTourId(userId,tourId);
+        log.debug("아이템 연결 완료");
     }
 
     @Override

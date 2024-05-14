@@ -31,7 +31,7 @@ public interface TourRepository extends Neo4jRepository<Tour,String> {
     @Query("MATCH (:TOUR {tourId: $tourId})-[to:TO]->(:COUNTRY{countryCode: $countryCode}) DELETE to")
     void deleteToRelationshipBetweenTourAndCountry(String tourId, String countryCode);
 
-    @Query("MATCH (:TOUR{tourId: $tourId})-[r:MEMBER]->(:USER{userId: $userId}) RETURN CASE WHEN r IS NULL THEN FALSE ELSE TRUE END")
+    @Query("OPTIONAL MATCH (:TOUR{tourId: $tourId})-[r:MEMBER]->(:USER{userId: $userId}) RETURN CASE WHEN r IS NULL THEN FALSE ELSE TRUE END")
     boolean existsMemberRelationshipByTourIdAndUserId(String tourId,String userId);
     @Query("MATCH (t:TOUR{tourId: $tourId}) MERGE (u:USER{userId: $userId}) CREATE (t)-[:MEMBER]->(u)")
     void createMemberRelationshipByTourIdAndUserId(String tourId,String userId);

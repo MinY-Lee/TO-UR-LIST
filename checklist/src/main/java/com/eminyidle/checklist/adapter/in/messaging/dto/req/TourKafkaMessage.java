@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class TourKafkaMessage {
-    String type;
-    TourNode body;
+    private String type;
+    private TourNode body;
+    private String desc;
 }
