@@ -78,6 +78,16 @@ export interface FeedCity {
     cityName: string;
 }
 
+// api 로 보낼 체크리스트 아이템 정보
+export interface ItemApi {
+  tourId: string;
+  placeId: string;
+  tourActivityId: string;
+  item: string;
+  tourDay: number;
+  isChecked: boolean;
+}
+
 // 체크리스트 아이템 정보
 export interface Item {
     tourId: string;
