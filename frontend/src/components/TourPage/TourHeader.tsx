@@ -96,12 +96,12 @@ export default function TourHeader(props: PropType) {
         // 여행 삭제 처리
         deleteTour(props.tourId)
             .then((res) => {
-                console.log('삭제완료');
+                if (res.status == HttpStatusCode.Ok) {
+                    setDeleteModal(false);
+                    window.location.href = `/`;
+                }
             })
             .catch((err) => console.log(err));
-
-        setDeleteModal(false);
-        window.location.href = `/`;
     };
 
     const closeDeleteModal = () => {
@@ -133,8 +133,8 @@ export default function TourHeader(props: PropType) {
             {deleteModal ? (
                 <CheckModal
                     mainText="여행을 삭제하시겠습니까?"
-                    subText={`여행 삭제시 모든 멤버에게도 삭제됩니다.\n나의 내역에서만 지우고 싶다면 여행 나가기를 이용해주세요.`}
-                    OKText="나가기"
+                    subText={`여행 삭제시 모든 멤버에게도 삭제됩니다.\n여행 내역 삭제는 여행 나가기를 이용해주세요.`}
+                    OKText="삭제"
                     CancelText="취소"
                     clickOK={handleDeleteTour}
                     clickCancel={closeDeleteModal}
