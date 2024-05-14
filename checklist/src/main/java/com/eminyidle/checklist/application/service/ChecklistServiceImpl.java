@@ -253,12 +253,19 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
         //TODO: 잘 합쳐 줘야 함..
         //해당 날짜에 있는 활동과, 그 장소가 가진 활동들 잘 합쳐 줘야 함
     }
+    @Override
+    public void createActivity(String tourId, String PlaceId, Integer tourDay, String activityName){
+        TourPlace tourPlace = tourPlaceRepository.findByTourIdAndPlaceIdAndTourDay(tourId, PlaceId, tourDay).orElseThrow(NoSuchTourPlaceException::new);
+        createActivityByAssertedTourPlaceId(tourPlace.getTourPlaceId(),activityName);
+    }
 
     @Override
     public void createActivity(String tourPlaceId, String activityName) {
         // tour의 tour_place 확인
-        TourPlace tourPlace = tourPlaceRepository.findById(tourPlaceId).orElseThrow(NoSuchTourPlaceException::new);
-        log.debug("ACTIVITY: 투어 확인");
+        tourPlaceRepository.findById(tourPlaceId).orElseThrow(NoSuchTourPlaceException::new);
+        createActivityByAssertedTourPlaceId(tourPlaceId,activityName);
+    }
+    private void createActivityByAssertedTourPlaceId(String tourPlaceId, String activityName){
         // activity 확인
         Activity activity = activityRepository.findById(activityName).orElseThrow(NoSuchActivityException::new);
         log.debug("ACTIVITY: 활동 확인");
@@ -269,7 +276,6 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
         activity.getItemList().forEach(
                 item -> itemRepository.createPublicRelationshipByTourActivityId(tourActivity.getTourActivityId(), item.getItem())
         );
-
     }
 
     @Override

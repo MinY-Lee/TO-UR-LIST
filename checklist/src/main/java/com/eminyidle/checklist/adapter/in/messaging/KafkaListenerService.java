@@ -3,11 +3,8 @@ package com.eminyidle.checklist.adapter.in.messaging;
 import com.eminyidle.checklist.adapter.in.messaging.dto.City;
 import com.eminyidle.checklist.adapter.in.messaging.dto.TourMember;
 import com.eminyidle.checklist.adapter.in.messaging.dto.TourPlaceNode;
-import com.eminyidle.checklist.adapter.in.messaging.dto.req.KafkaMessage;
+import com.eminyidle.checklist.adapter.in.messaging.dto.req.*;
 import com.eminyidle.checklist.adapter.in.messaging.dto.TourNode;
-import com.eminyidle.checklist.adapter.in.messaging.dto.req.TourKafkaMessage;
-import com.eminyidle.checklist.adapter.in.messaging.dto.req.TourMemberKafkaMessage;
-import com.eminyidle.checklist.adapter.in.messaging.dto.req.TourPlaceKafkaMessage;
 import com.eminyidle.checklist.application.service.ChecklistServiceImpl;
 import com.eminyidle.checklist.exception.CreateTourException;
 import com.eminyidle.checklist.exception.KafkaDataNotExistException;
@@ -72,11 +69,9 @@ public class KafkaListenerService {
         log.debug("consumeMemberMessage");
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            log.debug("try to deserialize..." + kafkaMessage);
             TourMemberKafkaMessage message = objectMapper.readValue(kafkaMessage, TourMemberKafkaMessage.class);
-            log.debug("readValue success");
+            log.debug("-->" + message.toString());
             TourMember member=message.getBody();
-            log.debug("-->" + message);
             switch (message.getType()) {
                 case "CREATE":
                     log.debug("created tour member");
@@ -99,11 +94,10 @@ public class KafkaListenerService {
         log.debug("consumePlaceMessage");
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            log.debug("try to deserialize..." + kafkaMessage);
             TourPlaceKafkaMessage message = objectMapper.readValue(kafkaMessage, TourPlaceKafkaMessage.class);
-            log.debug("readValue success");
-            TourPlaceNode tourPlace = message.getBody();
             log.debug("-->" + message.toString());
+
+            TourPlaceNode tourPlace = message.getBody();
             switch (message.getType()) {
                 case "CREATE":
                     log.debug("created tour");
@@ -127,20 +121,22 @@ public class KafkaListenerService {
         log.debug("consumeActivityMessage");
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            log.debug("try to deserialize..." + kafkaMessage);
-            KafkaMessage message = objectMapper.readValue(kafkaMessage, KafkaMessage.class);
-            log.debug("readValue success");
-            Map<String, Object> tourMap = (Map<String, Object>) message.getBody();
+            TourActivityKafkaMessage message = objectMapper.readValue(kafkaMessage, TourActivityKafkaMessage.class);
             log.debug("-->" + message.toString());
+
+            TourActivityNode activityNode = message.getBody();
             switch (message.getType()) {
                 case "CREATE":
-                    log.debug("created tour");
-                    log.debug(tourMap.toString());
-                    //ㄴ이렇게 도달: {tourId=a646cbf3-c6f9-4613-9e9f-ae4a4a533a8b, tourTitle=pppp, startDate=[2023, 10, 1, 0, 0], endDate=[2023, 10, 1, 0, 0], cityList=[{id=4:58ac303d-e4b5-4f2b-9bfa-7a55d99245cc:0, countryCode=JPN, cityName=교토시}]}
-                    log.debug((String) tourMap.get("tourTitle"));
-                    //tourMap.get("startDate")하면 문제 생김
+                    log.debug("created activity");
+                    if(activityNode.getTourPlaceId()==null){
+                        checklistService.createActivity(activityNode.getTourId(), activityNode.getPlaceId(), activityNode.getTourDay(), activityNode.getActivity());
+                    } else{
+                        checklistService.createActivity(activityNode.getTourPlaceId(),activityNode.getActivity());
+                    }
                     break;
                 case "DELETE":
+                    log.debug("DELETE activity");
+                    checklistService.deleteActivity(activityNode.getTourPlaceId(),activityNode.getActivity());
                     break;
                 default:
 

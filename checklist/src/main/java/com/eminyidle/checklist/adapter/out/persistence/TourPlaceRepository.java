@@ -24,5 +24,6 @@ public interface TourPlaceRepository extends Neo4jRepository<TourPlace,String> {
     //delete
     @Query("MATCH (:TOUR{tourId:$tourId})-[:GO{placeId: $placeId, tourDay: $tourDay}]->(p:TOUR_PLACE) DETACH DELETE p")
     void delete(String tourId, String placeId, Integer tourDay);
-
+    @Query("MATCH (:TOUR{tourId:$tourId})-[:GO{placeId: $placeId, tourDay: $tourDay}]->(p:TOUR_PLACE) RETURN p")
+    Optional<TourPlace> findByTourIdAndPlaceIdAndTourDay(String tourId, String placeId, Integer tourDay);
 }
