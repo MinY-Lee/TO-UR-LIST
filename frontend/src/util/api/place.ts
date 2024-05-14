@@ -19,3 +19,8 @@ export async function searchPlaceDetail(
 export async function getPlaceList(tourId: string) {
     return await local.get(`/api/place/${tourId}`);
 }
+
+// 활동 리스트 조회
+export async function getActivityList(placeId: string) {
+    return await local.get(`/api/activity/${placeId}`);
+}

@@ -204,6 +204,11 @@
     margin-top: min(1vw, 4.8px);
 }
 
+.mx-vw {
+    margin-left: min(1vw, 4.8px);
+    margin-right: min(1vw, 4.8px);
+}
+
 .my-vw {
     margin-top: min(1vw, 4.8px);
     margin-bottom: min(1vw, 4.8px);

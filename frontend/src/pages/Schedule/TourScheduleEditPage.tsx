@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 import DayList from '../../components/SchedulePage/DayList';
 import { TourPlaceItem } from '../../types/types';
 import HeaderBar from '../../components/HeaderBar/HeaderBar';
+import WebSocket from '../../components/TabBar/WebSocket';
 
 export default function TourScheduleEditPage() {
     const [selectedDate, setSelectedDate] = useState<number>(-1);
@@ -100,6 +101,7 @@ export default function TourScheduleEditPage() {
                     </div>
                 </div>
                 <TabBarTour tourMode={2} tourId={tourId} />
+                {/* <WebSocket /> */}
             </section>
         </>
     );

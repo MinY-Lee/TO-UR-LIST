@@ -8,6 +8,7 @@ import { TourActivity, TourEditDetail, TourPlaceItem } from '../../types/types';
 import TourDetailInfo from '../../dummy-data/get_tour_place_tourId_tourDay_placeId.json';
 import WholeSchedule from '../../dummy-data/get_tour_place_tourId.json';
 import TourInfo from '../../dummy-data/get_tour_tourId.json';
+import WebSocket from '../../components/TabBar/WebSocket';
 
 export default function TourScheduleEditDetailPage() {
     // 투어 아이디 불러오기
@@ -99,7 +100,7 @@ export default function TourScheduleEditDetailPage() {
                     <div className="w-full text-4vw mb-vw">
                         주소 : {tourDetail?.placeInfo.placeAddress}
                     </div>
-                    <div className="w-full h-[1vw] bg-[#828282]"></div>
+                    <div className="w-full h-vw bg-[#828282]"></div>
 
                     {/* 활동목록 */}
                     {activityList.length > 0 ? (
@@ -129,17 +130,16 @@ export default function TourScheduleEditDetailPage() {
                                             </span>
                                         </div>
                                         <div className="w-[20%] text-4vw color-text-blue-2 color-border-blue-2 border-halfvw border-rad-2vw m-vw flex justify-center items-center">
-                                            {activity.tourActivityList.length >
-                                            1
-                                                ? activity.tourActivityList[0]
+                                            {activity.activityList.length > 1
+                                                ? activity.activityList[0]
                                                       .activity +
                                                   '+' +
-                                                  (activity.tourActivityList
+                                                  (activity.activityList
                                                       .length -
                                                       1)
-                                                : activity.tourActivityList
+                                                : activity.activityList
                                                       .length === 1
-                                                ? activity.tourActivityList[0]
+                                                ? activity.activityList[0]
                                                       .activity
                                                 : '활동없음'}
                                         </div>
@@ -165,6 +165,7 @@ export default function TourScheduleEditDetailPage() {
                     )}
                 </div>
                 <TabBarTour tourId={tourId} tourMode={2} />
+                {/* <WebSocket /> */}
             </section>
         </>
     );

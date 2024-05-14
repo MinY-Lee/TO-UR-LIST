@@ -8,6 +8,7 @@ interface PropType {
     startDate: string;
     selectedDate: number;
     tourId: string;
+    period: number;
 }
 
 export default function ScheduleBar(props: PropType) {
@@ -66,7 +67,10 @@ export default function ScheduleBar(props: PropType) {
                         className="w-[48%] h-full text-white color-bg-blue-2 border-rad-4vw flex justify-center items-center"
                         onClick={() => {
                             navigate(`/tour/${props.tourId}/schedule/add`, {
-                                state: { selectedDate: props.selectedDate },
+                                state: {
+                                    selectedDate: props.selectedDate,
+                                    period: props.period,
+                                },
                             });
                         }}
                     >
@@ -76,7 +80,10 @@ export default function ScheduleBar(props: PropType) {
                         className="w-[48%] h-full color-bg-blue-4 border-rad-4vw flex justify-center items-center"
                         onClick={() => {
                             navigate(`/tour/${props.tourId}/schedule/edit`, {
-                                state: { selectedDate: props.selectedDate },
+                                state: {
+                                    selectedDate: props.selectedDate,
+                                    period: props.period,
+                                },
                             });
                         }}
                     >

@@ -7,6 +7,7 @@ interface PropType {
     searchedPlaces: PlaceInfo[];
     tourId: string;
     selectedDate: number;
+    period: number;
 }
 
 export default function SearchSlideBar(props: PropType) {
@@ -43,6 +44,7 @@ export default function SearchSlideBar(props: PropType) {
                 tourId: props.tourId,
                 tourDay: props.selectedDate,
                 placeId: placeId,
+                period: props.period,
             },
         });
     };

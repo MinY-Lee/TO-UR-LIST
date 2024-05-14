@@ -6,6 +6,7 @@ import ScheduleBar from '../../components/SchedulePage/ScheduleBar';
 import Maps from '../../components/SchedulePage/Maps';
 import { Wrapper } from '@googlemaps/react-wrapper';
 import { TourInfoDetail, TourPlaceItem } from '../../types/types';
+import WebSocket from '../../components/TabBar/WebSocket';
 
 //dummy data
 // import tourInfo from '../../dummy-data/get_tour_tourId.json';
@@ -117,6 +118,7 @@ export default function TourSchedulePage() {
                         startDate={tourInfo.startDate}
                         selectedDate={selectedDate}
                         tourId={tourId}
+                        period={period}
                     />
                     <DaySelectBar
                         startDate={tourInfo.startDate}
@@ -127,6 +129,7 @@ export default function TourSchedulePage() {
                     />
                 </div>
                 <TabBarTour tourMode={2} tourId={tourId} />
+                {/* <WebSocket /> */}
             </section>
         </>
     );

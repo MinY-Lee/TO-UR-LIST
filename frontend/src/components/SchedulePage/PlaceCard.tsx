@@ -58,7 +58,7 @@ export default function PlaceCard(props: PropType) {
                     </span>
                 </div>
                 <div className="w-full flex">
-                    {props.schedule.tourActivityList.map((activity, index) => {
+                    {props.schedule.activityList.map((activity, index) => {
                         return (
                             <p
                                 className={`text-4vw px-vw mx-dot5vw border-rad-2vw ${
