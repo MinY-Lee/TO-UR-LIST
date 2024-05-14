@@ -259,19 +259,30 @@ public class PlaceServiceImpl implements PlaceService{
 //        }
 
         try {
+            String tourPlaceId;
             // 새로 바꿀 날에 해당 장소가 있는지 확인 -> 있으면 활동 옮겨주고 해당하는 원래 tourPlace를 삭제해주기
             if (checkPlaceDuplication(tourId, newTourDay, placeId)) {
                 log.info("있는 장소에 합치기");
-                placeRepository.mergeTourDay(tourId, placeId, oldTourDay, newTourDay);
+                tourPlaceId = placeRepository.mergeTourDay(tourId, placeId, oldTourDay, newTourDay);
                 isSuccess = true;
             } else {    // 새로 추가하는 경우
                 log.info("새로운 장소 생성");
-                placeRepository.updateTourDay(tourId, placeId, oldTourDay, newTourDay);
+                tourPlaceId = placeRepository.updateTourDay(tourId, placeId, oldTourDay, newTourDay);
 //            responseBody = PlaceRequesterInfo.builder()
 //                    .userId(userId)
 //                    .build();
                 isSuccess = true;
             }
+            log.info("tourplaceId: " + tourPlaceId);
+            // Kafka로 장소가 수정되었음을 전송
+            KafkaPlace kafkaPlace = KafkaPlace.builder()
+                    .tourId(tourId)
+                    .placeId(placeId)
+                    .placeName((String) body.get("placeName"))
+                    .tourDay(newTourDay)
+                    .tourPlaceId(tourPlaceId)
+                    .build();
+            placeKafkaProducer.producePlaceKafkaMessage("UPDATE", kafkaPlace);
         } catch (Exception e) {
             log.error("{}", e);
         }
