@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: tourlist-tour-config
 data:
-  PLACE_NEO4J_URI: "bolt://tourlist-tour-db-service:7687"
+  TOUR_NEO4J_URI: "bolt://tourlist-tour-db-service:7687"
