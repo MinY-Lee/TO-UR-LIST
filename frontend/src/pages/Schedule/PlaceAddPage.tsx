@@ -40,12 +40,8 @@ export default function PlaceAddPage() {
     useEffect(() => {
         if (location.state) {
             //선택 날짜
-            if (location.state.selectedDate) {
-                setSelectedDate(location.state.selectedDate);
-            }
-            if (location.state.period) {
-                setPeriod(location.state.period);
-            }
+            setSelectedDate(location.state.selectedDate);
+            setPeriod(location.state.period);
         }
 
         getTour(tourId)

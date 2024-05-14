@@ -5,11 +5,11 @@
         "tourDay": 1,
         "activityList": [
             {
-                "tourActivityId": "s11212",
+                "activityId": "s11212",
                 "activity": "쇼핑"
             },
             {
-                "tourActivityId": "a12321",
+                "activityId": "a12321",
                 "activity": "식사"
             }
         ]
@@ -20,11 +20,11 @@
         "tourDay": 2,
         "activityList": [
             {
-                "tourActivityId": "s11213",
+                "activityId": "s11213",
                 "activity": "쇼핑"
             },
             {
-                "tourActivityId": "a12322",
+                "activityId": "a12322",
                 "activity": "식사"
             }
         ]
@@ -35,7 +35,7 @@
         "tourDay": 2,
         "activityList": [
             {
-                "tourActivityId": "a11213",
+                "activityId": "a11213",
                 "activity": "어트랙션"
             }
         ]
@@ -46,7 +46,7 @@
         "tourDay": 3,
         "activityList": [
             {
-                "tourActivityId": "l11213",
+                "activityId": "l11213",
                 "activity": "관람"
             }
         ]
@@ -57,11 +57,11 @@
         "tourDay": 3,
         "activityList": [
             {
-                "tourActivityId": "l11223",
+                "activityId": "l11223",
                 "activity": "관람"
             },
             {
-                "tourActivityId": "f11223",
+                "activityId": "f11223",
                 "activity": "식사"
             }
         ]

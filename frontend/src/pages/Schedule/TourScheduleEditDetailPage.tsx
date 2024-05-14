@@ -32,11 +32,9 @@ export default function TourScheduleEditDetailPage() {
     useEffect(() => {
         if (schedule) {
             //관련 api 호출
-            setTourDetail(TourDetailInfo);
+            // setTourDetail(TourDetailInfo);
 
-            const filtered = WholeSchedule.filter(
-                (place) => place.placeId === schedule.placeId
-            );
+            const filtered = WholeSchedule.filter((place) => place.placeId === schedule.placeId);
 
             setActivityList(filtered);
 
@@ -52,9 +50,7 @@ export default function TourScheduleEditDetailPage() {
             const date = new Date(startDate.getTime() + day * 86400000);
 
             return `${date.getFullYear()}.${
-                date.getMonth() + 1 >= 10
-                    ? date.getMonth() + 1
-                    : '0' + (date.getMonth() + 1)
+                date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)
             }.${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()}`;
         },
         [startDate]
@@ -67,16 +63,14 @@ export default function TourScheduleEditDetailPage() {
                     <HeaderBar />
                     {/* 이미지 */}
                     <div className="w-full h-[20%] flex overflow-x-scroll mb-2vw">
-                        {tourDetail?.placeInfo.placePhotoList.map(
-                            (photoUrl) => {
-                                return (
-                                    <img
-                                        className="w-[33%] h-full flex-shrink-0 px-dot5vw border-rad-2vw"
-                                        src={`${photoUrl}`}
-                                    ></img>
-                                );
-                            }
-                        )}
+                        {tourDetail?.placeInfo.placePhotoList.map((photoUrl) => {
+                            return (
+                                <img
+                                    className="w-[33%] h-full flex-shrink-0 px-dot5vw border-rad-2vw"
+                                    src={`${photoUrl}`}
+                                ></img>
+                            );
+                        })}
                     </div>
 
                     {/* 장소설명 */}
@@ -97,9 +91,7 @@ export default function TourScheduleEditDetailPage() {
                             </div>
                         )}
                     </div>
-                    <div className="w-full text-4vw mb-vw">
-                        주소 : {tourDetail?.placeInfo.placeAddress}
-                    </div>
+                    <div className="w-full text-4vw mb-vw">주소 : {tourDetail?.placeInfo.placeAddress}</div>
                     <div className="w-full h-vw bg-[#828282]"></div>
 
                     {/* 활동목록 */}
@@ -107,8 +99,7 @@ export default function TourScheduleEditDetailPage() {
                         <div className="w-full flex flex-col mt-3vw">
                             <p className="text-6vw">날짜 및 활동</p>
                             <p className="text-4vw text-[#B5B5B5]">
-                                활동 추가 시 활동에 필요한 준비물이 체크리스트에
-                                추가돼요.
+                                활동 추가 시 활동에 필요한 준비물이 체크리스트에 추가돼요.
                             </p>
                             {activityList.map((activity) => {
                                 return (
@@ -122,25 +113,16 @@ export default function TourScheduleEditDetailPage() {
                                             X
                                         </div>
                                         <div className="w-[50%] text-4vw border-[#B5B5B5] border-dot3vw flex justify-between p-vw m-vw border-rad-2vw">
-                                            <span>
-                                                {dateToString(activity.tourDay)}
-                                            </span>
-                                            <span className="material-symbols-outlined">
-                                                calendar_today
-                                            </span>
+                                            <span>{dateToString(activity.tourDay)}</span>
+                                            <span className="material-symbols-outlined">calendar_today</span>
                                         </div>
                                         <div className="w-[20%] text-4vw color-text-blue-2 color-border-blue-2 border-halfvw border-rad-2vw m-vw flex justify-center items-center">
                                             {activity.activityList.length > 1
-                                                ? activity.activityList[0]
-                                                      .activity +
+                                                ? activity.activityList[0].activity +
                                                   '+' +
-                                                  (activity.activityList
-                                                      .length -
-                                                      1)
-                                                : activity.activityList
-                                                      .length === 1
-                                                ? activity.activityList[0]
-                                                      .activity
+                                                  (activity.activityList.length - 1)
+                                                : activity.activityList.length === 1
+                                                ? activity.activityList[0].activity
                                                 : '활동없음'}
                                         </div>
                                         <div
@@ -158,8 +140,7 @@ export default function TourScheduleEditDetailPage() {
                     ) : (
                         <div className="w-full flex flex-col">
                             <p className="text-4vw text-[#B5B5B5]">
-                                활동 추가 시 활동에 필요한 준비물이 체크리스트에
-                                추가돼요.
+                                활동 추가 시 활동에 필요한 준비물이 체크리스트에 추가돼요.
                             </p>
                         </div>
                     )}

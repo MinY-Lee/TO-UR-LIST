@@ -303,6 +303,11 @@
     border-bottom-width: min(0.3vw, 1.44px);
 }
 
+.border-y-dot5vw {
+    border-top-width: min(0.5vw, 2.4px);
+    border-bottom-width: min(0.5vw, 2.4px);
+}
+
 .border-b-dot5vw {
     border-bottom-width: min(0.5vw, 2.4px);
 }

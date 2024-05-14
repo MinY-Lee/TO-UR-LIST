@@ -75,7 +75,7 @@ export default function ChecklistEditItemPage(props: PropType) {
     // 해당 아이템이 사용되는 장소/활동 필터링
     const filterItem = () => {
         const dataList = data?.filter(
-            (item) => item.placeId != '' && item.tourActivityId != '' && item.item == editItem?.item
+            (item) => item.placeId != '' && item.activity != '' && item.item == editItem?.item
         );
         setFilteredData(dataList);
     };
@@ -153,7 +153,7 @@ export default function ChecklistEditItemPage(props: PropType) {
                                         Day{formatNumberToTwoDigits(item.tourDay)}
                                     </div>
                                     <div className="col-span-3 text-lg">
-                                        {item.placeId} / {mapping[item.tourActivityId][0].slice(2)}
+                                        {item.placeId} / {mapping[item.activity][0].slice(2)}
                                     </div>
                                     <div
                                         className="col-span-1 text-end text-lg"

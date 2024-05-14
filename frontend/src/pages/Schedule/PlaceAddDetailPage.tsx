@@ -3,11 +3,10 @@ import HeaderBar from '../../components/HeaderBar/HeaderBar';
 import { useCallback, useEffect, useState } from 'react';
 import TabBarTour from '../../components/TabBar/TabBarTour';
 import {
-    TourActivity,
     TourEditDetail,
-    TourPlaceItem,
     WebSockPlace,
     TourInfoDetail,
+    PlaceInfoDetail,
 } from '../../types/types';
 
 //dummy data
@@ -24,6 +23,7 @@ import WebSocket from '../../components/TabBar/WebSocket';
 import { getTour } from '../../util/api/tour';
 import { Client } from '@stomp/stompjs';
 import ActivityAddModal from '../../components/SchedulePage/ActivityAddModal';
+import DayChangeModal from '../../components/SchedulePage/DayChangeModal';
 
 export default function PlaceAddDetailPage() {
     const location = useLocation();
@@ -37,6 +37,9 @@ export default function PlaceAddDetailPage() {
         tourDay: 0,
         tourPlaceId: '',
     });
+
+    const [isDayChange, setIsDayChange] = useState<boolean>(false);
+    const [selectedDate, setSelectedDate] = useState<number>(0);
 
     const [tourDay, setTourDay] = useState<number>(0);
     const [tourId, setTourId] = useState<string>('');
@@ -54,6 +57,15 @@ export default function PlaceAddDetailPage() {
     });
 
     const [tourDetail, setTourDetail] = useState<TourEditDetail>();
+    const [placeInfo, setPlaceInfo] = useState<PlaceInfoDetail>({
+        placeId: '',
+        placeName: '',
+        placePrimaryType: '',
+        placeLatitude: 0,
+        placeLongitude: 0,
+        placeAddress: '',
+        placePhotoList: [],
+    });
 
     //전체 활동 리스트(선택 여부 무관)
     const [activityList, setActivityList] = useState<string[]>([]);
@@ -66,6 +78,8 @@ export default function PlaceAddDetailPage() {
     /**state로부터 장소 정보 불러오기, 초기 세팅 */
     useEffect(() => {
         if (location.state) {
+            console.log(location.state.tourDay + 1);
+
             setPlaceId(location.state.placeId);
             setTourDay(location.state.tourDay + 1);
             setTourId(location.state.tourId);
@@ -81,6 +95,7 @@ export default function PlaceAddDetailPage() {
 
                     if (res.status === httpStatusCode.OK) {
                         setTourDetail(res.data);
+                        setPlaceInfo(res.data.placeInfo);
                     }
                 })
                 .catch((err) => {
@@ -229,6 +244,29 @@ export default function PlaceAddDetailPage() {
         }
     };
 
+    const changeDate = (oldDate: number, newDate: number) => {
+        if (wsClient) {
+            wsClient.publish({
+                destination: `/app/place/${tourId}`,
+                body: JSON.stringify({
+                    type: 'UPDATE_PLACE_DATE',
+                    body: {
+                        tourId: tourId,
+                        placeId: placeId,
+                        placeName: placeInfo.placeName,
+                        oldTourDay: oldDate,
+                        newTourDay: newDate,
+                    },
+                }),
+            });
+        }
+        setIsDayChange(false);
+    };
+
+    const closeDayChange = () => {
+        setIsDayChange(false);
+    };
+
     return (
         <>
             {/* 활동 추가 모달 */}
@@ -243,29 +281,39 @@ export default function PlaceAddDetailPage() {
             ) : (
                 <></>
             )}
+            {/* 날짜 변경 모달 */}
+            {isDayChange ? (
+                <DayChangeModal
+                    closeModal={closeDayChange}
+                    startDate={tourInfo.startDate}
+                    period={period}
+                    selectedDate={selectedDate}
+                    changeDate={changeDate}
+                />
+            ) : (
+                <></>
+            )}
             <section className="w-full h-full">
                 <div className="flex flex-col w-full h-[90%] overflow-y-scroll p-vw">
                     <HeaderBar />
                     {/* 이미지 */}
                     <div className="w-full h-[20%] flex overflow-x-scroll mb-2vw">
-                        {tourDetail?.placeInfo.placePhotoList.map(
-                            (original) => {
-                                const photoUrl = makePhotoUrl(original);
+                        {placeInfo.placePhotoList.map((original) => {
+                            const photoUrl = makePhotoUrl(original);
 
-                                return (
-                                    <img
-                                        className="w-[33%] h-full flex-shrink-0 px-dot5vw border-rad-2vw"
-                                        src={`${photoUrl}`}
-                                        key={`${photoUrl}`}
-                                    ></img>
-                                );
-                            }
-                        )}
+                            return (
+                                <img
+                                    className="w-[33%] h-full flex-shrink-0 px-dot5vw border-rad-2vw"
+                                    src={`${photoUrl}`}
+                                    key={`${photoUrl}`}
+                                ></img>
+                            );
+                        })}
                     </div>
 
                     {/* 장소설명 */}
                     <div className="w-full text-7vw flex justify-between items-center mb-vw">
-                        <span>{tourDetail?.placeInfo.placeName}</span>
+                        <span>{placeInfo.placeName}</span>
                         {tourDetail?.isSelected ? (
                             <div
                                 className="w-[20%] h-7vw text-5vw border-rad-3vw bg-white color-text-blue-2 color-border-blue-2 border-halfvw flex justify-center items-center"
@@ -321,7 +369,7 @@ export default function PlaceAddDetailPage() {
                         )}
                     </div>
                     <div className="w-full text-4vw mb-vw">
-                        주소 : {tourDetail?.placeInfo.placeAddress}
+                        주소 : {placeInfo.placeAddress}
                     </div>
                     <div className="w-full h-vw bg-[#828282]"></div>
 
@@ -356,7 +404,13 @@ export default function PlaceAddDetailPage() {
                                         >
                                             X
                                         </div>
-                                        <div className="w-[50%] text-4vw border-[#B5B5B5] border-dot3vw flex justify-between p-vw m-vw border-rad-2vw">
+                                        <div
+                                            className="w-[50%] text-4vw border-[#B5B5B5] border-dot3vw flex justify-between p-vw m-vw border-rad-2vw"
+                                            onClick={() => {
+                                                setSelectedDate(place.tourDay);
+                                                setIsDayChange(true);
+                                            }}
+                                        >
                                             <span>
                                                 {dateToString(place.tourDay)}
                                             </span>

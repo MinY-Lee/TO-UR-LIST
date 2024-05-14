@@ -35,13 +35,7 @@ export default function TourBasicInfo(props: PropType) {
                             };
                             if (
                                 !newCountryInfoList.some(
-                                    (countryInfo) =>
-                                        countryInfo.climate === newInfo.climate &&
-                                        countryInfo.currencyUnit === newInfo.currencyUnit &&
-                                        countryInfo.kst === newInfo.kst &&
-                                        countryInfo.language === newInfo.language &&
-                                        countryInfo.plug_type === newInfo.plug_type &&
-                                        countryInfo.voltage === newInfo.voltage
+                                    (countryInfo) => JSON.stringify(countryInfo) === JSON.stringify(newInfo)
                                 )
                             ) {
                                 newCountryInfoList.push(newInfo);
@@ -69,8 +63,8 @@ export default function TourBasicInfo(props: PropType) {
                                 <div className="grid grid-cols-3 mb-3">
                                     <div className="flex flex-col items-center">
                                         <div className="text-gray-600">언어</div>
-                                        <div className="text-lg whitespace-pre text-center">
-                                            {countryInfo.language.split(',').join('\n')}
+                                        <div className="text-lg whitespace-wrap text-center">
+                                            {countryInfo.language.split(',').join(' / ')}
                                         </div>
                                     </div>
                                     <div className="flex flex-col items-center">
