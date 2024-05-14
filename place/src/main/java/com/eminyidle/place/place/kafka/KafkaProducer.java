@@ -34,6 +34,8 @@ public class KafkaProducer {
     }
 
     public void produceActivityKafkaMessage(String type, KafkaActivityInfo kafkaActivityInfo) {
+        // CREATE {tourId=f440c283e7a0e76, placeId=59f739-25e, tourDay=3, activity=콘서트, tourPlaceId=null}
+        // DELETE {tourId=f440c283e7a0e76, placeId=null, tourDay=null, activity=맛집, tourPlaceId=3159f739-25e38b}
         produceKafkaMessage(KAFKA_ACTIVITY_TOPIC, type, kafkaActivityInfo);
     }
 

@@ -88,6 +88,13 @@ public class ActivityServiceImpl implements ActivityService {
         try {
             activityRepository.deleteByTourPlaceIdAndActivity(tourPlaceId, activity);
             log.info("해당하는 활동 삭제");
+            // Kafka로 활동이 삭제되었음을 전송
+            KafkaActivityInfo kafkaActivityInfo = KafkaActivityInfo.builder()
+                    .tourId(tourId)
+                    .activity(activity)
+                    .tourPlaceId(tourPlaceId)
+                    .build();
+            kafkaProducer.produceActivityKafkaMessage("DELETE", kafkaActivityInfo);
             return true;
         } catch (NoSuchElementException e) {
             log.info("해당하는 활동이 없음");
