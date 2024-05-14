@@ -8,6 +8,7 @@ import com.eminyidle.tour.application.dto.req.*;
 import com.eminyidle.tour.application.port.MemberService;
 import com.eminyidle.tour.application.port.TourService;
 import com.eminyidle.tour.application.dto.TourMember;
+import com.eminyidle.tour.application.port.UserUpdateUsecase;
 import com.eminyidle.tour.domain.Member;
 import com.eminyidle.tour.exception.*;
 import com.eminyidle.tour.adapter.out.persistence.neo4j.CityRepository;
@@ -35,7 +36,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional("neo4jTransactionManager")
-public class TourServiceImpl implements TourService, MemberService {
+public class TourServiceImpl implements TourService, MemberService, UserUpdateUsecase {
 
     private final TourRepository tourRepository;
     private final UserRepository userRepository;
@@ -352,5 +353,15 @@ public class TourServiceImpl implements TourService, MemberService {
             default:
                 throw new UndefinedMemberTypeException();
         }
+    }
+
+    @Override
+    public void updateUser(User user) {
+        User userNode=userRepository.findById(user.getUserId()).orElseThrow(NoSuchUserException::new);
+        userNode.setUserName(user.getUserName());
+        userNode.setUserNickname(user.getUserNickname());
+        
+        //OR .. 잘 되는지 체크
+//        userRepository.save(user);
     }
 }
