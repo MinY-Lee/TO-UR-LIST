@@ -29,6 +29,12 @@ public class GatewayConfig {
 	@Value("${FEED_SERVER_URL}")
 	private String FEED_SERVER_URL;
 
+	@Value("${CHECKLIST_SERVER_URL}")
+	private String CHECKLIST_SERVER_URL;
+
+	@Value("${CHECKLIST_SERVER_URL}")
+	private String WEBSOCKET_PLACE_SERVER;
+
 	@Bean
 	public RouteLocator routes(RouteLocatorBuilder routeLocatorBuilder) {
 		return routeLocatorBuilder.routes()
@@ -41,15 +47,22 @@ public class GatewayConfig {
 			.route("TOUR_SERVER", predicateSpec -> predicateSpec.path("/country/**")
 				.filters(gatewayFilterSpec -> gatewayFilterSpec.filter(authenticationFilter))
 				.uri(TOUR_SERVER_URL))
-			.route("USER_SERVER", predicateSpec -> predicateSpec.path("/place/**")
+			.route("PLACE_SERVER", predicateSpec -> predicateSpec.path("/place/**")
 				.filters(gatewayFilterSpec -> gatewayFilterSpec.filter(authenticationFilter))
 				.uri(PLACE_SERVER_URL))
-			.route("USER_SERVER", predicateSpec -> predicateSpec.path("/payment/**")
+			.route("PAYMENT_SERVER", predicateSpec -> predicateSpec.path("/payment/**")
 				.filters(gatewayFilterSpec -> gatewayFilterSpec.filter(authenticationFilter))
 				.uri(PAYMENT_SERVER_URL))
-			.route("USER_SERVER", predicateSpec -> predicateSpec.path("/feed/**")
+			.route("FEED_SERVER", predicateSpec -> predicateSpec.path("/feed/**")
 				.filters(gatewayFilterSpec -> gatewayFilterSpec.filter(authenticationFilter))
 				.uri(FEED_SERVER_URL))
+			.route("CHECKLIST_SERVER", predicateSpec -> predicateSpec.path("/checklist/**")
+				.filters(gatewayFilterSpec -> gatewayFilterSpec.filter(authenticationFilter))
+				.uri(CHECKLIST_SERVER_URL))
+			.route("WEBSOCKET_PLACE_SERVER", predicateSpec -> predicateSpec.path("/ws/place")
+				.filters(f -> f.rewritePath("/ws/(?<remaining>.*)", "/${remaining}")
+					.filter(authenticationFilter))
+				.uri(WEBSOCKET_PLACE_SERVER))
 			.build();
 	}
 }
