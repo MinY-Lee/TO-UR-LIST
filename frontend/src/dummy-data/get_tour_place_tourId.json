@@ -3,7 +3,7 @@
         "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
         "placeName": "도톤보리",
         "tourDay": 1,
-        "tourActivityList": [
+        "activityList": [
             {
                 "tourActivityId": "s11212",
                 "activity": "쇼핑"
