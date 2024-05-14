@@ -89,6 +89,11 @@ export default function SetPlace(props: PropType) {
         }
     };
 
+    const countryCodeToName = (countryCode: string) => {
+        const resCountry = countryList.find((country) => country.countryCode == countryCode);
+        return resCountry ? resCountry.countryName : '';
+    };
+
     return (
         <div className="flex flex-col items-center">
             <div className="text-2xl font-bold m-3">어디로 떠나시나요?</div>
@@ -96,11 +101,12 @@ export default function SetPlace(props: PropType) {
                 <SearchBar onChange={handleDataFromChild} />
             </div>
             <div id="city-list-container" className="m-2 h-[40vh] overflow-scroll w-[90%]">
+                <div ref={topRef}></div>
                 {selectedCity.length > 0 &&
                     selectedCity.map((res, index) => (
-                        <div key={index} className="flex justify-between m-2" ref={topRef}>
+                        <div key={index} className="flex justify-between m-2">
                             <div className="text-lg">
-                                {countryName}, {res.cityName}
+                                {countryCodeToName(res.countryCode)}, {res.cityName}
                             </div>
                             <MyButton
                                 type="small"
