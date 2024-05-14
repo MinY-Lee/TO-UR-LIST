@@ -37,6 +37,12 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
+
+        String requestUri = request.getRequestURI();
+        if(requestUri.startsWith("/login")) {
+            filterChain.doFilter(request, response);
+        }
+
         log.debug("----------------JWT 필터 타기 -----------------");
         log.debug("[JWTFilter] - 필터 시작");
         try {
