@@ -2,6 +2,7 @@ package com.eminyidle.feed.application.service;
 
 import com.eminyidle.feed.adapter.dto.*;
 import com.eminyidle.feed.application.port.in.CreateFeedUsecase;
+import com.eminyidle.feed.application.port.in.UpdateFeedUsecase;
 import com.eminyidle.feed.application.port.out.LoadTourPort;
 import com.eminyidle.feed.application.port.out.SaveFeedPort;
 import com.eminyidle.feed.domain.Feed;
@@ -17,15 +18,15 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class FeedService implements CreateFeedUsecase {
+public class FeedService implements CreateFeedUsecase, UpdateFeedUsecase {
 
     private final SaveFeedPort saveFeedPort;
     private final LoadTourPort loadTourPort;
 
     @Override
     public void createFeed(String feedId, String userId, String feedTitle, String feedContent, List<String> feedThemeTagList, String feedMateTag,
-                           String tourId, List<Integer> hiddenDayList, List<HiddenPlace> hiddenPlaceList,
-                           List<HiddenActivity> hiddenActivityList, List<HiddenItem> hiddenItemList) {
+                            String tourId, List<Integer> hiddenDayList, List<HiddenPlace> hiddenPlaceList,
+                            List<HiddenActivity> hiddenActivityList, List<HiddenItem> hiddenItemList) {
 
         Feed feed = Feed.builder()
                 .feedId(feedId)
@@ -48,16 +49,16 @@ public class FeedService implements CreateFeedUsecase {
 
         // day, place 필터링
         List<Place> filteredPlace = tourInfo.getPlaceList().stream().filter(place -> {
-                    // 숨기고싶은 날짜 지우기
-                    if (hiddenDayList.contains(place.getTourDay())) return false;
-                    // 숨기고싶은 장소 지우기
-                    for (HiddenPlace hiddenPlace : hiddenPlaceList) {
-                        log.info("for문 실행중");
-                        if (place.getPlaceId().equals(hiddenPlace.getPlaceId()) && place.getTourDay().equals(hiddenPlace.getTourDay()))
-                            return false;
-                    }
-                    return true;
-                }).collect(Collectors.toList());
+            // 숨기고싶은 날짜 지우기
+            if (hiddenDayList.contains(place.getTourDay())) return false;
+            // 숨기고싶은 장소 지우기
+            for (HiddenPlace hiddenPlace : hiddenPlaceList) {
+                log.info("for문 실행중");
+                if (place.getPlaceId().equals(hiddenPlace.getPlaceId()) && place.getTourDay().equals(hiddenPlace.getTourDay()))
+                    return false;
+            }
+            return true;
+        }).collect(Collectors.toList());
 
         // activity 필터링
         hiddenActivityList.forEach(hiddenActivity -> {
@@ -68,9 +69,17 @@ public class FeedService implements CreateFeedUsecase {
                 }
             });
         });
-        log.info(filteredPlace.toString());
-        // TODO ITEM 걸러주기
-        // Activity 거르기
+
+        // TODO ITEM 걸러주기 확인
+        // item 필터링
+        List<Item> filteredItem = tourInfo.getItemList().stream().filter(item -> {
+            for (HiddenItem hiddenItem : hiddenItemList) {
+                if (item.getActivity().equals(hiddenItem.getActivity()) && item.getPlaceId().equals(hiddenItem.getPlaceId()) && item.getTourDay() == hiddenItem.getTourDay())
+                    return false;
+            }
+            return true;
+        }).collect(Collectors.toList());
+
         log.info(filteredPlace.toString());
         // mongoDB 저장을 위한
         FeedTourEntity feedTourEntity = FeedTourEntity.builder()
@@ -83,6 +92,7 @@ public class FeedService implements CreateFeedUsecase {
                 .startDate(tourInfo.getStartDate())
                 .cityList(tourInfo.getCityList())
                 .placeList(filteredPlace)
+                .itemList(filteredItem)
                 .copyCount(0)
                 .likeCount(0)
                 .isLiked(false)
@@ -95,7 +105,7 @@ public class FeedService implements CreateFeedUsecase {
 //                                if (place.getPlaceId().equals(hiddenPlace.getPlaceId()) && place.getTourDay().equals(hiddenPlace.getTourDay()))
 //                                    return false;
 //                            }
-                            // 숨기고싶은 활동 지우기
+                // 숨기고싶은 활동 지우기
 //                            place.getActivityList().stream().
 //                            place.setActivityList(place.getActivityList() == null ? new ArrayList<>() : place.getActivityList().stream().filter(activity -> {
 //                                if (activity.equals(hidd))
@@ -114,4 +124,22 @@ public class FeedService implements CreateFeedUsecase {
 
     }
 
+    @Override
+    public void updateFeed(String feedId, String userId, String feedTitle, String feedContent, List<String> feedThemeTagList, String feedMateTag,
+                            String tourId, List<Integer> hiddenDayList, List<HiddenPlace> hiddenPlaceList,
+                            List<HiddenActivity> hiddenActivityList, List<HiddenItem> hiddenItemList) {
+
+        Feed feed = Feed.builder()
+                .feedId(feedId)
+                .feedTitle(feedTitle)
+                .feedContent(feedContent)
+                .feedThemeTagList(feedThemeTagList)
+                .feedMateTag(feedMateTag)
+                .tourId(tourId)
+                .hiddenDayList(hiddenDayList)
+                .hiddenPlaceList(hiddenPlaceList)
+                .hiddenActivityList(hiddenActivityList)
+                .hiddenItemList(hiddenItemList)
+                .build();
+    }
 }

@@ -50,7 +50,8 @@ public class WebClientAdapter implements LoadTourPort {
         Mono<Tour> tourRes = webClient.get().uri(TOUR_SERVER_URL + "/tour/" + tourId).retrieve().bodyToMono(new ParameterizedTypeReference<Tour>(){});
         Mono<User> userRes = webClient.get().uri(USER_SERVER_URL + "/user").retrieve().bodyToMono(new ParameterizedTypeReference<User>(){});
 
-//        Flux<PlaceList> placeRes = webClient.get().uri(PLACE_SERVER_URL + "/place/" + tourId).retrieve().bodyToMono(PlaceList.class);
+        // TODO item 호출 구현
+
 
         log.info("web client 실행");
 
