@@ -65,15 +65,15 @@ export default defineConfig({
             'Cross-Origin-Embedder-Policy': 'credentialless',
         },
         proxy: {
+            '/api/auth': {
+                target: 'http://localhost:8081/',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, ''),
+            },
             '/api': {
                 target: 'http://localhost:8080/',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, ''),
-            },
-            '/authapi': {
-                target: 'http://localhost:8081/',
-                changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/authapi/, ''),
             },
         },
     },

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { WebSockPlace } from '../../types/types';
 
 interface PropType {
@@ -32,7 +32,20 @@ export default function ActivityAddModal(props: PropType) {
                         {props.selectedSchedule.activityList.length > 0 ? (
                             props.selectedSchedule.activityList.map(
                                 (activity) => {
-                                    return <span>{activity}</span>;
+                                    return (
+                                        <span
+                                            className="px-2vw border-halfvw color-border-blue-2 color-bg-blue-2 text-white border-rad-3vw mx-vw"
+                                            onClick={() => {
+                                                props.deleteActivity(
+                                                    props.selectedSchedule
+                                                        .tourPlaceId,
+                                                    activity
+                                                );
+                                            }}
+                                        >
+                                            {'- ' + activity}
+                                        </span>
+                                    );
                                 }
                             )
                         ) : (
@@ -134,6 +147,50 @@ export default function ActivityAddModal(props: PropType) {
                         ) : (
                             <></>
                         )}
+                    </div>
+                </div>
+
+                {/* 전체 보기 */}
+                <div className="w-full h-[40%] flex flex-col">
+                    <div className="text-5vw h-[20%]">전체 선택 가능 활동</div>
+                    <div className="text-5vw h-[80%] overflow-y-scroll">
+                        <div className="flex items-center text-5vw text-[#afafaf] flex-wrap">
+                            {props.activityList.length > 0 ? (
+                                props.activityList.map((activity) => {
+                                    return cache.has(activity) ? (
+                                        <span
+                                            className="px-2vw border-halfvw color-border-blue-2 color-bg-blue-2 text-white border-rad-3vw m-vw flex-shrink-0"
+                                            onClick={() => {
+                                                props.deleteActivity(
+                                                    props.selectedSchedule
+                                                        .tourPlaceId,
+                                                    activity
+                                                );
+                                            }}
+                                        >
+                                            {'- ' + activity}
+                                        </span>
+                                    ) : (
+                                        <span
+                                            className="px-2vw border-halfvw border-[#afafaf] border-rad-3vw mx-vw flex-shrink-0"
+                                            onClick={() =>
+                                                props.addActivity(
+                                                    props.selectedSchedule
+                                                        .placeId,
+                                                    props.selectedSchedule
+                                                        .tourDay,
+                                                    activity
+                                                )
+                                            }
+                                        >
+                                            {'+ ' + activity}
+                                        </span>
+                                    );
+                                })
+                            ) : (
+                                <div>이 장소는 할만한게 없네요ㅠㅠ</div>
+                            )}
+                        </div>
                     </div>
                 </div>
                 <div className="w-full h-[10%] flex justify-around items-center text-5vw">
