@@ -4,6 +4,8 @@ import com.eminyidle.payment.dto.CountryCurrency;
 import com.eminyidle.payment.dto.CountryCurrencyId;
 import com.eminyidle.payment.dto.ExchangeRate;
 import com.eminyidle.payment.dto.ExchangeRateId;
+import com.eminyidle.payment.exception.CurrencyNotExistException;
+import com.eminyidle.payment.exception.ExchangeRateNotExistException;
 import com.eminyidle.payment.repository.CountryCurrencyRepository;
 import com.eminyidle.payment.repository.ExchangeRateRepository;
 import com.eminyidle.payment.repository.PaymentInfoRepository;
@@ -24,6 +26,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
@@ -42,7 +45,7 @@ class PaymentServiceTest {
     @Test
     @DisplayName("환율정보 불러오기 Mock 사용 - 성공")
     @Order(1)
-    void loadExchangeRate() {
+    void loadExchangeRateTrueCase() {
         //given 입력값 리턴값
         String countryCode = "KOR", currencyCode = "KRW", currencySign = "₩";
         String date = "20240513";
@@ -94,7 +97,123 @@ class PaymentServiceTest {
     }
 
     @Test
-    void loadCountryCurrency() {
+    @DisplayName("환율정보 불러오기 Mock 사용 - 실패1")
+    @Order(2)
+    void loadExchangeRateFalseCase1() {
+        //given 입력값 리턴값
+        String countryCode = "PRK", currencyCode = "KPW", currencySign = "₩";
+        String date = "20240513";
+
+        List<CountryCurrency> currencyList = new ArrayList<>();
+
+        // 통화코드 찾기
+        when(countryCurrencyRepository.findByCountryCurrencyIdCountryCode(any(String.class)))
+                .thenReturn(currencyList);
+
+//        //then
+//        CurrencyNotExistException thrown = assertThrows(CurrencyNotExistException.class, () -> {
+//            paymentService.loadExchangeRate(countryCode, date);
+//        }, "해당하는 통화코드가 없습니다.");
+//
+//        Assertions.assertThat(thrown.getMessage()).contains("해당하는 통화코드가 없습니다.");
+
+        //when & then
+        Assertions.assertThatThrownBy(() -> {
+                    paymentService.loadExchangeRate(countryCode, date);
+                }).isInstanceOf(CurrencyNotExistException.class)
+                .hasMessageContaining("해당하는 통화코드가 없습니다.");
+
+        verify(countryCurrencyRepository, times(1)).findByCountryCurrencyIdCountryCode(any(String.class));
+    }
+
+    @Test
+    @DisplayName("환율정보 불러오기 Mock 사용 - 실패2")
+    @Order(3)
+    void loadExchangeRateFalseCase2() {
+        //given 입력값 리턴값
+        String countryCode = "PRK", currencyCode = "KPW", currencySign = "₩";
+        String date = "20240513";
+
+        CountryCurrencyId countryCurrencyId = CountryCurrencyId.builder()
+                .countryCode(countryCode)
+                .currencyCode(currencyCode)
+                .build();
+        CountryCurrency countryCurrency = CountryCurrency.builder()
+                .countryCurrencyId(countryCurrencyId)
+                .currencySign(currencySign)
+                .build();
+
+        List<CountryCurrency> currencyList = new ArrayList<>();
+        currencyList.add(countryCurrency);
+
+
+        // 통화코드 찾기
+        when(countryCurrencyRepository.findByCountryCurrencyIdCountryCode(any(String.class)))
+                .thenReturn(currencyList);
+
+        try {
+            paymentService.loadExchangeRate(countryCode, date);
+        }
+        catch (ExchangeRateNotExistException e) {
+            Assertions.assertThat(e.getMessage()).contains("해당하는 환율데이터가 없습니다.");
+        }
+
+        verify(countryCurrencyRepository, times(1)).findByCountryCurrencyIdCountryCode(any(String.class));
+        verify(exchangeRateRepository, times(1)).findByExchangeRateId(any(ExchangeRateId.class));
+    }
+
+    @Test
+    @DisplayName("통화정보 불러오기 Mock 사용 - 성공")
+    @Order(4)
+    void loadCountryCurrencyTrueCase() {
+        //given 입력값 리턴값
+        //given 입력값 리턴값
+        String countryCode = "KOR", currencyCode = "KRW", currencySign = "₩";
+
+        CountryCurrencyId countryCurrencyId = CountryCurrencyId.builder()
+                .countryCode(countryCode)
+                .currencyCode(currencyCode)
+                .build();
+        CountryCurrency countryCurrency = CountryCurrency.builder()
+                .countryCurrencyId(countryCurrencyId)
+                .currencySign(currencySign)
+                .build();
+
+        List<CountryCurrency> currencyList = new ArrayList<>();
+        currencyList.add(countryCurrency);
+
+        //when
+        when(countryCurrencyRepository.findByCountryCurrencyIdCountryCode(any(String.class)))
+                .thenReturn(currencyList);
+
+        CountryCurrency countryCurrencyInfo = paymentService.loadCountryCurrency(countryCode);
+
+        Assertions.assertThat(countryCurrencyInfo.getCountryCurrencyId().getCountryCode()).isEqualTo(countryCode);
+        Assertions.assertThat(countryCurrencyInfo.getCountryCurrencyId().getCurrencyCode()).isEqualTo(currencyCode);
+        Assertions.assertThat(countryCurrencyInfo.getCurrencySign()).isEqualTo(currencySign);
+    }
+    @Test
+    @DisplayName("통화정보 불러오기 Mock 사용 - 실패")
+    @Order(5)
+    void loadCountryCurrencyFalseCase() {
+        //given 입력값 리턴값
+        //given 입력값 리턴값
+        String countryCode = "KOR", currencyCode = "KRW", currencySign = "₩";
+
+        List<CountryCurrency> currencyList = new ArrayList<>();
+
+        // 통화코드 찾기
+        when(countryCurrencyRepository.findByCountryCurrencyIdCountryCode(any(String.class)))
+                .thenReturn(currencyList);
+
+        //then
+        CurrencyNotExistException thrown = assertThrows(CurrencyNotExistException.class, () -> {
+            paymentService.loadCountryCurrency(countryCode);
+        }, "해당하는 통화코드가 없습니다.");
+
+        Assertions.assertThat(thrown.getMessage()).contains("해당하는 통화코드가 없습니다.");
+
+        verify(countryCurrencyRepository, times(1)).findByCountryCurrencyIdCountryCode(any(String.class));
     }
 
     @Test
