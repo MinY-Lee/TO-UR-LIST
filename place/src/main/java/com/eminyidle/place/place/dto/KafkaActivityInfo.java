@@ -8,10 +8,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class KafkaPlace {
+public class KafkaActivityInfo {
     private String tourId;
     private String placeId;
-    private String placeName;
     private Integer tourDay;
+    private String activity;
     private String tourPlaceId;
 }
