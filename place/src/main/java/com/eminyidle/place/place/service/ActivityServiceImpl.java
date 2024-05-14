@@ -1,11 +1,14 @@
 package com.eminyidle.place.place.service;
 
+import com.eminyidle.place.place.dto.KafkaActivityInfo;
 import com.eminyidle.place.place.dto.node.Activity;
+import com.eminyidle.place.place.kafka.KafkaProducer;
 import com.eminyidle.place.place.repository.ActivityRepository;
 import com.eminyidle.place.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -16,6 +19,9 @@ public class ActivityServiceImpl implements ActivityService {
 
     private final ActivityRepository activityRepository;
     private final PlaceRepository placeRepository;
+
+    private final RestTemplate restTemplate;
+    private final KafkaProducer kafkaProducer;
 
     @Override
     public List<String> searchActivityList() {
@@ -38,6 +44,14 @@ public class ActivityServiceImpl implements ActivityService {
             // REFERENCE 관계 생성해주기
             try {
                 activityRepository.createReferenceRelationship(tourId, placeId, tourDay, activity);
+                // Kafka로 활동이 추가되었음을 전송
+                KafkaActivityInfo kafkaActivityInfo = KafkaActivityInfo.builder()
+                        .tourId(tourId)
+                        .placeId(placeId)
+                        .tourDay(tourDay)
+                        .activity(activity)
+                        .build();
+                kafkaProducer.produceActivityKafkaMessage("CREATE", kafkaActivityInfo);
                 return true;
             } catch (Exception e) {
                 log.info("REFERENCE 관계 생성 오류");
@@ -74,6 +88,13 @@ public class ActivityServiceImpl implements ActivityService {
         try {
             activityRepository.deleteByTourPlaceIdAndActivity(tourPlaceId, activity);
             log.info("해당하는 활동 삭제");
+            // Kafka로 활동이 삭제되었음을 전송
+            KafkaActivityInfo kafkaActivityInfo = KafkaActivityInfo.builder()
+                    .tourId(tourId)
+                    .activity(activity)
+                    .tourPlaceId(tourPlaceId)
+                    .build();
+            kafkaProducer.produceActivityKafkaMessage("DELETE", kafkaActivityInfo);
             return true;
         } catch (NoSuchElementException e) {
             log.info("해당하는 활동이 없음");

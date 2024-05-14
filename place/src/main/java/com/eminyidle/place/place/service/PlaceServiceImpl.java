@@ -9,7 +9,7 @@ import com.eminyidle.place.place.dto.res.UpdatePlaceBodyRes;
 import com.eminyidle.place.place.exception.GetRequesterInfoFailException;
 import com.eminyidle.place.place.exception.PlaceAddFailException;
 import com.eminyidle.place.place.exception.PlaceSearchException;
-import com.eminyidle.place.place.kafka.PlaceKafkaProducer;
+import com.eminyidle.place.place.kafka.KafkaProducer;
 import com.eminyidle.place.place.repository.DoRelationRepository;
 import com.eminyidle.place.place.repository.PlaceRepository;
 import com.eminyidle.place.place.repository.TourRepository;
@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -34,10 +33,8 @@ public class PlaceServiceImpl implements PlaceService{
     private final DoRelationRepository doRelationRepository;
     private final TourRepository tourRepository;
 
-    private final PlaceKafkaProducer placeKafkaProducer;
+    private final KafkaProducer kafkaProducer;
 
-//    @Value("${spring.googleMap.key}")
-//    private String googleMapKey;
     @Value("${PLACE_GOOGLE_API_KEY}")
     private String googleMapKey;
 
@@ -165,30 +162,20 @@ public class PlaceServiceImpl implements PlaceService{
                 isSuccess = true;
 
                 // Kafka로 장소가 추가되었음을 전송
-                KafkaPlace kafkaPlace = KafkaPlace.builder()
+                KafkaPlaceInfo kafkaPlaceInfo = KafkaPlaceInfo.builder()
                         .tourId(tourId)
                         .placeId(placeId)
                         .placeName((String) body.get("placeName"))
                         .tourDay((Integer) body.get("tourDay"))
                         .tourPlaceId(tourPlace.getTourPlaceId())
                         .build();
-                placeKafkaProducer.producePlaceKafkaMessage("CREATE", kafkaPlace);
+                kafkaProducer.producePlaceKafkaMessage("CREATE", kafkaPlaceInfo);
             } catch (Exception e) {
                 log.error("{}", e);
             }
         } else {
             isSuccess = false;
         }
-//        TourPlace tourActivity = TourPlace.builder().build();
-//        try {
-//            placeRepository.save(tourActivity);
-//            // DO 관계 생성해주기
-//            // TourActivity의 Id는 저장된 값을 불러온다
-//            placeRepository.createDoRelationship((String) body.get("tourId"), UUID.randomUUID().toString(), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourActivity.getTourActivityId());
-//            isSuccess = true;
-//        } catch (Exception e) {
-//            log.error("{}", e);
-//        }
 
         return TourPlaceMessageInfo.builder()
                 .body(responseBody)
@@ -212,13 +199,13 @@ public class PlaceServiceImpl implements PlaceService{
             placeRepository.deletePlaceByTourIdAndPlaceIdAndTourDay(tourId, placeId, tourDay);
 
             // Kafka로 장소가 삭제되었음을 전송
-            KafkaPlace kafkaPlace = KafkaPlace.builder()
+            KafkaPlaceInfo kafkaPlaceInfo = KafkaPlaceInfo.builder()
                     .tourId(tourId)
                     .placeId(placeId)
                     .placeName((String) body.get("placeName"))
                     .tourDay((Integer) body.get("tourDay"))
                     .build();
-            placeKafkaProducer.producePlaceKafkaMessage("DELETE", kafkaPlace);
+            kafkaProducer.producePlaceKafkaMessage("DELETE", kafkaPlaceInfo);
             isSuccess = true;
         } catch (GetRequesterInfoFailException e) {
             log.error("{}", e);
@@ -250,13 +237,6 @@ public class PlaceServiceImpl implements PlaceService{
                     .isSuccess(isSuccess)
                     .build();
         }
-        // 새로 바꿀 날에 해당 장소가 있는지 확인 -> 있으면 활동 옮겨주고 해당하는 원래 tourPlace를 삭제해주기
-//        if (checkPlaceDuplication(tourId, newTourDay, placeId)) {
-//            return TourPlaceMessageInfo.builder()
-//                    .body(responseBody)
-//                    .isSuccess(isSuccess)
-//                    .build();
-//        }
 
         try {
             String tourPlaceId;
@@ -268,21 +248,18 @@ public class PlaceServiceImpl implements PlaceService{
             } else {    // 새로 추가하는 경우
                 log.info("새로운 장소 생성");
                 tourPlaceId = placeRepository.updateTourDay(tourId, placeId, oldTourDay, newTourDay);
-//            responseBody = PlaceRequesterInfo.builder()
-//                    .userId(userId)
-//                    .build();
                 isSuccess = true;
             }
             log.info("tourplaceId: " + tourPlaceId);
             // Kafka로 장소가 수정되었음을 전송
-            KafkaPlace kafkaPlace = KafkaPlace.builder()
+            KafkaPlaceInfo kafkaPlaceInfo = KafkaPlaceInfo.builder()
                     .tourId(tourId)
                     .placeId(placeId)
                     .placeName((String) body.get("placeName"))
                     .tourDay(newTourDay)
                     .tourPlaceId(tourPlaceId)
                     .build();
-            placeKafkaProducer.producePlaceKafkaMessage("UPDATE", kafkaPlace);
+            kafkaProducer.producePlaceKafkaMessage("UPDATE", kafkaPlaceInfo);
         } catch (Exception e) {
             log.error("{}", e);
         }
