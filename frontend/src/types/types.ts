@@ -41,7 +41,6 @@ export interface City {
 export interface Country {
     countryCode: string;
     cityList: City[];
-<<<<<<< HEAD
 }
 
 export interface CountryMapping {
@@ -56,18 +55,6 @@ export interface CountryInfo {
     language: string;
     plug_type: string;
     voltage: string;
-=======
-}
-
-export interface CountryInfo {
-    countryCode: string; // 나중에 없앨거임
-    language: string;
-    currencyUnit: string;
-    voltage: string;
-    plug_type: string;
-    climate: string;
-    KST: string;
->>>>>>> origin/front/schedule
 }
 
 //피드 관련
@@ -93,12 +80,12 @@ export interface FeedCity {
 
 // api 로 보낼 체크리스트 아이템 정보
 export interface ItemApi {
-  tourId: string;
-  placeId: string;
-  tourActivityId: string;
-  item: string;
-  tourDay: number;
-  isChecked: boolean;
+    tourId: string;
+    placeId: string;
+    tourActivityId: string;
+    item: string;
+    tourDay: number;
+    isChecked: boolean;
 }
 
 // 체크리스트 아이템 정보
