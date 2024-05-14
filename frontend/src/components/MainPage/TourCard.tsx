@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { CountryMapping, TourCardInfo } from '../../types/types';
 import { GetCountryList } from '../../util/api/country';
 import { HttpStatusCode } from 'axios';
+import CountryCodeToName from '../TourPage/countryIdToName';
 
 interface PropType {
     tourInfo: TourCardInfo;
@@ -56,11 +57,6 @@ export default function TourCard(props: PropType) {
         dayElement = <></>;
     }
 
-    const countryCodeToName = (countryCode: string) => {
-        const resCountry = countryList.find((country) => country.countryCode === countryCode);
-        return resCountry ? resCountry.countryName : '';
-    };
-
     /**date string -> YYYY.MM.DD */
     const dateStringToString = (val: string) => {
         const date = val.split('T')[0];
@@ -109,7 +105,7 @@ export default function TourCard(props: PropType) {
                     )}`}</p>
                     <div className="text-5vw flex items-center">
                         <span className="material-symbols-outlined mr-[1vw]">location_on</span>
-                        <p>{`${countryCodeToName(tour.cityList[0].countryCode)}, ${tour.cityList[0].cityName}`}</p>
+                        <p>{`${CountryCodeToName(tour.cityList[0].countryCode)}, ${tour.cityList[0].cityName}`}</p>
                         <div>{tour.cityList.length >= 2 ? Badge(tour.cityList.length - 1) : ''}</div>
                     </div>
                 </div>
