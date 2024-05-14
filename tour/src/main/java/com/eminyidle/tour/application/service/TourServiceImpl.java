@@ -86,6 +86,7 @@ public class TourServiceImpl implements TourService, MemberService {
         // TODO - 나라와 연계된 체크리스트 생성(Kafka)
 //        kafkaProducer.produceTourKafkaMessage("CREATE", tour);
         kafkaProducer.produceCreateTour(tour);
+        kafkaProducer.produceCreateMember(userId,tour.getTourId());
         return tour;
     }
 
