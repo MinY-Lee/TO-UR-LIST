@@ -340,4 +340,10 @@ public class PlaceServiceImpl implements PlaceService{
     public void createTour(Tour tour){
         tourRepository.save(tour);
     }
+
+    // 투어 삭제
+    @Override
+    public void deleteTour(String tourId) {
+        tourRepository.deleteAllTour(tourId);
+    }
 }

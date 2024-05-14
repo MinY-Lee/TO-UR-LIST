@@ -62,6 +62,15 @@ public class KafkaPlace {
                     placeService.createTour(tour);
                     break;
                 case "UPDATE":
+                    log.info("update start");
+                    log.info(tourMap.toString());
+                    break;
+                case "DELETE":
+                    log.info("delete start");
+                    log.info(tourMap.toString());
+                    // TourId 를 받아와서 해당하는 Tour 지워주기
+                    String tourId = (String) tourMap.get("tourId");
+                    placeService.deleteTour(tourId);
                     break;
                 default:
             }

@@ -38,4 +38,7 @@ public interface PlaceService {
 
     // 투어 생성
     void createTour(Tour tour);
+
+    // 투어 삭제
+    void deleteTour(String tourId);
 }
