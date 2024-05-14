@@ -172,6 +172,8 @@ export default function MainPage() {
                 <></>
             )}
 
+            <div className="h-[10vh]"></div>
+
             {nowTourList.length == 0 && comingTourList.length == 0 && passTourList.length == 0 ? (
                 <>
                     <div className="text-md h-[65vh] w-[90%] flex flex-col justify-center items-center border">

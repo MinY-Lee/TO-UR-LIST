@@ -10,7 +10,6 @@ import CreateDone from '../components/CreatePage/createDone';
 import { City, TourCardInfo } from '../types/types';
 import { createTour } from '../util/api/tour';
 import { httpStatusCode } from '../util/api/http-status';
-import { isValid } from 'date-fns';
 
 export default function TourCreatePage() {
     const [step, setStep] = useState<number>(1);
@@ -20,7 +19,6 @@ export default function TourCreatePage() {
     const [endDate, setEndDate] = useState<Date>(new Date());
     const [isValidDate, setIsVaildDate] = useState<boolean>(false);
     const [title, setTitle] = useState<string>('');
-    const [isClicked, setIsClicked] = useState<boolean>(true);
 
     const [tourCard, setTourCard] = useState<TourCardInfo>({
         tourId: '',
@@ -100,9 +98,7 @@ export default function TourCreatePage() {
     }, [isDone]);
 
     const handleStep = () => {
-        setIsClicked(true);
         if (step == 1 && selectedCity.length > 0) {
-            console.log(selectedCity);
             setStep(step + 1);
         }
         if (step == 2 && startDate && endDate && isValidDate) {
@@ -120,7 +116,7 @@ export default function TourCreatePage() {
             currentComponent = <SetPlace onChangeSelected={handleCityData} />;
             break;
         case 2:
-            currentComponent = <SetDate isClicked={isClicked} onChangeDate={handleDateData} checkValue={checkValue} />;
+            currentComponent = <SetDate onChangeDate={handleDateData} checkValue={checkValue} />;
             break;
         case 3:
             currentComponent = <SetTitle onChangeTitle={handleTitleData} />;

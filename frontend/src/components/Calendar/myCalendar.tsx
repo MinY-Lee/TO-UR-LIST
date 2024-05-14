@@ -6,7 +6,6 @@ interface ChildProps {
     isDatePicker: boolean;
     onChange: (data: Date[]) => void;
     checkValue: (flag: boolean) => void;
-    isClicked: boolean;
 }
 
 export default function myCalendar(props: ChildProps) {
@@ -14,7 +13,7 @@ export default function myCalendar(props: ChildProps) {
 
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [endDate, setEndDate] = useState<Date | undefined>();
-    const [isVaildDate, setIsVaildDate] = useState<boolean>(true);
+    const [isVaildDate, setIsVaildDate] = useState<boolean>(false);
 
     useEffect(() => {
         if (
@@ -173,9 +172,7 @@ export default function myCalendar(props: ChildProps) {
             </div>
             {!isVaildDate ? (
                 <div
-                    className={`${
-                        props.isClicked ? 'animate-bounce' : ''
-                    } w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                    className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
                     role="alert"
                 >
                     <div className="font-medium">⚠️ 여행 날짜 설정은 오늘 이후만 가능해요!</div>
