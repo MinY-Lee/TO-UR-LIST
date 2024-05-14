@@ -78,7 +78,7 @@ public class KafkaPlace {
             KafkaMessage message = objectMapper.readValue(consumerRecord.value(), KafkaMessage.class);
             Map<String, Object> placeMap = (Map<String, Object>) message.getBody();
             log.info(message.getType());
-            log.info(placeMap.get("placeName").toString());
+            log.info(placeMap.toString());
         } catch (Exception e) {
             log.error("{}", e);
         }

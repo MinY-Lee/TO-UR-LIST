@@ -203,16 +203,22 @@ public class PlaceServiceImpl implements PlaceService{
         Object responseBody = body;
         boolean isSuccess = false;
         String userId = (String) (headers.get("userId"));
-//        String userName = (String) (headers.get("userName"));
-//        String userNickname = (String) (headers.get("userNickname"));
         String placeId = (String) body.get("placeId");
         Integer tourDay = (Integer) body.get("tourDay");
         try {
             responseBody = PlaceRequesterInfo.builder()
                     .userId(userId)
-//                    .userNickname(userNickname)
                     .build();
             placeRepository.deletePlaceByTourIdAndPlaceIdAndTourDay(tourId, placeId, tourDay);
+
+            // Kafka로 장소가 삭제되었음을 전송
+            KafkaPlace kafkaPlace = KafkaPlace.builder()
+                    .tourId(tourId)
+                    .placeId(placeId)
+                    .placeName((String) body.get("placeName"))
+                    .tourDay((Integer) body.get("tourDay"))
+                    .build();
+            placeKafkaProducer.producePlaceKafkaMessage("DELETE", kafkaPlace);
             isSuccess = true;
         } catch (GetRequesterInfoFailException e) {
             log.error("{}", e);

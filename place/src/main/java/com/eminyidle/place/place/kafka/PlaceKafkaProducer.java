@@ -23,6 +23,8 @@ public class PlaceKafkaProducer {
     private String KAFKA_PLACE_TOPIC;
 
     public void producePlaceKafkaMessage(String type, KafkaPlace kafkaPlace) {
+        // CREATE: {tourId=f440c283-e33c, placeName=인스파이어아레나, tourDay=3, tourPlaceId=f98dld-djfh}
+        // DELETE: {tourId=f440c283-e33c, placeName=인스파이어아레나, tourDay=3, tourPlaceId=null}
         produceKafkaMessage(KAFKA_PLACE_TOPIC, type, kafkaPlace);
     }
 
