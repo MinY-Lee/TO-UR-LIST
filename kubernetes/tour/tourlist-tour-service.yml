@@ -38,6 +38,10 @@ spec:
           envFrom:
             - configMapRef:
                 name: tourlist-tour-config
+            - configMapRef:
+                name: tourlist-common-config
             - secretRef:
                 name: tourlist-tour-secrets
+            - secretRef:
+                name: tourlist-common-secrets
 
