@@ -10,6 +10,7 @@ import CreateDone from '../components/CreatePage/createDone';
 import { City, TourCardInfo } from '../types/types';
 import { createTour } from '../util/api/tour';
 import { httpStatusCode } from '../util/api/http-status';
+import { isValid } from 'date-fns';
 
 export default function TourCreatePage() {
     const [step, setStep] = useState<number>(1);
@@ -17,7 +18,9 @@ export default function TourCreatePage() {
     const [selectedCity, setSelectedCity] = useState<City[]>([]);
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
+    const [isValidDate, setIsVaildDate] = useState<boolean>(false);
     const [title, setTitle] = useState<string>('');
+    const [isClicked, setIsClicked] = useState<boolean>(true);
 
     const [tourCard, setTourCard] = useState<TourCardInfo>({
         tourId: '',
@@ -36,6 +39,11 @@ export default function TourCreatePage() {
     const handleDateData = (data: Date[]) => {
         setStartDate(data[0]);
         setEndDate(data[1]);
+    };
+
+    // date 오늘 이후인지 체크
+    const checkValue = (flag: boolean) => {
+        setIsVaildDate(flag);
     };
 
     // setTitle 로부터 데이터 받기
@@ -92,11 +100,12 @@ export default function TourCreatePage() {
     }, [isDone]);
 
     const handleStep = () => {
+        setIsClicked(true);
         if (step == 1 && selectedCity.length > 0) {
             console.log(selectedCity);
             setStep(step + 1);
         }
-        if (step == 2 && startDate && endDate) {
+        if (step == 2 && startDate && endDate && isValidDate) {
             setStep(step + 1);
         }
         if (step == 3) {
@@ -111,7 +120,7 @@ export default function TourCreatePage() {
             currentComponent = <SetPlace onChangeSelected={handleCityData} />;
             break;
         case 2:
-            currentComponent = <SetDate onChangeDate={handleDateData} />;
+            currentComponent = <SetDate isClicked={isClicked} onChangeDate={handleDateData} checkValue={checkValue} />;
             break;
         case 3:
             currentComponent = <SetTitle onChangeTitle={handleTitleData} />;
@@ -122,13 +131,13 @@ export default function TourCreatePage() {
     }
 
     return (
-        <section className="grid grid-rows-12 h-[95vh]">
-            <header className="row-span-3">
+        <section className="grid grid-rows-8 h-[95vh]">
+            <header className="row-span-2">
                 <HeaderBar />
                 <h1 className="m-3 text-3xl font-bold">여행 만들기</h1>
             </header>
 
-            <div className="m-5 gap-3 row-span-8 text-center">{currentComponent}</div>
+            <div className="mx-5 gap-3 row-span-8 text-center">{currentComponent}</div>
             <div className="m-5 row-span-1">
                 {step != 4 ? (
                     <MyButton

@@ -6,6 +6,7 @@ import MyButton from '../../components/Buttons/myButton';
 import { City, CountryMapping } from '../../types/types';
 import { GetCityList, GetCountryList } from '../../util/api/country';
 import { HttpStatusCode } from 'axios';
+import Spinner from '../../assets/svg/spinner';
 
 interface PropType {
     onChangeSelected: (selectedCity: City[]) => void;
@@ -18,8 +19,21 @@ export default function SetPlace(props: PropType) {
     const [selectedCity, setSelectedCity] = useState<City[]>([]);
     const [countryList, setCountryList] = useState<CountryMapping[]>([]);
     const [countryName, setCountryName] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false); // 로딩 상태 추가
 
     const topRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        GetCountryList()
+            .then((res) => {
+                if (res.status === HttpStatusCode.Ok) {
+                    setCountryList(res.data);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
     useEffect(() => {
         if (topRef.current) {
@@ -35,43 +49,40 @@ export default function SetPlace(props: PropType) {
 
     // searchBar로부터 데이터 받아서 검색 수행
     const handleDataFromChild = (data: string) => {
+        setIsLoading(true); // 로딩 시작
+        setSearchList([]);
         setQuery(data);
         // 나라 -> 도시 로직인 경우 검색어를 나라 코드로 치환
-        GetCountryList()
-            .then((res) => {
-                if (res.status == HttpStatusCode.Ok) {
-                    setCountryList(res.data);
-                    const foundCountry = countryList.find((country: any) => country.countryName === data);
+        const foundCountry = countryList.find((country: any) => country.countryName === data);
 
-                    if (foundCountry) {
-                        console.log(foundCountry.countryName);
-                        setCountryName(foundCountry.countryName);
+        if (foundCountry) {
+            setCountryName(foundCountry.countryName);
 
-                        // 코드로 도시 검색 및 결과 포맷팅
-                        GetCityList(foundCountry.countryCode).then((res) => {
-                            const CityList: City[] = [];
-                            res.data.map((cityName: string) => {
-                                const newCity = {
-                                    countryCode: foundCountry.countryCode,
-                                    cityName: cityName,
-                                };
-                                CityList.push(newCity);
-                            });
+            // 코드로 도시 검색 및 결과 포맷팅
+            GetCityList(foundCountry.countryCode)
+                .then((res) => {
+                    let CityList: City[] = [];
+                    res.data.map((cityName: string) => {
+                        const newCity = {
+                            countryCode: foundCountry.countryCode,
+                            cityName: cityName,
+                        };
+                        CityList.push(newCity);
+                    });
 
-                            setSearchList(CityList);
-                            // 선택된 도시가 있을 때 결과를 업데이트
-                            const updatedResultList = CityList.filter(
-                                (city) =>
-                                    !selectedCity.some((selected) => JSON.stringify(selected) === JSON.stringify(city))
-                            );
-                            setResultList(updatedResultList);
-                        });
-                    }
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+                    setSearchList(CityList);
+                    // 선택된 도시가 있을 때 결과를 업데이트
+                    const updatedResultList = CityList.filter(
+                        (city) => !selectedCity.some((selected) => JSON.stringify(selected) === JSON.stringify(city))
+                    );
+                    setResultList(updatedResultList);
+                })
+                .finally(() => {
+                    setIsLoading(false); // 로딩 종료
+                });
+        } else {
+            setIsLoading(false); // 로딩 종료 (나라를 찾지 못한 경우)
+        }
     };
 
     // 여행할 도시 선택 또는 해제
@@ -90,7 +101,7 @@ export default function SetPlace(props: PropType) {
     };
 
     const countryCodeToName = (countryCode: string) => {
-        const resCountry = countryList.find((country) => country.countryCode == countryCode);
+        const resCountry = countryList.find((country) => country.countryCode === countryCode);
         return resCountry ? resCountry.countryName : '';
     };
 
@@ -118,7 +129,15 @@ export default function SetPlace(props: PropType) {
                         </div>
                     ))}
                 {query !== '' && searchList.length === 0 ? (
-                    <div className="text-lg text-center text-gray-500">검색 결과가 없습니다.</div>
+                    <>
+                        {isLoading ? (
+                            <div className="flex justify-center mt-5">
+                                <Spinner />
+                            </div>
+                        ) : (
+                            <div className="text-lg text-center text-gray-500">검색 결과가 없습니다.</div>
+                        )}
+                    </>
                 ) : (
                     resultList.map((res, index) => (
                         <div key={index} className="flex justify-between m-2">
