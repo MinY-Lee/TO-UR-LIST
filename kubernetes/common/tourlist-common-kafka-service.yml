@@ -1,69 +1,69 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: tourlist-common-kafka-service
-spec:
-  selector:
-    app: tourlist-common-kafka-pod
-  ports:
-    - protocol: TCP
-      port: 9093
-      targetPort: 9093
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: tourlist-common-zookeeper-service
-spec:
-  selector:
-    app: tourlist-common-zookeeper-pod
-  ports:
-    - protocol: TCP
-      port: 2181
-      targetPort: 2181
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: tourlist-common-kafka-deployment
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: tourlist-common-kafka-pod
-  template:
-    metadata:
-      labels:
-        app: tourlist-common-kafka-pod
-    spec:
-      containers:
-        - name: tourlist-common-kafka
-          image: bitnami/kafka:3.6.2
-          ports:
-            - containerPort: 9093
-          envFrom:
-            - configMapRef:
-                name: tourlist-common-kafka-config
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: tourlist-common-zookeeper-deployment
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: tourlist-common-zookeeper-pod
-  template:
-    metadata:
-      labels:
-        app: tourlist-common-zookeeper-pod
-    spec:
-      containers:
-        - name: tourlist-common-zookeeper
-          image: bitnami/zookeeper:3.8.3
-          ports:
-            - containerPort: 2181
-          envFrom:
-            - configMapRef:
-                name: tourlist-common-kafka-config
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: tourlist-common-kafka-service
+#spec:
+#  selector:
+#    app: tourlist-common-kafka-pod
+#  ports:
+#    - protocol: TCP
+#      port: 9093
+#      targetPort: 9093
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: tourlist-common-zookeeper-service
+#spec:
+#  selector:
+#    app: tourlist-common-zookeeper-pod
+#  ports:
+#    - protocol: TCP
+#      port: 2181
+#      targetPort: 2181
+#---
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: tourlist-common-kafka-deployment
+#spec:
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: tourlist-common-kafka-pod
+#  template:
+#    metadata:
+#      labels:
+#        app: tourlist-common-kafka-pod
+#    spec:
+#      containers:
+#        - name: tourlist-common-kafka
+#          image: bitnami/kafka:3.6.2
+#          ports:
+#            - containerPort: 9093
+#          envFrom:
+#            - configMapRef:
+#                name: tourlist-common-kafka-config
+#---
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: tourlist-common-zookeeper-deployment
+#spec:
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: tourlist-common-zookeeper-pod
+#  template:
+#    metadata:
+#      labels:
+#        app: tourlist-common-zookeeper-pod
+#    spec:
+#      containers:
+#        - name: tourlist-common-zookeeper
+#          image: bitnami/zookeeper:3.8.3
+#          ports:
+#            - containerPort: 2181
+#          envFrom:
+#            - configMapRef:
+#                name: tourlist-common-kafka-config
