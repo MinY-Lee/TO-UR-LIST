@@ -162,6 +162,8 @@ export default function TourEditHeader(props: PropType) {
     // searchBar로부터 데이터 받아서 검색 수행
     const handleQuery = (data: string) => {
         setQuery(data);
+        console.log(data);
+        setSearchbarClick(true);
 
         // 나라 -> 도시 로직인 경우 검색어를 나라 코드로 치환
         const foundCountry = CountryList.find((country) => country.countryName === data);

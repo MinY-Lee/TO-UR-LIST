@@ -35,13 +35,7 @@ export default function TourBasicInfo(props: PropType) {
                             };
                             if (
                                 !newCountryInfoList.some(
-                                    (countryInfo) =>
-                                        countryInfo.climate === newInfo.climate &&
-                                        countryInfo.currencyUnit === newInfo.currencyUnit &&
-                                        countryInfo.kst === newInfo.kst &&
-                                        countryInfo.language === newInfo.language &&
-                                        countryInfo.plug_type === newInfo.plug_type &&
-                                        countryInfo.voltage === newInfo.voltage
+                                    (countryInfo) => JSON.stringify(countryInfo) === JSON.stringify(newInfo)
                                 )
                             ) {
                                 newCountryInfoList.push(newInfo);

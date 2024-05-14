@@ -27,6 +27,7 @@ export default function SearchResult(props: PropType) {
             })
             .catch((err) => console.log(err));
     }, []);
+
     return (
         <>
             {props.searchbarClick ? (
