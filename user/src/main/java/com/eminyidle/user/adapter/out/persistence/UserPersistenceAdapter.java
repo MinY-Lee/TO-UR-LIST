@@ -6,7 +6,9 @@ import com.eminyidle.user.application.port.out.LoadUserPort;
 import com.eminyidle.user.application.port.out.SaveUserPort;
 import com.eminyidle.user.domain.User;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,14 @@ public class UserPersistenceAdapter implements LoadUserPort, SaveUserPort, Delet
 		UserEntity userEntity = userRepository.findByUserNicknameAndDeletedAtIsNull(userNickname).orElseThrow(NoSuchElementException::new);
 
 		userMapper.toDomain(userEntity);
+	}
+
+	@Override
+	public List<User> loadUserListByUserNickname(String userNickname) {
+		List<UserEntity> userEntityList = userRepository.findByUserNicknameContaining(userNickname);
+        return userEntityList.stream()
+				.map(userMapper::toDomain)
+				.toList();
 	}
 
 	@Override
