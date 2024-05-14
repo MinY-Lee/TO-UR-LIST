@@ -139,9 +139,19 @@
     padding-bottom: min(4vw, 19.2px);
 }
 
+.py-2vw {
+    padding-top: min(2vw, 9.6px);
+    padding-bottom: min(2vw, 9.6px);
+}
+
 .py-vw {
     padding-top: min(1vw, 4.8px);
     padding-bottom: min(1vw, 4.8px);
+}
+
+.px-5vw {
+    padding-left: min(5vw, 24px);
+    padding-right: min(5vw, 24px);
 }
 
 .px-2vw {
@@ -154,6 +164,11 @@
     padding-right: min(1vw, 4.8px);
 }
 
+.px-dot5vw {
+    padding-left: min(0.5vw, 2.4px);
+    padding-right: min(0.5vw, 2.4px);
+}
+
 .p-2vw {
     padding: min(2vw, 9.6px);
 }
@@ -162,13 +177,80 @@
     padding: min(1vw, 4.8px);
 }
 
+.pt-3vw {
+    padding-top: min(3vw, 14.4px);
+}
+
 /* rounded viewwidth */
 
 /* marigin viewwidth */
+.m-vw {
+    margin: min(1vw, 4.8px);
+}
+
+.m-2vw {
+    margin: min(2vw, 9.6px);
+}
+
+.mt-3vw {
+    margin-top: min(3vw, 14.4px);
+}
+
+.mt-2vw {
+    margin-top: min(2vw, 9.6px);
+}
+
+.mt-vw {
+    margin-top: min(1vw, 4.8px);
+}
+
+.mx-vw {
+    margin-left: min(1vw, 4.8px);
+    margin-right: min(1vw, 4.8px);
+}
+
+.my-vw {
+    margin-top: min(1vw, 4.8px);
+    margin-bottom: min(1vw, 4.8px);
+}
+
+.mx-dot5vw {
+    margin-left: min(0.5vw, 2.4px);
+    margin-right: min(0.5vw, 2.4px);
+}
+
+.my-dot5vw {
+    margin-top: min(0.5vw, 2.4px);
+    margin-bottom: min(0.5vw, 2.4px);
+}
+
+.mr-vw {
+    margin-right: min(1vw, 4.8px);
+}
+
+.mr-dot5vw {
+    margin-right: min(0.5vw, 2.4px);
+}
+
+.mb-2vw {
+    margin-bottom: min(2vw, 9.6px);
+}
+
+.mb-vw {
+    margin-bottom: min(1vw, 4.8px);
+}
 
 /* hight viewwidth */
 .h-75vw {
     height: min(75vw, 360px);
+}
+
+.h-35vw {
+    height: min(35vw, 168px);
+}
+
+.h-17vw {
+    height: min(17vw, 81.6px);
 }
 
 .h-15vw {
@@ -179,15 +261,78 @@
     height: min(10vw, 48px);
 }
 
+.h-7vw {
+    height: min(7vw, 33.6px);
+}
+
+.h-6vw {
+    height: min(6vw, 28.8px);
+}
+
+.h-vw {
+    height: min(1vw, 4.8px);
+}
+
+.h-dot5vw {
+    height: min(0.5vw, 2.4px);
+}
+
 /* border viewwidth */
 .border-halfvw {
     border-width: min(0.5vw, 2.4px);
+}
+
+.border-t-halfvw {
+    border-top-width: min(0.5vw, 2.4px);
+}
+
+.border-dot3vw {
+    border-width: min(0.3vw, 1.44px);
+}
+
+.border-x-dot3vw {
+    border-left-width: min(0.3vw, 1.44px);
+    border-right-width: min(0.3vw, 1.44px);
+}
+
+.border-t-dot3vw {
+    border-top-width: min(0.3vw, 1.44px);
+}
+
+.border-b-dot3vw {
+    border-bottom-width: min(0.3vw, 1.44px);
+}
+
+.border-b-dot5vw {
+    border-bottom-width: min(0.5vw, 2.4px);
+}
+
+.border-rad-dot5vw {
+    border-radius: min(0.5vw, 2.4px);
 }
 
 .border-rad-2vw {
     border-radius: min(2vw, 9.6px);
 }
 
+.border-rad-3vw {
+    border-radius: min(3vw, 14.4px);
+}
+
+.border-rad-4vw {
+    border-radius: min(4vw, 19.2px);
+}
+
 .border-rad-5vw {
     border-radius: min(5vw, 24px);
+}
+
+/* width viewwidth */
+.w-dot5vw {
+    width: min(0.5vw, 2.4px);
+}
+
+/* top viewwidth */
+.top-2vw {
+    top: min(2vw, 9.6px);
 }

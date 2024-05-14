@@ -41,6 +41,7 @@ export interface City {
 export interface Country {
     countryCode: string;
     cityList: City[];
+<<<<<<< HEAD
 }
 
 export interface CountryMapping {
@@ -55,6 +56,18 @@ export interface CountryInfo {
     language: string;
     plug_type: string;
     voltage: string;
+=======
+}
+
+export interface CountryInfo {
+    countryCode: string; // 나중에 없앨거임
+    language: string;
+    currencyUnit: string;
+    voltage: string;
+    plug_type: string;
+    climate: string;
+    KST: string;
+>>>>>>> origin/front/schedule
 }
 
 //피드 관련
@@ -104,7 +117,7 @@ export interface TourPlaceItem {
     placeId: string;
     placeName: string;
     tourDay: number;
-    tourActivityList: TourActivity[];
+    activityList: TourActivity[];
 }
 
 export interface TourActivity {
@@ -179,4 +192,13 @@ export interface CurrencyInfo {
 export interface Filter {
     filterType: string;
     filterValue: string;
+}
+
+//웹소켓
+export interface WebSockPlace {
+    activityList: string[];
+    placeId: string;
+    placeName: string;
+    tourDay: number;
+    tourPlaceId: string;
 }

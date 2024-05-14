@@ -50,7 +50,7 @@ export default function LoginPage() {
                                 구글 아이디로 편리하게 로그인하세요!
                             </p>
                             <div
-                                className="w-[60%]"
+                                className="w-[60%] cursor-pointer"
                                 onClick={() => {
                                     window.location.href =
                                         import.meta.env.VITE_REACT_GOOGLE_LOGIN_URL;
