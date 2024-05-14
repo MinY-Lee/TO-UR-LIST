@@ -132,7 +132,7 @@ public class TourServiceImpl implements TourService, MemberService {
 
         tourRepository.deleteById(tourId);
         //TODO - 연결된 모든 tourActivity도 지워져야 한다 (KAFKA)
-        kafkaProducer.produceDeleteTour(Tour.builder().tourId(tourId).build());
+        kafkaProducer.produceDeleteTour(new Tour(tourId));
     }
 
     @Override

@@ -25,7 +25,7 @@ public interface TourRepository extends Neo4jRepository<Tour, String> {
     @Query("MATCH (:USER{userId: $userId})-[r:ATTEND]->(:TOUR{tourId: $tourId}) set r.tourTitle=$tourTitle")
     void updateTourTitle(String userId, String tourId, String tourTitle);
 
-    @Query("MATCH (:USER{userId: $userId})-[:ATTEND]->(t:TOUR{tourId: $tourId}) RETURN t")
+    @Query("MATCH (:USER{userId: $userId})-[at:ATTEND]->(t:TOUR{tourId: $tourId}) RETURN t.tourId AS tourId, t.startDate AS startDate, t.endDate AS endDate, at.tourTitle AS tourTitle")
 //    @Query("MATCH (:USER{userId: $userId})-[r:ATTEND]->(t:TOUR{tourId: $tourId}) " +
 //            "MATCH p=(t)-[:TO]->(:CITY) " +
 //            "RETURN r.tourTitle AS tourTitle, p")
