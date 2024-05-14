@@ -55,7 +55,7 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
             createItem(userId, checklistItem, true);
             return false;
         }
-        itemRepository.createPublicRelation(checklistItem.getTourId(), checklistItem.getPlaceId(), checklistItem.getTourDay(), checklistItem.getActivity(), checklistItem.getItem());
+        itemRepository.createPublicRelationship(checklistItem.getTourId(), checklistItem.getPlaceId(), checklistItem.getTourDay(), checklistItem.getActivity(), checklistItem.getItem());
         for (User member : tour.getMemberList()) {
             log.debug(">>" + member.getUserId());
             createItem(member.getUserId(), checklistItem, true);
@@ -152,13 +152,13 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
             tourRepository.createToRelationshipBetweenTourAndCountry(tourId,countryCode);
             //특정 countryCode 연결
             for (Item item : itemRepository.findAllInCountryByCountryCode(countryCode)) {
-                itemRepository.createPublicRelation(tourId, "", 0, "", item.getItem());
+                itemRepository.createPublicRelationship(tourId, "", 0, "", item.getItem());
             }
         }
 
         //common 연결
         for (Item item : itemRepository.findAllInCommonCountry()) {
-            itemRepository.createPublicRelation(tourId, "", 0, "", item.getItem());
+            itemRepository.createPublicRelationship(tourId, "", 0, "", item.getItem());
         }
 
         //이전 country로 연결되어있는 모든 관계 끊고
@@ -187,13 +187,21 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
     }
 
     @Override
-    public void createMember() {
+    public void createMember(String tourId, String userId) {
+        if(tourRepository.existsMemberRelationshipByTourIdAndUserId(tourId,userId)){
+            //TODO- Exception일지 return일지..
+            return; //중복된 경우
+        }
+        tourRepository.createMemberRelationshipByTourIdAndUserId(tourId,userId);
+
         //public 연결이 있는 모든 것들 찾아서.. private 그 유저아이디 연결
+        itemRepository.createTakePublicRelationshipByUserIdAndTourId(userId,tourId);
     }
 
     @Override
-    public void deleteMember() {
+    public void deleteMember(String tourId, String userId) {
         //모든 private 그 userId 삭제
+        itemRepository.deleteAllTakeItemRelationshipBuUserIdAndTourId(userId,tourId);
     }
 
     @Override
@@ -254,7 +262,7 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
         log.debug("ACTIVITY: 생성 완료");
         //필요한 아이템 -> public 관계 연결
         activity.getItemList().forEach(
-                item -> itemRepository.createPublicRelationByTourActivityId(tourActivity.getTourActivityId(), item.getItem())
+                item -> itemRepository.createPublicRelationshipByTourActivityId(tourActivity.getTourActivityId(), item.getItem())
         );
 
     }

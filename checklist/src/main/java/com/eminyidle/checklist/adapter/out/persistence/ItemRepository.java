@@ -41,17 +41,24 @@ public interface ItemRepository extends Neo4jRepository<Item,String> {
     @Query("MATCH (:TOUR{tourId:$tourId})-[:GO{placeId: $placeId, tourDay: $tourDay}]->()-[:DO]->(:TOUR_ACTIVITY{activity: $activity})-[r:TAKE{userId: $userId}]->(:ITEM {item: $item}) DELETE r")
     void deletePrivateItemRelationship(String userId, String tourId, String placeId, Integer tourDay, String activity, String item);
 
+    @Query("MATCH (:TOUR{tourId:$tourId})-[:GO]->()-[:DO]->(:TOUR_ACTIVITY)-[r:TAKE{userId: $userId}]->(:ITEM) DELETE r")
+    void deleteAllTakeItemRelationshipBuUserIdAndTourId(String userId, String tourId);
+
     @Query("MATCH (:TOUR{tourId:$tourId})-[:GO{placeId: $placeId, tourDay: $tourDay}]->()-[:DO]->(:TOUR_ACTIVITY{activity: $activity})-[r:PUBLIC]->(:ITEM {item: $item}) DELETE r ")
     void deletePublicRelationship(String tourId, String placeId, Integer tourDay, String activity, String item);
 
     //add privateRelation
+    @Query("MATCH (:TOUR{tourId:$tourId})-[:GO]->()-[:DO]->(a:TOUR_ACTIVITY)-[:PUBLIC]->(i:ITEM) " +
+            "MERGE (a)-[r:TAKE{userId: $userId}]->(i) "+
+            "ON CREATE SET r.createdAt = localdatetime(), r.type='public',r.isChecked = FALSE ")
+    void createTakePublicRelationshipByUserIdAndTourId(String userId, String tourId);
 
     //add publicRelation
     @Query("MATCH (:TOUR{tourId:$tourId})-[:GO{placeId: $placeId, tourDay: $tourDay}]->()-[:DO]->(a:TOUR_ACTIVITY{activity: $activity}) MERGE (i:ITEM{item: $item}) MERGE (a)-[:PUBLIC]->(i)")
-    void createPublicRelation(String tourId, String placeId, Integer tourDay, String activity, String item);
+    void createPublicRelationship(String tourId, String placeId, Integer tourDay, String activity, String item);
 
     @Query("MATCH (a:TOUR_ACTIVITY{tourActivityId: $tourActivityId}) MERGE (i:ITEM{item: $item}) MERGE (a)-[:PUBLIC]->(i)")
-    void createPublicRelationByTourActivityId(String tourActivityId, String item);
+    void createPublicRelationshipByTourActivityId(String tourActivityId, String item);
 
 
     @Query("MATCH (t:TOUR{tourId:$tourId})-[p:GO]->()-[:DO]->(a:TOUR_ACTIVITY)-[r:TAKE{userId: $userId}]->(i:ITEM) " +
