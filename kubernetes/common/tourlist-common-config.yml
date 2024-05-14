@@ -12,7 +12,11 @@ data:
   KAFKA_TOUR_ALERT_TOPIC: "tourlist.tour.alert"
   KAFKA_PLACE_ALERT_TOPIC: "tourlist.tourplace.alert"
   KAFKA_ACTIVITY_ALERT_TOPIC: "tourlist.activity.alert"
+  KAFKA_USER_ALERT_TOPIC: "tourlist.user.alert"
+  KAFKA_MEMBER_ALERT_TOPIC: "tourlist.member.alert"
   KAFKA_TOUR_REQUEST_TOPIC: "tourlist.tour.request"
   KAFKA_PLACE_REQUEST_TOPIC: "tourlist.tourplace.request"
   KAFKA_ACTIVITY_REQUEST_TOPIC: "tourlist.activity.request"
   KAFKA_PAYMENT_REQUEST_TOPIC: "tourlist.payment.request"
+
+
