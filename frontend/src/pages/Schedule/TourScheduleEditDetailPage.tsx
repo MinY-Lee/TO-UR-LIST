@@ -8,6 +8,7 @@ import { TourActivity, TourEditDetail, TourPlaceItem } from '../../types/types';
 import TourDetailInfo from '../../dummy-data/get_tour_place_tourId_tourDay_placeId.json';
 import WholeSchedule from '../../dummy-data/get_tour_place_tourId.json';
 import TourInfo from '../../dummy-data/get_tour_tourId.json';
+import WebSocket from '../../components/TabBar/WebSocket';
 
 export default function TourScheduleEditDetailPage() {
     // 투어 아이디 불러오기
@@ -62,15 +63,15 @@ export default function TourScheduleEditDetailPage() {
     return (
         <>
             <section className="w-full h-full">
-                <div className="flex flex-col w-full h-[90%] overflow-y-scroll p-[1vw]">
+                <div className="flex flex-col w-full h-[90%] overflow-y-scroll p-vw">
                     <HeaderBar />
                     {/* 이미지 */}
-                    <div className="w-full h-[20%] flex overflow-x-scroll mb-[2vw]">
+                    <div className="w-full h-[20%] flex overflow-x-scroll mb-2vw">
                         {tourDetail?.placeInfo.placePhotoList.map(
                             (photoUrl) => {
                                 return (
                                     <img
-                                        className="w-[33%] h-full flex-shrink-0 px-[0.5vw] rounded-[2vw]"
+                                        className="w-[33%] h-full flex-shrink-0 px-dot5vw border-rad-2vw"
                                         src={`${photoUrl}`}
                                     ></img>
                                 );
@@ -79,15 +80,15 @@ export default function TourScheduleEditDetailPage() {
                     </div>
 
                     {/* 장소설명 */}
-                    <div className="w-full text-7vw flex justify-between items-center mb-[1vw]">
+                    <div className="w-full text-7vw flex justify-between items-center mb-vw">
                         <span>{tourDetail?.placeInfo.placeName}</span>
                         {tourDetail?.isSelected ? (
-                            <div className="w-[20%] h-[7vw] text-5vw rounded-[3.5vw] bg-white color-text-blue-2 color-border-blue-2 border-[0.5vw] flex justify-center items-center">
+                            <div className="w-[20%] h-7vw text-5vw border-rad-3vw bg-white color-text-blue-2 color-border-blue-2 border-halfvw flex justify-center items-center">
                                 추가됨
                             </div>
                         ) : (
                             <div
-                                className="w-[20%] h-[7vw] text-5vw rounded-[3.5vw] color-bg-blue-2 text-white flex justify-center items-center"
+                                className="w-[20%] h-7vw text-5vw border-rad-3vw color-bg-blue-2 text-white flex justify-center items-center"
                                 onClick={() => {
                                     //추가하는 요청 전송
                                 }}
@@ -96,14 +97,14 @@ export default function TourScheduleEditDetailPage() {
                             </div>
                         )}
                     </div>
-                    <div className="w-full text-4vw mb-[1vw]">
+                    <div className="w-full text-4vw mb-vw">
                         주소 : {tourDetail?.placeInfo.placeAddress}
                     </div>
-                    <div className="w-full h-[1vw] bg-[#828282]"></div>
+                    <div className="w-full h-vw bg-[#828282]"></div>
 
                     {/* 활동목록 */}
                     {activityList.length > 0 ? (
-                        <div className="w-full flex flex-col mt-[3vw]">
+                        <div className="w-full flex flex-col mt-3vw">
                             <p className="text-6vw">날짜 및 활동</p>
                             <p className="text-4vw text-[#B5B5B5]">
                                 활동 추가 시 활동에 필요한 준비물이 체크리스트에
@@ -120,7 +121,7 @@ export default function TourScheduleEditDetailPage() {
                                         >
                                             X
                                         </div>
-                                        <div className="w-[50%] text-4vw border-[#B5B5B5] border-[0.3vw] flex justify-between p-[1vw] m-[1vw] rounded-[2vw]">
+                                        <div className="w-[50%] text-4vw border-[#B5B5B5] border-dot3vw flex justify-between p-vw m-vw border-rad-2vw">
                                             <span>
                                                 {dateToString(activity.tourDay)}
                                             </span>
@@ -128,23 +129,22 @@ export default function TourScheduleEditDetailPage() {
                                                 calendar_today
                                             </span>
                                         </div>
-                                        <div className="w-[20%] text-4vw color-text-blue-2 color-border-blue-2 border-[0.5vw] rounded-[2vw] m-[1vw] flex justify-center items-center">
-                                            {activity.tourActivityList.length >
-                                            1
-                                                ? activity.tourActivityList[0]
+                                        <div className="w-[20%] text-4vw color-text-blue-2 color-border-blue-2 border-halfvw border-rad-2vw m-vw flex justify-center items-center">
+                                            {activity.activityList.length > 1
+                                                ? activity.activityList[0]
                                                       .activity +
                                                   '+' +
-                                                  (activity.tourActivityList
+                                                  (activity.activityList
                                                       .length -
                                                       1)
-                                                : activity.tourActivityList
+                                                : activity.activityList
                                                       .length === 1
-                                                ? activity.tourActivityList[0]
+                                                ? activity.activityList[0]
                                                       .activity
                                                 : '활동없음'}
                                         </div>
                                         <div
-                                            className="w-[20%] text-4vw color-text-blue-2 color-border-blue-2 border-[0.5vw] rounded-[2vw] px-[1vw] flex justify-center items-center border-dotted"
+                                            className="w-[20%] text-4vw color-text-blue-2 color-border-blue-2 border-halfvw border-rad-2vw px-vw flex justify-center items-center border-dotted"
                                             onClick={() => {
                                                 //활동 추가 로직
                                             }}
@@ -165,6 +165,7 @@ export default function TourScheduleEditDetailPage() {
                     )}
                 </div>
                 <TabBarTour tourId={tourId} tourMode={2} />
+                {/* <WebSocket /> */}
             </section>
         </>
     );

@@ -46,7 +46,7 @@ export default function DaySelectBar(props: PropType) {
 
     return (
         <>
-            <div className="absolute w-[90%] h-[10vw] left-[5%] top-[10%] border-[0.5vw] rounded-[5vw] color-border-blue-2 flex items-center px-[5vw] overflow-x-scroll bg-white">
+            <div className="absolute w-[90%] h-10vw left-[5%] top-[10%] border-halfvw border-rad-5vw color-border-blue-2 flex items-center px-5vw overflow-x-scroll bg-white">
                 {dates()}
             </div>
         </>

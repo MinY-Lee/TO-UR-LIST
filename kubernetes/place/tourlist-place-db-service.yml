@@ -45,9 +45,9 @@ spec:
               mountPath: /data
           envFrom:
             - configMapRef:
-                name: tourlist-payment-db-config
+                name: tourlist-place-db-config
             - secretRef:
-                name: tourlist-payment-db-secrets
+                name: tourlist-place-db-secrets
       volumes:
         - name: tourlist-place-neo4j-volume
           persistentVolumeClaim:

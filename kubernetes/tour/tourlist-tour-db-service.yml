@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tourlist-tour-db-service
+spec:
+  selector:
+    app: tourlist-tour-neo4j-pod
+  ports:
+    - protocol: TCP
+      port: 7687
+      targetPort: 7687
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tourlist-tour-neo4j-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tourlist-tour-neo4j-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tourlist-tour-neo4j-pod
+  template:
+    metadata:
+      labels:
+        app: tourlist-tour-neo4j-pod
+    spec:
+      containers:
+        - name: tourlist-tour-neo4j
+          image: neo4j:5.19.0-community
+          ports:
+            - containerPort: 7687
+          volumeMounts:
+            - name: tourlist-tour-neo4j-volume
+              mountPath: /data
+          envFrom:
+            - configMapRef:
+                name: tourlist-tour-db-config
+            - secretRef:
+                name: tourlist-tour-db-secrets
+      volumes:
+        - name: tourlist-tour-neo4j-volume
+          persistentVolumeClaim:
+            claimName: tourlist-tour-neo4j-pvc

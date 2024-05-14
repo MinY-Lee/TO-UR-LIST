@@ -1,5 +1,6 @@
 package com.eminyidle.payment.config;
 
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.support.AbstractTestExecutionListener;
 import com.eminyidle.payment.repository.PaymentInfoRepository;
@@ -8,12 +9,18 @@ public class CleanUpTestExecutionListener extends AbstractTestExecutionListener 
 
     @Override
     public void afterTestMethod(TestContext testContext) throws Exception {
-        // 테스트 컨텍스트에서 리포지토리를 가져옵니다.
-        PaymentInfoRepository mongoRepository = testContext.getApplicationContext()
-                .getBean(PaymentInfoRepository.class);
+        MongoTemplate mongoTemplate = testContext.getApplicationContext()
+                .getBean(MongoTemplate.class);
 
-        // 데이터베이스에서 모든 데이터를 삭제합니다.
-        mongoRepository.deleteAll();
+        // 데이터베이스를 삭제
+        mongoTemplate.getDb().drop();
+
+//        // 테스트 컨텍스트에서 리포지토리 가져오기
+//        PaymentInfoRepository mongoRepository = testContext.getApplicationContext()
+//                .getBean(PaymentInfoRepository.class);
+//
+//        // 데이터베이스에서 모든 데이터를 삭제
+//        mongoRepository.deleteAll();
     }
 
     @Override

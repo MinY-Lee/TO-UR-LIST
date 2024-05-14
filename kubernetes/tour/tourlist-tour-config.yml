@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tourlist-tour-config
+data:
+  TOUR_NEO4J_URI: "bolt://tourlist-tour-db-service:7687"
+  USER_SERVER_URL: "tourlist-user-service:8082"

@@ -78,6 +78,16 @@ export interface FeedCity {
     cityName: string;
 }
 
+// api 로 보낼 체크리스트 아이템 정보
+export interface ItemApi {
+    tourId: string;
+    placeId: string;
+    tourActivityId: string;
+    item: string;
+    tourDay: number;
+    isChecked: boolean;
+}
+
 // 체크리스트 아이템 정보
 export interface Item {
     tourId: string;
@@ -94,7 +104,7 @@ export interface TourPlaceItem {
     placeId: string;
     placeName: string;
     tourDay: number;
-    tourActivityList: TourActivity[];
+    activityList: TourActivity[];
 }
 
 export interface TourActivity {
@@ -169,4 +179,13 @@ export interface CurrencyInfo {
 export interface Filter {
     filterType: string;
     filterValue: string;
+}
+
+//웹소켓
+export interface WebSockPlace {
+    activityList: string[];
+    placeId: string;
+    placeName: string;
+    tourDay: number;
+    tourPlaceId: string;
 }

@@ -32,16 +32,23 @@ public interface PlaceRepository extends Neo4jRepository<TourPlace, String> {
     void deletePlaceByTourIdAndPlaceIdAndTourDay(String tourId, String placeId, Integer tourDay);
 
     // 장소 수정(새로운 날에)
-    @Query("MATCH (:TOUR{tourId: $tourId})-[r:DO{placeId: $placeId, tourDay: $oldTourDay}]->(:TOUR_PLACE)" +
-            "SET r.tourDay = $newTourDay")
-    void updateTourDay(String tourId, String placeId, Integer oldTourDay, Integer newTourDay);
+    @Query("MATCH (:TOUR{tourId: $tourId})-[r:DO{placeId: $placeId, tourDay: $oldTourDay}]->(t:TOUR_PLACE)" +
+            "SET r.tourDay = $newTourDay " +
+            "RETURN t.tourPlaceId")
+    String updateTourDay(String tourId, String placeId, Integer oldTourDay, Integer newTourDay);
 
     // 장소 수정(기존 장소와 합치기)
-    @Query("MATCH (:TOUR{tourId: $tourId})-[oldr:DO{placeId: $placeId, tourDay: $oldTourDay}]->(ot:TOUR_PLACE)-[:REFERENCE]->(a:ACTIVITY)" +
+    @Query("MATCH (:TOUR{tourId: $tourId})-[oldr:DO{placeId: $placeId, tourDay: $oldTourDay}]->(ot:TOUR_PLACE)" +
             "MATCH (:TOUR{tourId: $tourId})-[newr:DO{placeId: $placeId, tourDay: $newTourDay}]->(nt:TOUR_PLACE)" +
-            "MERGE (nt)-[:REFERENCE]->(a)" +
-            "DETACH DELETE ot")
-    void mergeTourDay(String tourId, String placeId, Integer oldTourDay, Integer newTourDay);
+            "OPTIONAL MATCH (ot)-[ref:REFERENCE]->(a:ACTIVITY)" +
+            "WITH ot, nt, a, ref " +
+            "FOREACH (_ IN CASE WHEN a IS NOT NULL THEN [1] ELSE [] END | " +
+                "MERGE (nt)-[:REFERENCE]->(a) " +
+                "DETACH DELETE ot)" +
+            "FOREACH (_ IN CASE WHEN a IS NULL THEN [1] ELSE [] END | " +
+                "DETACH DELETE ot)" +
+            "RETURN nt.tourPlaceId")
+    String mergeTourDay(String tourId, String placeId, Integer oldTourDay, Integer newTourDay);
 
 //    @Query("MATCH (:TOUR{tourId: $tourId})-[r:DO{placeId: $placeId}]->(:TOUR_ACTIVITY)" +
 //            "RETURN r")

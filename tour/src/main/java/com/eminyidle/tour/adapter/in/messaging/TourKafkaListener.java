@@ -1,6 +1,7 @@
 package com.eminyidle.tour.adapter.in.messaging;
 
 import com.eminyidle.tour.adapter.dto.messaging.KafkaMessage;
+import com.eminyidle.tour.adapter.in.messaging.dto.UserKafkaMessage;
 import com.eminyidle.tour.adapter.in.messaging.dto.UserNode;
 import com.eminyidle.tour.application.dto.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,10 +16,10 @@ public class TourKafkaListener {
     private void consumeUserTopic(String kafkaMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            KafkaMessage message = objectMapper.readValue(kafkaMessage, KafkaMessage.class);
+            UserKafkaMessage message = objectMapper.readValue(kafkaMessage, UserKafkaMessage.class);
             if (message.getType().equals("UPDATE")) {
                 //TODO- update UserNode
-                UserNode user = (UserNode) message.getBody();
+                UserNode user = message.getBody();
                 //userId에 맞는 노드가 있다면
                 User.builder()
                         .userId(user.getUserId())

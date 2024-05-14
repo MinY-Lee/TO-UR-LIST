@@ -28,7 +28,11 @@ export default function TourCard(props: PropType) {
     //mode -> 진행중 : 0, 다가오는 : 1, 지난 : 2
     const nowTime = new Date();
 
-    const now = new Date(`${nowTime.getFullYear()}-${nowTime.getMonth() + 1}-${nowTime.getDate()}`);
+    const now = new Date(
+        `${nowTime.getFullYear()}-${
+            nowTime.getMonth() + 1
+        }-${nowTime.getDate()}`
+    );
 
     const startDate = new Date(tour.startDate);
 
@@ -38,7 +42,10 @@ export default function TourCard(props: PropType) {
         <>
             <div className="text-4vw">Day</div>
             <div className="text-8vw">
-                {Math.ceil((now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1}
+                {Math.ceil(
+                    (now.getTime() - startDate.getTime()) /
+                        (1000 * 60 * 60 * 24)
+                ) + 1}
             </div>
         </>
     );
@@ -48,7 +55,10 @@ export default function TourCard(props: PropType) {
             <>
                 <div className="text-6vw font-bold">
                     D-
-                    {Math.floor((startDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))}
+                    {Math.floor(
+                        (startDate.getTime() - now.getTime()) /
+                            (1000 * 60 * 60 * 24)
+                    )}
                 </div>
             </>
         );
@@ -64,11 +74,15 @@ export default function TourCard(props: PropType) {
         const year = dSplit[0];
         const month = dSplit[1];
         const day = dSplit[2];
-        return `${year}.${month.length >= 2 ? month : '0' + month}.${day.length >= 2 ? day : '0' + day}`;
+        return `${year}.${month.length >= 2 ? month : '0' + month}.${
+            day.length >= 2 ? day : '0' + day
+        }`;
     };
 
     const Badge = (count: number) => {
-        return <span className="border border-black text-sm flex ml-2 px-2 rounded-full">{`+${count}`}</span>;
+        return (
+            <span className="border border-black text-sm flex ml-2 px-2 rounded-full">{`+${count}`}</span>
+        );
     };
 
     return (
@@ -76,8 +90,12 @@ export default function TourCard(props: PropType) {
             <div
                 className={`${
                     props.className
-                } box-border w-[90%] h-[15%] m-[2vw] p-[1vw] rounded-[2vw] flex items-center flex-shrink-0 ${
-                    mode === 0 ? 'color-bg-blue-3' : mode === 1 ? 'color-bg-blue-4' : 'bg-[#DADADA]'
+                } box-border w-[90%] h-[15%] m-2vw p-vw border-rad-2vw flex items-center flex-shrink-0 ${
+                    mode === 0
+                        ? 'color-bg-blue-3'
+                        : mode === 1
+                        ? 'color-bg-blue-4'
+                        : 'bg-[#DADADA]'
                 }`}
                 style={{
                     boxShadow: '#EBEBEB 1vw 1vw ',
@@ -99,16 +117,25 @@ export default function TourCard(props: PropType) {
                         mode === 2 ? 'w-full' : 'w-[70%]'
                     } h-full flex flex-col items-start justify-center p-[2vw]`}
                 >
-                    <p className="text-6vw weight-text-semibold">{tour.tourTitle}</p>
-                    <p className="text-4vw">{`${dateStringToString(tour.startDate)}~${dateStringToString(
-                        tour.endDate
-                    )}`}</p>
+                    <p className="text-6vw weight-text-semibold">
+                        {tour.tourTitle}
+                    </p>
+                    <p className="text-4vw">{`${dateStringToString(
+                        tour.startDate
+                    )}~${dateStringToString(tour.endDate)}`}</p>
                     <div className="text-5vw flex items-center">
-                        <span className="material-symbols-outlined mr-[1vw]">location_on</span>
-                        <p>{`${CountryCodeToName(tour.cityList[0].countryCode, countryList)}, ${
-                            tour.cityList[0].cityName
-                        }`}</p>
-                        <div>{tour.cityList.length >= 2 ? Badge(tour.cityList.length - 1) : ''}</div>
+                        <span className="material-symbols-outlined mr-vw">
+                            location_on
+                        </span>
+                        <p>{`${CountryCodeToName(
+                            tour.cityList[0].countryCode,
+                            countryList
+                        )}, ${tour.cityList[0].cityName}`}</p>
+                        <div>
+                            {tour.cityList.length >= 2
+                                ? Badge(tour.cityList.length - 1)
+                                : ''}
+                        </div>
                     </div>
                 </div>
             </div>

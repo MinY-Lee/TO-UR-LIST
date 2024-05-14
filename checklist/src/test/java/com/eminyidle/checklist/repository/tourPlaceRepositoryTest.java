@@ -1,5 +1,6 @@
 package com.eminyidle.checklist.repository;
 
+import com.eminyidle.checklist.adapter.out.persistence.TourPlaceRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.neo4j.DataNeo4jTest;

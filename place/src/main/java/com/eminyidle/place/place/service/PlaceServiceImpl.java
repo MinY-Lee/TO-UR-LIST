@@ -9,6 +9,7 @@ import com.eminyidle.place.place.dto.res.UpdatePlaceBodyRes;
 import com.eminyidle.place.place.exception.GetRequesterInfoFailException;
 import com.eminyidle.place.place.exception.PlaceAddFailException;
 import com.eminyidle.place.place.exception.PlaceSearchException;
+import com.eminyidle.place.place.kafka.PlaceKafkaProducer;
 import com.eminyidle.place.place.repository.DoRelationRepository;
 import com.eminyidle.place.place.repository.PlaceRepository;
 import com.eminyidle.place.place.repository.TourRepository;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,6 +33,8 @@ public class PlaceServiceImpl implements PlaceService{
     private final PlaceRepository placeRepository;
     private final DoRelationRepository doRelationRepository;
     private final TourRepository tourRepository;
+
+    private final PlaceKafkaProducer placeKafkaProducer;
 
 //    @Value("${spring.googleMap.key}")
 //    private String googleMapKey;
@@ -159,6 +163,16 @@ public class PlaceServiceImpl implements PlaceService{
                 // TourPlace의 Id는 저장된 값을 불러온다
                 placeRepository.createDoRelationship((String) body.get("tourId"), UUID.randomUUID().toString(), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourPlace.getTourPlaceId());
                 isSuccess = true;
+
+                // Kafka로 장소가 추가되었음을 전송
+                KafkaPlace kafkaPlace = KafkaPlace.builder()
+                        .tourId(tourId)
+                        .placeId(placeId)
+                        .placeName((String) body.get("placeName"))
+                        .tourDay((Integer) body.get("tourDay"))
+                        .tourPlaceId(tourPlace.getTourPlaceId())
+                        .build();
+                placeKafkaProducer.producePlaceKafkaMessage("CREATE", kafkaPlace);
             } catch (Exception e) {
                 log.error("{}", e);
             }
@@ -176,8 +190,6 @@ public class PlaceServiceImpl implements PlaceService{
 //            log.error("{}", e);
 //        }
 
-
-
         return TourPlaceMessageInfo.builder()
                 .body(responseBody)
                 .isSuccess(isSuccess)
@@ -191,16 +203,22 @@ public class PlaceServiceImpl implements PlaceService{
         Object responseBody = body;
         boolean isSuccess = false;
         String userId = (String) (headers.get("userId"));
-//        String userName = (String) (headers.get("userName"));
-//        String userNickname = (String) (headers.get("userNickname"));
         String placeId = (String) body.get("placeId");
         Integer tourDay = (Integer) body.get("tourDay");
         try {
             responseBody = PlaceRequesterInfo.builder()
                     .userId(userId)
-//                    .userNickname(userNickname)
                     .build();
             placeRepository.deletePlaceByTourIdAndPlaceIdAndTourDay(tourId, placeId, tourDay);
+
+            // Kafka로 장소가 삭제되었음을 전송
+            KafkaPlace kafkaPlace = KafkaPlace.builder()
+                    .tourId(tourId)
+                    .placeId(placeId)
+                    .placeName((String) body.get("placeName"))
+                    .tourDay((Integer) body.get("tourDay"))
+                    .build();
+            placeKafkaProducer.producePlaceKafkaMessage("DELETE", kafkaPlace);
             isSuccess = true;
         } catch (GetRequesterInfoFailException e) {
             log.error("{}", e);
@@ -241,19 +259,30 @@ public class PlaceServiceImpl implements PlaceService{
 //        }
 
         try {
+            String tourPlaceId;
             // 새로 바꿀 날에 해당 장소가 있는지 확인 -> 있으면 활동 옮겨주고 해당하는 원래 tourPlace를 삭제해주기
             if (checkPlaceDuplication(tourId, newTourDay, placeId)) {
                 log.info("있는 장소에 합치기");
-                placeRepository.mergeTourDay(tourId, placeId, oldTourDay, newTourDay);
+                tourPlaceId = placeRepository.mergeTourDay(tourId, placeId, oldTourDay, newTourDay);
                 isSuccess = true;
             } else {    // 새로 추가하는 경우
                 log.info("새로운 장소 생성");
-                placeRepository.updateTourDay(tourId, placeId, oldTourDay, newTourDay);
+                tourPlaceId = placeRepository.updateTourDay(tourId, placeId, oldTourDay, newTourDay);
 //            responseBody = PlaceRequesterInfo.builder()
 //                    .userId(userId)
 //                    .build();
                 isSuccess = true;
             }
+            log.info("tourplaceId: " + tourPlaceId);
+            // Kafka로 장소가 수정되었음을 전송
+            KafkaPlace kafkaPlace = KafkaPlace.builder()
+                    .tourId(tourId)
+                    .placeId(placeId)
+                    .placeName((String) body.get("placeName"))
+                    .tourDay(newTourDay)
+                    .tourPlaceId(tourPlaceId)
+                    .build();
+            placeKafkaProducer.producePlaceKafkaMessage("UPDATE", kafkaPlace);
         } catch (Exception e) {
             log.error("{}", e);
         }

@@ -39,6 +39,10 @@ public class Tour {
     @Relationship(type = "TO") @Setter
     List<City> cityList;
 
+    public Tour(String tourId){
+        setTourId(tourId);
+    }
+
     public Tour(String tourId, String tourTitle, LocalDateTime startDate, LocalDateTime endDate, List<City> cityList) {
         setTourId(tourId);
         setTourTitle(tourTitle);

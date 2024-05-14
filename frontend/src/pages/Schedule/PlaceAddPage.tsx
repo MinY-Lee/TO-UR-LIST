@@ -1,24 +1,34 @@
 //dummyData
-import tourInfo from '../../dummy-data/get_tour_tourId.json';
+// import tourInfo from '../../dummy-data/get_tour_tourId.json';
 // import tokyoTemporal from '../../dummy-data/tokyo_temporal.json';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import HeaderBar from '../../components/HeaderBar/HeaderBar';
 import TabBarTour from '../../components/TabBar/TabBarTour';
 import { useLocation } from 'react-router-dom';
 import { Wrapper } from '@googlemaps/react-wrapper';
 import WebSocket from '../../components/TabBar/WebSocket';
 
-import { PlaceInfo } from '../../types/types';
+import { PlaceInfo, TourInfoDetail } from '../../types/types';
 import SearchMaps from '../../components/SchedulePage/SearchMaps';
 import SearchSlideBar from '../../components/SchedulePage/SearchSlideBar';
 import SearchBar from '../../components/SchedulePage/SearchBar';
 import { searchPlace } from '../../util/api/place';
 import { httpStatusCode } from '../../util/api/http-status';
+import { getTour } from '../../util/api/tour';
 
 export default function PlaceAddPage() {
     const [selectedDate, setSelectedDate] = useState<number>(-1);
     const [searchedPlaces, setSearchedPlaces] = useState<PlaceInfo[]>([]);
+    const [period, setPeriod] = useState<number>(0);
+
+    const [tourInfo, setTourInfo] = useState<TourInfoDetail>({
+        tourTitle: '',
+        startDate: '',
+        endDate: '',
+        memberList: [],
+        cityList: [],
+    });
 
     // 투어 아이디 불러오기
     const address: string[] = window.location.href.split('/');
@@ -33,23 +43,41 @@ export default function PlaceAddPage() {
             if (location.state.selectedDate) {
                 setSelectedDate(location.state.selectedDate);
             }
+            if (location.state.period) {
+                setPeriod(location.state.period);
+            }
         }
-    }, []);
 
-    useEffect(() => {
-        //일단 api로 여행 정보 불러오기
-        searchPlace(tourInfo.cityList[0].cityName + ' 관광')
+        getTour(tourId)
             .then((res) => {
-                console.log(res);
-                setSearchedPlaces(res.data);
+                if (res.status === httpStatusCode.OK) {
+                    setTourInfo(res.data);
+                } else {
+                    console.log('Error');
+                }
             })
             .catch((err) => {
                 console.log(err);
             });
     }, []);
 
-    const dateToString = () => {
+    useEffect(() => {
+        if (tourInfo.cityList.length > 0) {
+            //일단 api로 여행 정보 불러오기
+            searchPlace(tourInfo.cityList[0].cityName + ' 관광')
+                .then((res) => {
+                    console.log(res);
+                    setSearchedPlaces(res.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    }, [tourInfo.cityList]);
+
+    const dateToString = useCallback(() => {
         const date = new Date(tourInfo.startDate);
+        console.log(selectedDate);
         date.setDate(date.getDate() + selectedDate);
 
         const year = date.getFullYear();
@@ -58,7 +86,7 @@ export default function PlaceAddPage() {
         return `${year}.${month >= 10 ? month : '0' + month}.${
             day >= 10 ? day : '0' + day
         }`;
-    };
+    }, [tourInfo.startDate]);
 
     const searchEvent = (
         e: React.KeyboardEvent<HTMLInputElement>,
@@ -106,10 +134,11 @@ export default function PlaceAddPage() {
                         searchedPlaces={searchedPlaces}
                         tourId={tourId}
                         selectedDate={selectedDate}
+                        period={period}
                     />
                 </div>
                 <TabBarTour tourMode={2} tourId={tourId} />
-                <WebSocket />
+                {/* <WebSocket /> */}
             </section>
         </>
     );
