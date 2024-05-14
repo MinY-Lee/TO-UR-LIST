@@ -1,5 +1,6 @@
 package com.eminyidle.user.adapter.in.web;
 
+import com.eminyidle.user.adapter.dto.UserInfo;
 import com.eminyidle.user.adapter.dto.req.CreateUserReq;
 import com.eminyidle.user.adapter.dto.req.UpdateUserBirthReq;
 import com.eminyidle.user.adapter.dto.req.UpdateUserGenderReq;
@@ -7,6 +8,7 @@ import com.eminyidle.user.adapter.dto.req.UpdateUserNameReq;
 import com.eminyidle.user.adapter.dto.req.UpdateUserNicknameReq;
 import com.eminyidle.user.adapter.dto.res.CheckNicknameDuplicationRes;
 import com.eminyidle.user.adapter.dto.res.GetUserDetailRes;
+import com.eminyidle.user.adapter.dto.res.GetUserInfoListRes;
 import com.eminyidle.user.application.port.in.CheckNicknameDuplicationUsecase;
 import com.eminyidle.user.application.port.in.CreateUserUsecase;
 import com.eminyidle.user.application.port.in.DeleteUserUsecase;
@@ -26,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -104,6 +108,24 @@ public class UserController {
 		return ResponseEntity.ok()
 			.body(CheckNicknameDuplicationRes.builder().isDuplicated(result).build());
 
+	}
+
+	@GetMapping("/{userNickname}")
+	public ResponseEntity<GetUserInfoListRes> getUserInfoList(
+		@PathVariable(value="userNickname") String userNickname) {
+
+		List<User> userList = searchUserUsecase.searchUserList(userNickname);
+		List<UserInfo> userInfoList = userList.stream()
+				.map(user -> UserInfo.builder()
+						.userId(user.getUserId())
+						.userName(user.getUserName())
+						.userNickname(user.getUserNickname())
+						.build())
+				.toList();
+
+		return ResponseEntity.ok().body(GetUserInfoListRes.builder()
+				.userInfoList(userInfoList)
+				.build());
 	}
 
 }

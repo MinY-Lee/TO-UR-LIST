@@ -10,6 +10,7 @@ import com.eminyidle.user.application.port.out.LoadUserPort;
 import com.eminyidle.user.application.port.out.SaveUserPort;
 import com.eminyidle.user.domain.User;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -93,5 +94,10 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 	@Override
 	public User searchUser(String userId) {
 		return loadUserPort.load(userId);
+	}
+
+	@Override
+	public List<User> searchUserList(String userNickname) {
+		return loadUserPort.loadUserListByUserNickname(userNickname);
 	}
 }
