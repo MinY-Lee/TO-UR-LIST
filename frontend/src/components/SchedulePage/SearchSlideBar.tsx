@@ -7,6 +7,7 @@ interface PropType {
     searchedPlaces: PlaceInfo[];
     tourId: string;
     selectedDate: number;
+    period: number;
 }
 
 export default function SearchSlideBar(props: PropType) {
@@ -43,6 +44,7 @@ export default function SearchSlideBar(props: PropType) {
                 tourId: props.tourId,
                 tourDay: props.selectedDate,
                 placeId: placeId,
+                period: props.period,
             },
         });
     };
@@ -50,14 +52,14 @@ export default function SearchSlideBar(props: PropType) {
     return (
         <>
             <div
-                className={`w-full bottom-0 absolute rounded-[2vw] border-[0.5vw] border-[#D9D9D9] z-10 bg-white ${
+                className={`w-full bottom-0 absolute border-rad-2vw border-halfvw border-[#D9D9D9] z-10 bg-white ${
                     mode === 0 ? 'h-full' : mode === 1 ? 'h-[50%]' : 'h-[20%]'
                 }`}
                 style={{ transitionDuration: '1s' }}
             >
                 {/* 스크롤 */}
                 <div
-                    className="w-full h-[10vw] flex justify-center items-center"
+                    className="w-full h-10vw flex justify-center items-center"
                     draggable={true}
                     onDragStart={(e) => {
                         dragStartPosY = e.clientY;
@@ -107,7 +109,7 @@ export default function SearchSlideBar(props: PropType) {
                     }}
                     ref={swipeRef}
                 >
-                    <div className="w-[20%] h-[1vw] bg-[#929292] rounded-[0.5vw]"></div>
+                    <div className="w-[20%] h-vw bg-[#929292] border-rad-dot5vw"></div>
                 </div>
                 {/* 일정 정보 표시 */}
                 <div className="w-full h-[85%] overflow-y-scroll flex flex-col items-center">

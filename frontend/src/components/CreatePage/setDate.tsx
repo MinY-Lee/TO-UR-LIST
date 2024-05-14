@@ -4,6 +4,7 @@ import MyCalendar from '../../components/Calendar/myCalendar';
 
 interface PropType {
     onChangeDate: ([startDate, endDate]: Date[]) => void;
+    checkValue: (flag: boolean) => void;
 }
 
 export default function SetDate(props: PropType) {
@@ -25,7 +26,7 @@ export default function SetDate(props: PropType) {
         <>
             <div className="text-2xl font-bold">언제 떠나시나요?</div>
             <div id="search-container" className="w-full">
-                <MyCalendar isDatePicker={false} onChange={handleDataFromChild} />
+                <MyCalendar isDatePicker={false} onChange={handleDataFromChild} checkValue={props.checkValue} />
             </div>
         </>
     );

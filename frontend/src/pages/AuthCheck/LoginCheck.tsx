@@ -1,7 +1,5 @@
 import { Cookies } from 'react-cookie';
 import { Navigate, Outlet } from 'react-router-dom';
-import { getUserInfo } from '../../util/api/user';
-import { httpStatusCode } from '../../util/api/http-status';
 
 export default function LoginCheck() {
     const cookies = new Cookies();
@@ -10,6 +8,25 @@ export default function LoginCheck() {
     if (!cookies.get('accessToken')) {
         return <Navigate to={'/'} />;
     } else {
+        //서비스워커 실행
+        if ('serviceWorker' in navigator) {
+            //register service worker
+            navigator.serviceWorker
+                .register('/sw.js')
+                .then((registration) => {
+                    console.log(
+                        'Service worker registration succeeded:',
+                        registration
+                    );
+                })
+                .catch((err) => {
+                    console.log('Service worker registration failed:', err);
+                });
+        } else {
+            console.log('Service workers are not supported');
+        }
+
+        //outlet
         return <Outlet />;
     }
 }

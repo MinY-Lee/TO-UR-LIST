@@ -116,11 +116,11 @@ export default function MyPage() {
             ) : (
                 <></>
             )}
-            <section className="w-full h-[90%] py-[1vw] flex flex-col items-center flex-grow-0 flex-shrink-0 overflow-y-scroll">
+            <section className="w-full h-[90%] py-vw flex flex-col items-center flex-grow-0 flex-shrink-0 overflow-y-scroll">
                 <HeaderBar />
                 <MyInfoCard />
-                <div className="w-[90%] border-b-[0.5vw] border-b-[#7E7E7E] flex justify-between items-end py-[1vw] weight-text-semibold">
-                    <p className="text-6vw color-bg-blue-4 px-[0.5vw]">
+                <div className="w-[90%] border-b-dot5vw border-b-[#7E7E7E] flex justify-between items-end py-vw weight-text-semibold">
+                    <p className="text-6vw color-bg-blue-4 px-dot5vw">
                         내가 게시한 여행
                     </p>
                     <p
@@ -140,8 +140,8 @@ export default function MyPage() {
                     }
                     return <FeedCard feedInfo={feed} key={feed.feedId} />;
                 })}
-                <div className="w-[90%] mt-[2vw] border-b-[0.5vw] border-b-[#7E7E7E] flex justify-between items-end py-[1vw] weight-text-semibold">
-                    <p className="text-6vw color-bg-blue-4 px-[0.5vw]">
+                <div className="w-[90%] mt-2vw border-b-dot5vw border-b-[#7E7E7E] flex justify-between items-end py-vw weight-text-semibold">
+                    <p className="text-6vw color-bg-blue-4 px-dot5vw">
                         내가 좋아요한 여행
                     </p>
                     <p
@@ -162,7 +162,7 @@ export default function MyPage() {
                     return <FeedCard feedInfo={feed} key={feed.feedId} />;
                 })}
                 <p
-                    className="text-red-400 underline mt-[1vw]"
+                    className="text-red-400 underline mt-vw"
                     onClick={proceedWithDrawal}
                 >
                     회원탈퇴

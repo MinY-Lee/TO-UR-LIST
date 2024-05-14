@@ -9,12 +9,12 @@ export default function TabBarMain(props: PropType) {
     return (
         <>
             <div
-                className={`w-full h-[10%] absolute bottom-0 left-0 flex justify-center items-center border-t-[0.4vw] border-t-gray-400 bg-white`}
+                className={`w-full h-[10%] absolute bottom-0 left-0 flex justify-center items-center border-t-dot3vw border-t-gray-400 bg-white cursor-pointer`}
             >
                 <div
                     className={`w-[33%] h-full flex justify-center items-center ${
                         tabMode === 0
-                            ? ' color-border-blue-2 border-t-[0.6vw]'
+                            ? ' color-border-blue-2 border-t-halfvw'
                             : ''
                     }`}
                     onClick={() => {
@@ -23,11 +23,11 @@ export default function TabBarMain(props: PropType) {
                 >
                     <span className="material-symbols-outlined">search</span>
                 </div>
-                <div className="w-[0.4vw] h-[80%] bg-gray-400"></div>
+                <div className="w-dot5vw h-[80%] bg-gray-400"></div>
                 <div
                     className={`w-[33%] h-full relative ${
                         tabMode === 1
-                            ? ' color-border-blue-2 border-t-[0.6vw]'
+                            ? ' color-border-blue-2 border-t-halfvw'
                             : 'flex justify-center items-center'
                     }`}
                     onClick={() => {
@@ -50,11 +50,11 @@ export default function TabBarMain(props: PropType) {
                         <span className="material-symbols-outlined">home</span>
                     )}
                 </div>
-                <div className={`w-[0.4vw] h-[80%] bg-gray-400`}></div>
+                <div className={`w-dot5vw h-[80%] bg-gray-400`}></div>
                 <div
                     className={`w-[33%] h-full flex justify-center items-center ${
                         tabMode === 2
-                            ? ' color-border-blue-2 border-t-[0.6vw]'
+                            ? ' color-border-blue-2 border-t-halfvw'
                             : ''
                     }`}
                     onClick={() => {

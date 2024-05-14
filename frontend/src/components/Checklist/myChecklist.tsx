@@ -1,20 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyButton from "../../components/Buttons/myButton";
 
-import Checklist from "../../dummy-data/get_checklist.json";
+// import Checklist from "../../dummy-data/get_checklist.json";
 import { Item } from "../../types/types";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
+import { getChecklist } from "../../util/api/checklist";
+import { HttpStatusCode } from "axios";
 
 interface PropType {
   tourId: string;
 }
 
-export default function MyCheckList(props: PropType) {
-  const id = props.tourId;
+interface CountItem {
+  [key: string]: number;
+}
 
-  interface Mapping {
-    [key: string]: string[];
-  }
+interface Mapping {
+  [key: string]: string[];
+}
+
+export default function MyCheckList(props: PropType) {
+  const [checklist, setChecklist] = useState<Item[]>([]);
+  const [filteredChecklist, setFilteredChecklist] = useState<Item[]>([]);
+  const [filteredGroup, setFilteredGroup] = useState<CountItem>({});
 
   const mapping: Mapping = {
     walking: ["👣 산책", "color-bg-blue-3"],
@@ -31,9 +39,20 @@ export default function MyCheckList(props: PropType) {
     return mapping[tourActivityId][1];
   };
 
-  interface CountItem {
-    [key: string]: number;
-  }
+  useEffect(() => {
+    getChecklist(props.tourId)
+      .then((res) => {
+        if (res.status == HttpStatusCode.Ok) {
+          console.log(res.data);
+          setChecklist(res.data);
+          // 중복 횟수 카운트
+          setFilteredGroup(prepareData(checklist));
+          // 중복 하나씩만 남김
+          setFilteredChecklist(filterUniqueItems(checklist));
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   // 같은 체크리스트 아이템 처리
   const prepareData = (checklist: Item[]) => {
@@ -68,13 +87,6 @@ export default function MyCheckList(props: PropType) {
     return uniqueItems;
   };
 
-  const filteredGroups = prepareData(Checklist); // 중복 횟수 카운트
-
-  // 중복 하나씩만 남김
-  const [filteredChecklist, setFilteredChecklist] = useState<Item[]>(
-    filterUniqueItems(Checklist)
-  );
-
   const handleCheckbox = (index: number) => {
     const updatedChecklist = [...filteredChecklist];
     updatedChecklist[index].isChecked = !updatedChecklist[index].isChecked;
@@ -93,7 +105,7 @@ export default function MyCheckList(props: PropType) {
                 text="편집"
                 isSelected={true}
                 onClick={() => {
-                  window.location.href = `/tour/${id}/checklist/all`;
+                  window.location.href = `/tour/${props.tourId}/checklist/all`;
                 }}
               />
             </div>
@@ -134,11 +146,11 @@ export default function MyCheckList(props: PropType) {
                       )}
                     </div>
                     <div>
-                      {item.tourActivityId && filteredGroups[item.item] > 1 ? (
+                      {item.tourActivityId && filteredGroup[item.item] > 1 ? (
                         <div>
                           <span className="sr-only">Notifications</span>
                           <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white color-bg-blue-1 border-2 border-white rounded-full -top-2 -end-[20%]">
-                            {filteredGroups[item.item]}
+                            {filteredGroup[item.item]}
                           </div>
                         </div>
                       ) : (

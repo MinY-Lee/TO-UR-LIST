@@ -64,19 +64,19 @@ export default function MyInfoCard() {
                 <></>
             )}
             <div
-                className="w-[90%] h-[30%] flex flex-col items-center px-1vw py-4vw my-1vw border-[0.5vw] border-black"
+                className="w-[90%] h-[40%] flex flex-col items-center px-1vw py-4vw my-1vw border-halfvw border-black"
                 style={{
-                    borderRadius: '7vw',
+                    borderRadius: 'min(7vw, 33.6px)',
                 }}
             >
                 {/* 닉네임 */}
-                <p className="text-6vw h-[20%] weight-text-semibold mb-[1vw]">
-                    <span className="text-7vw mr-[1vw]">
+                <p className="text-6vw h-[20%] weight-text-semibold mb-vw">
+                    <span className="text-7vw mr-vw">
                         {userInfo.userNickname}
                     </span>
                     님
                 </p>
-                <div className="w-[90%] h-[0.5vw] bg-[#929292]"></div>
+                <div className="w-[90%] h-dot5vw bg-[#929292]"></div>
                 <div className="w-[90%] h-[60%] flex">
                     <div className="w-[30%] h-full weight-text-semibold text-5vw flex flex-col justify-center items-start">
                         <p>이름</p>

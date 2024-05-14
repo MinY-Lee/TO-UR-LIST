@@ -134,10 +134,10 @@ export default function MainPage() {
 
     return (
         <section className="w-full h-[90%] overflow-y-scroll flex flex-col flex-nowrap items-center">
-            <div className="w-[90%] h-[30%] flex items-center justify-between py-[1vh]">
+            <div className="w-[90%] h-[20%] flex items-center justify-between py-vw">
                 <div className="text-6vw h-full flex flex-col justify-center items-start">
                     <p>
-                        <span className="text-7vw weight-text-semibold mr-[1vw]">
+                        <span className="text-7vw weight-text-semibold mr-vw">
                             {user.userNickname}
                         </span>
                         님의
@@ -149,18 +149,52 @@ export default function MainPage() {
                     <p>{today}</p>
                 </div>
             </div>
-            <p className="w-[90%] text-5vw my-[0.5vh]">진행 중인 여행</p>
-            {nowTourList.map((tour) => {
-                return <TourCard key={tour.tourId} tourInfo={tour} />;
-            })}
-            <p className="w-[90%] text-5vw my-[0.5vh]">다가오는 여행</p>
-            {comingTourList.map((tour) => {
-                return <TourCard key={tour.tourId} tourInfo={tour} />;
-            })}
-            <p className="w-[90%] text-5vw my-[0.5vh]">지난 여행</p>
-            {passTourList.map((tour) => {
-                return <TourCard key={tour.tourId} tourInfo={tour} />;
-            })}
+            {nowTourList.length > 0 ? (
+                <>
+                    <p className="w-[90%] text-5vw my-vw">진행 중인 여행</p>
+                    {nowTourList.map((tour) => {
+                        return <TourCard key={tour.tourId} tourInfo={tour} />;
+                    })}
+                </>
+            ) : (
+                <div></div>
+            )}
+            {comingTourList.length > 0 ? (
+                <>
+                    <p className="w-[90%] text-5vw my-vw">다가오는 여행</p>
+                    {comingTourList.map((tour) => {
+                        return <TourCard key={tour.tourId} tourInfo={tour} />;
+                    })}
+                </>
+            ) : (
+                <></>
+            )}
+            {passTourList.length > 0 ? (
+                <>
+                    <p className="w-[90%] text-5vw my-vw">지난 여행</p>
+                    {passTourList.map((tour) => {
+                        return <TourCard key={tour.tourId} tourInfo={tour} />;
+                    })}
+                </>
+            ) : (
+                <></>
+            )}
+
+            <div className="h-[10vh]"></div>
+
+            {nowTourList.length == 0 &&
+            comingTourList.length == 0 &&
+            passTourList.length == 0 ? (
+                <>
+                    <div className="text-md h-[65vh] w-[90%] flex flex-col justify-center items-center border">
+                        <div className="text-2xl">나의 여행이 없습니다.</div>
+                        <div>아래 + 버튼을 눌러 여행을 추가해보세요!</div>
+                    </div>
+                </>
+            ) : (
+                <></>
+            )}
+
             <TabBarMain tabMode={1} />
         </section>
     );

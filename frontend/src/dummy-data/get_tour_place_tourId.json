@@ -3,7 +3,7 @@
         "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
         "placeName": "도톤보리",
         "tourDay": 1,
-        "tourActivityList": [
+        "activityList": [
             {
                 "tourActivityId": "s11212",
                 "activity": "쇼핑"
@@ -18,7 +18,7 @@
         "placeId": "ChIJ7b9MGI3mAGARufc_HWvT3M0",
         "placeName": "우메다",
         "tourDay": 2,
-        "tourActivityList": [
+        "activityList": [
             {
                 "tourActivityId": "s11213",
                 "activity": "쇼핑"
@@ -33,7 +33,7 @@
         "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
         "placeName": "도톤보리",
         "tourDay": 2,
-        "tourActivityList": [
+        "activityList": [
             {
                 "tourActivityId": "a11213",
                 "activity": "어트랙션"
@@ -44,7 +44,7 @@
         "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
         "placeName": "도톤보리",
         "tourDay": 3,
-        "tourActivityList": [
+        "activityList": [
             {
                 "tourActivityId": "l11213",
                 "activity": "관람"
@@ -55,7 +55,7 @@
         "placeId": "ChIJ7b9MGI3mAGARufc_HWvT3M0",
         "placeName": "우메다",
         "tourDay": 3,
-        "tourActivityList": [
+        "activityList": [
             {
                 "tourActivityId": "l11223",
                 "activity": "관람"
@@ -70,6 +70,6 @@
         "placeId": "ChIJg2DcJhXnAGARCbeAHoZrPeQ",
         "placeName": "도톤보리",
         "tourDay": 3,
-        "tourActivityList": []
+        "activityList": []
     }
 ]

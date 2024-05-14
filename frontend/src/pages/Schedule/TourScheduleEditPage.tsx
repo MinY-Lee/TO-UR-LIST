@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 import DayList from '../../components/SchedulePage/DayList';
 import { TourPlaceItem } from '../../types/types';
 import HeaderBar from '../../components/HeaderBar/HeaderBar';
+import WebSocket from '../../components/TabBar/WebSocket';
 
 export default function TourScheduleEditPage() {
     const [selectedDate, setSelectedDate] = useState<number>(-1);
@@ -68,11 +69,11 @@ export default function TourScheduleEditPage() {
         <>
             <section className="w-full h-full">
                 <HeaderBar />
-                <div className="w-full h-[80%] px-[2vw] relative overflow-y-auto flex flex-col">
+                <div className="w-full h-[80%] px-2vw relative overflow-y-auto flex flex-col">
                     <div className="w-full h-[10%] flex justify-between items-center">
                         <p className="text-7vw">일정 편집</p>
                         <div
-                            className="w-[15%] h-[6vw] rounded-[3vw] color-bg-blue-2 text-white flex justify-center items-center"
+                            className="w-[15%] h-6vw border-rad-3vw color-bg-blue-2 text-white flex justify-center items-center"
                             onClick={() => {
                                 window.location.href = `/tour/${tourId}/schedule`;
                             }}
@@ -100,6 +101,7 @@ export default function TourScheduleEditPage() {
                     </div>
                 </div>
                 <TabBarTour tourMode={2} tourId={tourId} />
+                {/* <WebSocket /> */}
             </section>
         </>
     );

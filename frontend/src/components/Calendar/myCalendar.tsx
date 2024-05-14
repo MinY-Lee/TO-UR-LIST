@@ -5,6 +5,7 @@ import getCalendar from './getCalendar';
 interface ChildProps {
     isDatePicker: boolean;
     onChange: (data: Date[]) => void;
+    checkValue: (flag: boolean) => void;
 }
 
 export default function myCalendar(props: ChildProps) {
@@ -12,24 +13,22 @@ export default function myCalendar(props: ChildProps) {
 
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [endDate, setEndDate] = useState<Date | undefined>();
+    const [isVaildDate, setIsVaildDate] = useState<boolean>(false);
 
     useEffect(() => {
-        if (startDate && endDate) {
+        if (
+            (startDate && startDate.getTime() < new Date().getTime()) ||
+            (endDate && endDate.getTime() < new Date().getTime())
+        ) {
+            setIsVaildDate(false);
+        } else {
+            setIsVaildDate(true);
+        }
+        if (isVaildDate && startDate && endDate) {
+            props.checkValue(isVaildDate);
             props.onChange([startDate, endDate]);
         }
     }, [startDate, endDate]);
-
-    // 펴고 접는 버전 만들 때 쓸 예정
-    // const [select, setSelect] = useState<number[]>([]);
-
-    // const [show, setShow] = useState<boolean>(false);
-
-    // const handleChange = (selectedDate: Date) => {
-    // 	console.log(selectedDate)
-    // }
-    // const handleClose = (state: boolean) => {
-    // 	setShow(state)
-    // }
 
     const handleDateChange = (value: Date) => {
         // 이미 있는 경우 선택 해제
@@ -141,9 +140,11 @@ export default function myCalendar(props: ChildProps) {
                                                 ? 'rounded-tr-full rounded-br-full'
                                                 : ''
                                         }
+                                        ${startDate && endDate ? '' : 'rounded-full'}
                                     `}
                                     key={index}
                                 >
+                                    {/* 오늘 날짜 및 일요일 스타일 */}
                                     <div
                                         className={`
                                         ${index === 0 ? 'text-red-500' : ''}
@@ -151,6 +152,11 @@ export default function myCalendar(props: ChildProps) {
                                             currentDate.getMonth() === new Date().getMonth() &&
                                             day === new Date().getDate()
                                                 ? 'color-text-blue-1 font-bold'
+                                                : ''
+                                        }
+                                        ${
+                                            isStartOrEnd
+                                                ? 'color-bg-blue-3 h-14 flex items-center justify-center rounded-full'
                                                 : ''
                                         }
                                     
@@ -164,8 +170,16 @@ export default function myCalendar(props: ChildProps) {
                     </div>
                 ))}
             </div>
-            {/* <div>시작일 : {startDate?.toLocaleDateString()}</div>
-            <div>종료일 : {endDate?.toLocaleDateString()}</div> */}
+            {!isVaildDate ? (
+                <div
+                    className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                    role="alert"
+                >
+                    <div className="font-medium">⚠️ 여행 날짜 설정은 오늘 이후만 가능해요!</div>
+                </div>
+            ) : (
+                ''
+            )}
         </div>
     );
 }

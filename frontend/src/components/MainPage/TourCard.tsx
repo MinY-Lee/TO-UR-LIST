@@ -1,4 +1,8 @@
-import { TourCardInfo } from '../../types/types';
+import { useEffect, useState } from 'react';
+import { CountryMapping, TourCardInfo } from '../../types/types';
+import { GetCountryList } from '../../util/api/country';
+import { HttpStatusCode } from 'axios';
+import CountryCodeToName from '../TourPage/countryIdToName';
 
 interface PropType {
     tourInfo: TourCardInfo;
@@ -7,6 +11,19 @@ interface PropType {
 
 export default function TourCard(props: PropType) {
     const tour = props.tourInfo;
+    const [countryList, setCountryList] = useState<CountryMapping[]>([]);
+
+    useEffect(() => {
+        GetCountryList()
+            .then((res) => {
+                if (res.status === HttpStatusCode.Ok) {
+                    setCountryList(res.data);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
     //mode -> 진행중 : 0, 다가오는 : 1, 지난 : 2
     const nowTime = new Date();
@@ -24,7 +41,7 @@ export default function TourCard(props: PropType) {
     let dayElement = (
         <>
             <div className="text-4vw">Day</div>
-            <div className="text-10vw">
+            <div className="text-8vw">
                 {Math.ceil(
                     (now.getTime() - startDate.getTime()) /
                         (1000 * 60 * 60 * 24)
@@ -62,12 +79,18 @@ export default function TourCard(props: PropType) {
         }`;
     };
 
+    const Badge = (count: number) => {
+        return (
+            <span className="border border-black text-sm flex ml-2 px-2 rounded-full">{`+${count}`}</span>
+        );
+    };
+
     return (
         <>
             <div
                 className={`${
                     props.className
-                } box-border w-[90%] h-[20%] m-[2vw] p-[1vw] rounded-[2vw] flex items-center flex-shrink-0 ${
+                } box-border w-[90%] h-[15%] m-2vw p-vw border-rad-2vw flex items-center flex-shrink-0 ${
                     mode === 0
                         ? 'color-bg-blue-3'
                         : mode === 1
@@ -94,23 +117,25 @@ export default function TourCard(props: PropType) {
                         mode === 2 ? 'w-full' : 'w-[70%]'
                     } h-full flex flex-col items-start justify-center p-[2vw]`}
                 >
-                    <p className="text-7vw weight-text-semibold">
+                    <p className="text-6vw weight-text-semibold">
                         {tour.tourTitle}
                     </p>
                     <p className="text-4vw">{`${dateStringToString(
                         tour.startDate
                     )}~${dateStringToString(tour.endDate)}`}</p>
                     <div className="text-5vw flex items-center">
-                        <span className="material-symbols-outlined mr-[1vw]">
+                        <span className="material-symbols-outlined mr-vw">
                             location_on
                         </span>
-                        <p>{`${tour.cityList[0].countryCode}, ${
-                            tour.cityList[0].cityName
-                        } ${
-                            tour.cityList.length >= 2
-                                ? '(+' + (tour.cityList.length - 1) + ')'
-                                : ''
-                        }`}</p>
+                        <p>{`${CountryCodeToName(
+                            tour.cityList[0].countryCode,
+                            countryList
+                        )}, ${tour.cityList[0].cityName}`}</p>
+                        <div>
+                            {tour.cityList.length >= 2
+                                ? Badge(tour.cityList.length - 1)
+                                : ''}
+                        </div>
                     </div>
                 </div>
             </div>

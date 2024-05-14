@@ -20,9 +20,9 @@ export default function MypageMyfeed() {
 
     return (
         <>
-            <section className="w-full h-[90%] py-[1vw] overflow-y-scroll flex flex-col items-center flex-grow-0 flex-shrink-0">
+            <section className="w-full h-[90%] py-vw overflow-y-scroll flex flex-col items-center flex-grow-0 flex-shrink-0">
                 <HeaderBar />
-                <h1 className="text-7vw my-[2vw] w-[90%] weight-text-semibold">
+                <h1 className="text-7vw my-2vw w-[90%] weight-text-semibold">
                     내가 게시한 여행
                 </h1>
                 {myPublishList.map((feed) => {

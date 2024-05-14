@@ -1,3 +1,4 @@
+import { AxiosHeaders, AxiosRequestConfig } from 'axios';
 import localAxios from './http-common';
 const local = localAxios();
 
@@ -24,6 +25,11 @@ export async function getTour(tourId: string) {
 /** 여행 삭제 **/
 export async function deleteTour(tourId: string) {
     return await local.delete(`/api/tour/${tourId}`);
+}
+
+/** 여행 나가기 **/
+export async function quitTour(tourId: string) {
+    return await local.delete(`/api/tour`, { data: { tourId: tourId } });
 }
 
 /** 여행 제목 수정 **/

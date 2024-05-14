@@ -22,7 +22,7 @@ export default function FeedCard(props: PropType) {
     return (
         <>
             <div
-                className="w-[90%] my-[1vw] flex flex-col flex-grow-0 flex-shrink-0 justify-center border-b-[0.2vw] border-b-[#7E7E7E]"
+                className="w-[90%] my-vw flex flex-col flex-grow-0 flex-shrink-0 justify-center border-b-dot3vw border-b-[#7E7E7E]"
                 onClick={() => {
                     window.location.href = `/feed/${feedInfo.feedId}`;
                 }}
@@ -31,7 +31,7 @@ export default function FeedCard(props: PropType) {
                     {feedInfo.feedTitle}
                 </p>
                 <div className="w-full flex justify-start text-4vw">
-                    <span className="weight-text-semibold text-[#564EB3] mr-[1vw]">{`${
+                    <span className="weight-text-semibold text-[#564EB3] mr-vw">{`${
                         feedInfo.cityList[0].countryName
                     }, ${feedInfo.cityList[0].cityName} ${
                         feedInfo.cityList.length >= 2
@@ -45,7 +45,7 @@ export default function FeedCard(props: PropType) {
                 <p className="text-4vw whitespace-nowrap overflow-hidden overflow-ellipsis">
                     {feedInfo.feedContent}
                 </p>
-                <div className="w-full flex justify-between items-center mb-[1vw]">
+                <div className="w-full flex justify-between items-center mb-vw">
                     <div className="flex">
                         {feedInfo.feedThemeTagList.map((tag) => {
                             return (
