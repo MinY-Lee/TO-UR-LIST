@@ -8,6 +8,7 @@ import com.eminyidle.user.application.port.in.UpdateUserUsecase;
 import com.eminyidle.user.application.port.out.DeleteUserPort;
 import com.eminyidle.user.application.port.out.LoadUserPort;
 import com.eminyidle.user.application.port.out.SaveUserPort;
+import com.eminyidle.user.application.port.out.UpdateUserPort;
 import com.eminyidle.user.domain.User;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +25,7 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 	private final LoadUserPort loadUserPort;
 	private final SaveUserPort saveUserPort;
 	private final DeleteUserPort deleteUserPort;
+	private final UpdateUserPort updateUserPort;
 
 	@Override
 	public Boolean checkNicknameDuplication(String userNickname) {
@@ -63,6 +65,7 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 
 		user.setUserNickname(userNickname);
 		saveUserPort.save(user);
+		updateUserPort.send(user);
 	}
 
 	@Override
@@ -71,6 +74,7 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 
 		user.setUserName(userName);
 		saveUserPort.save(user);
+		updateUserPort.send(user);
 	}
 
 	@Override
