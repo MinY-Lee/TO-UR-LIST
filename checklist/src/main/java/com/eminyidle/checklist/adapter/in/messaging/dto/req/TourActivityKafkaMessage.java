@@ -1,6 +1,5 @@
 package com.eminyidle.checklist.adapter.in.messaging.dto.req;
 
-import com.eminyidle.checklist.adapter.in.messaging.dto.TourNode;
 import lombok.*;
 
 @Getter
@@ -11,5 +10,5 @@ import lombok.*;
 @ToString
 public class TourActivityKafkaMessage {
     String type;
-    TourNode body;
+    TourActivityNode body;
 }

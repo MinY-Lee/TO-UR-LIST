@@ -63,7 +63,7 @@ public interface ItemRepository extends Neo4jRepository<Item,String> {
 
     @Query("MATCH (t:TOUR{tourId:$tourId})-[p:GO]->()-[:DO]->(a:TOUR_ACTIVITY)-[r:TAKE{userId: $userId}]->(i:ITEM) " +
             "RETURN t.tourId AS tourId, p.placeId AS placeId, p.tourDay AS tourDay, a.activity AS activity, i.item AS item, r.isChecked AS isChecked, " +
-            "CASE r.type WHEN 'public' THEN TRUE ELSE FALSE END AS isPublic" +
+            "CASE r.type WHEN 'public' THEN TRUE ELSE FALSE END AS isPublic " +
             "ORDER BY r.createdAt")
     List<ChecklistItemDetail> findChecklistItemDetailByUserIdAndTourId(String userId,String tourId);
 
