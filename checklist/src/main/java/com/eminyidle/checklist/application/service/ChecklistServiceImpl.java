@@ -1,5 +1,7 @@
 package com.eminyidle.checklist.application.service;
 
+import com.eminyidle.checklist.adapter.out.persistence.*;
+import com.eminyidle.checklist.application.dto.*;
 import com.eminyidle.checklist.application.port.ChecklistService;
 import com.eminyidle.checklist.application.port.in.ChangeTourActivityUsecase;
 import com.eminyidle.checklist.application.port.in.ChangeTourMemberUsecase;
@@ -7,19 +9,14 @@ import com.eminyidle.checklist.application.port.in.ChangeTourPlaceUsecase;
 import com.eminyidle.checklist.application.port.in.ChangeTourUsecase;
 import com.eminyidle.checklist.domain.ChecklistItem;
 import com.eminyidle.checklist.domain.ChecklistItemDetail;
-import com.eminyidle.checklist.dto.Take;
-import com.eminyidle.checklist.dto.Tour;
-import com.eminyidle.checklist.dto.User;
 import com.eminyidle.checklist.exception.*;
-import com.eminyidle.checklist.adapter.out.persistence.ItemRepository;
-import com.eminyidle.checklist.adapter.out.persistence.TakeRepository;
-import com.eminyidle.checklist.adapter.out.persistence.TourRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -28,6 +25,9 @@ import java.util.List;
 public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase, ChangeTourMemberUsecase, ChangeTourPlaceUsecase, ChangeTourActivityUsecase {
 
     private final TourRepository tourRepository;
+    private final TourPlaceRepository tourPlaceRepository;
+    private final TourActivityRepository tourActivityRepository;
+    private final ActivityRepository activityRepository;
     private final ItemRepository itemRepository;
     private final TakeRepository takeRepository;
 
@@ -40,6 +40,7 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
         assertUserInTour(userId, checklistItem.getTourId());
         return createItem(userId, checklistItem, false);
     }
+
     @Override
     public boolean createPublicItem(String userId, ChecklistItem checklistItem) {
         Tour tour = assertUserInTour(userId, checklistItem.getTourId());
@@ -54,7 +55,7 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
             createItem(userId, checklistItem, true);
             return false;
         }
-        itemRepository.createPublicRelation(userId, checklistItem.getTourId(), checklistItem.getPlaceId(), checklistItem.getTourDay(), checklistItem.getActivity(), checklistItem.getItem());
+        itemRepository.createPublicRelation(checklistItem.getTourId(), checklistItem.getPlaceId(), checklistItem.getTourDay(), checklistItem.getActivity(), checklistItem.getItem());
         for (User member : tour.getMemberList()) {
             log.debug(">>" + member.getUserId());
             createItem(member.getUserId(), checklistItem, true);
@@ -88,10 +89,10 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
         Take takenItem = takeRepository.findTakeRelationshipByUserId(userId, oldItem.getTourId(), oldItem.getPlaceId(), oldItem.getTourDay(), oldItem.getActivity(), oldItem.getItem()).orElseThrow(NoSuchItemException::new);
         log.debug(takenItem.toString());
 
-        if(createItem(userId, newItem, false, takenItem.getIsChecked(), takenItem.getCreatedAt())){
+        if (createItem(userId, newItem, false, takenItem.getIsChecked(), takenItem.getCreatedAt())) {
             return true;
         }
-        assertedDeleteItem(userId,oldItem);
+        assertedDeleteItem(userId, oldItem);
         return false;
     }
 
@@ -100,8 +101,9 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
         assertUserInTour(userId, checklistItem.getTourId());
         assertedDeleteItem(userId, checklistItem);
     }
+
     //이미 asserted된 내용에 대해 삭제
-    private void assertedDeleteItem(String userId, ChecklistItem checklistItem){
+    private void assertedDeleteItem(String userId, ChecklistItem checklistItem) {
         Take takenItem = takeRepository.findTakeRelationshipByUserId(userId, checklistItem.getTourId(), checklistItem.getPlaceId(), checklistItem.getTourDay(), checklistItem.getActivity(), checklistItem.getItem()).orElseThrow(NoSuchItemException::new);
         log.debug("ITEMTYPE: " + takenItem.toString());
         itemRepository.deletePrivateItemRelationship(userId, checklistItem.getTourId(), checklistItem.getPlaceId(), checklistItem.getTourDay(), checklistItem.getActivity(), checklistItem.getItem());
@@ -129,26 +131,59 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
 
 
     @Override
-    public void createTour() {
+    public void createTour(String tourId, Long tourPeriod, Set<String> countryCodeSet) {
         // tour 생성
-        //updateCountry()
-        // 장소 없음 tour_place 생성
-        // 활동 없음 tour_activity 생성
+
+        Tour tour = tourRepository.save(Tour.builder()
+                .tourId(tourId)
+                .tourPeriod(tourPeriod)
+                .build());
+
+        log.debug("tour 생성 완료! " + tour.toString());
+        // 장소 없음 tour_place 생성 + 활동 없음 tour_activity 생성
+        createPlace(tourId, "_default_" + tourId, "", 0);
+//        updateCountry(tourId, countryCodeSet);
+        createCountry(tourId,countryCodeSet);
     }
 
-    @Override
-    public void deleteTour() {
-        // tour와 관련된 모든 tour_activity 삭제
-        // 모든 tour_place 삭제
-        // tour 삭제
-    }
+    private void createCountry(String tourId, Set<String> countryCodeSet) {
+        //나라 연결
+        for(String countryCode: countryCodeSet){
+            tourRepository.createToRelationshipBetweenTourAndCountry(tourId,countryCode);
+            //특정 countryCode 연결
+            for (Item item : itemRepository.findAllInCountryByCountryCode(countryCode)) {
+                itemRepository.createPublicRelation(tourId, "", 0, "", item.getItem());
+            }
+        }
 
-    @Override
-    public void updateCountry() {
+        //common 연결
+        for (Item item : itemRepository.findAllInCommonCountry()) {
+            itemRepository.createPublicRelation(tourId, "", 0, "", item.getItem());
+        }
+
         //이전 country로 연결되어있는 모든 관계 끊고
         //새로운 country로 연결된 모든 관계 연결
         // common은 냅두고
         // 다른 것들만... 끊고 추가한다
+        //필요한 아이템 -> public 관계 연결
+    }
+    @Override
+    public void deleteTour(String tourId) {
+        // 모든 tour_place 삭제: tour와 관련된 모든 tour_activity 삭제
+        for (TourPlace tourPlace : tourPlaceRepository.findAllByTourId(tourId)) {
+            deletePlace(tourPlace.getTourPlaceId());
+        }
+        // tour 삭제
+        tourRepository.deleteById(tourId);
+    }
+
+    @Override
+    public void updateCountry(String tourId, Set<String> countryCodeSet) {
+        //이전 country로 연결되어있는 모든 관계 끊고
+        //새로운 country로 연결된 모든 관계 연결
+        // common은 냅두고
+        // 다른 것들만... 끊고 추가한다
+        //필요한 아이템 -> public 관계 연결
     }
 
     @Override
@@ -162,33 +197,72 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
     }
 
     @Override
-    public void createPlace() {
+    public void createPlace(String tourId, String tourPlaceId, String placeId, Integer tourDay) {
         // 맞는 tour 확인 -> 없음 에러
-        // tour_place 생성
+        Tour tour = tourRepository.findByTourId(tourId).orElseThrow(NoSuchTourException::new);
+        log.debug("PLACE: tour 있다");
+        if (tourPlaceRepository.existsById(tourPlaceId)) {
+            log.debug("PLACE: ~@~@");
+            log.debug(tourPlaceRepository.findById(tourPlaceId).orElseThrow(NoSuchTourPlaceException::new).toString());
+            throw new DuplicatedTourPlaceException();
+        }
+        log.debug("place 준비");
+        tourPlaceRepository.save(TourPlace.builder()
+                .tourPlaceId(tourPlaceId)
+                .placeAndTour(Go.builder()
+                        .placeId(placeId)
+                        .tourDay(tourDay)
+                        .tour(tour)
+                        .build())
+                .build());
+        log.debug("place 생성 완료");
         // 그에 맞게 활동 없음 tour_activity 생성
+        createActivity(tourPlaceId, "");
     }
 
     @Override
-    public void deletePlace() {
+    public void deletePlace(String tourId, String placeId, Integer tourDay) {
         // tour-place와 관련된 모든 tour_activity 삭제
+        tourActivityRepository.deleteAll(tourActivityRepository.findAllByTourPlace(tourId, placeId, tourDay));
         // tour_place 삭제
+        tourPlaceRepository.delete(tourId, placeId, tourDay);
+    }
+
+    private void deletePlace(String tourPlaceId) {
+        // tour-place와 관련된 모든 tour_activity 삭제
+        tourActivityRepository.deleteAll(tourActivityRepository.findAllByTourPlaceId(tourPlaceId));
+        // tour_place 삭제
+        tourPlaceRepository.deleteById(tourPlaceId);
     }
 
     @Override
-    public void updatePlace() { //장소 날짜 수정
+    public void updatePlace(String tourId, String placeId, Integer tourDayBefore, Integer tourDayAfter) { //장소 날짜 수정
         //TODO: 잘 합쳐 줘야 함..
         //해당 날짜에 있는 활동과, 그 장소가 가진 활동들 잘 합쳐 줘야 함
     }
 
     @Override
-    public void createActivity() {
+    public void createActivity(String tourPlaceId, String activityName) {
         // tour의 tour_place 확인
+        TourPlace tourPlace = tourPlaceRepository.findById(tourPlaceId).orElseThrow(NoSuchTourPlaceException::new);
+        log.debug("ACTIVITY: 투어 확인");
+        // activity 확인
+        Activity activity = activityRepository.findById(activityName).orElseThrow(NoSuchActivityException::new);
+        log.debug("ACTIVITY: 활동 확인");
         // tour_activity 생성
+        TourActivity tourActivity = tourActivityRepository.save(tourPlaceId, activityName);
+        log.debug("ACTIVITY: 생성 완료");
+        //필요한 아이템 -> public 관계 연결
+        activity.getItemList().forEach(
+                item -> itemRepository.createPublicRelationByTourActivityId(tourActivity.getTourActivityId(), item.getItem())
+        );
+
     }
 
     @Override
-    public void deleteActivity() {
+    public void deleteActivity(String tourPlaceId, String activityName) {
         // tour_activity 삭제
+        tourActivityRepository.delete(tourPlaceId, activityName);
     }
 
 }

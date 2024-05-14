@@ -1,14 +1,16 @@
-package com.eminyidle.checklist.dto;
+package com.eminyidle.checklist.application.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.neo4j.core.schema.*;
 
 @RelationshipProperties
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Go {
-    @RelationshipId
+    @RelationshipId @GeneratedValue
     private Long id;
 
     private String placeId;

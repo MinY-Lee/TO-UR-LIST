@@ -1,4 +1,4 @@
-package com.eminyidle.checklist.dto;
+package com.eminyidle.checklist.application.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,12 +8,12 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 
 import java.util.List;
 
-@Node(primaryLabel = "COUNTRY")
+@Node(primaryLabel = "ACTIVITY")
 @Getter
 @Setter
-public class Country {
+public class Activity {
     @Id
-    private String countryCode;
+    private String activity;
 
     @Relationship(type = "NEED")
     private List<Item> itemList;

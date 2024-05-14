@@ -1,4 +1,4 @@
-package com.eminyidle.checklist.dto.req;
+package com.eminyidle.checklist.application.dto.req;
 
 import com.eminyidle.checklist.domain.ChecklistItem;
 import lombok.Getter;

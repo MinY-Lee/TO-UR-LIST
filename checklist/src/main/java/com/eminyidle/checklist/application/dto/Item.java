@@ -1,4 +1,4 @@
-package com.eminyidle.checklist.dto;
+package com.eminyidle.checklist.application.dto;
 
 import lombok.Getter;
 import lombok.Setter;

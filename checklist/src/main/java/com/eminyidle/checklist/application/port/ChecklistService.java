@@ -19,4 +19,5 @@ public interface ChecklistService {
 
     //체크 및 체크 해제
     void checkItem(String userId, ChecklistItem checklistItem);
+
 }

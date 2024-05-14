@@ -1,4 +1,4 @@
-package com.eminyidle.checklist.dto.res;
+package com.eminyidle.checklist.application.dto.res;
 
 import lombok.*;
 

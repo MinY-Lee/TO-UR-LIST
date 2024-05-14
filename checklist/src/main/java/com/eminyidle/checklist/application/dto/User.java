@@ -1,4 +1,4 @@
-package com.eminyidle.checklist.dto;
+package com.eminyidle.checklist.application.dto;
 
 import lombok.*;
 import org.springframework.data.neo4j.core.schema.Id;

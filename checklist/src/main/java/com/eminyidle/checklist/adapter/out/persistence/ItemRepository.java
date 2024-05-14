@@ -1,8 +1,8 @@
 package com.eminyidle.checklist.adapter.out.persistence;
 
 import com.eminyidle.checklist.domain.ChecklistItemDetail;
-import com.eminyidle.checklist.dto.Item;
-import com.eminyidle.checklist.dto.Take;
+import com.eminyidle.checklist.application.dto.Item;
+import com.eminyidle.checklist.application.dto.Take;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
@@ -48,7 +48,11 @@ public interface ItemRepository extends Neo4jRepository<Item,String> {
 
     //add publicRelation
     @Query("MATCH (:TOUR{tourId:$tourId})-[:GO{placeId: $placeId, tourDay: $tourDay}]->()-[:DO]->(a:TOUR_ACTIVITY{activity: $activity}) MERGE (i:ITEM{item: $item}) MERGE (a)-[:PUBLIC]->(i)")
-    void createPublicRelation(String userId, String tourId, String placeId, Integer tourDay, String activity, String item);
+    void createPublicRelation(String tourId, String placeId, Integer tourDay, String activity, String item);
+
+    @Query("MATCH (a:TOUR_ACTIVITY{tourActivityId: $tourActivityId}) MERGE (i:ITEM{item: $item}) MERGE (a)-[:PUBLIC]->(i)")
+    void createPublicRelationByTourActivityId(String tourActivityId, String item);
+
 
     @Query("MATCH (t:TOUR{tourId:$tourId})-[p:GO]->()-[:DO]->(a:TOUR_ACTIVITY)-[r:TAKE{userId: $userId}]->(i:ITEM) " +
             "RETURN t.tourId AS tourId, p.placeId AS placeId, p.tourDay AS tourDay, a.activity AS activity, i.item AS item, r.isChecked AS isChecked, " +
@@ -82,5 +86,10 @@ public interface ItemRepository extends Neo4jRepository<Item,String> {
     boolean existsT(String userId, String tourId, String placeId, Integer tourDay, String activity, String item, String itemType, LocalDateTime createTime);
 
 
+    @Query("MATCH (:COMMON)-[:NEED]->(i:ITEM) RETURN i")
+    List<Item> findAllInCommonCountry();
+
+    @Query("MATCH (:COUNTRY {countryCode: $countryCode})-[:NEED]->(i:ITEM) RETURN i")
+    List<Item> findAllInCountryByCountryCode(String countryCode);
 
 }

@@ -1,7 +1,7 @@
 package com.eminyidle.checklist.adapter.out.persistence;
 
-import com.eminyidle.checklist.dto.Tour;
-import com.eminyidle.checklist.dto.User;
+import com.eminyidle.checklist.application.dto.Tour;
+import com.eminyidle.checklist.application.dto.User;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TourRepository extends Neo4jRepository<Tour,String> {
+
+    @Query("MATCH (t:TOUR {tourId: $tourId}) RETURN t")
+    Optional<Tour> findByTourId(String tourId);
 
 //    @Query("MATCH (t:TOUR{tourId: $tourId})-[:MEMBER]->(:USER{userId:$userId}) RETURN t,collect{MATCH (t)-[:MEMBER]->(u:USER) RETURN u} AS memberList")
     @Query("MATCH (t:TOUR {tourId: $tourId})-[:MEMBER]->(u:USER {userId: $userId}) " +
@@ -21,4 +24,10 @@ public interface TourRepository extends Neo4jRepository<Tour,String> {
 //Cannot retrieve a value for property `userId` of DTO `com.eminyidle.checklist.dto.User` and the property will always be null. Make sure to project only properties of the domain type or use a custom query that returns a mappable data under the name `userId`.
     @Query("MATCH (:TOUR {tourId: $tourId})-[:MEMBER]->(m:USER) RETURN m.userId AS userId")
     List<User> findMemberByTourId(String tourId);
+
+    @Query("MATCH (t:TOUR {tourId: $tourId}) WITH t MATCH (c:COUNTRY{countryCode: $countryCode}) MERGE (t)-[:TO]->(c) ")
+    void createToRelationshipBetweenTourAndCountry(String tourId, String countryCode);
+
+    @Query("MATCH (:TOUR {tourId: $tourId})-[to:TO]->(:COUNTRY{countryCode: $countryCode}) DELETE to")
+    void deleteToRelationshipBetweenTourAndCountry(String tourId, String countryCode);
 }
