@@ -141,9 +141,11 @@ export default function myCalendar(props: ChildProps) {
                                                 ? 'rounded-tr-full rounded-br-full'
                                                 : ''
                                         }
+                                        ${startDate && endDate ? '' : 'rounded-full'}
                                     `}
                                     key={index}
                                 >
+                                    {/* 오늘 날짜 및 일요일 스타일 */}
                                     <div
                                         className={`
                                         ${index === 0 ? 'text-red-500' : ''}
@@ -151,6 +153,11 @@ export default function myCalendar(props: ChildProps) {
                                             currentDate.getMonth() === new Date().getMonth() &&
                                             day === new Date().getDate()
                                                 ? 'color-text-blue-1 font-bold'
+                                                : ''
+                                        }
+                                        ${
+                                            isStartOrEnd
+                                                ? 'color-bg-blue-3 h-14 flex items-center justify-center rounded-full'
                                                 : ''
                                         }
                                     
