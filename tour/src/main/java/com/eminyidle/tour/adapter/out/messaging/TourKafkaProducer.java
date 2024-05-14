@@ -1,5 +1,6 @@
 package com.eminyidle.tour.adapter.out.messaging;
 
+import com.eminyidle.tour.adapter.dto.messaging.KafkaDetailMessage;
 import com.eminyidle.tour.adapter.dto.messaging.KafkaMessage;
 import com.eminyidle.tour.adapter.out.messaging.dto.PaymentMessage;
 import com.eminyidle.tour.application.dto.Tour;
@@ -28,39 +29,39 @@ public class TourKafkaProducer {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public void produceCreateTour(Tour tour){
-        produceTourKafkaMessage("CREATE",tour);
+    public void produceCreateTour(Tour tour, String hostId) {
+        produceTourKafkaDetailMessage("CREATE", tour, hostId);
     }
 
-    public void produceUpdateTourCity(Tour tour){
-        produceTourKafkaMessage("UPDATE_CITY",tour);
+    public void produceUpdateTourCity(Tour tour) {
+        produceTourKafkaMessage("UPDATE_CITY", tour);
     }
 
     //TODO - place에 필요
-    public void produceUpdateTourDate(Tour tour){
-        produceTourKafkaMessage("UPDATE_DATE",tour);
+    public void produceUpdateTourDate(Tour tour) {
+        produceTourKafkaMessage("UPDATE_DATE", tour);
     }
 
-    public void produceDeleteTour(Tour tour){
-        produceTourKafkaMessage("DELETE",tour);
+    public void produceDeleteTour(Tour tour) {
+        produceTourKafkaMessage("DELETE", tour);
     }
 
-    public void produceCreateMember(String userId,String tourId){
+    public void produceCreateMember(String userId, String tourId) {
         produceTourMemberKafkaMessage("CREATE", TourMember.builder()
                 .tourId(tourId)
                 .userId(userId)
                 .build());
     }
 
-    public void produceDeleteMember(String userId,String tourId){
+    public void produceDeleteMember(String userId, String tourId) {
         produceTourMemberKafkaMessage("DELETE", TourMember.builder()
                 .tourId(tourId)
                 .userId(userId)
                 .build());
     }
 
-    public void produceGhostToGuest(String tourId, String ghostId, String userId){
-        produceMessageWithKey(KAFKA_PAYMENT_TOPIC,tourId, PaymentMessage.builder()
+    public void produceGhostToGuest(String tourId, String ghostId, String userId) {
+        produceMessageWithKey(KAFKA_PAYMENT_TOPIC, tourId, PaymentMessage.builder()
                 .tourId(tourId)
                 .ghostId(ghostId)
                 .userId(userId)
@@ -72,6 +73,10 @@ public class TourKafkaProducer {
 
     public void produceTourKafkaMessage(String type, Tour tour) {
         produceKafkaMessage(KAFKA_TOUR_TOPIC, type, tour);
+    }
+
+    public void produceTourKafkaDetailMessage(String type, Tour tour, String desc) {
+        produceKafkaMessage(KAFKA_TOUR_TOPIC, type, tour, desc);
     }
 
     public void produceTourMemberKafkaMessage(String type, TourMember member) {
@@ -87,6 +92,18 @@ public class TourKafkaProducer {
                     .body(body)
                     .build()
             );
+            kafkaTemplate.send(topic, jsonMessage);
+        } catch (JsonProcessingException e) {
+            log.error("Failed to serialize message", e);
+            throw new ProduceMessageException();
+        }
+    }
+
+    public void produceKafkaMessage(String topic, String type, Object body, String desc) {
+        log.debug("produceTourKafkaMessage-" + type);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String jsonMessage = objectMapper.writeValueAsString(new KafkaDetailMessage(type, body, desc));
             kafkaTemplate.send(topic, jsonMessage);
         } catch (JsonProcessingException e) {
             log.error("Failed to serialize message", e);
