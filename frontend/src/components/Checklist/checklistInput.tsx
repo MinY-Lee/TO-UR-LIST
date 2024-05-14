@@ -64,7 +64,7 @@ export default function ChecklistInput(props: PropType) {
             const newItem = {
                 tourId: props.tourId,
                 placeId: props.placeId || '',
-                activityId: '',
+                activity: '',
                 item: itemInput,
                 tourDay: props.tourDay || 0,
                 isChecked: false,
@@ -76,7 +76,7 @@ export default function ChecklistInput(props: PropType) {
                         props.onUpdate({
                             tourId: props.tourId,
                             placeId: props.placeId || '',
-                            activityId: '',
+                            activity: '',
                             item: itemInput,
                             tourDay: props.tourDay || 0,
                             isChecked: false,
@@ -94,7 +94,7 @@ export default function ChecklistInput(props: PropType) {
             props.onUpdate({
                 tourId: props.tourId,
                 placeId: props.default.placeId || '',
-                activityId: props.default.activityId,
+                activity: props.default.activity,
                 item: itemInput,
                 tourDay: props.default.tourDay,
                 isChecked: props.default.isChecked,

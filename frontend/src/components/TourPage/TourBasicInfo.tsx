@@ -63,7 +63,7 @@ export default function TourBasicInfo(props: PropType) {
                                 <div className="grid grid-cols-3 mb-3">
                                     <div className="flex flex-col items-center">
                                         <div className="text-gray-600">언어</div>
-                                        <div className="text-lg whitespace-pre text-center">
+                                        <div className="text-lg whitespace-wrap text-center">
                                             {countryInfo.language.split(',').join(' / ')}
                                         </div>
                                     </div>

@@ -82,7 +82,7 @@ export interface FeedCity {
 export interface ItemApi {
     tourId: string;
     placeId: string;
-    activityId: string;
+    activity: string;
     item: string;
     tourDay: number;
     isChecked: boolean;
@@ -92,7 +92,7 @@ export interface ItemApi {
 export interface Item {
     tourId: string;
     placeId: string;
-    activityId: string;
+    activity: string;
     item: string;
     tourDay: number;
     isChecked: boolean;

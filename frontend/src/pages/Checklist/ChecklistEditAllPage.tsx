@@ -8,7 +8,6 @@ import ChecklistInput from '../../components/Checklist/checklistInput';
 import TrashIcon from '../../assets/svg/trashIcon';
 import { Item } from '../../types/types';
 
-import Checklist from '../../dummy-data/get_checklist.json';
 import TabBarTour from '../../components/TabBar/TabBarTour';
 import { getChecklist } from '../../util/api/checklist';
 import { HttpStatusCode } from 'axios';
@@ -38,17 +37,21 @@ export default function ChecklistEditAllPage() {
 
     useEffect(() => {
         setTourId(address[address.length - 3]);
+    }, []);
 
+    useEffect(() => {
         if (tourId != '') {
             getChecklist(tourId)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
-                        console.log(res.data);
-                        setData(res.data);
+                        const checklistData = res.data;
+                        setData(checklistData);
                         // 중복 횟수 카운트
-                        setFilteredGroup(prepareData(checklist));
+                        const preparedData = prepareData(checklistData);
+                        setFilteredGroup(preparedData);
                         // 중복 하나씩만 남김
-                        setFilteredChecklist(filterUniqueItems(checklist));
+                        const uniqueItems = filterUniqueItems(checklistData);
+                        setFilteredChecklist(uniqueItems);
                     }
                 })
                 .catch((err) => console.log(err));
@@ -66,13 +69,13 @@ export default function ChecklistEditAllPage() {
     };
 
     // 활동 id 를 한글로 변환
-    const ActivityIdToKor = (activityId: string): string => {
-        return mapping[activityId][0];
+    const ActivityToKor = (activity: string): string => {
+        return mapping[activity][0];
     };
 
     // 활동 id 별 색상 부여
-    const setColor = (activityId: string): string => {
-        return mapping[activityId][1];
+    const setColor = (activity: string): string => {
+        return mapping[activity][1];
     };
 
     // 같은 체크리스트 아이템 처리
@@ -128,7 +131,9 @@ export default function ChecklistEditAllPage() {
         setIsCheckModalActive(false);
     };
 
-    const handleDeleteModal = (item: Item) => {
+    const handleDeleteModal = (item: Item, event: React.MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation(); // 이벤트 버블링 중단
+
         setIsCheckModalActive(true);
         setDeleteItem(item);
     };
@@ -165,43 +170,46 @@ export default function ChecklistEditAllPage() {
                 <div className="mb-5">
                     <ChecklistInput tourId={tourId} checklist={filteredChecklist} onUpdate={onUpdate} />
                 </div>
-                <div className="flex flex-col justify-start h-[65vh] overflow-y-scroll pt-2">
+                <div className="flex flex-col justify-start items-center h-[65vh]  overflow-y-scroll pt-2">
                     {filteredChecklist.length == 0 ? (
                         <div className="flex justify-center items-center h-[5vh] text-xl">
                             현재 체크리스트가 없습니다.
                         </div>
                     ) : (
-                        <div>
+                        <div className="w-[90%] flex flex-col gap-4">
                             {filteredChecklist.map((item, index) => (
-                                <div key={index} className="grid grid-cols-6 justify-center mb-2">
-                                    <div className="ml-2 flex items-center">
+                                <div
+                                    key={index}
+                                    className="grid grid-cols-6 justify-center"
+                                    onClick={() => {
+                                        handleEditChecklist(item);
+                                    }}
+                                >
+                                    <div className="ml-2 col-span-3 flex items-center">
                                         <PayTypeIcon isPublic={item.isPublic} />
+                                        <div className=" text-lg flex items-center ml-3">{item.item}</div>
                                     </div>
-                                    <div className="col-span-4 grid grid-cols-3 justify-center">
-                                        <div
-                                            className="col-span-2 text-lg flex items-center"
-                                            onClick={() => {
-                                                handleEditChecklist(item);
-                                            }}
-                                        >
-                                            {item.item}
-                                        </div>
-                                        <div className="relative w-fit">
+                                    <div className="col-span-3 grid grid-cols-3 justify-center">
+                                        <div className="relative w-fit col-span-2">
                                             <div>
-                                                {item.activityId ? (
+                                                {item.activity ? (
                                                     <span
                                                         className={`${setColor(
-                                                            item.activityId
+                                                            item.activity
                                                         )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
                                                     >
-                                                        {ActivityIdToKor(item.activityId)}
+                                                        {ActivityToKor(item.activity)}
                                                     </span>
                                                 ) : (
-                                                    ''
+                                                    <span
+                                                        className={` text-gray-500 border-2 border-dashed px-2.5 py-0.5 rounded`}
+                                                    >
+                                                        + 활동없음
+                                                    </span>
                                                 )}
                                             </div>
                                             <div>
-                                                {item.activityId && filteredGroup[item.item] > 1 ? (
+                                                {item.activity && filteredGroup[item.item] > 1 ? (
                                                     <div>
                                                         <span className="sr-only">Notifications</span>
                                                         <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white color-bg-blue-1 border-2 border-white rounded-full -top-2 -end-[20%]">
@@ -213,14 +221,14 @@ export default function ChecklistEditAllPage() {
                                                 )}
                                             </div>
                                         </div>
-                                    </div>
-                                    <div
-                                        onClick={() => {
-                                            handleDeleteModal(item);
-                                        }}
-                                        className="flex justify-end mr-2 items-center"
-                                    >
-                                        <TrashIcon />
+                                        <div
+                                            onClick={(event) => {
+                                                handleDeleteModal(item, event);
+                                            }}
+                                            className="flex justify-end mr-2 items-center col-span-1"
+                                        >
+                                            <TrashIcon />
+                                        </div>
                                     </div>
                                 </div>
                             ))}

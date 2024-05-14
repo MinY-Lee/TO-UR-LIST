@@ -5,6 +5,7 @@ import Checklist from '../../dummy-data/get_checklist.json';
 import { Item } from '../../types/types';
 import { HttpStatusCode } from 'axios';
 import { getChecklist } from '../../util/api/checklist';
+import PayTypeIcon from '../../assets/svg/payTypeIcon';
 
 interface PropType {
     tourId: string;
@@ -45,13 +46,13 @@ export default function TourCheckList(props: PropType) {
     };
 
     // 활동 id 를 한글로 변환
-    const ActivityIdToKor = (activityId: string): string => {
-        return mapping[activityId][0];
+    const ActivityToKor = (activity: string): string => {
+        return mapping[activity][0];
     };
 
     // 활동 id 별 색상 부여
-    const setColor = (activityId: string): string => {
-        return mapping[activityId][1];
+    const setColor = (activity: string): string => {
+        return mapping[activity][1];
     };
 
     // 같은 체크리스트 아이템 처리
@@ -117,35 +118,36 @@ export default function TourCheckList(props: PropType) {
                                     현재 체크리스트가 없습니다.
                                 </div>
                             ) : (
-                                <div>
+                                <div className="">
                                     {filteredChecklist.map((item, index) => (
                                         <div key={index} className="grid grid-cols-2 justify-center m-1">
-                                            <div className="flex items-center">
+                                            <div className="flex items-center gap-3">
                                                 <input
                                                     id="default-checkbox"
                                                     type="checkbox"
                                                     onChange={() => handleCheckbox(index)}
                                                     checked={item.isChecked}
-                                                    className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
+                                                    className="w-6 h-6 bg-gray-100 border-gray-300 rounded "
                                                 />
-                                                <label className="ms-2">{item.item}</label>
+                                                <PayTypeIcon isPublic={item.isPublic} />
+                                                <label className="text-lg">{item.item}</label>
                                             </div>
                                             <div className="relative w-fit">
                                                 <div>
-                                                    {item.activityId ? (
+                                                    {item.activity ? (
                                                         <span
                                                             className={`${setColor(
-                                                                item.activityId
+                                                                item.activity
                                                             )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
                                                         >
-                                                            {ActivityIdToKor(item.activityId)}
+                                                            {ActivityToKor(item.activity)}
                                                         </span>
                                                     ) : (
                                                         ''
                                                     )}
                                                 </div>
                                                 <div>
-                                                    {item.activityId && filteredGroup[item.item] > 1 ? (
+                                                    {item.activity && filteredGroup[item.item] > 1 ? (
                                                         <div>
                                                             <span className="sr-only">Notifications</span>
                                                             <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white color-bg-blue-1 border-2 border-white rounded-full -top-2 -end-[20%]">

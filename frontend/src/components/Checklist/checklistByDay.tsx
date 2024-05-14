@@ -61,13 +61,13 @@ export default function ChecklistByDay(props: PropType) {
     };
 
     // 활동 id 를 한글로 변환
-    const ActivityIdToKor = (activityId: string): string => {
-        return mapping[activityId][0];
+    const ActivityToKor = (activity: string): string => {
+        return mapping[activity][0];
     };
 
     // 활동 id 별 색상 부여
-    const setColor = (activityId: string): string => {
-        return mapping[activityId][1];
+    const setColor = (activity: string): string => {
+        return mapping[activity][1];
     };
 
     // day 별로 체크리스트 분류
@@ -175,13 +175,13 @@ export default function ChecklistByDay(props: PropType) {
                                                                     </label>
                                                                 </div>
                                                                 <div className="relative w-fit">
-                                                                    {item.activityId && (
+                                                                    {item.activity && (
                                                                         <span
                                                                             className={`${setColor(
-                                                                                item.activityId
+                                                                                item.activity
                                                                             )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
                                                                         >
-                                                                            {ActivityIdToKor(item.activityId)}
+                                                                            {ActivityToKor(item.activity)}
                                                                         </span>
                                                                     )}
                                                                 </div>

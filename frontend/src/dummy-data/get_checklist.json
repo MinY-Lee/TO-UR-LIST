@@ -2,7 +2,7 @@
     {
         "tourId": "11111",
         "placeId": "",
-        "activityId": "",
+        "activity": "",
         "item": "캐리어",
         "tourDay": 0,
         "isChecked": true,
@@ -11,7 +11,7 @@
     {
         "tourId": "11111",
         "placeId": "dkht",
-        "activityId": "shopping",
+        "activity": "shopping",
         "item": "여권",
         "tourDay": 1,
         "isChecked": false,
@@ -20,7 +20,7 @@
     {
         "tourId": "11111",
         "placeId": "dkht",
-        "activityId": "shopping",
+        "activity": "shopping",
         "item": "장바구니",
         "tourDay": 1,
         "isChecked": false,
@@ -29,7 +29,7 @@
     {
         "tourId": "11111",
         "placeId": "park",
-        "activityId": "walking",
+        "activity": "walking",
         "item": "여권",
         "tourDay": 2,
         "isChecked": false,
@@ -38,7 +38,7 @@
     {
         "tourId": "11111",
         "placeId": "",
-        "activityId": "",
+        "activity": "",
         "item": "포켓 와이파이",
         "tourDay": 0,
         "isChecked": false,
@@ -47,7 +47,7 @@
     {
         "tourId": "11111",
         "placeId": "dkht",
-        "activityId": "shopping",
+        "activity": "shopping",
         "item": "지갑",
         "tourDay": 1,
         "isChecked": false,
@@ -56,7 +56,7 @@
     {
         "tourId": "11111",
         "placeId": "park",
-        "activityId": "walking",
+        "activity": "walking",
         "item": "운동화",
         "tourDay": 2,
         "isChecked": false,
