@@ -103,7 +103,7 @@ services:
       - checklist-neo4j-conf:/conf
       - ../checklist/import:/import
     environment:
-      NEO4J_AUTH: ${TOUR_NEO4J_USER_NAME}/${TOUR_NEO4J_USER_PASSWORD}
+      NEO4J_AUTH: ${CHECKLIST_NEO4J_USER_NAME}/${CHECKLIST_NEO4J_USER_PASSWORD}
       NEO4J_dbms_security_allow__csv__import__from__file__urls: true
       TZ: 'Asia/Seoul'
     ports:
