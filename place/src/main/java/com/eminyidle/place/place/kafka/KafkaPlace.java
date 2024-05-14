@@ -25,6 +25,8 @@ public class KafkaPlace {
 
     @Value("${KAFKA_TOUR_ALERT_TOPIC")
     String tourAlertTopic;
+    @Value("${KAFKA_PLACE_ALERT_TOPIC}")
+    String KAFKA_PLACE_ALERT_TOPIC;
 
     @KafkaListener(topics = "${KAFKA_TOUR_ALERT_TOPIC}", containerFactory = "kafkaListenerContainerFactory")
     public void receiveTourAlert(ConsumerRecord<String, String> consumerRecord) {
@@ -32,7 +34,7 @@ public class KafkaPlace {
 //        if(consumerRecord.key().isBlank() || consumerRecord.value().isBlank()) {
 //            throw new KafkaDataNotExistException("데이터가 없습니다.");
 //        }
-        log.info("kafka 시작");
+        log.info("tour kafka 시작");
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             KafkaMessage message = objectMapper.readValue(consumerRecord.value(), KafkaMessage.class);
@@ -63,6 +65,20 @@ public class KafkaPlace {
                     break;
                 default:
             }
+        } catch (Exception e) {
+            log.error("{}", e);
+        }
+    }
+
+    @KafkaListener(topics = "${KAFKA_PLACE_ALERT_TOPIC}", containerFactory = "kafkaListenerContainerFactory")
+    public void receivePlaceAlert(ConsumerRecord<String, String> consumerRecord) {
+        log.info("place kafka 시작");
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            KafkaMessage message = objectMapper.readValue(consumerRecord.value(), KafkaMessage.class);
+            Map<String, Object> placeMap = (Map<String, Object>) message.getBody();
+            log.info(message.getType());
+            log.info(placeMap.get("placeName").toString());
         } catch (Exception e) {
             log.error("{}", e);
         }

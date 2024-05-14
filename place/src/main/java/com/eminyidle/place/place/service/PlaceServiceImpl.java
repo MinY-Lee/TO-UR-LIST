@@ -9,6 +9,7 @@ import com.eminyidle.place.place.dto.res.UpdatePlaceBodyRes;
 import com.eminyidle.place.place.exception.GetRequesterInfoFailException;
 import com.eminyidle.place.place.exception.PlaceAddFailException;
 import com.eminyidle.place.place.exception.PlaceSearchException;
+import com.eminyidle.place.place.kafka.PlaceKafkaProducer;
 import com.eminyidle.place.place.repository.DoRelationRepository;
 import com.eminyidle.place.place.repository.PlaceRepository;
 import com.eminyidle.place.place.repository.TourRepository;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,6 +33,8 @@ public class PlaceServiceImpl implements PlaceService{
     private final PlaceRepository placeRepository;
     private final DoRelationRepository doRelationRepository;
     private final TourRepository tourRepository;
+
+    private final PlaceKafkaProducer placeKafkaProducer;
 
 //    @Value("${spring.googleMap.key}")
 //    private String googleMapKey;
@@ -159,6 +163,16 @@ public class PlaceServiceImpl implements PlaceService{
                 // TourPlace의 Id는 저장된 값을 불러온다
                 placeRepository.createDoRelationship((String) body.get("tourId"), UUID.randomUUID().toString(), (String) body.get("placeId"), (String) body.get("placeName"), (Integer) body.get("tourDay"), tourPlace.getTourPlaceId());
                 isSuccess = true;
+
+                // Kafka로 장소가 추가되었음을 전송
+                KafkaPlace kafkaPlace = KafkaPlace.builder()
+                        .tourId(tourId)
+                        .placeId(placeId)
+                        .placeName((String) body.get("placeName"))
+                        .tourDay((Integer) body.get("tourDay"))
+                        .tourPlaceId(tourPlace.getTourPlaceId())
+                        .build();
+                placeKafkaProducer.producePlaceKafkaMessage("CREATE", kafkaPlace);
             } catch (Exception e) {
                 log.error("{}", e);
             }
@@ -175,8 +189,6 @@ public class PlaceServiceImpl implements PlaceService{
 //        } catch (Exception e) {
 //            log.error("{}", e);
 //        }
-
-
 
         return TourPlaceMessageInfo.builder()
                 .body(responseBody)
