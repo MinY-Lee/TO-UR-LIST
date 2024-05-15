@@ -5,7 +5,6 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TourActivityRepository extends Neo4jRepository<TourActivity,String> {
     //save: activity의 NEED관계 다 public으로 연결해두기....
@@ -21,4 +20,11 @@ public interface TourActivityRepository extends Neo4jRepository<TourActivity,Str
     List<TourActivity> findAllByTourPlace(String tourId, String placeId, Integer tourDay);
     @Query("MATCH (:TOUR_PLACE{tourPlaceId: $tourPlaceId})-[:DO]->(a:TOUR_ACTIVITY) RETURN a")
     List<TourActivity> findAllByTourPlaceId(String tourPlaceId);
+
+    //merge
+    @Query("OPTIONAL MATCH (:TOUR_PLACE{tourPlaceId: $tourPlaceId})-[:DO]->(a:TOUR_ACTIVITY)-[:REFERENCE]->(:ACTIVITY{activity: $activityName}) RETURN CASE WHEN a IS NULL THEN FALSE ELSE TRUE END")
+    boolean existsByTourPlaceIdAndActivity(String tourPlaceId, String activityName);
+    @Query("MATCH (tp:TOUR_PLACE)-[r:DO]->(a:TOUR_ACTIVITY{tourActivityId:$tourActivityId}) DELETE r WITH a MATCH (p:TOUR_PLACE{tourPlaceId:$targetTourPlaceId}) CREATE (p)-[:DO]->(a)")
+    void updateTourPlaceByTourActivtyIdAndTargetTourPlaceId(String tourActivityId, String targetTourPlaceId);
+
 }
