@@ -7,6 +7,7 @@ import com.eminyidle.place.place.dto.res.SearchPlaceListRes;
 import com.eminyidle.place.place.dto.res.TourPlaceDetailRes;
 import com.eminyidle.place.place.dto.res.UpdatePlaceBodyRes;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,4 +39,10 @@ public interface PlaceService {
 
     // 투어 생성
     void createTour(Tour tour);
+
+    // 투어 삭제
+    void deleteTour(String tourId);
+
+    // 투어 업데이트(기간 변경)
+    void updateTour(String tourId, String tourName, LocalDateTime start, LocalDateTime end, Integer period);
 }
