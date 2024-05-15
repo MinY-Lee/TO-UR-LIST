@@ -82,7 +82,7 @@ export default function TourCard(props: PropType) {
 
     const Badge = (count: number) => {
         return (
-            <span className="border border-black text-sm flex ml-2 px-2 rounded-full">{`+${count}`}</span>
+            <span className="color-bg-blue-1 text-sm text-white font-bold flex ml-2 px-2 rounded-full">{`+${count}`}</span>
         );
     };
 
