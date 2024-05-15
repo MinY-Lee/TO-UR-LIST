@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import MyButton from '../components/Buttons/myButton';
-import HeaderBar from '../components/HeaderBar/HeaderBar';
+import MyButton from "../components/Buttons/myButton";
+import HeaderBar from "../components/HeaderBar/HeaderBar";
 
-import SetPlace from '../components/CreatePage/setPlace';
-import SetDate from '../components/CreatePage/setDate';
-import SetTitle from '../components/CreatePage/setTitle';
-import CreateDone from '../components/CreatePage/createDone';
-import { City, TourCardInfo } from '../types/types';
-import { createTour } from '../util/api/tour';
-import { httpStatusCode } from '../util/api/http-status';
+import SetPlace from "../components/CreatePage/setPlace";
+import SetDate from "../components/CreatePage/setDate";
+import SetTitle from "../components/CreatePage/setTitle";
+import CreateDone from "../components/CreatePage/createDone";
+import { City, TourCardInfo } from "../types/types";
+import { createTour } from "../util/api/tour";
+import { httpStatusCode } from "../util/api/http-status";
 
 export default function TourCreatePage() {
     const [step, setStep] = useState<number>(1);
@@ -18,14 +18,14 @@ export default function TourCreatePage() {
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
     const [isValidDate, setIsVaildDate] = useState<boolean>(false);
-    const [title, setTitle] = useState<string>('');
+    const [title, setTitle] = useState<string>("");
 
     const [tourCard, setTourCard] = useState<TourCardInfo>({
-        tourId: '',
-        tourTitle: '',
+        tourId: "",
+        tourTitle: "",
         cityList: [],
-        startDate: '',
-        endDate: '',
+        startDate: "",
+        endDate: "",
     }); // 카드 만들 객체
 
     // setPlace 로부터 데이터 받기
@@ -35,8 +35,8 @@ export default function TourCreatePage() {
 
     // setDate 로부터 데이터 받기
     const handleDateData = (data: Date[]) => {
-        setStartDate(data[0]);
-        setEndDate(data[1]);
+        setStartDate(new Date(data[0].getTime() + 9 * 60 * 60 * 1000));
+        setEndDate(new Date(data[1].getTime() + 9 * 60 * 60 * 1000));
     };
 
     // date 오늘 이후인지 체크
@@ -46,7 +46,7 @@ export default function TourCreatePage() {
 
     // setTitle 로부터 데이터 받기
     const handleTitleData = (data: string) => {
-        if (data.trim() != '') {
+        if (data.trim() != "") {
             setTitle(data);
         }
     };
@@ -79,6 +79,8 @@ export default function TourCreatePage() {
             })
                 .then((res) => {
                     if (res.status === httpStatusCode.OK) {
+                        console.log(startDate, endDate);
+
                         setTourCard({
                             tourId: res.data,
                             tourTitle: title,
@@ -116,7 +118,12 @@ export default function TourCreatePage() {
             currentComponent = <SetPlace onChangeSelected={handleCityData} />;
             break;
         case 2:
-            currentComponent = <SetDate onChangeDate={handleDateData} checkValue={checkValue} />;
+            currentComponent = (
+                <SetDate
+                    onChangeDate={handleDateData}
+                    checkValue={checkValue}
+                />
+            );
             break;
         case 3:
             currentComponent = <SetTitle onChangeTitle={handleTitleData} />;
@@ -133,13 +140,15 @@ export default function TourCreatePage() {
                 <h1 className="m-3 text-3xl font-bold">여행 만들기</h1>
             </header>
 
-            <div className="mx-5 gap-3 row-span-8 text-center">{currentComponent}</div>
+            <div className="mx-5 gap-3 row-span-8 text-center">
+                {currentComponent}
+            </div>
             <div className="m-5 row-span-1">
                 {step != 4 ? (
                     <MyButton
                         type="full"
                         className="text-white py-2"
-                        text={step != 3 ? '선택완료' : '입력완료'}
+                        text={step != 3 ? "선택완료" : "입력완료"}
                         isSelected={true}
                         onClick={handleStep}
                     />
