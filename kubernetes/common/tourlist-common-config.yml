@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: tourlist-common-config
 data:
-  KAFKA_BOOTSTRAP_SERVERS: "tourlist-common-kafka-controller-headless:9092"
+  KAFKA_BOOTSTRAP_SERVERS: "tourlist-kafka-controller-0:9092"
   KAFKA_TOUR_CONSUMER_GROUP: "TourlistTour"
   KAFKA_PLACE_CONSUMER_GROUP: "TourlistPlace"
   KAFKA_CHECKLIST_CONSUMER_GROUP: "TourlistChecklist"
