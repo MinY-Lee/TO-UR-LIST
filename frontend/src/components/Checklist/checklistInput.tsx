@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Item } from '../../types/types';
-import PayTypeIcon from '../../assets/svg/payTypeIcon';
-import DropdownIcon from '../../assets/svg/dropdownIcon';
-import { addChecklist } from '../../util/api/checklist';
-import { HttpStatusCode } from 'axios';
+import { useEffect, useState } from "react";
+import { Item } from "../../types/types";
+import PayTypeIcon from "../../assets/svg/payTypeIcon";
+import DropdownIcon from "../../assets/svg/dropdownIcon";
+import { addChecklist } from "../../util/api/checklist";
+import { HttpStatusCode } from "axios";
 
 interface ItemPerPlace {
     [placeId: string]: Item[];
@@ -27,19 +27,19 @@ interface PropType {
 export default function ChecklistInput(props: PropType) {
     const [isClicked, setIsClicked] = useState<boolean>(false);
     const [isPublicInput, setIsPublicInput] = useState<boolean>(false);
-    const [itemInput, setItemInput] = useState<string>('');
+    const [itemInput, setItemInput] = useState<string>("");
 
     useEffect(() => {
         setIsPublicInput(props.default ? props.default.isPublic : false);
-        setItemInput(props.default ? props.default.item : '');
+        setItemInput(props.default ? props.default.item : "");
     }, [props]);
 
     const setDropdown = (isClicked: boolean) => {
-        return isClicked ? '' : 'hidden';
+        return isClicked ? "" : "hidden";
     };
 
     const handleTypeChange = (type: string) => {
-        type === 'private' ? setIsPublicInput(false) : setIsPublicInput(true);
+        type === "private" ? setIsPublicInput(false) : setIsPublicInput(true);
         setIsClicked(false);
     };
 
@@ -49,51 +49,59 @@ export default function ChecklistInput(props: PropType) {
 
     // 엔터로 add
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            const existingItem = props.checklist?.find((item) => item.item === itemInput);
-            if (existingItem) {
-                event.preventDefault(); // 이미 있는 아이템이면 제출 막기
+        if (event.key === "Enter" && itemInput.trim() != "") {
+            const existingItem = props.checklist?.find(
+                (item) => item.item === itemInput
+            );
+            if (!existingItem) {
+                if (!event.nativeEvent.isComposing) {
+                    addItem();
+                }
             } else {
-                addItem();
+                event.preventDefault();
             }
         }
     };
 
     const addItem = () => {
+        console.log(itemInput);
+
         if (!props.default) {
             const newItem = {
                 tourId: props.tourId,
-                placeId: props.placeId || '',
-                activity: '',
-                item: itemInput,
+                placeId: props.placeId || "",
+                activity: "",
+                item: itemInput.trim(),
                 tourDay: props.tourDay || 0,
                 isChecked: false,
             };
             // 데이터 추가 api
-            addChecklist(isPublicInput ? 'public' : 'private', newItem)
+            addChecklist(isPublicInput ? "public" : "private", newItem)
                 .then((res) => {
-                    if (res.status == HttpStatusCode.Ok && !res.data.isDuplicated) {
+                    if (
+                        res.status == HttpStatusCode.Ok &&
+                        !res.data.isDuplicated
+                    ) {
                         props.onUpdate({
                             tourId: props.tourId,
-                            placeId: props.placeId || '',
-                            activity: '',
+                            placeId: props.placeId || "",
+                            activity: "",
                             item: itemInput,
                             tourDay: props.tourDay || 0,
                             isChecked: false,
                             isPublic: isPublicInput,
                         });
+                        setItemInput("");
                     }
                 })
                 .catch((err) => console.log(err));
-
-            setItemInput('');
         } else {
             // 수정인 경우
-            console.log('아이템 수정 : ' + itemInput);
+            console.log("아이템 수정 : " + itemInput);
 
             props.onUpdate({
                 tourId: props.tourId,
-                placeId: props.default.placeId || '',
+                placeId: props.default.placeId || "",
                 activity: props.default.activity,
                 item: itemInput,
                 tourDay: props.default.tourDay,
@@ -104,12 +112,16 @@ export default function ChecklistInput(props: PropType) {
     };
 
     const handleHelpText = () => {
-        const existingItem = props.checklist?.find((item) => item.item == itemInput);
+        const existingItem = props.checklist?.find(
+            (item) => item.item == itemInput
+        );
         const existingItemPerDay =
             props.checklistPerDay && props.tourDay && props.placeId
-                ? props.checklistPerDay[props.tourDay][props.placeId].find((item) => item.item == itemInput)
+                ? props.checklistPerDay[props.tourDay][props.placeId].find(
+                      (item) => item.item == itemInput
+                  )
                 : null;
-        return existingItem || existingItemPerDay ? '' : 'hidden';
+        return existingItem || existingItemPerDay ? "" : "hidden";
     };
 
     return (
@@ -134,10 +146,13 @@ export default function ChecklistInput(props: PropType) {
                             isClicked
                         )} absolute top-12 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow`}
                     >
-                        <ul className=" text-gray-700 " aria-labelledby="dropdown-button">
+                        <ul
+                            className=" text-gray-700 "
+                            aria-labelledby="dropdown-button"
+                        >
                             <li
                                 className="hover:bg-[#5faad9] px-5 py-2 rounded-t-lg border"
-                                onClick={() => handleTypeChange('private')}
+                                onClick={() => handleTypeChange("private")}
                             >
                                 <div className="flex gap-2 items-center">
                                     <PayTypeIcon isPublic={false} />
@@ -146,7 +161,7 @@ export default function ChecklistInput(props: PropType) {
                             </li>
                             <li
                                 className="hover:bg-[#5faad9] px-5 py-2 rounded-b-lg border"
-                                onClick={() => handleTypeChange('public')}
+                                onClick={() => handleTypeChange("public")}
                             >
                                 <div className="flex gap-2 items-center">
                                     <PayTypeIcon isPublic={true} />
@@ -163,7 +178,11 @@ export default function ChecklistInput(props: PropType) {
                             type="add"
                             id="add-inputbox"
                             className="p-2.5 w-full z-20 text-gray-900 border-b-2 text-lg"
-                            placeholder={props.default == undefined ? '추가하려는 항목을 입력하세요.' : ''}
+                            placeholder={
+                                props.default == undefined
+                                    ? "추가하려는 항목을 입력하세요."
+                                    : ""
+                            }
                         />
                         <p
                             id="helper-text-explanation"
