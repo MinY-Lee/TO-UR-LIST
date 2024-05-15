@@ -357,11 +357,6 @@ public class TourServiceImpl implements TourService, MemberService, UserUpdateUs
 
     @Override
     public void updateUser(User user) {
-        User userNode=userRepository.findById(user.getUserId()).orElseThrow(NoSuchUserException::new);
-        userNode.setUserName(user.getUserName());
-        userNode.setUserNickname(user.getUserNickname());
-        
-        //OR .. 잘 되는지 체크
-//        userRepository.save(user);
+        userRepository.save(user);
     }
 }
