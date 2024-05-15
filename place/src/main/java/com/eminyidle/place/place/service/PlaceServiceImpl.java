@@ -20,6 +20,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
@@ -345,5 +346,11 @@ public class PlaceServiceImpl implements PlaceService{
     @Override
     public void deleteTour(String tourId) {
         tourRepository.deleteAllTour(tourId);
+    }
+
+    // 투어 업데이트(기간 변경)
+    @Override
+    public void updateTour(String tourId, String tourName, LocalDateTime start, LocalDateTime end, Integer period) {
+        tourRepository.updateTour(tourId, tourName, start, end, period);
     }
 }
