@@ -90,11 +90,6 @@ export default function ChecklistByDay(props: PropType) {
         setGroupedItems(grouped);
     }, [checklist]);
 
-    useEffect(() => {
-        if (props.tourId != "") {
-        }
-    }, [props]);
-
     const handleCheckbox = (target: Item): void => {
         const { activity, isChecked, item, placeId, tourDay, tourId } = target;
         const targetItem: ItemApi = {

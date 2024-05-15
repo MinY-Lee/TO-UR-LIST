@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
-import MyButton from './Buttons/myButton';
-import { TourActivity, TourInfoDetail, TourPlaceItem } from '../types/types';
+import { useEffect, useState } from "react";
+import MyButton from "./Buttons/myButton";
+import { TourActivity, TourInfoDetail, TourPlaceItem } from "../types/types";
 
-import tourPlaceTourId from '../dummy-data/get_tour_place_tourId.json';
-import { getTour } from '../util/api/tour';
-// import TourDetail from '../dummy-data/get_tour_detail.json';
+import tourPlaceTourId from "../dummy-data/get_tour_place_tourId.json";
+import { getTour } from "../util/api/tour";
 
 interface Proptype {
     tourId: string;
@@ -21,11 +20,11 @@ interface Group {
 export default function SelectModal(props: Proptype) {
     const [data, setData] = useState<TourPlaceItem[]>();
     const [tourData, setTourData] = useState<TourInfoDetail>({
-        tourId: '',
-        tourTitle: '',
+        tourId: "",
+        tourTitle: "",
         cityList: [],
-        startDate: '',
-        endDate: '',
+        startDate: "",
+        endDate: "",
         memberList: [],
     });
     const [daysDifference, setDaysDifference] = useState<number>(0);
@@ -41,8 +40,8 @@ export default function SelectModal(props: Proptype) {
                     setTourData({
                         tourTitle: res.data.tourTitle,
                         cityList: res.data.cityList,
-                        startDate: res.data.startDate.split('T')[0],
-                        endDate: res.data.endDate.split('T')[0],
+                        startDate: res.data.startDate.split("T")[0],
+                        endDate: res.data.endDate.split("T")[0],
                         memberList: res.data.memberList,
                     });
                 })
@@ -50,20 +49,12 @@ export default function SelectModal(props: Proptype) {
                     console.log(err);
                 });
         }
+    }, [props]);
 
-        const end: Date = new Date(tourData ? tourData.endDate : '');
-        const start: Date = new Date(tourData ? tourData.startDate : '');
-
-        // 밀리초(milliseconds) 단위의 차이를 날짜간 차이로 변환
-        setDaysDifference((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
-        // 0 제외
-        setDaysList(Array.from({ length: daysDifference }, (_, index) => index + 1));
-
+    useEffect(() => {
         // day 별로 장소 및 활동 분류
         groupItems();
-    }, [data]);
 
-    const groupItems = () => {
         const grouped: Group = {};
 
         data?.forEach((place) => {
@@ -82,18 +73,36 @@ export default function SelectModal(props: Proptype) {
 
         // state 업데이트
         setGroupedItems(grouped);
-    };
+    }, [data]);
+
+    useEffect(() => {
+        const end: Date = new Date(tourData.endDate);
+        const start: Date = new Date(tourData.startDate);
+
+        // 밀리초(milliseconds) 단위의 차이를 날짜간 차이로 변환
+        setDaysDifference(
+            (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1
+        );
+        // 0 제외
+        setDaysList(
+            Array.from({ length: daysDifference }, (_, index) => index + 1)
+        );
+    }, [tourData, daysDifference]);
+
+    const groupItems = () => {};
 
     const formatNumberToTwoDigits = (num: number): string => {
-        return `${num < 10 && num > 0 ? '0' : ''}${num}`;
+        return `${num < 10 && num > 0 ? "0" : ""}${num}`;
     };
 
     const calcDate = (day: number): string => {
-        const startDate = new Date(tourData ? tourData.startDate : '');
+        const startDate = new Date(tourData ? tourData.startDate : "");
         const startDay = startDate.getDate();
-        startDate.setDate(startDay + day);
+        startDate.setDate(startDay + day - 1);
 
-        return `${startDate.getFullYear()}.${startDate.getMonth() + 1}.${startDate.getDate()}`;
+        return `${startDate.getFullYear()}.${
+            startDate.getMonth() + 1
+        }.${startDate.getDate()}`;
     };
 
     return (
@@ -105,36 +114,50 @@ export default function SelectModal(props: Proptype) {
                     {daysList.map((day) => (
                         <div key={day}>
                             <div className="font-bold text-xl">
-                                Day{formatNumberToTwoDigits(day)} {`| ${calcDate(day)}`}
+                                Day{formatNumberToTwoDigits(day)}{" "}
+                                {`| ${calcDate(day)}`}
                             </div>
                             <div className="border-t-2 border-black mt-2 mb-2">
                                 {groupedItems &&
                                     groupedItems[day] &&
-                                    Object.keys(groupedItems[day]).map((placeId, index) => (
-                                        <div className="ml-3" key={index}>
-                                            <div className="text-lg font-semibold">
-                                                {placeId != '' ? <div>{placeId}</div> : ''}
-                                            </div>
-                                            <div className="ml-3">
-                                                {groupedItems[day][placeId].map((item, index) => (
-                                                    <div key={index} className=" grid grid-cols-3 justify-center m-1">
-                                                        <div className="flex items-center col-span-2">
-                                                            <input
-                                                                id={`checkbox-${index}`}
-                                                                type="checkbox"
-                                                                // onChange={() => handleCheckbox(item)}
-                                                                // checked={item.isChecked}
-                                                                className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
-                                                            />
-                                                            <label className="ms-2 text-lg w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
-                                                                {item.activity}
-                                                            </label>
+                                    Object.keys(groupedItems[day]).map(
+                                        (placeId, index) => (
+                                            <div className="ml-3" key={index}>
+                                                <div className="text-lg font-semibold">
+                                                    {placeId != "" ? (
+                                                        <div>{placeId}</div>
+                                                    ) : (
+                                                        ""
+                                                    )}
+                                                </div>
+                                                <div className="ml-3">
+                                                    {groupedItems[day][
+                                                        placeId
+                                                    ].map((item, index) => (
+                                                        <div
+                                                            key={index}
+                                                            className=" grid grid-cols-3 justify-center m-1"
+                                                        >
+                                                            <div className="flex items-center col-span-2">
+                                                                <input
+                                                                    id={`checkbox-${index}`}
+                                                                    type="checkbox"
+                                                                    // onChange={() => handleCheckbox(item)}
+                                                                    // checked={item.isChecked}
+                                                                    className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
+                                                                />
+                                                                <label className="ms-2 text-lg w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
+                                                                    {
+                                                                        item.activity
+                                                                    }
+                                                                </label>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                ))}
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        )
+                                    )}
                             </div>
                         </div>
                     ))}
@@ -147,7 +170,12 @@ export default function SelectModal(props: Proptype) {
                         type="full"
                         className="py-2"
                     ></MyButton>
-                    <MyButton isSelected={false} onClick={props.clickCancel} text="취소" type="full"></MyButton>
+                    <MyButton
+                        isSelected={false}
+                        onClick={props.clickCancel}
+                        text="취소"
+                        type="full"
+                    ></MyButton>
                 </div>
             </div>
         </>

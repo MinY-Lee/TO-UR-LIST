@@ -57,26 +57,6 @@ export default function ChecklistEditAllPage() {
         }
     }, [tourId]);
 
-    const handleEditChecklist = (item: Item) => {
-        // state로 데이터 전달하며 페이지 이동
-        navigate(`/tour/${tourId}/checklist/edit`, { state: { item: item } });
-    };
-
-    const mapping: Mapping = {
-        walking: ["👣 산책", "color-bg-blue-3"],
-        shopping: ["🛒 쇼핑", "bg-pink-100"],
-    };
-
-    // 활동 id 를 한글로 변환
-    const ActivityToKor = (activity: string): string => {
-        return mapping[activity][0];
-    };
-
-    // 활동 id 별 색상 부여
-    const setColor = (activity: string): string => {
-        return mapping[activity][1];
-    };
-
     // 같은 체크리스트 아이템 처리
     const prepareData = (checklist: Item[]) => {
         const itemGroups: CountItem = {};
