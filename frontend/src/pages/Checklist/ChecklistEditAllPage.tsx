@@ -6,10 +6,10 @@ import HeaderBar from "../../components/HeaderBar/HeaderBar";
 import CheckModal from "../../components/CheckModal";
 import ChecklistInput from "../../components/Checklist/checklistInput";
 import TrashIcon from "../../assets/svg/trashIcon";
-import { Item } from "../../types/types";
+import { Item, ItemApi } from "../../types/types";
 
 import TabBarTour from "../../components/TabBar/TabBarTour";
-import { getChecklist } from "../../util/api/checklist";
+import { deleteChecklist, getChecklist } from "../../util/api/checklist";
 import { HttpStatusCode } from "axios";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
 
@@ -125,11 +125,31 @@ export default function ChecklistEditAllPage() {
     };
 
     const handleDelete = () => {
-        // 데이터 삭제 api
-        const updatedChecklist = filteredChecklist.filter(
-            (currentItem) => currentItem !== deleteItem
-        );
-        setFilteredChecklist(updatedChecklist);
+        if (deleteItem) {
+            const { activity, isChecked, item, placeId, tourDay, tourId } =
+                deleteItem;
+            const targetItem: ItemApi = {
+                activity: activity,
+                isChecked: !isChecked,
+                item: item,
+                placeId: placeId,
+                tourDay: tourDay,
+                tourId: tourId,
+            };
+
+            deleteChecklist(targetItem)
+                .then((res) => {
+                    if (res.status == HttpStatusCode.Ok) {
+                        // 화면에 반영
+                        const updatedChecklist = filteredChecklist.filter(
+                            (currentItem) => currentItem !== deleteItem
+                        );
+                        setFilteredChecklist(updatedChecklist);
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
+
         setIsCheckModalActive(false);
     };
 

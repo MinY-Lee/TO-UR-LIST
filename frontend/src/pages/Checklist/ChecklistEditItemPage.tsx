@@ -1,22 +1,22 @@
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Item } from '../../types/types';
-import HeaderBar from '../../components/HeaderBar/HeaderBar';
-import TabBarTour from '../../components/TabBar/TabBarTour';
-import MyButton from '../../components/Buttons/myButton';
-import ChecklistInput from '../../components/Checklist/checklistInput';
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Item } from "../../types/types";
+import HeaderBar from "../../components/HeaderBar/HeaderBar";
+import TabBarTour from "../../components/TabBar/TabBarTour";
+import MyButton from "../../components/Buttons/myButton";
+import ChecklistInput from "../../components/Checklist/checklistInput";
 
-import Checklist from '../../dummy-data/get_checklist.json';
-import CheckModal from '../../components/CheckModal';
-import SelectModal from '../../components/SelectModal';
+import Checklist from "../../dummy-data/get_checklist.json";
+import CheckModal from "../../components/CheckModal";
+import SelectModal from "../../components/SelectModal";
 
 interface PropType {}
 
 export default function ChecklistEditItemPage(props: PropType) {
     // 투어 아이디 불러오기
-    const address: string[] = window.location.href.split('/');
+    const address: string[] = window.location.href.split("/");
 
-    const [tourId, setTourId] = useState<string>('');
+    const [tourId, setTourId] = useState<string>("");
     const [editItem, setEditItem] = useState<Item>();
     const [data, setData] = useState<Item[]>();
     const [filteredData, setFilteredData] = useState<Item[]>();
@@ -34,7 +34,9 @@ export default function ChecklistEditItemPage(props: PropType) {
         setEditItem(state.item);
 
         // 투어 아이디로 더미데이터에서 데이터 찾기 (임시)
-        const checkListData: Item[] = Checklist.filter((checklist) => checklist.tourId === tourId);
+        const checkListData: Item[] = Checklist.filter(
+            (checklist) => checklist.tourId === tourId
+        );
         if (checkListData) {
             setData(checkListData);
         }
@@ -60,7 +62,7 @@ export default function ChecklistEditItemPage(props: PropType) {
     };
 
     const onUpdate = (item: Item) => {
-        console.log('edit 페이지 도착 : ' + item.item);
+        console.log("edit 페이지 도착 : " + item.item);
     };
 
     interface Mapping {
@@ -68,25 +70,31 @@ export default function ChecklistEditItemPage(props: PropType) {
     }
 
     const mapping: Mapping = {
-        walking: ['👣 산책', 'color-bg-blue-3'],
-        shopping: ['🛒 쇼핑', 'bg-pink-100'],
+        walking: ["👣 산책", "color-bg-blue-3"],
+        shopping: ["🛒 쇼핑", "bg-pink-100"],
     };
 
     // 해당 아이템이 사용되는 장소/활동 필터링
     const filterItem = () => {
         const dataList = data?.filter(
-            (item) => item.placeId != '' && item.activity != '' && item.item == editItem?.item
+            (item) =>
+                item.placeId != "" &&
+                item.activity != "" &&
+                item.item == editItem?.item
         );
         setFilteredData(dataList);
     };
 
     const formatNumberToTwoDigits = (num: number): string => {
-        return `${num < 10 && num > 0 ? '0' : ''}${num}`;
+        return `${num < 10 && num > 0 ? "0" : ""}${num}`;
     };
 
     const handleDelete = () => {
         // 데이터 삭제 api
-        const updatedActivity = filteredData?.filter((item) => item !== deleteItem);
+
+        const updatedActivity = filteredData?.filter(
+            (item) => item !== deleteItem
+        );
         setFilteredData(updatedActivity);
         setCheckModalActive(false);
     };
@@ -118,7 +126,11 @@ export default function ChecklistEditItemPage(props: PropType) {
             )}
 
             {selectModalActive ? (
-                <SelectModal tourId={tourId} clickOK={handleEdit} clickCancel={closeSelectModal} />
+                <SelectModal
+                    tourId={tourId}
+                    clickOK={handleEdit}
+                    clickCancel={closeSelectModal}
+                />
             ) : (
                 <></>
             )}
@@ -138,7 +150,11 @@ export default function ChecklistEditItemPage(props: PropType) {
                     />
                 </div>
                 <div className="mb-5">
-                    <ChecklistInput tourId={tourId} onUpdate={onUpdate} default={editItem} />
+                    <ChecklistInput
+                        tourId={tourId}
+                        onUpdate={onUpdate}
+                        default={editItem}
+                    />
                 </div>
                 <div>
                     <div className="text-xl">사용되는 장소/활동</div>
@@ -150,10 +166,12 @@ export default function ChecklistEditItemPage(props: PropType) {
                                     className="grid grid-cols-5 border-2 m-2 p-3 rounded-lg border-[#5faad9]"
                                 >
                                     <div className="col-span-1 color-text-blue-2 text-lg">
-                                        Day{formatNumberToTwoDigits(item.tourDay)}
+                                        Day
+                                        {formatNumberToTwoDigits(item.tourDay)}
                                     </div>
                                     <div className="col-span-3 text-lg">
-                                        {item.placeId} / {mapping[item.activity][0].slice(2)}
+                                        {item.placeId} /{" "}
+                                        {mapping[item.activity][0].slice(2)}
                                     </div>
                                     <div
                                         className="col-span-1 text-end text-lg"
