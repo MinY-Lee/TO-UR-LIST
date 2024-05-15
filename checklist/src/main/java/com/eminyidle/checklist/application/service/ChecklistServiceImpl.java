@@ -252,29 +252,31 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
     public void updatePlace(String tourId, String tourPlaceId, String placeId, Integer tourDayAfter) { //장소 날짜 수정
         //TODO: 잘 합쳐 줘야 함..
 
-        log.debug("장소 변경될 예정이에요~");
         // 맞는 tour 확인 -> 없음 에러
-//        Tour tour = tourRepository.findById(tourId).orElseThrow(NoSuchTourException::new);
-//        log.debug("PLACE: tour 있다");
-//        if (tourPlaceRepository.existsByTourIdAndPlaceIdAndTourDay(tourId,placeId,tourDayAfter)) { //기존에 있는 경우
-//            //해당 날짜에 있는 활동과, 그 장소가 가진 활동들 잘 합쳐 줘야 함
-//            log.debug("PLACE: ~@~@");
-//            log.debug(tourPlaceRepository.findById(tourPlaceId).orElseThrow(NoSuchTourPlaceException::new).toString());
-//            throw new DuplicatedTourPlaceException();
-//        }
-//        log.debug("place 준비");
-//        tourPlaceRepository.save(TourPlace.builder()
-//                .tourPlaceId(tourPlaceId)
-//                .placeAndTour(Go.builder()
-//                        .placeId(placeId)
-//                        .tourDay(tourDay)
-//                        .tour(tour)
-//                        .build())
-//                .build());
-//        log.debug("place 생성 완료");
-//        // 그에 맞게 활동 없음 tour_activity 생성
-//        createActivity(tourPlaceId, "");
+        Tour tour = tourRepository.findById(tourId).orElseThrow(NoSuchTourException::new);
+        log.debug("PLACE: tour 있다");
+        if (!tourPlaceRepository.existsByTourIdAndPlaceIdAndTourDay(tourId,placeId,tourDayAfter)) {
+            //기존에 없는 경우 그냥 :GO의 tourDay만 바꿔주면 됨
+            tourPlaceRepository.updateTourDayOfTourPlace(tourPlaceId,tourDayAfter);
+            return;
+        }
+        TourPlace targetTourPlace=tourPlaceRepository.findByTourIdAndPlaceIdAndTourDay(tourId,placeId,tourDayAfter).orElseThrow(NoSuchTourPlaceException::new);
 
+        tourActivityRepository.findAllByTourPlaceId(tourPlaceId).forEach(tourActivity -> {
+            if(tourActivityRepository.existsByTourPlaceIdAndActivity(targetTourPlace.getTourPlaceId(), tourActivity.getActivityName())){
+                //기존에 동일한 활동 있다
+                //해당 날짜에 있는 활동과, 그 장소가 가진 활동들 잘 합쳐 줘야 함
+                //현재 tourPlaceId에 연결된 모든 활동을.... 대상 쪽으로 머지...!
+                itemRepository.copyPublicRelationshipByTourActivtyIdAndTargetTourPlaceId(tourActivity.getTourActivityId(),targetTourPlace.getTourPlaceId());
+                itemRepository.copyTakeRelationshipByTourActivtyIdAndTargetTourPlaceId(tourActivity.getTourActivityId(),targetTourPlace.getTourPlaceId());
+                tourActivityRepository.deleteById(tourActivity.getTourActivityId());
+            } else{
+                //자신을 그곳에
+                tourActivityRepository.updateTourPlaceByTourActivtyIdAndTargetTourPlaceId(tourActivity.getTourActivityId(),targetTourPlace.getTourPlaceId());
+            }
+        });
+        //다 옮기면 현재 투어플레이스 삭제
+        tourPlaceRepository.deleteById(tourPlaceId);
     }
     @Override
     public void createActivity(String tourId, String PlaceId, Integer tourDay, String activityName){
