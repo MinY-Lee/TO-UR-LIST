@@ -27,13 +27,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class KafkaListenerService {
 
+    private final ObjectMapper objectMapper;
     private final ChecklistServiceImpl checklistService;
 
     @KafkaListener(topics = "${KAFKA_TOUR_ALERT_TOPIC}", containerFactory = "kafkaListenerContainerFactory")
     private void consumeTourMessage(@Payload String kafkaMessage) {
         log.debug("consumeTourMessage");
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
             TourKafkaMessage message = objectMapper.readValue(kafkaMessage, TourKafkaMessage.class);
             log.debug("-->" + message);
             TourNode tour = message.getBody();
@@ -68,7 +68,6 @@ public class KafkaListenerService {
     private void consumeMemberMessage(@Payload String kafkaMessage) {
         log.debug("consumeMemberMessage");
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
             TourMemberKafkaMessage message = objectMapper.readValue(kafkaMessage, TourMemberKafkaMessage.class);
             log.debug("-->" + message.toString());
             TourMember member=message.getBody();
@@ -93,16 +92,20 @@ public class KafkaListenerService {
     private void consumePlaceMessage(@Payload String kafkaMessage) {
         log.debug("consumePlaceMessage");
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
             TourPlaceKafkaMessage message = objectMapper.readValue(kafkaMessage, TourPlaceKafkaMessage.class);
             log.debug("-->" + message.toString());
 
             TourPlaceNode tourPlace = message.getBody();
             switch (message.getType()) {
                 case "CREATE":
-                    log.debug("created tour");
+                    log.debug("created place");
                     log.debug(tourPlace.toString());
                     checklistService.createPlace(tourPlace.getTourId(),tourPlace.getTourPlaceId(),tourPlace.getPlaceId(), tourPlace.getTourDay());
+                    break;
+                case "UPDATE":
+                    log.debug("UPDATE place");
+                    log.debug(tourPlace.toString());
+                    checklistService.updatePlace(tourPlace.getTourId(),tourPlace.getTourPlaceId(),tourPlace.getPlaceId(), tourPlace.getTourDay());
                     break;
                 case "DELETE":
                     checklistService.deletePlace(tourPlace.getTourId(),tourPlace.getPlaceId(), tourPlace.getTourDay());
@@ -120,7 +123,6 @@ public class KafkaListenerService {
     private void consumeActivityMessage(@Payload String kafkaMessage) {
         log.debug("consumeActivityMessage");
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
             TourActivityKafkaMessage message = objectMapper.readValue(kafkaMessage, TourActivityKafkaMessage.class);
             log.debug("-->" + message.toString());
 
