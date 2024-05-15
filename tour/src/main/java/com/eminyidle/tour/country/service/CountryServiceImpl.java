@@ -36,7 +36,7 @@ public class CountryServiceImpl implements CountryService {
     @Override
     public List<City> searchCityList(String countryCode) {
         return cityRepository.findAllByCountryCode(countryCode).stream().map(
-                cityEntity -> City.builder() //TODO - cityID는 마리아디비에서 챙겨야 할까?
+                cityEntity -> City.builder()
                         .cityName(cityEntity.getCityNameKor())
                         .countryCode(cityEntity.getCountryCode())
                         .build()

@@ -57,7 +57,7 @@ public class TourServiceImpl implements TourService, MemberService, UserUpdateUs
                 .endDate(createTourReq.getEndDate())
                 .cityList(createTourReq.getCityList().stream().map(
                         (city) ->
-                                cityRepository.findCity(city.getCityName(), city.getCountryCode()).orElseGet(() -> {
+                                cityRepository.findByCityNameAndCountryCode(city.getCityName(), city.getCountryCode()).orElseGet(() -> {
                                     countryCityRepository.findCityEntityByCountryCodeAndCityNameKor(city.getCountryCode(), city.getCityName()).orElseThrow(NoSuchCityException::new);
                                     return cityRepository.save(City.builder()
                                             .countryCode(city.getCountryCode())
@@ -130,7 +130,7 @@ public class TourServiceImpl implements TourService, MemberService, UserUpdateUs
         if (!isHost(userId, tourId)) throw new NoHostPrivilegesException();
 
         tourRepository.deleteById(tourId);
-        //TODO - 연결된 모든 tourActivity도 지워져야 한다 (KAFKA)
+
         kafkaProducer.produceDeleteTour(new Tour(tourId));
     }
 
@@ -152,14 +152,14 @@ public class TourServiceImpl implements TourService, MemberService, UserUpdateUs
         kafkaProducer.produceUpdateTourDate(tour);
     }
 
-    @Override //FIXME - 로직 변경
+    @Override // 로직 변경(refactor)
     public void updateTourCity(String userId, UpdateTourCityReq updateTourCityReq) {
         //DB에 도시 있으면 그 도시와 연결하고.. 없으면 새로운 도시 노드 만들어서 맞는 국가랑 연결..
         Tour tour = tourRepository.findByUserIdAndTourId(userId, updateTourCityReq.getTourId()).orElseThrow(NoSuchTourException::new);
         log.debug(tour.toString());
         Set<City> citySet = updateTourCityReq.getCityList().stream().map(
                 (city) ->
-                        cityRepository.findCity(city.getCityName(), city.getCountryCode()).orElseGet(() -> {
+                        cityRepository.findByCityNameAndCountryCode(city.getCityName(), city.getCountryCode()).orElseGet(() -> {
                             countryCityRepository.findCityEntityByCountryCodeAndCityNameKor(city.getCountryCode(), city.getCityName()).orElseThrow(NoSuchCityException::new);
                             log.debug(city.toString());
                             return cityRepository.save(City.builder()
@@ -181,7 +181,7 @@ public class TourServiceImpl implements TourService, MemberService, UserUpdateUs
 
         tourRepository.save(tour);
 
-        // TODO - 나라와 연계된 체크리스트 업데이트(Kafka)
+
         kafkaProducer.produceUpdateTourCity(tour);
     }
 
@@ -225,7 +225,7 @@ public class TourServiceImpl implements TourService, MemberService, UserUpdateUs
         }
         Tour tour = tourRepository.findByUserIdAndTourId(userId, tourId).orElseThrow(NoSuchTourException::new);
         userRepository.deleteGuestRelationship(userId, tourId);
-        //TODO- 관련 모든 아이템 삭제(KAFKA)
+
         kafkaProducer.produceDeleteMember(userId,tourId);
         if (tour.getEndDate().isBefore(LocalDateTime.now())) { //여행 후인 경우 - 다른 멤버들에게는 연결 정보 유지: 유저이지만, 타입을 고스트로 변경
             userRepository.createMemberRelationship(userId, tourId, "ghost");
