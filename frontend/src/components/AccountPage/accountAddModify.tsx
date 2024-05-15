@@ -256,7 +256,7 @@ export default function AccountAddModify(props: PropType) {
             <div className="w-full flex flex-col items-center h-[60vh] overflow-y-scroll mt-8 justify-between">
                 <div className="w-[70%]">
                     <div className="text-sm mb-2 color-text-blue-1">
-                        *모든 항목 입력 필수
+                        *모든 항목 필수 입력
                     </div>
                     <div>
                         <div className="flex border border-black rounded-lg items-center">

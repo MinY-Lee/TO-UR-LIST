@@ -83,10 +83,6 @@ export default function AccountPage() {
         // 개인 총 지출 계산
         data.forEach((item: AccountInfo) => {
             if (item.payType == "private" && item.payerId == userInfo.userId) {
-                if (item.currencyCode == currency.currencyCode) {
-                    // 환율 적용해서 한화로 수정 후 더해야 함
-                    total += item.payAmount * currency.currencyRate;
-                }
                 total += item.payAmount;
             }
         });
@@ -100,11 +96,6 @@ export default function AccountPage() {
             if (item.payType == "public") {
                 item.payMemberList.map((payMember: PayMember) => {
                     if (payMember.userId == userInfo.userId) {
-                        if (item.currencyCode == currency.currencyCode) {
-                            // 환율 적용해서 한화로 수정 후 더해야 함
-                            total +=
-                                payMember.payAmount * currency.currencyRate;
-                        }
                         total += payMember.payAmount;
                     }
                 });
@@ -154,7 +145,7 @@ export default function AccountPage() {
                         1{currency.unit} = {currency.currencyRate.toString()} 원
                     </div>
                     <div className="mt-3">
-                        *지출 내역 클릭시 환율 상세 지정이 가능합니다. (아직ㄴ)
+                        *지출 내역 클릭시 환율 상세 지정이 가능합니다.
                     </div>
                 </div>
             );
