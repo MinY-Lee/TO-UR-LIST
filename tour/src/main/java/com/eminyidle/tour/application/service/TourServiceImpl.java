@@ -146,8 +146,7 @@ public class TourServiceImpl implements TourService, MemberService, UserUpdateUs
         if (updateTourPeriodReq.getStartDate().isAfter(updateTourPeriodReq.getEndDate())) {
             throw new AbnormalTourDateException();
         }
-        tour.setStartDate(updateTourPeriodReq.getStartDate());
-        tour.setEndDate(updateTourPeriodReq.getEndDate());
+        tour.setTourDate(updateTourPeriodReq.getStartDate(),updateTourPeriodReq.getEndDate());
         tourRepository.save(tour);
         //Kafka
         kafkaProducer.produceUpdateTourDate(tour);
