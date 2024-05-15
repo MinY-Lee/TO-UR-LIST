@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { WebSockPlace } from '../../types/types';
+import { useEffect, useRef, useState } from "react";
+import { WebSockPlace } from "../../types/types";
 
 interface PropType {
     schedule: WebSockPlace[][];
@@ -27,8 +27,8 @@ export default function Maps(props: PropType) {
             const marker = new google.maps.Marker({
                 position: { lat: 37.5, lng: 127 },
                 map: initMap,
-                title: 'Seoul',
-                label: '0일차 서울',
+                title: "Seoul",
+                label: "0일차 서울",
             });
 
             const arr: google.maps.Marker[] = [];
@@ -69,13 +69,13 @@ export default function Maps(props: PropType) {
                         props.selectedDate === -1
                     ) {
                         const cache = cacheMap.current;
-                        console.log(cache);
+                        // console.log(cache);
                         //정보가 없으면 api 호출
                         if (!cache.get(place.placeId)) {
                             placesService?.getDetails(
                                 { placeId: place.placeId },
                                 (results) => {
-                                    console.log('api 호출');
+                                    // console.log("api 호출");
                                     const lat =
                                         results.geometry?.location.lat();
                                     const lng =
@@ -95,7 +95,7 @@ export default function Maps(props: PropType) {
                                                     title: place.placeName,
                                                     label:
                                                         place.tourDay +
-                                                        '일차 ' +
+                                                        "일차 " +
                                                         place.placeName,
                                                 });
 
@@ -107,7 +107,7 @@ export default function Maps(props: PropType) {
                                                     map: googleMap,
                                                     title: place.placeName,
                                                     label:
-                                                        '날짜없음 ' +
+                                                        "날짜없음 " +
                                                         place.placeName,
                                                 });
 
@@ -130,7 +130,7 @@ export default function Maps(props: PropType) {
                                     title: place.placeName,
                                     label:
                                         place.tourDay +
-                                        '일차 ' +
+                                        "일차 " +
                                         place.placeName,
                                 });
                                 newMarkers.push(marker);

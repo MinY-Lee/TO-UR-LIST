@@ -1,17 +1,17 @@
-import { useSelector } from 'react-redux';
-import { UserInfo } from '../../types/types';
-import { BaseSyntheticEvent, useEffect, useState } from 'react';
-import GenderSelectBox from '../../components/MyPage/GenderSelectBox';
-import TabBarMain from '../../components/TabBar/TabBarMain';
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import { UserInfo } from "../../types/types";
+import { BaseSyntheticEvent, useEffect, useState } from "react";
+import GenderSelectBox from "../../components/MyPage/GenderSelectBox";
+import TabBarMain from "../../components/TabBar/TabBarMain";
+import { useNavigate } from "react-router-dom";
 import {
     changeBirthDay,
     changeGender,
     changeName,
     changeNickname,
     checkDuplicatedNick,
-} from '../../util/api/user';
-import { httpStatusCode } from '../../util/api/http-status';
+} from "../../util/api/user";
+import { httpStatusCode } from "../../util/api/http-status";
 
 export default function MypageInfo() {
     const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
@@ -21,7 +21,7 @@ export default function MypageInfo() {
         userInfo.userNickname
     );
     const [userBirthDay, setUserBirthDay] = useState<string>(
-        userInfo.userBirth ? userInfo.userBirth.replaceAll('-', '.') : ''
+        userInfo.userBirth ? userInfo.userBirth.replaceAll("-", ".") : ""
     );
 
     const [userGender, setUserGender] = useState<number>(userInfo.userGender);
@@ -33,7 +33,7 @@ export default function MypageInfo() {
     const [isValidNickname, setIsValidNickname] = useState<boolean>(true);
     const [isNicknameDupleChecked, setIsNicknameDupleChecked] =
         useState<boolean>(true);
-    const [nicknameMsg, setNicknameMsg] = useState<string>('');
+    const [nicknameMsg, setNicknameMsg] = useState<string>("");
     const [isValidBirthday, setIsValidBirthDay] = useState<boolean>(true);
 
     const [isChangePossible, setIsChangePossible] = useState<boolean>(true);
@@ -50,15 +50,15 @@ export default function MypageInfo() {
     }, [userName]);
 
     useEffect(() => {
-        setNicknameMsg('닉네임은 최소 2~15자로 구성되어야 합니다.');
+        setNicknameMsg("닉네임은 최소 2~15자로 구성되어야 합니다.");
         if (userNickname.length >= 2 && userNickname.length <= 15) {
-            if (userNickname !== '(알 수 없음)') {
-                setNicknameMsg('닉네임이 중복되었는지 확인해 주세요.');
+            if (userNickname !== "(알 수 없음)") {
+                setNicknameMsg("닉네임이 중복되었는지 확인해 주세요.");
                 setIsValidNickname(true);
                 return;
             }
             //길이는 맞으나 예약어
-            setNicknameMsg('예약어는 사용 불가능합니다.');
+            setNicknameMsg("예약어는 사용 불가능합니다.");
         }
         setIsValidNickname(false);
     }, [userNickname]);
@@ -71,7 +71,7 @@ export default function MypageInfo() {
         }
         //날짜 유효성 검사
         const now = new Date();
-        const [yearS, monthS, dayS] = userBirthDay.split('.');
+        const [yearS, monthS, dayS] = userBirthDay.split(".");
         const year = Number(yearS);
         if (year < 1901 || year > now.getFullYear()) {
             //생년이 1901년 이전이거나 오늘 이후다.
@@ -148,9 +148,9 @@ export default function MypageInfo() {
         checkDuplicatedNick(userNickname)
             .then((res) => {
                 if (res.data.isDuplicated) {
-                    setNicknameMsg('중복된 닉네임입니다.');
+                    setNicknameMsg("중복된 닉네임입니다.");
                 } else {
-                    setNicknameMsg('유효하지 않은 닉네임입니다.'); //오류 메시지 초기화
+                    setNicknameMsg("유효하지 않은 닉네임입니다."); //오류 메시지 초기화
                     setIsNicknameDupleChecked(true);
                 }
             })
@@ -160,7 +160,7 @@ export default function MypageInfo() {
     };
 
     const birtyDayChanged = (event: BaseSyntheticEvent) => {
-        const dateString = event.target.value.replaceAll('.', '');
+        const dateString = event.target.value.replaceAll(".", "");
         //숫자만 입력 가능
         if (isNaN(dateString)) {
             return;
@@ -169,10 +169,10 @@ export default function MypageInfo() {
             return;
         }
 
-        let tempString = '';
+        let tempString = "";
         for (let i = 0; i < dateString.length; i++) {
             if (i === 4 || i === 6) {
-                tempString += '.';
+                tempString += ".";
             }
             tempString += dateString[i];
         }
@@ -191,14 +191,14 @@ export default function MypageInfo() {
         const res1 = await changeName({
             userName: userName,
         });
-        console.log(userNickname);
+        // console.log(userNickname);
         const res2 = await changeNickname({
             userNickname: userNickname,
         });
 
-        const sendBirthday = userBirthDay.replaceAll('.', '-');
+        const sendBirthday = userBirthDay.replaceAll(".", "-");
         const res3 = await changeBirthDay({
-            userBirth: sendBirthday + 'T00:00:00',
+            userBirth: sendBirthday + "T00:00:00",
         });
 
         const res4 = await changeGender({
@@ -213,7 +213,7 @@ export default function MypageInfo() {
         ) {
             navigate(`/mypage`);
         } else {
-            console.log(res1);
+            // console.log(res1);
         }
 
         //생일은 검증 필요
@@ -257,7 +257,7 @@ export default function MypageInfo() {
                         <div className="w-[80%] flex flex-col">
                             <input
                                 className="px-2vw my-vw border-dot3vw border-[#929292]"
-                                style={{ borderRadius: 'min(1vw, 4.8px)' }}
+                                style={{ borderRadius: "min(1vw, 4.8px)" }}
                                 value={userName}
                                 placeholder="이름을 입력하세요."
                                 onChange={nameChanged}
@@ -281,7 +281,7 @@ export default function MypageInfo() {
                             <div className="w-full flex">
                                 <input
                                     className="px-2vw my-vw border-dot3vw border-[#929292] w-[70%] mr-vw"
-                                    style={{ borderRadius: 'min(1vw, 4.8px)' }}
+                                    style={{ borderRadius: "min(1vw, 4.8px)" }}
                                     value={userNickname}
                                     placeholder="닉네임을 입력하세요."
                                     onChange={nicknameChanged}
@@ -291,7 +291,7 @@ export default function MypageInfo() {
                                     <div
                                         className="w-[28%] my-vw color-bg-blue-2 text-white flex justify-center items-center"
                                         style={{
-                                            borderRadius: 'min(1vw, 4.8px)',
+                                            borderRadius: "min(1vw, 4.8px)",
                                         }}
                                         onClick={checkDupleNickname}
                                     >
@@ -301,7 +301,7 @@ export default function MypageInfo() {
                                     <div
                                         className="w-[28%] my-vw bg-[#929292] text-white flex justify-center items-center"
                                         style={{
-                                            borderRadius: 'min(1vw, 4.8px)',
+                                            borderRadius: "min(1vw, 4.8px)",
                                         }}
                                     >
                                         중복 체크
@@ -325,7 +325,7 @@ export default function MypageInfo() {
                         <div className="w-[80%] flex flex-col">
                             <input
                                 className="px-2vw my-vw border-dot3vw border-[#929292]"
-                                style={{ borderRadius: 'min(1vw, 4.8px)' }}
+                                style={{ borderRadius: "min(1vw, 4.8px)" }}
                                 value={userBirthDay}
                                 placeholder="YYYY.MM.DD"
                                 onChange={birtyDayChanged}
@@ -360,7 +360,7 @@ export default function MypageInfo() {
                         {isChangePossible ? (
                             <div
                                 className="w-[48%] color-bg-blue-2 text-white flex justify-center items-center py-2vw"
-                                style={{ borderRadius: 'min(1vw, 4.8px)' }}
+                                style={{ borderRadius: "min(1vw, 4.8px)" }}
                                 onClick={submitChange}
                             >
                                 수정완료
@@ -368,7 +368,7 @@ export default function MypageInfo() {
                         ) : (
                             <div
                                 className="w-[48%] bg-[#D9D9D9] text-[#646464] flex justify-center items-center py-2vw"
-                                style={{ borderRadius: 'min(1vw, 4.8px)' }}
+                                style={{ borderRadius: "min(1vw, 4.8px)" }}
                             >
                                 수정 조건 미충족
                             </div>
@@ -376,7 +376,7 @@ export default function MypageInfo() {
 
                         <div
                             className="w-[48%] bg-[#D9D9D9] text-[#646464] flex justify-center items-center py-2vw"
-                            style={{ borderRadius: 'min(1vw, 4.8px)' }}
+                            style={{ borderRadius: "min(1vw, 4.8px)" }}
                             onClick={() => {
                                 navigate(`/mypage`);
                             }}

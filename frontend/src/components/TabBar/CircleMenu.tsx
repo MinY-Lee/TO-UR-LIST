@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import WebSocket from './WebSocket';
+import { useEffect, useState } from "react";
+import WebSocket from "./WebSocket";
 
 interface PropType {
     width: number;
@@ -10,46 +10,46 @@ interface PropType {
 export default function CircleMenu(props: PropType) {
     const radius = props.width / 2;
 
-    const [conicString, setConicString] = useState<string>('');
+    const [conicString, setConicString] = useState<string>("");
 
     //receipt
-    const leftPos1 = radius + radius * 1.15 * Math.cos(Math.PI / 6);
-    const topPos1 = -1 * (radius * 1.15 * Math.sin(Math.PI / 6));
+    const leftPos1 = radius + radius * 1 * Math.cos(Math.PI / 6);
+    const topPos1 = -1 * (radius * 1 * Math.sin(Math.PI / 6));
 
     //calender
-    const leftPos2 = radius + radius * 1.15 * Math.cos(Math.PI / 2);
-    const topPos2 = -1 * (radius * 1.15 * Math.sin(Math.PI / 2));
+    const leftPos2 = radius + radius * 1 * Math.cos(Math.PI / 2);
+    const topPos2 = -1 * (radius * 1 * Math.sin(Math.PI / 2));
 
     //checklist
-    const leftPos3 = radius + radius * 1.15 * Math.cos((5 * Math.PI) / 6);
-    const topPos3 = -1 * (radius * 1.15 * Math.sin((5 * Math.PI) / 6));
+    const leftPos3 = radius + radius * 1 * Math.cos((5 * Math.PI) / 6);
+    const topPos3 = -1 * (radius * 1 * Math.sin((5 * Math.PI) / 6));
 
     useEffect(() => {
         if (props.tourMode === 1) {
             setConicString(
-                'white 0deg, white 120deg, #a2dcf2 120deg, #a2dcf2 180deg, white 180deg, white 360deg'
+                "white 0deg, white 120deg, #a2dcf2 120deg, #a2dcf2 180deg, white 180deg, white 360deg"
             );
         } else if (props.tourMode === 2) {
             setConicString(
-                'white 0deg, white 60deg, #a2dcf2 60deg, #a2dcf2 120deg, white 120deg, white 360deg'
+                "white 0deg, white 60deg, #a2dcf2 60deg, #a2dcf2 120deg, white 120deg, white 360deg"
             );
         } else if (props.tourMode === 3) {
             setConicString(
-                '#a2dcf2 0deg, #a2dcf2 60deg, white 60deg, white 360deg'
+                "#a2dcf2 0deg, #a2dcf2 60deg, white 60deg, white 360deg"
             );
         }
     }, []);
     return (
         <>
             <div
-                className="w-[150%] aspect-square rounded-[50%] -z-10 absolute left-[50%] border-[0.2vw] border-[#D9D9D9] bg-white"
+                className="w-[130%] aspect-square rounded-[50%] -z-10 absolute left-[50%] border-[0.2vw] border-[#D9D9D9] bg-white"
                 style={{
                     transform: `translate(-50%, -50%) rotate(270deg) scaleY(-1)`,
                     backgroundImage: `conic-gradient(${conicString})`,
                 }}
             ></div>
             <div
-                className="w-[85%] aspect-square rounded-[50%] -z-10 absolute left-[50%] bg-white"
+                className="w-[65%] aspect-square rounded-[50%] -z-10 absolute left-[50%] bg-white"
                 style={{ transform: `translate(-50%, -50%)` }}
             ></div>
             <span

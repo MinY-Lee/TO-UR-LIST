@@ -1,25 +1,25 @@
-import TabBarTour from '../../components/TabBar/TabBarTour';
-import DaySelectBar from '../../components/SchedulePage/DaySelectBar';
-import { useState, useEffect } from 'react';
-import TourHeader from '../../components/TourPage/TourHeader';
-import ScheduleBar from '../../components/SchedulePage/ScheduleBar';
-import Maps from '../../components/SchedulePage/Maps';
-import { Wrapper } from '@googlemaps/react-wrapper';
-import { TourInfoDetail, WebSockPlace } from '../../types/types';
-import WebSocket from '../../components/TabBar/WebSocket';
+import TabBarTour from "../../components/TabBar/TabBarTour";
+import DaySelectBar from "../../components/SchedulePage/DaySelectBar";
+import { useState, useEffect } from "react";
+import TourHeader from "../../components/TourPage/TourHeader";
+import ScheduleBar from "../../components/SchedulePage/ScheduleBar";
+import Maps from "../../components/SchedulePage/Maps";
+import { Wrapper } from "@googlemaps/react-wrapper";
+import { TourInfoDetail, WebSockPlace } from "../../types/types";
+import WebSocket from "../../components/TabBar/WebSocket";
 
 //dummy data
 // import tourInfo from '../../dummy-data/get_tour_tourId.json';
 // import tourSchedule from '../../dummy-data/get_tour_place_tourId.json';
-import { getTour } from '../../util/api/tour';
-import { getPlaceList } from '../../util/api/place';
-import { Client } from '@stomp/stompjs';
+import { getTour } from "../../util/api/tour";
+import { getPlaceList } from "../../util/api/place";
+import { Client } from "@stomp/stompjs";
 
 export default function TourSchedulePage() {
     const [period, setPeriod] = useState<number>(0);
 
     //헤더 타입
-    const [type, setType] = useState<string>('');
+    const [type, setType] = useState<string>("");
 
     //스케줄 저장 배열 schedule[i]는 i일째 일정(0은 일정 없음)
     const [schedule, setSchedule] = useState<WebSockPlace[][]>([[]]);
@@ -29,9 +29,9 @@ export default function TourSchedulePage() {
 
     //여행 정보
     const [tourInfo, setTourInfo] = useState<TourInfoDetail>({
-        tourTitle: '',
-        startDate: '',
-        endDate: '',
+        tourTitle: "",
+        startDate: "",
+        endDate: "",
         memberList: [],
         cityList: [],
     });
@@ -39,14 +39,14 @@ export default function TourSchedulePage() {
     const [newSchedule, setNewSchedule] = useState<WebSockPlace[]>([]);
 
     // 투어 아이디 불러오기
-    const address: string[] = window.location.href.split('/');
+    const address: string[] = window.location.href.split("/");
     const tourId: string = address[address.length - 2];
 
     /**여행 정보 불러오기 */
     useEffect(() => {
         getTour(tourId)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 setTourInfo(res.data);
             })
             .catch((err) => {
@@ -110,12 +110,12 @@ export default function TourSchedulePage() {
                         onChange={onChange}
                     />
                 </div>
-                <div className="w-full h-[65%] relative overflow-hidden">
+                <div className="w-full h-[68%] relative overflow-hidden">
                     <Wrapper
                         apiKey={`${
                             import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY
                         }`}
-                        libraries={['marker', 'places']}
+                        libraries={["marker", "places"]}
                     >
                         <Maps
                             schedule={schedule}
