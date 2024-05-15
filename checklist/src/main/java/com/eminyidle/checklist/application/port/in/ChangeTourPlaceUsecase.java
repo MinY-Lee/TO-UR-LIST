@@ -8,5 +8,5 @@ public interface ChangeTourPlaceUsecase {
     void deletePlace(String tourId, String placeId, Integer tourDay);
 
     //장소 변경
-    void updatePlace(String tourId, String placeId, Integer tourDayBefore, Integer tourDayAfter);
+    void updatePlace(String tourId, String tourPlaceId, String placeId, Integer tourDayAfter);
 }

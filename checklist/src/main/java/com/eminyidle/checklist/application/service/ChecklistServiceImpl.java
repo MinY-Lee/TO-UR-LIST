@@ -249,9 +249,32 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
     }
 
     @Override
-    public void updatePlace(String tourId, String placeId, Integer tourDayBefore, Integer tourDayAfter) { //장소 날짜 수정
+    public void updatePlace(String tourId, String tourPlaceId, String placeId, Integer tourDayAfter) { //장소 날짜 수정
         //TODO: 잘 합쳐 줘야 함..
-        //해당 날짜에 있는 활동과, 그 장소가 가진 활동들 잘 합쳐 줘야 함
+
+        log.debug("장소 변경될 예정이에요~");
+        // 맞는 tour 확인 -> 없음 에러
+//        Tour tour = tourRepository.findById(tourId).orElseThrow(NoSuchTourException::new);
+//        log.debug("PLACE: tour 있다");
+//        if (tourPlaceRepository.existsByTourIdAndPlaceIdAndTourDay(tourId,placeId,tourDayAfter)) { //기존에 있는 경우
+//            //해당 날짜에 있는 활동과, 그 장소가 가진 활동들 잘 합쳐 줘야 함
+//            log.debug("PLACE: ~@~@");
+//            log.debug(tourPlaceRepository.findById(tourPlaceId).orElseThrow(NoSuchTourPlaceException::new).toString());
+//            throw new DuplicatedTourPlaceException();
+//        }
+//        log.debug("place 준비");
+//        tourPlaceRepository.save(TourPlace.builder()
+//                .tourPlaceId(tourPlaceId)
+//                .placeAndTour(Go.builder()
+//                        .placeId(placeId)
+//                        .tourDay(tourDay)
+//                        .tour(tour)
+//                        .build())
+//                .build());
+//        log.debug("place 생성 완료");
+//        // 그에 맞게 활동 없음 tour_activity 생성
+//        createActivity(tourPlaceId, "");
+
     }
     @Override
     public void createActivity(String tourId, String PlaceId, Integer tourDay, String activityName){
