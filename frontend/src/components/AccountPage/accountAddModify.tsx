@@ -59,6 +59,8 @@ export default function AccountAddModify(props: PropType) {
 
     const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
 
+    const navigate = useNavigate();
+
     const idToName = (memberId: string): string => {
         const member = props.tourData.memberList.find(
             (member) => member.userId === memberId
@@ -124,8 +126,6 @@ export default function AccountAddModify(props: PropType) {
                 setType(props.data.payMethod);
                 setUnit(props.data.unit);
                 setExchangeRate(props.data.exchangeRate);
-
-                dividePayAmount();
             }
         }
     }, [currency]);
@@ -156,10 +156,11 @@ export default function AccountAddModify(props: PropType) {
     };
 
     const handleCurrencyRate = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (Number(event.target.value)) {
-            setExchangeRate(Number(event.target.value));
+        const inputValue = parseInt(event.target.value);
+        if (!isNaN(inputValue)) {
+            setExchangeRate(inputValue);
         } else {
-            setExchangeRate(currency.currencyRate);
+            setExchangeRate(0);
         }
     };
 
@@ -205,17 +206,13 @@ export default function AccountAddModify(props: PropType) {
         setPayMember(updatedMember);
     };
 
-    const dividePayAmount = () => {
+    const handleSave = () => {
+        // N빵 후 보내
         let updatedMember: PayMember[] = [];
-        payMember.map((member) => {
-            const value = Math.ceil(amount / payMember.length);
+        payMember.map((member: PayMember) => {
+            const value = Math.ceil((amount * exchangeRate) / payMember.length);
             updatedMember.push({ userId: member.userId, payAmount: value });
         });
-        setPayMember(updatedMember);
-    };
-
-    const handleSave = () => {
-        dividePayAmount();
 
         const newAccountItem: AccountInfo = {
             payType: isPublic ? "public" : "private",
@@ -229,30 +226,28 @@ export default function AccountAddModify(props: PropType) {
             payContent: content,
             payCategory: category,
             payerId: payer,
-            payMemberList: payMember,
+            payMemberList: updatedMember,
         };
-        // payId 리턴값으로 받아오기
 
         if (props.isModify) {
             editAccount(payId, newAccountItem)
                 .then((res) => {
                     if (res.status === httpStatusCode.OK) {
-                        console.log(res.data);
+                        navigate(-1);
                     }
                 })
                 .catch((err) => console.log(err));
         } else {
-            console.log(newAccountItem);
             addAccount(newAccountItem)
                 .then((res) => {
                     if (res.status === httpStatusCode.OK) {
+                        // payId 돌아옴
                         console.log(res.data);
+                        navigate(-1);
                     }
                 })
                 .catch((err) => console.log(err));
         }
-
-        // navigate(-1);
     };
 
     return (
@@ -313,7 +308,11 @@ export default function AccountAddModify(props: PropType) {
                             <div>
                                 <div>
                                     <input
-                                        value={exchangeRate}
+                                        value={
+                                            exchangeRate == 0
+                                                ? ""
+                                                : exchangeRate
+                                        }
                                         onChange={handleCurrencyRate}
                                         type="number"
                                         className="block w-20 px-2 text-sm text-gray-900 border"
