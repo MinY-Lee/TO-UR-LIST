@@ -9,18 +9,22 @@ import { useLocation } from 'react-router-dom';
 import { Wrapper } from '@googlemaps/react-wrapper';
 import WebSocket from '../../components/TabBar/WebSocket';
 
-import { PlaceInfo, TourInfoDetail } from '../../types/types';
+import { PlaceInfo, TourInfoDetail, WebSockPlace } from '../../types/types';
 import SearchMaps from '../../components/SchedulePage/SearchMaps';
 import SearchSlideBar from '../../components/SchedulePage/SearchSlideBar';
 import SearchBar from '../../components/SchedulePage/SearchBar';
-import { searchPlace } from '../../util/api/place';
+import { getPlaceList, searchPlace } from '../../util/api/place';
 import { httpStatusCode } from '../../util/api/http-status';
 import { getTour } from '../../util/api/tour';
+import { Client } from '@stomp/stompjs';
 
 export default function PlaceAddPage() {
     const [selectedDate, setSelectedDate] = useState<number>(-1);
     const [searchedPlaces, setSearchedPlaces] = useState<PlaceInfo[]>([]);
     const [period, setPeriod] = useState<number>(0);
+
+    //웹소켓
+    const [wsClient, setWsClient] = useState<Client>(new Client());
 
     const [tourInfo, setTourInfo] = useState<TourInfoDetail>({
         tourTitle: '',
@@ -34,6 +38,10 @@ export default function PlaceAddPage() {
     const address: string[] = window.location.href.split('/');
     const tourId: string = address[address.length - 3];
 
+    //이번 날짜에 방문한 장소 캐시
+    //이번 날짜에 방문한 장소의 placeid를 저장해 놓음.
+    const [visitedCache, setVisitedCache] = useState<Set<string>>(new Set());
+
     //useLocation
     //state 불러오기
     const location = useLocation();
@@ -44,6 +52,7 @@ export default function PlaceAddPage() {
             setPeriod(location.state.period);
         }
 
+        //초기 여행 정보 불러오기
         getTour(tourId)
             .then((res) => {
                 if (res.status === httpStatusCode.OK) {
@@ -55,6 +64,22 @@ export default function PlaceAddPage() {
             .catch((err) => {
                 console.log(err);
             });
+
+        //전체 일정 불러오기 및 날짜 기반으로 캐시 생성
+        getPlaceList(tourId).then((res) => {
+            if (res.status === httpStatusCode.OK) {
+                const schedule: WebSockPlace[] = res.data;
+                const newCache: Set<string> = new Set();
+                schedule.map((place) => {
+                    //넘어온 선택 날짜는 +1 해주어야 함.
+                    if (place.tourDay === location.state.selectedDate + 1) {
+                        newCache.add(place.placeId);
+                    }
+                });
+                //새 캐시 인식
+                setVisitedCache(newCache);
+            }
+        });
     }, []);
 
     useEffect(() => {
@@ -73,7 +98,6 @@ export default function PlaceAddPage() {
 
     const dateToString = useCallback(() => {
         const date = new Date(tourInfo.startDate);
-        console.log(selectedDate);
         date.setDate(date.getDate() + selectedDate);
 
         const year = date.getFullYear();
@@ -91,7 +115,6 @@ export default function PlaceAddPage() {
         if (e.key === 'Enter') {
             searchPlace(searchValue)
                 .then((res) => {
-                    console.log(res);
                     if (res.status === httpStatusCode.OK) {
                         setSearchedPlaces(res.data);
                     } else {
@@ -102,6 +125,21 @@ export default function PlaceAddPage() {
                     console.log(err);
                 });
         }
+    };
+
+    /**웹소켓으로 업데이트 된 정보가 오면? */
+    const update = (newSchedule: WebSockPlace[]) => {
+        //캐시 업데이트
+        const newCache: Set<string> = new Set();
+        newSchedule.map((place) => {
+            //넘어온 선택 날짜는 +1 해주어야 함.
+            if (place.tourDay === location.state.selectedDate + 1) {
+                newCache.add(place.placeId);
+            }
+        });
+
+        //새 캐시 업데이트
+        setVisitedCache(newCache);
     };
 
     return (
@@ -131,10 +169,16 @@ export default function PlaceAddPage() {
                         tourId={tourId}
                         selectedDate={selectedDate}
                         period={period}
+                        visitedCache={visitedCache}
+                        wsClient={wsClient}
                     />
                 </div>
                 <TabBarTour tourMode={2} tourId={tourId} />
-                {/* <WebSocket /> */}
+                <WebSocket
+                    setWsClient={setWsClient}
+                    tourId={tourId}
+                    update={update}
+                />
             </section>
         </>
     );

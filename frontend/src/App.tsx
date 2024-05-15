@@ -68,11 +68,6 @@ export default function App() {
                     path="/tour/:tourid/schedule/add"
                     element={<PlaceAddPage />}
                 />
-                {/* 장소 추가 상세보기 페이지 */}
-                <Route
-                    path="/tour/:tourid/schedule/add/detail"
-                    element={<PlaceAddDetailPage />}
-                />
                 {/* 일정 변경 페이지 */}
                 <Route
                     path="/tour/:tourid/schedule/edit"
@@ -81,7 +76,7 @@ export default function App() {
                 {/* 일정 변경 상세보기 페이지 */}
                 <Route
                     path="/tour/:tourid/schedule/edit/detail"
-                    element={<TourScheduleEditDetailPage />}
+                    element={<PlaceAddDetailPage />}
                 />
 
                 {/* 체크리스트 관련 */}

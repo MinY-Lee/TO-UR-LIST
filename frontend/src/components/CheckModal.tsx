@@ -11,9 +11,9 @@ interface Proptype {
 export default function CheckModal(props: Proptype) {
     return (
         <>
-            <div className="absolute w-full h-full top-0 left-0 z-20 bg-black opacity-50"></div>
+            <div className="fixed w-full h-full top-0 left-0 z-30 bg-black opacity-50"></div>
             <div
-                className="absolute w-[80%] h-[20%] left-[10%] top-[40%] z-30 bg-white flex flex-col justify-evenly items-center border-halfvw color-border-blue-2"
+                className="fixed w-[80%] h-[20%] left-[10%] top-[40%] z-40 bg-white flex flex-col justify-evenly items-center border-halfvw color-border-blue-2"
                 style={{ borderRadius: 'min(2vw, 9.6px)' }}
             >
                 <div className="w-full h-[30%] flex flex-col justify-center items-center">
