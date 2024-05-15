@@ -40,52 +40,52 @@ public class KafkaPlace {
             ObjectMapper objectMapper = new ObjectMapper();
             KafkaMessage message = objectMapper.readValue(consumerRecord.value(), KafkaMessage.class);
             Map<String, Object> tourMap = (Map<String, Object>) message.getBody();
+
+            LocalDateTime start;
+            LocalDateTime end;
+
             log.info(message.getType());
             switch (message.getType()) {
                 case "CREATE":
                     log.info("create start");
                     log.info(tourMap.toString());
-                    List<Integer> dateStart = (List<Integer>) tourMap.get("startDate");
-                    log.info(dateStart.toString());
-                    List<Integer> dateEnd = (List<Integer>) tourMap.get("endDate");
-                    log.info(String.format("%02d", dateStart.get(1)));
-                    String start = dateStart.get(0) + "-" + String.format("%02d", dateStart.get(1)) + "-" + String.format("%02d", dateStart.get(2)) + "T00:00:00";
-                    String end = dateEnd.get(0) + "-" + String.format("%02d", dateEnd.get(1)) + "-" + String.format("%02d", dateEnd.get(2)) + "T00:00:00";
-                    log.info(LocalDateTime.parse(end).toString());
-                    log.info((String) tourMap.get("tourTitle"));
+//                    List<Integer> dateStart = (List<Integer>) tourMap.get("startDate");
+//                    log.info(dateStart.toString());
+//                    List<Integer> dateEnd = (List<Integer>) tourMap.get("endDate");
+                    start = LocalDateTime.parse((String) tourMap.get("startDate"));
+                    log.info(start.toString());
+                    end = LocalDateTime.parse((String) tourMap.get("endDate"));
 
-                    Duration duration = Duration.between(LocalDateTime.parse(start),LocalDateTime.parse(end));
+                    Duration duration = Duration.between(start,end);
                     Integer tourPeriod = (int) duration.getSeconds()/(60*60*24) + 1;
                     log.info(tourPeriod.toString());
                     Tour tour = Tour.builder()
                             .tourId((String) tourMap.get("tourId"))
                             .tourTitle((String) tourMap.get("tourTitle"))
-                            .startDate(LocalDateTime.parse(start))
-                            .endDate(LocalDateTime.parse(end))
+                            .startDate(start)
+                            .endDate(end)
                             .tourPeriod(tourPeriod)
                             .build();
                     placeService.createTour(tour);
                     break;
                 case "UPDATE_DATE":
                     log.info("update start");
-                    List<Integer> updateStart = (List<Integer>) tourMap.get("startDate");
-                    List<Integer> updateEnd = (List<Integer>) tourMap.get("endDate");
-                    String startDate = updateStart.get(0) + "-" + String.format("%02d", updateStart.get(1)) + "-" + String.format("%02d", updateStart.get(2)) + "T00:00:00";
-                    String endDate = updateEnd.get(0) + "-" + String.format("%02d", updateEnd.get(1)) + "-" + String.format("%02d", updateEnd.get(2)) + "T00:00:00";
-                    log.info(LocalDateTime.parse(startDate).toString());
-                    log.info((String) tourMap.get("tourTitle"));
+                    log.info(tourMap.toString());
 
-                    Duration durationDate = Duration.between(LocalDateTime.parse(startDate),LocalDateTime.parse(endDate));
+                    start = LocalDateTime.parse((String) tourMap.get("startDate"));
+                    log.info(start.toString());
+                    end = LocalDateTime.parse((String) tourMap.get("endDate"));
+
+                    Duration durationDate = Duration.between(start,end);
                     Integer newPeriod = (int) durationDate.getSeconds()/(60*60*24) + 1;
                     Tour newTour = Tour.builder()
                             .tourId((String) tourMap.get("tourId"))
                             .tourTitle((String) tourMap.get("tourTitle"))
-                            .startDate(LocalDateTime.parse(startDate))
-                            .endDate(LocalDateTime.parse(endDate))
+                            .startDate(start)
+                            .endDate(end)
                             .tourPeriod(newPeriod)
                             .build();
-                    placeService.updateTour((String) tourMap.get("tourId"), (String) tourMap.get("tourTitle"), LocalDateTime.parse(startDate), LocalDateTime.parse(endDate),
-                            newPeriod);
+                    placeService.updateTour((String) tourMap.get("tourId"), (String) tourMap.get("tourTitle"), start, end, newPeriod);
                     break;
                 case "DELETE":
                     log.info("delete start");
