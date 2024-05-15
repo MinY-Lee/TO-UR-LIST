@@ -59,7 +59,7 @@ public class GatewayConfig {
 			.route("CHECKLIST_SERVER", predicateSpec -> predicateSpec.path("/checklist/**")
 				.filters(gatewayFilterSpec -> gatewayFilterSpec.filter(authenticationFilter))
 				.uri(CHECKLIST_SERVER_URL))
-			.route("WEBSOCKET_PLACE_SERVER", predicateSpec -> predicateSpec.path("/ws/place")
+			.route("WEBSOCKET_PLACE_SERVER", predicateSpec -> predicateSpec.path("/ws/place/**")
 				.filters(f -> f.rewritePath("/ws/(?<remaining>.*)", "/${remaining}")
 					.filter(authenticationFilter))
 				.uri(WEBSOCKET_PLACE_SERVER))
