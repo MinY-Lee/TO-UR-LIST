@@ -105,6 +105,7 @@ export default function AccountAddModify(props: PropType) {
             setUnit(currency.unit);
             setExchangeRate(currency.currencyRate);
             setPayMember([{ payAmount: 0, userId: userInfo.userId }]);
+            setDateStr(new Date().toISOString().split("T")[0]);
         } else {
             if (props.data) {
                 setAmount(props.data.payAmount);
@@ -252,8 +253,11 @@ export default function AccountAddModify(props: PropType) {
 
     return (
         <>
-            <div className="w-full flex flex-col items-center h-[60vh] overflow-y-scroll mt-10 justify-between">
+            <div className="w-full flex flex-col items-center h-[60vh] overflow-y-scroll mt-8 justify-between">
                 <div className="w-[70%]">
+                    <div className="text-sm mb-2 color-text-blue-1">
+                        *모든 항목 입력 필수
+                    </div>
                     <div>
                         <div className="flex border border-black rounded-lg items-center">
                             <div className="relative w-full">
@@ -265,7 +269,7 @@ export default function AccountAddModify(props: PropType) {
                                     placeholder="금액을 입력하세요"
                                 />
                             </div>
-                            <div className="w-0.5 h-7  bg-neutral-200"></div>
+                            <div className="w-0.5 h-7 bg-neutral-200"></div>
                             <button
                                 id="dropdown-button"
                                 className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 "
@@ -301,7 +305,7 @@ export default function AccountAddModify(props: PropType) {
                         </div>
                     </div>
                 </div>
-                <div className="w-[70%] flex flex-col gap-5 justify-start h-full m-10">
+                <div className="w-[70%] flex flex-col gap-5 justify-start h-full mx-10 my-5">
                     <div className="grid grid-cols-3">
                         <div className="col-span-1">적용환율</div>
                         <div className="col-span-2 flex gap-2 items-center">
