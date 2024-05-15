@@ -9,17 +9,26 @@ import ChecklistInput from "../../components/Checklist/checklistInput";
 import Checklist from "../../dummy-data/get_checklist.json";
 import CheckModal from "../../components/CheckModal";
 import SelectModal from "../../components/SelectModal";
+import { getChecklist } from "../../util/api/checklist";
+import { HttpStatusCode } from "axios";
 
-interface PropType {}
+interface Mapping {
+    [key: string]: string[];
+}
 
-export default function ChecklistEditItemPage(props: PropType) {
-    // 투어 아이디 불러오기
-    const address: string[] = window.location.href.split("/");
-
+export default function ChecklistEditItemPage() {
     const [tourId, setTourId] = useState<string>("");
-    const [editItem, setEditItem] = useState<Item>();
-    const [data, setData] = useState<Item[]>();
-    const [filteredData, setFilteredData] = useState<Item[]>();
+    const [editItem, setEditItem] = useState<Item>({
+        tourId: "",
+        placeId: "",
+        activity: "",
+        item: "",
+        tourDay: 0,
+        isChecked: false,
+        isPublic: false,
+    });
+    const [data, setData] = useState<Item[]>([]);
+    const [filteredData, setFilteredData] = useState<Item[]>([]);
     const [checkModalActive, setCheckModalActive] = useState<boolean>(false);
     const [selectModalActive, setSelectModalActive] = useState<boolean>(false);
     const [deleteItem, setDeleteItem] = useState<Item>();
@@ -29,16 +38,20 @@ export default function ChecklistEditItemPage(props: PropType) {
     const navigate = useNavigate();
 
     useEffect(() => {
+        // 투어 아이디 불러오기
+        const address: string[] = window.location.href.split("/");
         setTourId(address[address.length - 3]);
         // 전달받은 아이템
         setEditItem(state.item);
 
-        // 투어 아이디로 더미데이터에서 데이터 찾기 (임시)
-        const checkListData: Item[] = Checklist.filter(
-            (checklist) => checklist.tourId === tourId
-        );
-        if (checkListData) {
-            setData(checkListData);
+        if (tourId != "") {
+            getChecklist(tourId)
+                .then((res) => {
+                    if (res.status == HttpStatusCode.Ok) {
+                        setData(res.data);
+                    }
+                })
+                .catch((err) => console.log(err));
         }
     }, [tourId]);
 
@@ -65,10 +78,6 @@ export default function ChecklistEditItemPage(props: PropType) {
         console.log("edit 페이지 도착 : " + item.item);
     };
 
-    interface Mapping {
-        [key: string]: string[];
-    }
-
     const mapping: Mapping = {
         walking: ["👣 산책", "color-bg-blue-3"],
         shopping: ["🛒 쇼핑", "bg-pink-100"],
@@ -76,11 +85,8 @@ export default function ChecklistEditItemPage(props: PropType) {
 
     // 해당 아이템이 사용되는 장소/활동 필터링
     const filterItem = () => {
-        const dataList = data?.filter(
-            (item) =>
-                item.placeId != "" &&
-                item.activity != "" &&
-                item.item == editItem?.item
+        const dataList = data.filter(
+            (item) => item.placeId != "" && item.item == editItem.item
         );
         setFilteredData(dataList);
     };
@@ -90,13 +96,13 @@ export default function ChecklistEditItemPage(props: PropType) {
     };
 
     const handleDelete = () => {
-        // 데이터 삭제 api
-
-        const updatedActivity = filteredData?.filter(
-            (item) => item !== deleteItem
-        );
-        setFilteredData(updatedActivity);
-        setCheckModalActive(false);
+        if (deleteItem) {
+            const updatedActivity = filteredData.filter(
+                (item) => item !== deleteItem
+            );
+            setFilteredData(updatedActivity);
+            setCheckModalActive(false);
+        }
     };
 
     const handleDeleteModal = (item: Item) => {
@@ -106,6 +112,7 @@ export default function ChecklistEditItemPage(props: PropType) {
 
     const handleEdit = () => {
         // 장소 및 활동 수정 api
+        // 삭제까지 반영
 
         setSelectModalActive(false);
     };
@@ -127,6 +134,8 @@ export default function ChecklistEditItemPage(props: PropType) {
 
             {selectModalActive ? (
                 <SelectModal
+                    item={editItem}
+                    filteredData={filteredData}
                     tourId={tourId}
                     clickOK={handleEdit}
                     clickCancel={closeSelectModal}
@@ -169,10 +178,17 @@ export default function ChecklistEditItemPage(props: PropType) {
                                         Day
                                         {formatNumberToTwoDigits(item.tourDay)}
                                     </div>
-                                    <div className="col-span-3 text-lg">
-                                        {item.placeId} /{" "}
-                                        {mapping[item.activity][0].slice(2)}
-                                    </div>
+                                    {item.activity != "" ? (
+                                        <div className="col-span-3 text-lg">
+                                            {item.placeId} /{" "}
+                                            {mapping[item.activity][0].slice(2)}
+                                        </div>
+                                    ) : (
+                                        <div className="col-span-3 text-lg">
+                                            {item.placeId}
+                                        </div>
+                                    )}
+
                                     <div
                                         className="col-span-1 text-end text-lg"
                                         onClick={() => handleDeleteModal(item)}

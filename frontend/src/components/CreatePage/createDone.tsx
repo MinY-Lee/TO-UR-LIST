@@ -39,7 +39,7 @@ export default function CreateDone(props: PropType) {
             );
         }
         setIsLoading(false);
-    }, [props]);
+    }, [props, countryList]);
 
     return (
         <div className=" flex flex-col items-center">
