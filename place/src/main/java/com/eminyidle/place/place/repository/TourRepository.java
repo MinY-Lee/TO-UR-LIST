@@ -6,8 +6,11 @@ import org.springframework.data.neo4j.repository.query.Query;
 
 public interface TourRepository extends Neo4jRepository<Tour, String> {
 
-    @Query("MATCH (t:TOUR{tourId: $tourId})-[:DO]->(p:TOUR_PLACE)" +
-            "DETACH DELETE p " +
+    @Query("MATCH (t:TOUR{tourId: $tourId})" +
+            "OPTIONAL MATCH (t)-[:DO]->(p:TOUR_PLACE)" +
+            "WITH t, COLLECT(p) AS places " +
+            "FOREACH (place IN places | " +
+                "DETACH DELETE place) " +
             "DETACH DELETE t")
     void deleteAllTour(String tourId);
 }
