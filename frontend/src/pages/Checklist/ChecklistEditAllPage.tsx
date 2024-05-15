@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-import MyButton from '../../components/Buttons/myButton';
-import HeaderBar from '../../components/HeaderBar/HeaderBar';
-import CheckModal from '../../components/CheckModal';
-import ChecklistInput from '../../components/Checklist/checklistInput';
-import TrashIcon from '../../assets/svg/trashIcon';
-import { Item } from '../../types/types';
+import MyButton from "../../components/Buttons/myButton";
+import HeaderBar from "../../components/HeaderBar/HeaderBar";
+import CheckModal from "../../components/CheckModal";
+import ChecklistInput from "../../components/Checklist/checklistInput";
+import TrashIcon from "../../assets/svg/trashIcon";
+import { Item } from "../../types/types";
 
-import TabBarTour from '../../components/TabBar/TabBarTour';
-import { getChecklist } from '../../util/api/checklist';
-import { HttpStatusCode } from 'axios';
-import PayTypeIcon from '../../assets/svg/payTypeIcon';
+import TabBarTour from "../../components/TabBar/TabBarTour";
+import { getChecklist } from "../../util/api/checklist";
+import { HttpStatusCode } from "axios";
+import PayTypeIcon from "../../assets/svg/payTypeIcon";
 
 interface Mapping {
     [key: string]: string[];
@@ -23,11 +23,11 @@ interface CountItem {
 
 export default function ChecklistEditAllPage() {
     // 투어 아이디 불러오기
-    const address: string[] = window.location.href.split('/');
+    const address: string[] = window.location.href.split("/");
     const navigate = useNavigate();
 
     const [data, setData] = useState<Item[]>([]);
-    const [tourId, setTourId] = useState<string>('');
+    const [tourId, setTourId] = useState<string>("");
     const [checklist, setChecklist] = useState<Item[]>([]);
     const [filteredChecklist, setFilteredChecklist] = useState<Item[]>([]);
     const [filteredGroup, setFilteredGroup] = useState<CountItem>({});
@@ -40,7 +40,7 @@ export default function ChecklistEditAllPage() {
     }, []);
 
     useEffect(() => {
-        if (tourId != '') {
+        if (tourId != "") {
             getChecklist(tourId)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
@@ -64,8 +64,8 @@ export default function ChecklistEditAllPage() {
     };
 
     const mapping: Mapping = {
-        walking: ['👣 산책', 'color-bg-blue-3'],
-        shopping: ['🛒 쇼핑', 'bg-pink-100'],
+        walking: ["👣 산책", "color-bg-blue-3"],
+        shopping: ["🛒 쇼핑", "bg-pink-100"],
     };
 
     // 활동 id 를 한글로 변환
@@ -112,7 +112,7 @@ export default function ChecklistEditAllPage() {
     };
 
     const onUpdate = (item: Item) => {
-        const updatedChecklist = [...filteredChecklist, item];
+        const updatedChecklist = [item, ...filteredChecklist];
         setFilteredChecklist(updatedChecklist);
     };
 
@@ -126,12 +126,17 @@ export default function ChecklistEditAllPage() {
 
     const handleDelete = () => {
         // 데이터 삭제 api
-        const updatedChecklist = filteredChecklist.filter((currentItem) => currentItem !== deleteItem);
+        const updatedChecklist = filteredChecklist.filter(
+            (currentItem) => currentItem !== deleteItem
+        );
         setFilteredChecklist(updatedChecklist);
         setIsCheckModalActive(false);
     };
 
-    const handleDeleteModal = (item: Item, event: React.MouseEvent<HTMLDivElement>) => {
+    const handleDeleteModal = (
+        item: Item,
+        event: React.MouseEvent<HTMLDivElement>
+    ) => {
         event.stopPropagation(); // 이벤트 버블링 중단
 
         setIsCheckModalActive(true);
@@ -168,7 +173,11 @@ export default function ChecklistEditAllPage() {
                     />
                 </div>
                 <div className="mb-5">
-                    <ChecklistInput tourId={tourId} checklist={filteredChecklist} onUpdate={onUpdate} />
+                    <ChecklistInput
+                        tourId={tourId}
+                        checklist={filteredChecklist}
+                        onUpdate={onUpdate}
+                    />
                 </div>
                 <div className="flex flex-col justify-start items-center h-[65vh]  overflow-y-scroll pt-2">
                     {filteredChecklist.length == 0 ? (
@@ -187,7 +196,9 @@ export default function ChecklistEditAllPage() {
                                 >
                                     <div className="ml-2 col-span-3 flex items-center">
                                         <PayTypeIcon isPublic={item.isPublic} />
-                                        <div className=" text-lg flex items-center ml-3">{item.item}</div>
+                                        <div className=" text-lg flex items-center ml-3">
+                                            {item.item}
+                                        </div>
                                     </div>
                                     <div className="col-span-3 grid grid-cols-3 justify-center">
                                         <div className="relative w-fit col-span-2">
@@ -198,7 +209,9 @@ export default function ChecklistEditAllPage() {
                                                             item.activity
                                                         )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
                                                     >
-                                                        {ActivityToKor(item.activity)}
+                                                        {ActivityToKor(
+                                                            item.activity
+                                                        )}
                                                     </span>
                                                 ) : (
                                                     <span
@@ -209,15 +222,22 @@ export default function ChecklistEditAllPage() {
                                                 )}
                                             </div>
                                             <div>
-                                                {item.activity && filteredGroup[item.item] > 1 ? (
+                                                {item.activity &&
+                                                filteredGroup[item.item] > 1 ? (
                                                     <div>
-                                                        <span className="sr-only">Notifications</span>
+                                                        <span className="sr-only">
+                                                            Notifications
+                                                        </span>
                                                         <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white color-bg-blue-1 border-2 border-white rounded-full -top-2 -end-[20%]">
-                                                            {filteredGroup[item.item]}
+                                                            {
+                                                                filteredGroup[
+                                                                    item.item
+                                                                ]
+                                                            }
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    ''
+                                                    ""
                                                 )}
                                             </div>
                                         </div>
