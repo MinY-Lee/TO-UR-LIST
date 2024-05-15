@@ -6,6 +6,7 @@ import com.eminyidle.payment.dto.ExchangeRateId;
 import com.eminyidle.payment.repository.CountryCurrencyRepository;
 import com.eminyidle.payment.repository.ExchangeRateRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class BatchServiceImpl implements BatchService {
 
@@ -29,6 +31,7 @@ public class BatchServiceImpl implements BatchService {
             // 11시 05분 기준
             LocalDateTime now = LocalDateTime.now();
             now = now.withHour(11).withMinute(5).withSecond(0).withNano(0);
+
             // key에 해당하는 나라 찾기
             List<CountryCurrency> countryCurrency = countryCurrencyRepository.findByCountryCurrencyIdCurrencyCode(key);
 
