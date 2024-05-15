@@ -1,6 +1,6 @@
 create table exchange_rate
 (
-    currency_code char(3) not null unique,
+    currency_code char(3) not null,
     date timestamp not null,
     exchange_rate double not null,
     PRIMARY KEY (currency_code,date)
