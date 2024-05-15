@@ -14,6 +14,7 @@ import WebSocket from "../../components/TabBar/WebSocket";
 import { getTour } from "../../util/api/tour";
 import { getPlaceList } from "../../util/api/place";
 import { Client } from "@stomp/stompjs";
+import HeaderBar from "../../components/HeaderBar/HeaderBar";
 
 export default function TourSchedulePage() {
     const [period, setPeriod] = useState<number>(0);
@@ -103,6 +104,7 @@ export default function TourSchedulePage() {
     return (
         <>
             <section className="w-full h-full">
+                <HeaderBar />
                 <div className="w-full h-[25%]">
                     <TourHeader
                         tourId={tourId}
@@ -110,7 +112,7 @@ export default function TourSchedulePage() {
                         onChange={onChange}
                     />
                 </div>
-                <div className="w-full h-[68%] relative overflow-hidden">
+                <div className="w-full h-[63%] relative overflow-hidden">
                     <Wrapper
                         apiKey={`${
                             import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY

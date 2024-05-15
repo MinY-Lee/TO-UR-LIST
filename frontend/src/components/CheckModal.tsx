@@ -13,8 +13,8 @@ export default function CheckModal(props: Proptype) {
         <>
             <div className="fixed w-full h-full top-0 left-0 z-30 bg-black opacity-50"></div>
             <div
-                className="fixed w-[80%] h-[20%] left-[10%] top-[40%] z-40 bg-white flex flex-col justify-evenly items-center border-halfvw color-border-blue-2"
-                style={{ borderRadius: 'min(2vw, 9.6px)' }}
+                className="fixed check h-[20%] top-[40%] z-40 bg-white flex flex-col justify-evenly items-center border-halfvw color-border-blue-2"
+                style={{ borderRadius: "min(2vw, 9.6px)" }}
             >
                 <div className="w-full h-[30%] flex flex-col justify-center items-center">
                     <p
@@ -31,14 +31,14 @@ export default function CheckModal(props: Proptype) {
                 <div className="w-[60%] h-[20%] flex justify-between items-center">
                     <div
                         className="w-[48%] h-full flex justify-center items-center color-bg-blue-2 text-white"
-                        style={{ borderRadius: 'min(2vw, 9.6px)' }}
+                        style={{ borderRadius: "min(2vw, 9.6px)" }}
                         onClick={props.clickOK}
                     >
                         {props.OKText}
                     </div>
                     <div
                         className="w-[48%] h-full flex justify-center items-center bg-white border-halfvw color-border-blue-2 color-text-blue-2"
-                        style={{ borderRadius: 'min(2vw, 9.6px)' }}
+                        style={{ borderRadius: "min(2vw, 9.6px)" }}
                         onClick={props.clickCancel}
                     >
                         {props.CancelText}
