@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import MyButton from '../../components/Buttons/myButton';
+import { useEffect, useState } from "react";
+import MyButton from "../../components/Buttons/myButton";
 
-import Checklist from '../../dummy-data/get_checklist.json';
-import { Item, ItemApi } from '../../types/types';
-import { HttpStatusCode } from 'axios';
-import { checkItem, getChecklist } from '../../util/api/checklist';
-import PayTypeIcon from '../../assets/svg/payTypeIcon';
+import Checklist from "../../dummy-data/get_checklist.json";
+import { Item, ItemApi } from "../../types/types";
+import { HttpStatusCode } from "axios";
+import { checkItem, getChecklist } from "../../util/api/checklist";
+import PayTypeIcon from "../../assets/svg/payTypeIcon";
 
 interface PropType {
     tourId: string;
@@ -28,12 +28,11 @@ export default function TourCheckList(props: PropType) {
             getChecklist(props.tourId)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
-                        console.log(res.data);
                         setChecklist(res.data);
                         // 중복 횟수 카운트
-                        setFilteredGroup(prepareData(checklist));
+                        setFilteredGroup(prepareData(res.data));
                         // 중복 하나씩만 남김
-                        setFilteredChecklist(filterUniqueItems(checklist));
+                        setFilteredChecklist(filterUniqueItems(res.data));
                     }
                 })
                 .catch((err) => console.log(err));
@@ -41,8 +40,8 @@ export default function TourCheckList(props: PropType) {
     }, [props]);
 
     const mapping: Mapping = {
-        walking: ['👣 산책', 'color-bg-blue-3'],
-        shopping: ['🛒 쇼핑', 'bg-pink-100'],
+        walking: ["👣 산책", "color-bg-blue-3"],
+        shopping: ["🛒 쇼핑", "bg-pink-100"],
     };
 
     // 활동 id 를 한글로 변환
@@ -73,23 +72,32 @@ export default function TourCheckList(props: PropType) {
     };
 
     // 같은 항목 리스트에 여러 번 띄우지 않게 처리
+    // 체크된 항목은 아래로
     const filterUniqueItems = (checklist: Item[]): Item[] => {
         const seenItems = new Set<string>();
-        const uniqueItems: Item[] = [];
+        let uniqueItems: Item[] = [];
+        let unchecked: Item[] = [];
+        let checked: Item[] = [];
 
         checklist.forEach((item) => {
             const itemName = item.item;
             if (itemName && !seenItems.has(itemName)) {
                 seenItems.add(itemName);
-                uniqueItems.push(item);
+                // 체크 여부 구분
+                item.isChecked == true
+                    ? checked.push(item)
+                    : unchecked.push(item);
             }
         });
+
+        uniqueItems = [...unchecked, ...checked];
 
         return uniqueItems;
     };
 
     const handleCheckbox = (index: number) => {
-        const { activity, isChecked, item, placeId, tourDay, tourId } = filteredChecklist[index];
+        const { activity, isChecked, item, placeId, tourDay, tourId } =
+            filteredChecklist[index];
         const targetItem: ItemApi = {
             activity: activity,
             isChecked: !isChecked,
@@ -102,14 +110,18 @@ export default function TourCheckList(props: PropType) {
         checkItem(targetItem)
             .then((res) => {
                 if (res.status == HttpStatusCode.Ok) {
-                    console.log('체킹');
+                    // 화면상 반영 및 아래로 이동
+                    const updatedChecklist = [...filteredChecklist];
+                    updatedChecklist[index].isChecked =
+                        !updatedChecklist[index].isChecked;
+
+                    const movedItem = updatedChecklist.splice(index, 1)[0];
+                    updatedChecklist.push(movedItem);
+
+                    setFilteredChecklist(updatedChecklist);
                 }
             })
             .catch((err) => console.log(err));
-        // const updatedChecklist = [...filteredChecklist];
-        // // 나중에 실제로 api 로 반영하기
-        // updatedChecklist[index].isChecked = !updatedChecklist[index].isChecked;
-        // setFilteredChecklist(updatedChecklist);
     };
 
     return (
@@ -137,17 +149,26 @@ export default function TourCheckList(props: PropType) {
                             ) : (
                                 <div className="">
                                     {filteredChecklist.map((item, index) => (
-                                        <div key={index} className="grid grid-cols-2 justify-center m-1">
-                                            <div className="flex items-center gap-3">
+                                        <div
+                                            key={index}
+                                            className="grid grid-cols-3 justify-center m-1"
+                                        >
+                                            <div className="flex items-center gap-3 col-span-2">
                                                 <input
                                                     id="default-checkbox"
                                                     type="checkbox"
-                                                    onChange={() => handleCheckbox(index)}
+                                                    onChange={() =>
+                                                        handleCheckbox(index)
+                                                    }
                                                     checked={item.isChecked}
                                                     className="w-6 h-6 bg-gray-100 border-gray-300 rounded "
                                                 />
-                                                <PayTypeIcon isPublic={item.isPublic} />
-                                                <label className="text-lg">{item.item}</label>
+                                                <PayTypeIcon
+                                                    isPublic={item.isPublic}
+                                                />
+                                                <label className="text-lg">
+                                                    {item.item}
+                                                </label>
                                             </div>
                                             <div className="relative w-fit">
                                                 <div>
@@ -157,22 +178,33 @@ export default function TourCheckList(props: PropType) {
                                                                 item.activity
                                                             )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
                                                         >
-                                                            {ActivityToKor(item.activity)}
+                                                            {ActivityToKor(
+                                                                item.activity
+                                                            )}
                                                         </span>
                                                     ) : (
-                                                        ''
+                                                        ""
                                                     )}
                                                 </div>
                                                 <div>
-                                                    {item.activity && filteredGroup[item.item] > 1 ? (
+                                                    {item.activity &&
+                                                    filteredGroup[item.item] >
+                                                        1 ? (
                                                         <div>
-                                                            <span className="sr-only">Notifications</span>
+                                                            <span className="sr-only">
+                                                                Notifications
+                                                            </span>
                                                             <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white color-bg-blue-1 border-2 border-white rounded-full -top-2 -end-[20%]">
-                                                                {filteredGroup[item.item]}
+                                                                {
+                                                                    filteredGroup[
+                                                                        item
+                                                                            .item
+                                                                    ]
+                                                                }
                                                             </div>
                                                         </div>
                                                     ) : (
-                                                        ''
+                                                        ""
                                                     )}
                                                 </div>
                                             </div>
