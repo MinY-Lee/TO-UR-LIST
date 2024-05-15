@@ -75,15 +75,18 @@ export default function MyCheckList(props: PropType) {
     // 같은 항목 리스트에 여러 번 띄우지 않게 처리
     const filterUniqueItems = (checklist: Item[]): Item[] => {
         const seenItems = new Set<string>();
-        const uniqueItems: Item[] = [];
+        let uniqueItems: Item[] = [];
+        let uncheck: Item[] = [];
+        let check: Item[] = [];
 
         checklist.forEach((item) => {
             const itemName = item.item;
             if (itemName && !seenItems.has(itemName)) {
                 seenItems.add(itemName);
-                uniqueItems.push(item);
+                item.isChecked ? check.push(item) : uncheck.push(item);
             }
         });
+        uniqueItems = [...uncheck, ...check];
 
         return uniqueItems;
     };
@@ -91,9 +94,10 @@ export default function MyCheckList(props: PropType) {
     const handleCheckbox = (index: number) => {
         const { activity, isChecked, item, placeId, tourDay, tourId } =
             filteredChecklist[index];
+
         const targetItem: ItemApi = {
             activity: activity,
-            isChecked: isChecked,
+            isChecked: !isChecked,
             item: item,
             placeId: placeId,
             tourDay: tourDay,

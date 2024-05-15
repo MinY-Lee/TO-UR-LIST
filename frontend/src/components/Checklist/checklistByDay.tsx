@@ -99,7 +99,7 @@ export default function ChecklistByDay(props: PropType) {
         const { activity, isChecked, item, placeId, tourDay, tourId } = target;
         const targetItem: ItemApi = {
             activity: activity,
-            isChecked: isChecked,
+            isChecked: !isChecked,
             item: item,
             placeId: placeId,
             tourDay: tourDay,
