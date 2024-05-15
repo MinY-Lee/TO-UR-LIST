@@ -69,7 +69,8 @@ public class TourExceptionHandler {
         return ResponseEntity.badRequest().body(errorMessage.toString());
     }
 
-    //FIXME - userID가 없는 헤더에만 대한 예외처리로 바꾸기
+    //FIXME - refactor: userID가 없는 헤더에만 대한 예외처리로 바꾸기
+    // ㄴ 현재 필요로 하는 헤더가 하나이므로 이렇게 진행
     @ExceptionHandler(MissingRequestHeaderException.class)
     public ResponseEntity<String> handleMissingRequestHeaderException(Exception e){
         StringBuilder errorMessage=new StringBuilder();
@@ -77,7 +78,6 @@ public class TourExceptionHandler {
         errorMessage.append("유저아이디가 없습니다");
         return ResponseEntity.badRequest().body(errorMessage.toString());
     }
-
 
     @ExceptionHandler(DuplicatedGhostNicknameException.class)
     public ResponseEntity<String> handleDuplicatedGhostNicknameException(Exception e){
@@ -153,6 +153,52 @@ public class TourExceptionHandler {
         StringBuilder errorMessage=new StringBuilder();
         makeErrorMessage(errorMessage,e);
         errorMessage.append("여행날짜 형식이 올바르지 않습니다.");
+        return ResponseEntity.badRequest().body(errorMessage.toString());
+    }
+
+    @ExceptionHandler(UserNotAttendSuchTourException.class)
+    public ResponseEntity<String> handleUserNotAttendSuchTourException(Exception e){
+        StringBuilder errorMessage=new StringBuilder();
+        makeErrorMessage(errorMessage,e);
+        errorMessage.append("여행에 참여 중인 사용자가 아닙니다.");
+        return ResponseEntity.badRequest().body(errorMessage.toString());
+    }
+    @ExceptionHandler(InvalidUserNameException.class)
+    public ResponseEntity<String> handleInvalidUserNameException(Exception e){
+        StringBuilder errorMessage=new StringBuilder();
+        makeErrorMessage(errorMessage,e);
+        errorMessage.append(e.getMessage());
+        return ResponseEntity.badRequest().body(errorMessage.toString());
+    }
+    @ExceptionHandler(InvalidUserNicknameException.class)
+    public ResponseEntity<String> handleInvalidUserNicknameException(Exception e){
+        StringBuilder errorMessage=new StringBuilder();
+        makeErrorMessage(errorMessage,e);
+        errorMessage.append(e.getMessage());
+        return ResponseEntity.badRequest().body(errorMessage.toString());
+    }
+
+    @ExceptionHandler(KafkaDataNotExistException.class)
+    public ResponseEntity<String> handleKafkaDataNotExistException(Exception e){
+        StringBuilder errorMessage=new StringBuilder();
+        makeErrorMessage(errorMessage,e);
+        errorMessage.append(e.getMessage());
+        return ResponseEntity.badRequest().body(errorMessage.toString());
+    }
+
+    @ExceptionHandler(NoSuchCountryException.class)
+    public ResponseEntity<String> handleNoSuchCountryException(Exception e){
+        StringBuilder errorMessage=new StringBuilder();
+        makeErrorMessage(errorMessage,e);
+        errorMessage.append("없는 나라입니다.");
+        return ResponseEntity.badRequest().body(errorMessage.toString());
+    }
+
+    @ExceptionHandler(NoSuchGhostException.class)
+    public ResponseEntity<String> handleNoSuchGhostException(Exception e){
+        StringBuilder errorMessage=new StringBuilder();
+        makeErrorMessage(errorMessage,e);
+        errorMessage.append("투어에 없는 고스트입니다.");
         return ResponseEntity.badRequest().body(errorMessage.toString());
     }
 }

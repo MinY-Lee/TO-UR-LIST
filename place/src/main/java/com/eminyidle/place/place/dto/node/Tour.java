@@ -25,6 +25,7 @@ public class Tour {
     private String tourTitle;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private Integer tourPeriod;
 //    List<City> cityList;
 
     @Relationship(type = "DO", direction = OUTGOING)    // 관계 설정

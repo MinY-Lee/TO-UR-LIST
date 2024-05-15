@@ -38,28 +38,13 @@ public class User {
         if(userName == null || userName.isBlank()) {
             throw new InvalidUserNameException("username is blank");
         }
-        userName=userName.strip();
-        if (userName.length() < 2) {
-            throw new InvalidUserNameException("username is too short");
-        } else if (userName.length() > 8) {
-            throw new InvalidUserNameException("username is too long");
-        } else {
-            this.userName = userName;
-        }
+        this.userName =userName.strip();
     }
 
     public void setUserNickname(String userNickname){
         if(userNickname == null || userNickname.isBlank()) {
             throw new InvalidUserNicknameException("username is blank");
         }
-        userNickname=userNickname.strip();
-
-        if(userNickname.length() < 2) {
-            throw new InvalidUserNicknameException("user nickname is too short");
-        } else if(userNickname.length() > 15) {
-            throw new InvalidUserNicknameException("user nickname is too long");
-        } else {
-            this.userNickname = userNickname;
-        }
+        this.userNickname=userNickname.strip();
     }
 }

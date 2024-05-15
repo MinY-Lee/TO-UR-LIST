@@ -17,11 +17,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TourKafkaListener {
 
+    private final ObjectMapper objectMapper;
     private final UserUpdateUsecase userService;
 
     @KafkaListener(topics = "${KAFKA_USER_ALERT_TOPIC}", containerFactory = "kafkaListenerContainerFactory")
     private void consumeUserTopic(String kafkaMessage) {
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
             UserKafkaMessage message = objectMapper.readValue(kafkaMessage, UserKafkaMessage.class);
             if (message.getType().equals("UPDATE")) {

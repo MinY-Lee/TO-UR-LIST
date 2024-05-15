@@ -16,8 +16,8 @@ public interface TourPlaceRepository extends Neo4jRepository<TourPlace,String> {
     @Query("MATCH (t:TOUR_PLACE{tourPlaceId: $tourPlaceId}) RETURN t")
     Optional<TourPlace> findByTourPlaceId(String tourPlaceId);
 
-    @Query("OPTIONAL MATCH (t:TOUR_PLACE{tourPlaceId: $tourPlaceId}) RETURN CASE WHEN t IS NULL THEN FALSE ELSE TRUE END")
-    boolean existsByTourPlaceId(String tourPlaceId);
+    @Query("OPTIONAL MATCH (:TOUR{tourId: $tourId})-[:GO{placeId: $placeId, tourDay: $tourDay}]->(p:TOUR_PLACE) RETURN CASE WHEN p IS NULL THEN FALSE ELSE TRUE END")
+    boolean existsByTourIdAndPlaceIdAndTourDay(String tourId, String placeId, Integer tourDay);
 
     @Query("MATCH (:TOUR{tourId:$tourId})-[:GO]->(p:TOUR_PLACE) RETURN p")
     List<TourPlace> findAllByTourId(String tourId);
@@ -26,4 +26,7 @@ public interface TourPlaceRepository extends Neo4jRepository<TourPlace,String> {
     void delete(String tourId, String placeId, Integer tourDay);
     @Query("MATCH (:TOUR{tourId:$tourId})-[:GO{placeId: $placeId, tourDay: $tourDay}]->(p:TOUR_PLACE) RETURN p")
     Optional<TourPlace> findByTourIdAndPlaceIdAndTourDay(String tourId, String placeId, Integer tourDay);
+
+    //exists
+
 }
