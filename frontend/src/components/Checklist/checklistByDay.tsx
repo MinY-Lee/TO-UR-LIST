@@ -38,6 +38,14 @@ export default function ChecklistByDay(props: PropType) {
 
     useEffect(() => {
         if (props.tourId != "") {
+            getChecklist(props.tourId)
+                .then((res) => {
+                    if (res.status == HttpStatusCode.Ok) {
+                        setChecklist(res.data);
+                    }
+                })
+                .catch((err) => console.log(err));
+
             getTour(props.tourId)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
@@ -59,26 +67,11 @@ export default function ChecklistByDay(props: PropType) {
         setDaysList(
             Array.from({ length: daysDifference + 1 }, (_, index) => index)
         );
-
-        // 일자 및 장소 별로 그룹핑
-        groupItems();
     }, [data, daysDifference]);
 
     useEffect(() => {
-        if (props.tourId != "") {
-            getChecklist(props.tourId)
-                .then((res) => {
-                    if (res.status == HttpStatusCode.Ok) {
-                        setChecklist(res.data);
-                    }
-                })
-                .catch((err) => console.log(err));
-        }
-    }, [props]);
-
-    // day 별로 체크리스트 분류
-    const groupItems = () => {
-        const grouped: ItemPerDayAndPlace = {};
+        // 일자 및 장소 별로 그룹핑
+        let grouped: ItemPerDayAndPlace = {};
 
         checklist.forEach((item) => {
             const { tourDay, placeId } = item;
@@ -95,7 +88,12 @@ export default function ChecklistByDay(props: PropType) {
         });
 
         setGroupedItems(grouped);
-    };
+    }, [checklist]);
+
+    useEffect(() => {
+        if (props.tourId != "") {
+        }
+    }, [props]);
 
     const handleCheckbox = (target: Item): void => {
         const { activity, isChecked, item, placeId, tourDay, tourId } = target;

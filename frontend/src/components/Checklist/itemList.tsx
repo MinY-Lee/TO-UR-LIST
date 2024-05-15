@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import { Item, TourInfoDetail } from "../../types/types";
 
@@ -59,8 +60,7 @@ export default function ItemList(props: PropType) {
                         {day !== 0 ? `| ${calcDate(day)}` : "| 날짜 없음"}
                     </div>
                     <div className="border-t-2 border-black mt-2 mb-2">
-                        {props.groupedItems &&
-                            props.groupedItems[day] &&
+                        {props.groupedItems[day] ? (
                             Object.keys(props.groupedItems[day]).map(
                                 (placeId, index) => (
                                     <div className="ml-5" key={index}>
@@ -122,7 +122,12 @@ export default function ItemList(props: PropType) {
                                         </div>
                                     </div>
                                 )
-                            )}
+                            )
+                        ) : (
+                            <div className="flex justify-center items-center h-[7vh]">
+                                해당 날짜의 체크리스트가 없습니다.
+                            </div>
+                        )}
                     </div>
                 </div>
             ))}
