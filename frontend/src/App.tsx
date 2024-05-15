@@ -28,7 +28,6 @@ import FeedEditPage from './pages/Feed/FeedEditPage';
 //css
 import './App.css';
 import LoginCheck from './pages/AuthCheck/LoginCheck';
-import TourScheduleEditDetailPage from './pages/Schedule/TourScheduleEditDetailPage';
 import PlaceAddDetailPage from './pages/Schedule/PlaceAddDetailPage';
 
 export default function App() {

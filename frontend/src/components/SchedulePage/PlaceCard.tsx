@@ -87,7 +87,7 @@ export default function PlaceCard(props: PropType) {
                         return (
                             <p
                                 className={`text-4vw px-vw mx-dot5vw border-rad-2vw ${
-                                    index <= 2 ? bgColor[index] : bgColor[0]
+                                    bgColor[index % 2]
                                 }`}
                             >
                                 {activity}

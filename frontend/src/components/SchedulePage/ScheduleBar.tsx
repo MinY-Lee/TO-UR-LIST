@@ -54,6 +54,7 @@ export default function ScheduleBar(props: PropType) {
                 isEditable={false}
                 tourId={props.tourId}
                 wsClient={props.wsClient}
+                period={props.period}
             />
         );
     };
@@ -168,6 +169,7 @@ export default function ScheduleBar(props: PropType) {
                                       isEditable={false}
                                       tourId={props.tourId}
                                       wsClient={props.wsClient}
+                                      period={props.period}
                                   />
                               );
                           })
