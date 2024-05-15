@@ -11,7 +11,7 @@ export default function HeaderBar() {
         <>
             <div className="w-full h-10vw flex justify-start items-center flex-shrink-0">
                 <span
-                    className="material-symbols-outlined w-[10%] h-full flex justify-center items-center"
+                    className="material-symbols-outlined w-[10%] h-full flex justify-center items-center cursor-pointer"
                     onClick={goBack}
                 >
                     west

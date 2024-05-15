@@ -95,7 +95,7 @@ export default function MyInfoCard() {
                 </div>
                 <div className="w-[90%] h-[20%] flex justify-between items-center">
                     <div
-                        className="w-[45%] h-full color-bg-blue-2 text-white text-5vw weight-text-semibold flex justify-center items-center"
+                        className="w-[45%] h-full color-bg-blue-2 text-white text-5vw weight-text-semibold flex justify-center items-center cursor-pointer"
                         style={{ borderRadius: `min(3vw, 14.4px)` }}
                         onClick={() => {
                             window.location.href = '/mypage/info';
@@ -104,7 +104,7 @@ export default function MyInfoCard() {
                         정보수정
                     </div>
                     <div
-                        className="w-[45%] h-full bg-[#D9D9D9] text-[#646464] text-5vw weight-text-semibold flex justify-center items-center"
+                        className="w-[45%] h-full bg-[#D9D9D9] text-[#646464] text-5vw weight-text-semibold flex justify-center items-center cursor-pointer"
                         style={{ borderRadius: `min(3vw, 14.4px)` }}
                         onClick={() => {
                             setIsCheckModalActive(true);

@@ -47,23 +47,24 @@ export default function WebSocket(props: PropType) {
 
                 switch (msg.type) {
                     case 'ADD_PLACE':
-                        console.log(msg);
+                        // console.log(msg);
                         break;
                     case 'UPDATE_PLACE':
-                        console.log(msg.body);
+                        // console.log(msg.body);
+                        console.log('updated');
                         props.update(msg.body.placeList);
                         break;
                     case 'DELETE_PLACE':
-                        console.log(msg);
+                        // console.log(msg);
                         break;
                     case 'UPDATE_PLACE_DATE':
-                        console.log(msg);
+                        // console.log(msg);
                         break;
                     case 'ADD_ACTIVITY':
-                        console.log(msg);
+                        // console.log(msg);
                         break;
                     case 'DELETE_ACTIVITY':
-                        console.log(msg);
+                        // console.log(msg);
                         break;
                 }
             });

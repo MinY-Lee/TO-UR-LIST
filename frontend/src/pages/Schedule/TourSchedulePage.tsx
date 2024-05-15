@@ -5,7 +5,7 @@ import TourHeader from '../../components/TourPage/TourHeader';
 import ScheduleBar from '../../components/SchedulePage/ScheduleBar';
 import Maps from '../../components/SchedulePage/Maps';
 import { Wrapper } from '@googlemaps/react-wrapper';
-import { TourInfoDetail, TourPlaceItem } from '../../types/types';
+import { TourInfoDetail, WebSockPlace } from '../../types/types';
 import WebSocket from '../../components/TabBar/WebSocket';
 
 //dummy data
@@ -13,6 +13,7 @@ import WebSocket from '../../components/TabBar/WebSocket';
 // import tourSchedule from '../../dummy-data/get_tour_place_tourId.json';
 import { getTour } from '../../util/api/tour';
 import { getPlaceList } from '../../util/api/place';
+import { Client } from '@stomp/stompjs';
 
 export default function TourSchedulePage() {
     const [period, setPeriod] = useState<number>(0);
@@ -21,7 +22,10 @@ export default function TourSchedulePage() {
     const [type, setType] = useState<string>('');
 
     //스케줄 저장 배열 schedule[i]는 i일째 일정(0은 일정 없음)
-    const [schedule, setSchedule] = useState<TourPlaceItem[][]>([[]]);
+    const [schedule, setSchedule] = useState<WebSockPlace[][]>([[]]);
+
+    //websocket
+    const [wsClient, setWsClient] = useState<Client>(new Client());
 
     //여행 정보
     const [tourInfo, setTourInfo] = useState<TourInfoDetail>({
@@ -31,6 +35,8 @@ export default function TourSchedulePage() {
         memberList: [],
         cityList: [],
     });
+
+    const [newSchedule, setNewSchedule] = useState<WebSockPlace[]>([]);
 
     // 투어 아이디 불러오기
     const address: string[] = window.location.href.split('/');
@@ -66,7 +72,6 @@ export default function TourSchedulePage() {
             //일정 정보 불러오기
             getPlaceList(tourId)
                 .then((res) => {
-                    console.log(res);
                     const tourSchedule = res.data;
 
                     for (let i = 0; i < tourSchedule.length; i++) {
@@ -80,7 +85,7 @@ export default function TourSchedulePage() {
                     console.log(err);
                 });
         }
-    }, [tourInfo]);
+    }, [tourInfo, newSchedule]);
 
     //-1 nothing, 0:d+0, 1:d+1...
     const [selectedDate, setSelectedDate] = useState<number>(-1);
@@ -88,6 +93,11 @@ export default function TourSchedulePage() {
     //헤더 타입 변환
     const onChange = (type: string) => {
         setType(type);
+    };
+
+    /**웹소켓으로 업데이트 된 정보가 오면? */
+    const update = (newSchedule: WebSockPlace[]) => {
+        setNewSchedule(newSchedule);
     };
 
     return (
@@ -119,6 +129,7 @@ export default function TourSchedulePage() {
                         selectedDate={selectedDate}
                         tourId={tourId}
                         period={period}
+                        wsClient={wsClient}
                     />
                     <DaySelectBar
                         startDate={tourInfo.startDate}
@@ -129,7 +140,11 @@ export default function TourSchedulePage() {
                     />
                 </div>
                 <TabBarTour tourMode={2} tourId={tourId} />
-                {/* <WebSocket /> */}
+                <WebSocket
+                    setWsClient={setWsClient}
+                    tourId={tourId}
+                    update={update}
+                />
             </section>
         </>
     );
