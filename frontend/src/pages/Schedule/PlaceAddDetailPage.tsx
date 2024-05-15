@@ -73,6 +73,7 @@ export default function PlaceAddDetailPage() {
     //전체 방문 일정
     const [thisPlaceVisit, setThisPlaceVisit] = useState<WebSockPlace[]>([]);
 
+    //웹소켓
     const [wsClient, setWsClient] = useState<Client>(new Client());
 
     /**state로부터 장소 정보 불러오기, 초기 세팅 */

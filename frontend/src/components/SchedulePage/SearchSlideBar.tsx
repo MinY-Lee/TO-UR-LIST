@@ -2,12 +2,15 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PlaceInfo } from '../../types/types';
 import PlaceSearchCard from './PlaceSearchCard';
+import { Client } from '@stomp/stompjs';
 
 interface PropType {
     searchedPlaces: PlaceInfo[];
     tourId: string;
     selectedDate: number;
     period: number;
+    visitedCache: Set<string>;
+    wsClient: Client;
 }
 
 export default function SearchSlideBar(props: PropType) {
@@ -39,7 +42,7 @@ export default function SearchSlideBar(props: PropType) {
     let touchStartPosY = 0;
 
     const goDetail = (placeId: string) => {
-        navigate(`/tour/${props.tourId}/schedule/add/detail`, {
+        navigate(`/tour/${props.tourId}/schedule/edit/detail`, {
             state: {
                 tourId: props.tourId,
                 tourDay: props.selectedDate,
@@ -119,6 +122,10 @@ export default function SearchSlideBar(props: PropType) {
                                 placeInfo={place}
                                 goDetail={goDetail}
                                 key={place.placeId}
+                                visitedCache={props.visitedCache}
+                                tourId={props.tourId}
+                                tourDay={props.selectedDate + 1}
+                                wsClient={props.wsClient}
                             />
                         );
                     })}

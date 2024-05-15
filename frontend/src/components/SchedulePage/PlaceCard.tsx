@@ -1,15 +1,19 @@
-import { BaseSyntheticEvent, useState } from 'react';
-import { TourPlaceItem } from '../../types/types';
+import { BaseSyntheticEvent, useEffect, useState } from 'react';
+import { WebSockPlace } from '../../types/types';
 import CheckModal from '../CheckModal';
+import { Client } from '@stomp/stompjs';
 
 interface PropType {
-    schedule: TourPlaceItem;
+    schedule: WebSockPlace;
     isEditable: boolean;
     tourId: string;
-    goToDetail: (schedule: TourPlaceItem) => void;
+    goToDetail: (schedule: WebSockPlace) => void;
+    wsClient: Client;
 }
 
 export default function PlaceCard(props: PropType) {
+    const [schedule, setSchedule] = useState<WebSockPlace>(props.schedule);
+
     const [isDeleteModalActive, setIsDeleteModalActive] =
         useState<boolean>(false);
 
@@ -20,9 +24,26 @@ export default function PlaceCard(props: PropType) {
         event.stopPropagation();
     };
 
+    useEffect(() => {
+        setSchedule(props.schedule);
+    }, [props.schedule]);
+
     const deleteOK = () => {
         //api 요청 후 모달 닫기
-        console.log('요청 전송됨');
+        if (props.wsClient) {
+            props.wsClient.publish({
+                destination: `/app/place/${props.tourId}`,
+                body: JSON.stringify({
+                    type: 'DELETE_PLACE',
+                    body: {
+                        tourId: props.tourId,
+                        placeId: schedule.placeId,
+                        placeName: schedule.placeName,
+                        tourDay: schedule.tourDay,
+                    },
+                }),
+            });
+        }
         setIsDeleteModalActive(false);
     };
 
@@ -46,26 +67,30 @@ export default function PlaceCard(props: PropType) {
             )}
             <div
                 className="w-full p-vw my-dot5vw border-rad-2vw border-halfvw border-[#D9D9D9]"
-                onClick={() => props.goToDetail(props.schedule)}
+                onClick={() => props.goToDetail(schedule)}
             >
                 <div className="w-full flex justify-between items-center">
-                    <p className="text-6vw">{props.schedule.placeName}</p>
-                    <span
-                        className="text-6vw material-symbols-outlined z-10"
-                        onClick={deleteItem}
-                    >
-                        close
-                    </span>
+                    <p className="text-6vw">{schedule.placeName}</p>
+                    {props.isEditable ? (
+                        <span
+                            className="text-6vw material-symbols-outlined z-10"
+                            onClick={deleteItem}
+                        >
+                            close
+                        </span>
+                    ) : (
+                        <></>
+                    )}
                 </div>
                 <div className="w-full flex">
-                    {props.schedule.activityList.map((activity, index) => {
+                    {schedule.activityList.map((activity, index) => {
                         return (
                             <p
                                 className={`text-4vw px-vw mx-dot5vw border-rad-2vw ${
-                                    index <= 2 ? bgColor[index] : bgColor[0]
+                                    bgColor[index % 2]
                                 }`}
                             >
-                                {activity.activity}
+                                {activity}
                             </p>
                         );
                     })}

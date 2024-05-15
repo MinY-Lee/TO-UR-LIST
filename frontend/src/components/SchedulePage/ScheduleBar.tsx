@@ -1,17 +1,21 @@
 import { useRef, useState } from 'react';
-import { TourPlaceItem } from '../../types/types';
+import { WebSockPlace } from '../../types/types';
 import DayList from './DayList';
 import { useNavigate } from 'react-router-dom';
+import { Client } from '@stomp/stompjs';
 
 interface PropType {
-    schedule: TourPlaceItem[][];
+    schedule: WebSockPlace[][];
     startDate: string;
     selectedDate: number;
     tourId: string;
     period: number;
+    wsClient: Client;
 }
 
 export default function ScheduleBar(props: PropType) {
+    console.log(props.schedule);
+
     const navigate = useNavigate();
 
     const [mode, setMode] = useState<number>(1);
@@ -49,6 +53,8 @@ export default function ScheduleBar(props: PropType) {
                 dailySchedule={props.schedule[props.selectedDate + 1]}
                 isEditable={false}
                 tourId={props.tourId}
+                wsClient={props.wsClient}
+                period={props.period}
             />
         );
     };
@@ -152,12 +158,18 @@ export default function ScheduleBar(props: PropType) {
                               date.setDate(date.getDate() + index - 1);
                               return (
                                   <DayList
-                                      key={date.getTime()}
+                                      key={
+                                          dailySchedule.length +
+                                          ' ' +
+                                          date.getTime()
+                                      }
                                       dayNumber={index}
                                       date={date}
                                       dailySchedule={dailySchedule}
                                       isEditable={false}
                                       tourId={props.tourId}
+                                      wsClient={props.wsClient}
+                                      period={props.period}
                                   />
                               );
                           })

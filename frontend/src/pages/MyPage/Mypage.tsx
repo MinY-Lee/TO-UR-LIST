@@ -9,12 +9,11 @@ import HeaderBar from '../../components/HeaderBar/HeaderBar';
 import { getUserInfo, withdraw } from '../../util/api/user';
 import { useDispatch } from 'react-redux';
 import { userWholeState } from '../../util/reduxSlices/userSlice';
-//dummy data
-import publishedFeed from '../../dummy-data/get_feed_published.json';
-import likedFeed from '../../dummy-data/get_feed_liked.json';
+
 import CheckModal from '../../components/CheckModal';
 import { httpStatusCode } from '../../util/api/http-status';
 import { Cookies } from 'react-cookie';
+import { getLikedFeed, getPublishedFeed } from '../../util/api/feed';
 
 export default function MyPage() {
     const [myPublishList, setMyPublishList] = useState<Feed[]>([]);
@@ -69,19 +68,31 @@ export default function MyPage() {
 
     useEffect(() => {
         //최신순 정렬
-        publishedFeed.sort((a, b) => {
-            const dateA = new Date(a.createdAt);
-            const dateB = new Date(b.createdAt);
-            return dateB.getTime() - dateA.getTime();
-        });
-        likedFeed.sort((a, b) => {
-            const dateA = new Date(a.createdAt);
-            const dateB = new Date(b.createdAt);
-            return dateB.getTime() - dateA.getTime();
+        getPublishedFeed().then((res) => {
+            if (res.status === httpStatusCode.OK) {
+                const publishedFeed: Feed[] = res.data;
+                publishedFeed.sort((a, b) => {
+                    const dateA = new Date(a.createdAt);
+                    const dateB = new Date(b.createdAt);
+                    return dateB.getTime() - dateA.getTime();
+                });
+
+                setMyPublishList(publishedFeed);
+            }
         });
 
-        setMyPublishList(publishedFeed);
-        setMyLikedList(likedFeed);
+        getLikedFeed().then((res) => {
+            if (res.status === httpStatusCode.OK) {
+                const likedFeed: Feed[] = res.data;
+                likedFeed.sort((a, b) => {
+                    const dateA = new Date(a.createdAt);
+                    const dateB = new Date(b.createdAt);
+                    return dateB.getTime() - dateA.getTime();
+                });
+
+                setMyLikedList(likedFeed);
+            }
+        });
     }, [user]);
 
     const proceedWithDrawal = () => {
@@ -124,7 +135,7 @@ export default function MyPage() {
                         내가 게시한 여행
                     </p>
                     <p
-                        className="text-5vw"
+                        className="text-5vw cursor-pointer"
                         onClick={() => {
                             navigate(`/mypage/myfeed`, {
                                 state: myPublishList,
@@ -134,18 +145,24 @@ export default function MyPage() {
                         더보기
                     </p>
                 </div>
-                {myPublishList.map((feed, index) => {
-                    if (index > 1) {
-                        return <></>;
-                    }
-                    return <FeedCard feedInfo={feed} key={feed.feedId} />;
-                })}
+                {myPublishList.length > 0 ? (
+                    myPublishList.map((feed, index) => {
+                        if (index > 1) {
+                            return <></>;
+                        }
+                        return <FeedCard feedInfo={feed} key={feed.feedId} />;
+                    })
+                ) : (
+                    <div className="w-full h-[10%] flex justify-center items-center text-4vw text-[#aeaeae]">
+                        게시한 피드가 없습니다.
+                    </div>
+                )}
                 <div className="w-[90%] mt-2vw border-b-dot5vw border-b-[#7E7E7E] flex justify-between items-end py-vw weight-text-semibold">
                     <p className="text-6vw color-bg-blue-4 px-dot5vw">
                         내가 좋아요한 여행
                     </p>
                     <p
-                        className="text-5vw"
+                        className="text-5vw cursor-pointer"
                         onClick={() => {
                             navigate(`/mypage/like`, {
                                 state: myLikedList,
@@ -155,14 +172,20 @@ export default function MyPage() {
                         더보기
                     </p>
                 </div>
-                {myLikedList.map((feed, index) => {
-                    if (index > 1) {
-                        return <></>;
-                    }
-                    return <FeedCard feedInfo={feed} key={feed.feedId} />;
-                })}
+                {myLikedList.length > 0 ? (
+                    myLikedList.map((feed, index) => {
+                        if (index > 1) {
+                            return <></>;
+                        }
+                        return <FeedCard feedInfo={feed} key={feed.feedId} />;
+                    })
+                ) : (
+                    <div className="w-full h-[10%] flex justify-center items-center text-4vw text-[#aeaeae]">
+                        좋아요한 피드가 없습니다.
+                    </div>
+                )}
                 <p
-                    className="text-red-400 underline mt-vw"
+                    className="text-red-400 underline mt-vw cursor-pointer"
                     onClick={proceedWithDrawal}
                 >
                     회원탈퇴

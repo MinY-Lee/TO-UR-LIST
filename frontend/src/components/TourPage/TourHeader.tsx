@@ -1,16 +1,16 @@
-import { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { TourInfoDetail, MemberInfo } from '../../types/types';
-import CheckModal from '../CheckModal';
+import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { TourInfoDetail, MemberInfo } from "../../types/types";
+import CheckModal from "../CheckModal";
 
-import GhostProfile from '../../assets/image/ghostProfile.png';
-import MapIcon from '../../assets/svg/mapIcon';
-import { deleteTour, quitTour } from '../../util/api/tour';
-import MenuIcon from '../../assets/svg/menuIcon';
-import { HttpStatusCode } from 'axios';
-import OutIcon from '../../assets/svg/outIcon';
-import PencilIcon from '../../assets/svg/pencilIcon';
-import TrashIcon from '../../assets/svg/trashIcon';
+import GhostProfile from "../../assets/image/ghostProfile.png";
+import MapIcon from "../../assets/svg/mapIcon";
+import { deleteTour, quitTour } from "../../util/api/tour";
+import MenuIcon from "../../assets/svg/menuIcon";
+import { HttpStatusCode } from "axios";
+import OutIcon from "../../assets/svg/outIcon";
+import PencilIcon from "../../assets/svg/pencilIcon";
+import TrashIcon from "../../assets/svg/trashIcon";
 
 interface PropType {
     tourId: string;
@@ -19,8 +19,6 @@ interface PropType {
 }
 
 export default function TourHeader(props: PropType) {
-    const navigate = useNavigate();
-
     const [outModal, setOutModal] = useState<boolean>(false);
     const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
@@ -30,10 +28,10 @@ export default function TourHeader(props: PropType) {
     const dropdownRef = useRef(null);
 
     const isHost = (member: MemberInfo): string => {
-        if (member.memberType === 'host') {
-            return 'w-14 h-14 rounded-full flex border-gradient bg-gradient-to-b from-blue-500 via-blue-400 to-blue-100';
+        if (member.memberType === "host") {
+            return "w-14 h-14 rounded-full flex border-gradient bg-gradient-to-b from-blue-500 via-blue-400 to-blue-100";
         }
-        return '';
+        return "";
     };
 
     const handleMouseEnter = (member: MemberInfo) => {
@@ -45,17 +43,17 @@ export default function TourHeader(props: PropType) {
     };
 
     const setDropdown = (isClicked: boolean) => {
-        return isClicked ? '' : 'hidden';
+        return isClicked ? "" : "hidden";
     };
 
     const handleTypeChange = (type: string) => {
-        if (type == 'edit') {
+        if (type == "edit") {
             props.onChange(type);
         }
-        if (type == 'out') {
+        if (type == "out") {
             setOutModal(true);
         }
-        if (type == 'delete') {
+        if (type == "delete") {
             setDeleteModal(true);
         }
     };
@@ -75,11 +73,11 @@ export default function TourHeader(props: PropType) {
 
     useEffect(() => {
         // 컴포넌트가 마운트될 때 전체 document에 클릭 이벤트 리스너 추가
-        document.addEventListener('click', handleClickOutside);
+        document.addEventListener("click", handleClickOutside);
 
         return () => {
             // 컴포넌트가 언마운트될 때 클릭 이벤트 리스너 제거
-            document.removeEventListener('click', handleClickOutside);
+            document.removeEventListener("click", handleClickOutside);
         };
     }, []);
 
@@ -115,7 +113,7 @@ export default function TourHeader(props: PropType) {
 
     const titleEllipsis = (text: string) => {
         if (text.length > 10) {
-            return text.substring(0, 10) + '...';
+            return text.substring(0, 10) + "...";
         }
         return text;
     };
@@ -156,8 +154,8 @@ export default function TourHeader(props: PropType) {
                         {props.tourInfo.tourTitle}
                     </div>
                     <div className="text-4vw">{`${
-                        props.tourInfo.startDate.split('T')[0]
-                    }~${props.tourInfo.endDate.split('T')[0]}`}</div>
+                        props.tourInfo.startDate.split("T")[0]
+                    }~${props.tourInfo.endDate.split("T")[0]}`}</div>
 
                     <div className="flex items-center w-full overflow-x-scroll h-[40%]">
                         {props.tourInfo.memberList.map(
@@ -171,7 +169,7 @@ export default function TourHeader(props: PropType) {
                                     onMouseLeave={handleMouseLeave}
                                 >
                                     <div className={`${isHost(member)}`}>
-                                        {member.memberType !== 'ghost' ? (
+                                        {member.memberType !== "ghost" ? (
                                             <div className="drop-shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
                                                 {member.userNickname[0]}
                                             </div>
@@ -197,8 +195,8 @@ export default function TourHeader(props: PropType) {
                                 <div key={index} className="whitespace-pre">
                                     {city.cityName}
                                     {index != props.tourInfo.cityList.length - 1
-                                        ? ', '
-                                        : ''}
+                                        ? ", "
+                                        : ""}
                                 </div>
                             ))}
                         </div>
@@ -223,7 +221,7 @@ export default function TourHeader(props: PropType) {
                         >
                             <li
                                 className="hover:bg-[#94cef2] py-2 px-5 rounded-t-lg border"
-                                onClick={() => handleTypeChange('edit')}
+                                onClick={() => handleTypeChange("edit")}
                             >
                                 <div className="flex gap-2 items-center">
                                     <PencilIcon />
@@ -232,7 +230,7 @@ export default function TourHeader(props: PropType) {
                             </li>
                             <li
                                 className="hover:bg-[#94cef2] px-5 py-2 rounded-b-lg border"
-                                onClick={() => handleTypeChange('out')}
+                                onClick={() => handleTypeChange("out")}
                             >
                                 <div className="flex gap-2 items-center">
                                     <OutIcon />
@@ -241,7 +239,7 @@ export default function TourHeader(props: PropType) {
                             </li>
                             <li
                                 className="hover:bg-[#94cef2] px-5 py-2 rounded-b-lg border "
-                                onClick={() => handleTypeChange('delete')}
+                                onClick={() => handleTypeChange("delete")}
                             >
                                 <div className="flex gap-2 items-center">
                                     <TrashIcon />

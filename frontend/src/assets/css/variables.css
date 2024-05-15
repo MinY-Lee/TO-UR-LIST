@@ -257,6 +257,10 @@
     height: min(15vw, 72px);
 }
 
+.h-12vw {
+    height: min(12vw, 57.6px);
+}
+
 .h-10vw {
     height: min(10vw, 48px);
 }

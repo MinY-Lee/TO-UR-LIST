@@ -1,31 +1,34 @@
-import { useEffect, useState } from 'react';
-import TourCard from '../components/MainPage/TourCard';
-import TabBarMain from '../components/TabBar/TabBarMain';
+import { useEffect, useState } from "react";
+import TourCard from "../components/MainPage/TourCard";
+import TabBarMain from "../components/TabBar/TabBarMain";
 
 //dummy data(api완료 시 삭제 요망)
 // import tourList from '../dummy-data/get_tour.json';
 // import user from '../dummy-data/get_user.json';
 
-import { TourCardInfo, UserInfo } from '../types/types';
-import { useDispatch } from 'react-redux';
-import { userWholeState } from '../util/reduxSlices/userSlice';
-import { getUserInfo } from '../util/api/user';
-import { getMyTourList } from '../util/api/tour';
+import { CountryMapping, TourCardInfo, UserInfo } from "../types/types";
+import { useDispatch } from "react-redux";
+import { userWholeState } from "../util/reduxSlices/userSlice";
+import { getUserInfo } from "../util/api/user";
+import { getMyTourList } from "../util/api/tour";
+import { GetCountryList } from "../util/api/country";
+import { HttpStatusCode } from "axios";
 
 export default function MainPage() {
     const [nowTourList, setNowTourList] = useState<TourCardInfo[]>([]);
     const [comingTourList, setComingTourList] = useState<TourCardInfo[]>([]);
     const [passTourList, setPassTourList] = useState<TourCardInfo[]>([]);
+    const [countryList, setCountryList] = useState<CountryMapping[]>([]);
 
-    const [today, setToday] = useState<string>('1111-11-11');
+    const [today, setToday] = useState<string>("1111-11-11");
 
     const dispatch = useDispatch();
 
     const [user, setUser] = useState<UserInfo>({
-        userId: '',
-        userNickname: '',
-        userName: '',
-        userBirth: '',
+        userId: "",
+        userNickname: "",
+        userName: "",
+        userBirth: "",
         userGender: 0,
     });
 
@@ -37,12 +40,12 @@ export default function MainPage() {
             .then((res) => {
                 console.log(res);
 
-                if (res.data.userId !== '') {
+                if (res.data.userId !== "") {
                     const userInfo: UserInfo = {
-                        userId: '',
-                        userNickname: '',
-                        userName: '',
-                        userBirth: '',
+                        userId: "",
+                        userNickname: "",
+                        userName: "",
+                        userBirth: "",
                         userGender: 0,
                     };
                     //불러와서 저장
@@ -50,7 +53,7 @@ export default function MainPage() {
                     userInfo.userNickname = res.data.userNickname;
                     userInfo.userName = res.data.userName;
                     if (res.data.userBirth) {
-                        userInfo.userBirth = res.data.userBirth.split('T')[0];
+                        userInfo.userBirth = res.data.userBirth.split("T")[0];
                     }
                     userInfo.userGender = res.data.userGender;
                     console.log(userInfo);
@@ -61,13 +64,13 @@ export default function MainPage() {
                     // }
                     dispatch(userWholeState(userInfo));
                 } else {
-                    window.location.href = '/info';
+                    window.location.href = "/info";
                 }
             })
             .catch((err) => {
                 if (err.response) {
                     if (err.response.status === 400) {
-                        window.location.href = '/info';
+                        window.location.href = "/info";
                     }
                 }
             });
@@ -122,13 +125,26 @@ export default function MainPage() {
         });
     }, []);
 
+    // 나라 코드 -> 나라 이름 매핑 위해 데이터 불러오기
+    useEffect(() => {
+        GetCountryList()
+            .then((res) => {
+                if (res.status === HttpStatusCode.Ok) {
+                    setCountryList(res.data);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
     /**date -> YYYY-MM-DD */
     const dateToString = (val: Date) => {
         const year = val.getFullYear();
         const month = val.getMonth() + 1;
         const day = val.getDate();
-        return `${year}-${month >= 10 ? month : '0' + month}-${
-            day >= 10 ? day : '0' + day
+        return `${year}-${month >= 10 ? month : "0" + month}-${
+            day >= 10 ? day : "0" + day
         }`;
     };
 
@@ -153,7 +169,13 @@ export default function MainPage() {
                 <>
                     <p className="w-[90%] text-5vw my-vw">진행 중인 여행</p>
                     {nowTourList.map((tour) => {
-                        return <TourCard key={tour.tourId} tourInfo={tour} />;
+                        return (
+                            <TourCard
+                                key={tour.tourId}
+                                tourInfo={tour}
+                                countryList={countryList}
+                            />
+                        );
                     })}
                 </>
             ) : (
@@ -163,7 +185,13 @@ export default function MainPage() {
                 <>
                     <p className="w-[90%] text-5vw my-vw">다가오는 여행</p>
                     {comingTourList.map((tour) => {
-                        return <TourCard key={tour.tourId} tourInfo={tour} />;
+                        return (
+                            <TourCard
+                                key={tour.tourId}
+                                tourInfo={tour}
+                                countryList={countryList}
+                            />
+                        );
                     })}
                 </>
             ) : (
@@ -173,7 +201,13 @@ export default function MainPage() {
                 <>
                     <p className="w-[90%] text-5vw my-vw">지난 여행</p>
                     {passTourList.map((tour) => {
-                        return <TourCard key={tour.tourId} tourInfo={tour} />;
+                        return (
+                            <TourCard
+                                key={tour.tourId}
+                                tourInfo={tour}
+                                countryList={countryList}
+                            />
+                        );
                     })}
                 </>
             ) : (

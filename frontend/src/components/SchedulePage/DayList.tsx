@@ -1,13 +1,16 @@
 import { useNavigate } from 'react-router-dom';
-import { TourPlaceItem } from '../../types/types';
+import { WebSockPlace } from '../../types/types';
 import PlaceCard from './PlaceCard';
+import { Client } from '@stomp/stompjs';
 
 interface PropType {
     dayNumber: number;
     date: Date;
-    dailySchedule: TourPlaceItem[];
+    dailySchedule: WebSockPlace[];
     isEditable: boolean;
     tourId: string;
+    wsClient: Client;
+    period: number;
 }
 
 export default function DayList(props: PropType) {
@@ -21,11 +24,14 @@ export default function DayList(props: PropType) {
 
     const navigate = useNavigate();
 
-    const goToDetail = (schedule: TourPlaceItem) => {
+    const goToDetail = (schedule: WebSockPlace) => {
         if (props.isEditable) {
             navigate(`/tour/${props.tourId}/schedule/edit/detail`, {
                 state: {
-                    scheduleInfo: schedule,
+                    tourId: props.tourId,
+                    tourDay: schedule.tourDay - 1,
+                    placeId: schedule.placeId,
+                    period: props.period,
                 },
             });
         }
@@ -73,6 +79,7 @@ export default function DayList(props: PropType) {
                                     isEditable={props.isEditable}
                                     tourId={props.tourId}
                                     goToDetail={goToDetail}
+                                    wsClient={props.wsClient}
                                 />
                             );
                         })
