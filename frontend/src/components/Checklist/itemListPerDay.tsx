@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import TrashIcon from "../../assets/svg/trashIcon";
 import { Item, TourInfoDetail } from "../../types/types";
@@ -27,6 +28,7 @@ interface PropType {
 }
 
 export default function ItemListPerDay(props: PropType) {
+    const navigate = useNavigate();
     const mapping: Mapping = {
         walking: ["👣 산책", "color-bg-blue-3"],
         shopping: ["🛒 쇼핑", "bg-pink-100"],
@@ -54,6 +56,13 @@ export default function ItemListPerDay(props: PropType) {
         return `${startDate.getFullYear()}.${
             startDate.getMonth() + 1
         }.${startDate.getDate()}`;
+    };
+
+    const handleEditChecklist = (item: Item) => {
+        // state로 데이터 전달하며 페이지 이동
+        navigate(`/tour/${props.tourId}/checklist/edit`, {
+            state: { item: item },
+        });
     };
 
     return (
@@ -87,6 +96,11 @@ export default function ItemListPerDay(props: PropType) {
                                                     ].map((item, index) => (
                                                         <div
                                                             key={index}
+                                                            onClick={() => {
+                                                                handleEditChecklist(
+                                                                    item
+                                                                );
+                                                            }}
                                                             className=" grid grid-cols-2 justify-center m-1"
                                                         >
                                                             <div className="flex items-center">

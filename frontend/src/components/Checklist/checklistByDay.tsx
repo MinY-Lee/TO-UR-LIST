@@ -8,7 +8,7 @@ import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import { checkItem, getChecklist } from "../../util/api/checklist";
 import { HttpStatusCode } from "axios";
 import { getTour } from "../../util/api/tour";
-import ItemList from "./itemList";
+import ItemList from "./tourItemList";
 
 interface PropType {
     tourId: string;

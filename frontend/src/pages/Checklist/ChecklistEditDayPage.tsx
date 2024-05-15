@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import MyButton from "../../components/Buttons/myButton";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
 import CheckModal from "../../components/CheckModal";
-import { Item, TourInfoDetail } from "../../types/types";
+import { Item, ItemApi, TourInfoDetail } from "../../types/types";
 
 import TabBarTour from "../../components/TabBar/TabBarTour";
-import { getChecklist } from "../../util/api/checklist";
+import { deleteChecklist, getChecklist } from "../../util/api/checklist";
 import { HttpStatusCode } from "axios";
 import { getTour } from "../../util/api/tour";
 import ItemListPerDay from "../../components/Checklist/itemListPerDay";
@@ -141,33 +141,57 @@ export default function ChecklistEditDayPage() {
     };
 
     const handleDelete = () => {
-        if (groupedItems && deleteItem) {
-            // 데이터 삭제 api
-            const updatedChecklist = groupedItems[deleteItem?.tourDay][
-                deleteItem?.placeId
-            ].filter((item: Item) => item !== deleteItem);
-            const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
+        if (deleteItem) {
+            const { activity, isChecked, item, placeId, tourDay, tourId } =
+                deleteItem;
+            const targetItem: ItemApi = {
+                activity: activity,
+                isChecked: !isChecked,
+                item: item,
+                placeId: placeId,
+                tourDay: tourDay,
+                tourId: tourId,
+            };
 
-            Object.keys(updatedFullChecklist).forEach((dayString) => {
-                const day = Number(dayString);
-                Object.keys(updatedFullChecklist[day]).forEach((placeId) => {
-                    if (
-                        day == deleteItem.tourDay &&
-                        placeId == deleteItem.placeId
-                    ) {
-                        updatedFullChecklist[day][placeId] = [
-                            ...updatedChecklist,
-                        ]; // 새로운 배열로 교체
-                    } else {
-                        updatedFullChecklist[day][placeId] = [
-                            ...updatedFullChecklist[day][placeId],
-                        ];
+            deleteChecklist(targetItem)
+                .then((res) => {
+                    if (res.status == HttpStatusCode.Ok) {
+                        const updatedChecklist = groupedItems[
+                            deleteItem.tourDay
+                        ][deleteItem?.placeId].filter(
+                            (item: Item) => item !== deleteItem
+                        );
+                        const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
+
+                        Object.keys(updatedFullChecklist).forEach(
+                            (dayString) => {
+                                const day = Number(dayString);
+                                Object.keys(updatedFullChecklist[day]).forEach(
+                                    (placeId) => {
+                                        if (
+                                            day == deleteItem.tourDay &&
+                                            placeId == deleteItem.placeId
+                                        ) {
+                                            updatedFullChecklist[day][placeId] =
+                                                [...updatedChecklist]; // 새로운 배열로 교체
+                                        } else {
+                                            updatedFullChecklist[day][placeId] =
+                                                [
+                                                    ...updatedFullChecklist[
+                                                        day
+                                                    ][placeId],
+                                                ];
+                                        }
+                                    }
+                                );
+                            }
+                        );
+
+                        setGroupedItems(updatedFullChecklist);
+                        setIsCheckModalActive(false);
                     }
-                });
-            });
-
-            setGroupedItems(updatedFullChecklist);
-            setIsCheckModalActive(false);
+                })
+                .catch((err) => console.log(err));
         }
     };
 
