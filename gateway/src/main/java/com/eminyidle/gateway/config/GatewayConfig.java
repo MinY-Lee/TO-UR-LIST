@@ -32,7 +32,7 @@ public class GatewayConfig {
 	@Value("${CHECKLIST_SERVER_URL}")
 	private String CHECKLIST_SERVER_URL;
 
-	@Value("${CHECKLIST_SERVER_URL}")
+	@Value("${WEBSOCKET_PLACE_SERVER_URL}")
 	private String WEBSOCKET_PLACE_SERVER;
 
 	@Bean
