@@ -1,19 +1,25 @@
-import { BaseSyntheticEvent, useRef, useEffect, useState } from 'react';
-import MyButton from '../Buttons/myButton';
-import UserSearch from '../TourPage/UserSearch';
-import { MemberInfo, TourInfoDetail, UserInfo } from '../../types/types';
+import { BaseSyntheticEvent, useRef, useEffect, useState } from "react";
+import MyButton from "../Buttons/myButton";
+import UserSearch from "../TourPage/UserSearch";
+import { MemberInfo, TourInfoDetail, UserInfo } from "../../types/types";
+import { ghostInviteTour, userInviteTour } from "../../util/api/tour";
+import { HttpStatusCode } from "axios";
 
 interface Proptype {
+    tourId: string;
     data: TourInfoDetail;
+    handleMemberAdd: (member: MemberInfo) => void;
     closeMemberModal: () => void;
 }
 
 export default function AddMemberModal(props: Proptype) {
     const [topOffset, setTopOffset] = useState<number>(0);
     const [addGhostState, setAddGhostState] = useState<boolean>(false);
-    const [ghostNickname, setGhostNickname] = useState<string>('');
+    const [ghostNickname, setGhostNickname] = useState<string>("");
     const [memberList, setMemberList] = useState<MemberInfo[]>([]);
-    const [updatedMemberList, setUpdatedMemberList] = useState<MemberInfo[]>([]);
+    const [updatedMemberList, setUpdatedMemberList] = useState<MemberInfo[]>(
+        []
+    );
     const divRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -30,14 +36,37 @@ export default function AddMemberModal(props: Proptype) {
 
     const onChange = (updatedMember: MemberInfo) => {
         // updatedMemberList에서 updatedMember의 id와 동일한 요소를 찾기
-        const existingMember = updatedMemberList.find((member) => member.userId === updatedMember.userId);
+        const existingMember = updatedMemberList.find(
+            (member) => member.userId === updatedMember.userId
+        );
 
         // existingMember가 존재하면 기존 멤버를 업데이트하고, 존재하지 않으면 새로운 멤버 추가
         const newMembers = existingMember
-            ? updatedMemberList.map((member) => (member.userId === updatedMember.userId ? updatedMember : member))
+            ? updatedMemberList.map((member) =>
+                  member.userId === updatedMember.userId
+                      ? updatedMember
+                      : member
+              )
             : [...updatedMemberList, updatedMember];
 
         setUpdatedMemberList(newMembers);
+        newMembers.map((newMember) => {
+            if (newMember.memberType != "ghost") {
+                const itemApi = {
+                    tourId: props.tourId,
+                    userId: newMember.userId,
+                    userNickname: newMember.userNickname,
+                };
+
+                userInviteTour(itemApi)
+                    .then((res) => {
+                        if (res.status == HttpStatusCode.Ok) {
+                            props.handleMemberAdd(newMember);
+                        }
+                    })
+                    .catch((err) => console.log(err));
+            }
+        });
     };
 
     const handleInputChange = (event: BaseSyntheticEvent) => {
@@ -45,31 +74,51 @@ export default function AddMemberModal(props: Proptype) {
     };
 
     const handleAddGhost = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
+        if (event.key === "Enter") {
             const existingMember = updatedMemberList.find(
-                (member) => member.memberType == 'ghost' && member.userNickname === ghostNickname
+                (member) =>
+                    member.memberType == "ghost" &&
+                    member.userNickname === ghostNickname
             );
 
-            if (existingMember && ghostNickname.trim() == '') {
+            if (existingMember && ghostNickname.trim() == "") {
                 event.preventDefault(); // 이미 있는 아이템이면 제출 막기
-            } else {
+            } else if (!event.nativeEvent.isComposing) {
                 // 고스트 멤버 추가
                 // 리턴받은 ghostId, ghostNickname 으로 객체 만들어서 넣어라
-                const newGhostMember = {
-                    userId: '0000',
-                    userNickname: ghostNickname,
-                    userName: ghostNickname,
-                    memberType: 'ghost',
+                const itemApi = {
+                    tourId: props.tourId,
+                    ghostNickname: ghostNickname,
                 };
 
-                setUpdatedMemberList([...updatedMemberList, newGhostMember]);
-                setGhostNickname('');
+                ghostInviteTour(itemApi)
+                    .then((res) => {
+                        if (res.status == HttpStatusCode.Ok) {
+                            const newGhostMember = {
+                                userId: res.data.ghostId,
+                                userNickname: res.data.ghostNickname,
+                                userName: res.data.ghostNickname,
+                                memberType: "ghost",
+                            };
+
+                            console.log(newGhostMember);
+
+                            setUpdatedMemberList([
+                                ...updatedMemberList,
+                                newGhostMember,
+                            ]);
+                            setGhostNickname("");
+                        }
+                    })
+                    .catch((err) => console.log(err));
             }
         }
     };
 
     const handleDelete = (target: MemberInfo) => {
-        const filteredMemberList = updatedMemberList.filter((member) => member !== target);
+        const filteredMemberList = updatedMemberList.filter(
+            (member) => member !== target
+        );
         setUpdatedMemberList(filteredMemberList);
     };
 
@@ -83,9 +132,11 @@ export default function AddMemberModal(props: Proptype) {
             <div
                 ref={divRef}
                 className={`absolute gap-2 p-5 w-[80%] left-[10%]  z-30 bg-white flex flex-col justify-evenly items-center border-[0.5vw] color-border-blue-2`}
-                style={{ borderRadius: '2vw', top: `${topOffset}px` }}
+                style={{ borderRadius: "2vw", top: `${topOffset}px` }}
             >
-                <div className="w-full flex flex-col justify-center text-xl font-bold">멤버 추가하기</div>
+                <div className="w-full flex flex-col justify-center text-xl font-bold">
+                    멤버 추가하기
+                </div>
                 <div className="w-full">
                     <UserSearch onChange={onChange} memberList={memberList} />
                 </div>
@@ -94,16 +145,19 @@ export default function AddMemberModal(props: Proptype) {
                         <div
                             key={member.userId}
                             className={`flex px-2 gap-3 ${
-                                member.memberType == 'ghost' ? 'bg-gray-300' : 'color-bg-blue-3'
+                                member.memberType == "ghost"
+                                    ? "bg-gray-300"
+                                    : "color-bg-blue-3"
                             } rounded-full`}
                         >
                             <div onClick={() => handleDelete(member)}>x</div>
                             <div className="whitespace-nowrap">
-                                {member.memberType == 'ghost' ? (
+                                {member.memberType == "ghost" ? (
                                     <div>{member.userNickname}</div>
                                 ) : (
                                     <div>
-                                        {member.userNickname} ({member.userName})
+                                        {member.userNickname} ({member.userName}
+                                        )
                                     </div>
                                 )}
                             </div>

@@ -20,6 +20,7 @@ import HostHandleModal from "./HostHandleModal";
 import EditMemberList from "./EditMemberList";
 import SearchResult from "./SearchResult";
 import {
+    deleteMemberApi,
     editCity,
     editPeriod,
     editTitle,
@@ -85,7 +86,6 @@ export default function TourEditHeader(props: PropType) {
 
     useEffect(() => {
         setData(props.tourInfo);
-
         setTitle(data ? data.tourTitle : "");
         setMemberList(data.memberList);
         setStartDate(data.startDate);
@@ -275,10 +275,27 @@ export default function TourEditHeader(props: PropType) {
     };
 
     const handleMemberDelete = () => {
-        const updatedList = memberList.filter((mem) => mem !== deleteMember);
+        if (deleteMember.userId) {
+            const target = {
+                tourId: props.tourId,
+                userId: deleteMember.userId,
+                userNickname: deleteMember.userNickname,
+                memberType: deleteMember.memberType,
+            };
+            deleteMemberApi(target).then((res) => {
+                if (res.status == HttpStatusCode.Ok) {
+                    const updatedList = memberList.filter(
+                        (mem) => mem !== deleteMember
+                    );
+                    setMemberDeleteModal(false);
+                    setMemberList(updatedList);
+                }
+            });
+        }
+    };
 
-        setMemberDeleteModal(false);
-        setMemberList(updatedList);
+    const handleMemberAdd = (member: MemberInfo) => {
+        setMemberList([...memberList, member]);
     };
 
     const handleMemberDeleteModal = (
@@ -316,7 +333,9 @@ export default function TourEditHeader(props: PropType) {
             {addModalClicked ? (
                 <div ref={addMemberModalRef} className="h-fit">
                     <MemberAddModal
+                        tourId={props.tourId}
                         data={data}
+                        handleMemberAdd={handleMemberAdd}
                         closeMemberModal={closeMemberModal}
                     />
                 </div>

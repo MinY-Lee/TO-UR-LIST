@@ -41,7 +41,6 @@ export default function UserSearch(props: ChildProps) {
         if (query.trim() != "") {
             searchUserByNickname(query)
                 .then((res) => {
-                    let searchRes: SearchUser[] = [];
                     if (res.status == HttpStatusCode.Ok) {
                         setResultList(res.data.userInfoList);
                     }
