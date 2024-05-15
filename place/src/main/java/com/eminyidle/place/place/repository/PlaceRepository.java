@@ -41,11 +41,11 @@ public interface PlaceRepository extends Neo4jRepository<TourPlace, String> {
     @Query("MATCH (:TOUR{tourId: $tourId})-[oldr:DO{placeId: $placeId, tourDay: $oldTourDay}]->(ot:TOUR_PLACE)" +
             "MATCH (:TOUR{tourId: $tourId})-[newr:DO{placeId: $placeId, tourDay: $newTourDay}]->(nt:TOUR_PLACE)" +
             "OPTIONAL MATCH (ot)-[ref:REFERENCE]->(a:ACTIVITY)" +
-            "WITH ot, nt, COLLECT(a) AS activities " +
+            "WITH ot, nt, ot.tourPlaceId AS otId, COLLECT(a) AS activities " +
             "FOREACH (activity IN activities | " +
                 "MERGE (nt)-[:REFERENCE]->(activity)) " +
             "DETACH DELETE ot " +
-            "RETURN nt.tourPlaceId")
+            "RETURN otId")
     String mergeTourDay(String tourId, String placeId, Integer oldTourDay, Integer newTourDay);
 
 //    @Query("MATCH (:TOUR{tourId: $tourId})-[r:DO{placeId: $placeId}]->(:TOUR_ACTIVITY)" +
