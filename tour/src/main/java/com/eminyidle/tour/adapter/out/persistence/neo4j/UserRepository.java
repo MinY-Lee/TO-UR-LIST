@@ -9,9 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends Neo4jRepository<User, String> {
-    //FIXME- Ghost도 나와야함
-    @Query("MATCH (t:TOUR {tourId: $tourId})-[m:MEMBER]->(u:USER) " +
-            "RETURN collect(DISTINCT {userId: u.userId, userNickname: u.userNickname, userName: u.userName,memberType:m.memberType})")
+    @Query("MATCH (:TOUR {tourId: $tourId})-[m:MEMBER]->(u:USER) " +
+            "RETURN u.userId AS userId, u.userNickname AS userNickname, u.userName AS userName,m.memberType AS memberType " +
+            "UNION MATCH (:TOUR {tourId: $tourId})-[m:MEMBER]->(u:GHOST) " +
+            "RETURN u.ghostId AS userId, u.ghostNickname AS userNickname, u.ghostNickname AS userName,m.memberType AS memberType")
     List<Member> findMembersByTourId(String tourId);
 
     @Query("MATCH (:TOUR {tourId: $tourId})-[m:MEMBER]->(:USER{userId: $userId}) " +

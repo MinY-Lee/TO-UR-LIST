@@ -2,10 +2,6 @@ package com.eminyidle.tour.application.dto;
 
 import com.eminyidle.tour.exception.InvalidTourDateException;
 import com.eminyidle.tour.exception.InvalidTourTitleFormatException;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -29,12 +25,8 @@ public class Tour {
     @Property(readOnly = true)
     String tourTitle;
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     LocalDateTime startDate;
     @Property
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     LocalDateTime endDate;
     @Relationship(type = "TO") @Setter
     List<City> cityList;
@@ -69,6 +61,14 @@ public class Tour {
         if(endDate==null) throw new InvalidTourDateException();
         endDate=endDate.with(LocalTime.MIN);
         if(startDate!=null && startDate.isAfter(endDate)) throw new InvalidTourDateException();
+        this.endDate=endDate;
+    }
+
+    public void setTourDate(LocalDateTime startDate, LocalDateTime endDate){
+        if(startDate==null || endDate==null || startDate.isAfter(endDate)) throw new InvalidTourDateException();
+        startDate=startDate.with(LocalTime.MIN);
+        endDate=endDate.with(LocalTime.MIN);
+        this.startDate=startDate;
         this.endDate=endDate;
     }
 }

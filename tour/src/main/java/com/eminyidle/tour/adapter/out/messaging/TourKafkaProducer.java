@@ -28,6 +28,7 @@ public class TourKafkaProducer {
     private String KAFKA_PAYMENT_TOPIC;
 
     private final KafkaTemplate<String, String> kafkaTemplate;
+    private final ObjectMapper objectMapper;
 
     public void produceCreateTour(Tour tour, String hostId) {
         produceTourKafkaDetailMessage("CREATE", tour, hostId);
@@ -37,7 +38,6 @@ public class TourKafkaProducer {
         produceTourKafkaMessage("UPDATE_CITY", tour);
     }
 
-    //TODO - place에 필요
     public void produceUpdateTourDate(Tour tour) {
         produceTourKafkaMessage("UPDATE_DATE", tour);
     }
@@ -85,7 +85,6 @@ public class TourKafkaProducer {
 
     public void produceKafkaMessage(String topic, String type, Object body) {
         log.debug("produceTourKafkaMessage-" + type);
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
             String jsonMessage = objectMapper.writeValueAsString(KafkaMessage.builder()
                     .type(type)
@@ -101,7 +100,6 @@ public class TourKafkaProducer {
 
     public void produceKafkaMessage(String topic, String type, Object body, String desc) {
         log.debug("produceTourKafkaMessage-" + type);
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
             String jsonMessage = objectMapper.writeValueAsString(new KafkaDetailMessage(type, body, desc));
             kafkaTemplate.send(topic, jsonMessage);
@@ -116,7 +114,6 @@ public class TourKafkaProducer {
         log.debug("produceMessage with Key: " + key);
         log.debug(message.toString());
 
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
             String jsonMessage = objectMapper.writeValueAsString(message);
             kafkaTemplate.send(topic, key, jsonMessage);
