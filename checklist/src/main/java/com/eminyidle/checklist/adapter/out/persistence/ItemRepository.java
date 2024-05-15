@@ -111,4 +111,10 @@ public interface ItemRepository extends Neo4jRepository<Item,String> {
             "MERGE (ta)-[:PUBLIC]->(i)")
     void copyPublicRelationshipByTourActivtyIdAndTargetTourPlaceId(String tourActivityId, String targetTourPlaceId);
 
+
+    @Query("MATCH (a:TOUR_ACTIVITY{tourActivityId: $tourActivityId})-[:PUBLIC]->(i:ITEM) " +
+            "WITH a,i MATCH (a)<-[:DO]-(:TOUR_PLACE)<-[:GO]-(:TOUR)-[:MEMBER]->(u:USER) " +
+            "MERGE (a)-[take:TAKE{userId: u.userId}]->(i) " +
+            "ON CREATE SET take.createdAt = localdatetime(), take.type = 'public', take.isChecked = FALSE")
+    void createTakePublicRelationshipByTourActivityId(String tourActivityId);
 }

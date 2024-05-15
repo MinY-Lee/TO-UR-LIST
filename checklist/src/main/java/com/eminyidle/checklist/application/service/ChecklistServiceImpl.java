@@ -301,7 +301,12 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
         activity.getItemList().forEach(
                 item -> itemRepository.createPublicRelationshipByTourActivityId(tourActivity.getTourActivityId(), item.getItem())
         );
+        //TODO - 연결 확인
+        //모든 멤버에 대해 TAKE 관계도 만들기!
+        itemRepository.createTakePublicRelationshipByTourActivityId(tourActivity.getTourActivityId());
+
     }
+
 
     @Override
     public void deleteActivity(String tourPlaceId, String activityName) {
