@@ -467,7 +467,7 @@ export default function TourEditHeader(props: PropType) {
                     </div>
                     {!isVaildTitle ? (
                         <div
-                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border-gray-300 rounded-lg bg-gray-50`}
                             role="alert"
                         >
                             <div className="font-medium">
@@ -514,18 +514,6 @@ export default function TourEditHeader(props: PropType) {
                     </div>
 
                     <div className="text-[5vw] flex flex-col items-center mt-3">
-                        {!isVaildCityList ? (
-                            <div
-                                className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
-                                role="alert"
-                            >
-                                <div className="font-medium">
-                                    ⚠️ 도시를 하나 이상 선택해주세요!
-                                </div>
-                            </div>
-                        ) : (
-                            ""
-                        )}
                         <div className="grid grid-cols-10 w-full">
                             <div className="relative col-span-1 top-[3px]">
                                 <MapIcon />
@@ -562,6 +550,18 @@ export default function TourEditHeader(props: PropType) {
                             </div>
                         </div>
                     </div>
+                    {!isVaildCityList ? (
+                        <div
+                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                            role="alert"
+                        >
+                            <div className="font-medium">
+                                ⚠️ 도시를 하나 이상 선택해주세요!
+                            </div>
+                        </div>
+                    ) : (
+                        ""
+                    )}
                 </div>
             </div>
         </div>
