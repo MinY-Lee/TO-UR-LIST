@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UpdateGhostToGuestReq {
     String tourId;
     String ghostId;
