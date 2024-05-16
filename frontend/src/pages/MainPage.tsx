@@ -226,7 +226,7 @@ export default function MainPage() {
             ) : (
                 <></>
             )}
-            <div className="h-16">" "</div>
+            <div className="h-16"></div>
             <TabBarMain tabMode={1} />
         </section>
     );

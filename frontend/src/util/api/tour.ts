@@ -76,3 +76,11 @@ export async function deleteMemberApi(target: any) {
 export async function changeGhostNickname(target: any) {
     return await local.put(`/api/tour/member/ghost`, JSON.stringify(target));
 }
+
+/** 고스트멤버 유저로 변경 */
+export async function changeGhostToGuest(ghostAndGuest: any) {
+    return await local.post(
+        `/api/tour/member/resurrection`,
+        JSON.stringify(ghostAndGuest)
+    );
+}
