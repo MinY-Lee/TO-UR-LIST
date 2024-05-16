@@ -12,5 +12,5 @@ import lombok.*;
 public class TourKafkaMessage {
     private String type;
     private TourNode body;
-    private String desc;
+    private String detail;
 }

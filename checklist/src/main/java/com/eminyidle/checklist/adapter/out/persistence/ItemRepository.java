@@ -99,4 +99,22 @@ public interface ItemRepository extends Neo4jRepository<Item,String> {
     @Query("MATCH (:COUNTRY {countryCode: $countryCode})-[:NEED]->(i:ITEM) RETURN i")
     List<Item> findAllInCountryByCountryCode(String countryCode);
 
+
+    @Query("MATCH (:TOUR_ACTIVITY {tourActivityId: $tourActivityId})-[r:TAKE]->(i:ITEM) WITH r, i " +
+            "MATCH (ta:TOUR_ACTIVITY)<-[:DO]-(:TOUR_PLACE {tourPlaceId: $targetTourPlaceId}) WITH r, i, ta " +
+            "MERGE (ta)-[take:TAKE {userId: r.userId}]->(i) " +
+            "ON CREATE SET take.createdAt = r.createdAt, take.type = r.type, take.isChecked = r.isChecked " +
+            "ON MATCH SET take.isChecked = r.isChecked OR take.isChecked")
+    void copyTakeRelationshipByTourActivtyIdAndTargetTourPlaceId(String tourActivityId, String targetTourPlaceId);
+    @Query("MATCH (:TOUR_ACTIVITY {tourActivityId: $tourActivityId})-[r:PUBLIC]->(i:ITEM) WITH r, i " +
+            "MATCH (ta:TOUR_ACTIVITY)<-[:DO]-(:TOUR_PLACE {tourPlaceId: $targetTourPlaceId}) WITH r, i, ta " +
+            "MERGE (ta)-[:PUBLIC]->(i)")
+    void copyPublicRelationshipByTourActivtyIdAndTargetTourPlaceId(String tourActivityId, String targetTourPlaceId);
+
+
+    @Query("MATCH (a:TOUR_ACTIVITY{tourActivityId: $tourActivityId})-[:PUBLIC]->(i:ITEM) " +
+            "WITH a,i MATCH (a)<-[:DO]-(:TOUR_PLACE)<-[:GO]-(:TOUR)-[:MEMBER]->(u:USER) " +
+            "MERGE (a)-[take:TAKE{userId: u.userId}]->(i) " +
+            "ON CREATE SET take.createdAt = localdatetime(), take.type = 'public', take.isChecked = FALSE")
+    void createTakePublicRelationshipByTourActivityId(String tourActivityId);
 }

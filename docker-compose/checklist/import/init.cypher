@@ -1,5 +1,5 @@
 LOAD CSV WITH HEADERS FROM 'file:///country.csv' AS row
-CREATE (:COUNTRY {countryCode: row.countryCode, countryName: row.countryName});
+MERGE (:COUNTRY {countryCode: row.countryCode, countryName: row.countryName});
 
 LOAD CSV WITH HEADERS FROM 'file:///activity.csv' AS row
 MERGE (:ACTIVITY {activity: row.activity});

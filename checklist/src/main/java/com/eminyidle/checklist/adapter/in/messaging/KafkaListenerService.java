@@ -9,7 +9,6 @@ import com.eminyidle.checklist.application.service.ChecklistServiceImpl;
 import com.eminyidle.checklist.exception.CreateTourException;
 import com.eminyidle.checklist.exception.KafkaDataNotExistException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +17,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -41,11 +38,11 @@ public class KafkaListenerService {
                 case "CREATE":
                     log.debug("created tour");
                     log.debug(tour.toString());
-                    if(message.getDesc()==null){
+                    if(message.getDetail()==null){
                         throw new CreateTourException();
                     }
-                    log.debug("hostUserId: "+message.getDesc());
-                    checklistService.createTour(tour.getTourId(), Duration.between(tour.getStartDate(), tour.getEndDate()).toDays() + 1, tour.getCityList().stream().map(City::getCountryCode).collect(Collectors.toSet()),message.getDesc());
+                    log.debug("hostUserId: "+message.getDetail());
+                    checklistService.createTour(tour.getTourId(), Duration.between(tour.getStartDate(), tour.getEndDate()).toDays() + 1, tour.getCityList().stream().map(City::getCountryCode).collect(Collectors.toSet()),message.getDetail());
                     break;
                 case "UPDATE_CITY":
                     log.debug("update country");
