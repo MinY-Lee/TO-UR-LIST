@@ -117,11 +117,34 @@ export default function TourEditHeader(props: PropType) {
                 )
         );
         setResultList(updatedResultList);
-
+        if(updatedResultList.length>0){
+            setIsVaildCityList(true);
+        }
         // 결과에 있었던 거면 다시 들어가 (재검색)
         handleQuery(query);
     }, [selectedCity]);
 
+    /**
+     * 검증 로직 추가
+     * @param type
+     */
+
+    const [isVaildTitle, setIsVaildTitle] = useState<boolean>(true);
+    const [isVaildDate, setIsVaildDate] = useState<boolean>(true);
+    const [isVaildCityList, setIsVaildCityList] = useState<boolean>(true);
+    function areDatesInOrder(startDateString: string , endDateString: string) {
+        // Date 객체를 생성
+        const date1 = new Date(startDateString);
+        const date2 = new Date(endDateString);
+
+        // 유효한 날짜인지 확인
+        if (isNaN(date1) || isNaN(date2)) {
+            throw new Error("Invalid date format");
+        }
+
+        // 비교 결과 반환
+        return date1 <= date2;
+    }
     const handleTypeChange = (type: string) => {
         const updatedTourInfo: TourInfoDetail = {
             tourTitle: title,
@@ -132,6 +155,12 @@ export default function TourEditHeader(props: PropType) {
         };
 
         if (data.tourTitle != title) {
+            //title이 없으면 에러
+            if(title.trim()===""){
+                setIsVaildTitle(false);
+                return;
+            }
+
             editTitle({ tourId: props.tourId, tourTitle: title })
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
@@ -142,6 +171,12 @@ export default function TourEditHeader(props: PropType) {
         }
 
         if (data.startDate != startDate || data.endDate != endDate) {
+            //startDate <= endDate여야함
+            if(!areDatesInOrder(startDate,endDate)){
+                setIsVaildDate(false);
+                return;
+            }
+
             editPeriod({
                 tourId: props.tourId,
                 startDate: new Date(startDate),
@@ -156,6 +191,12 @@ export default function TourEditHeader(props: PropType) {
         }
 
         if (data.cityList != selectedCity) {
+            //city 1개 이상
+            if(selectedCity.length===0){
+                setIsVaildCityList(false);
+                return;
+            }
+
             editCity({ tourId: props.tourId, cityList: selectedCity })
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
@@ -174,6 +215,9 @@ export default function TourEditHeader(props: PropType) {
 
     const handleInputChange = (event: BaseSyntheticEvent) => {
         setTitle(event.target.value);
+        if(title.length>0){
+            setIsVaildTitle(true);
+        }
     };
 
     const handleHost = () => {
@@ -327,10 +371,17 @@ export default function TourEditHeader(props: PropType) {
 
     const handleStartDate = (event: BaseSyntheticEvent) => {
         setStartDate(event.target.value);
+        console.log(startDate, endDate);
+        if(areDatesInOrder(startDate,endDate)){
+            setIsVaildDate(true);
+        }
     };
 
     const handleEndDate = (event: BaseSyntheticEvent) => {
         setEndDate(event.target.value);
+        if(areDatesInOrder(startDate,endDate)){
+            setIsVaildDate(true);
+        }
     };
 
     // 고스트 업데이트
@@ -414,6 +465,18 @@ export default function TourEditHeader(props: PropType) {
                             aria-describedby="button-addon1"
                         />
                     </div>
+                    {!isVaildTitle ? (
+                        <div
+                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                            role="alert"
+                        >
+                            <div className="font-medium">
+                                ⚠️ 제목을 입력해주세요!
+                            </div>
+                        </div>
+                    ) : (
+                        ""
+                    )}
                     <div className="grid grid-cols-2 gap-2 my-3 justify-center">
                         <input
                             className="px-[2vw] py-1 border border-neutral-300 rounded-lg"
@@ -428,6 +491,18 @@ export default function TourEditHeader(props: PropType) {
                             onChange={handleEndDate}
                         ></input>
                     </div>
+                    {!isVaildDate ? (
+                        <div
+                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                            role="alert"
+                        >
+                            <div className="font-medium">
+                                ⚠️ 여행 날짜를 올바르게 설정해주세요!
+                            </div>
+                        </div>
+                    ) : (
+                        ""
+                    )}
                     <div className="flex items-center px-3 w-[90vw] overflow-x-scroll gap-1">
                         <EditMemberList
                             memberList={memberList}
@@ -439,6 +514,18 @@ export default function TourEditHeader(props: PropType) {
                     </div>
 
                     <div className="text-[5vw] flex flex-col items-center mt-3">
+                        {!isVaildCityList ? (
+                            <div
+                                className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                                role="alert"
+                            >
+                                <div className="font-medium">
+                                    ⚠️ 도시를 하나 이상 선택해주세요!
+                                </div>
+                            </div>
+                        ) : (
+                            ""
+                        )}
                         <div className="grid grid-cols-10 w-full">
                             <div className="relative col-span-1 top-[3px]">
                                 <MapIcon />
