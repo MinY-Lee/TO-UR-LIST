@@ -32,7 +32,7 @@ public class GatewayConfig {
 	@Value("${CHECKLIST_SERVER_URL}")
 	private String CHECKLIST_SERVER_URL;
 
-	@Value("${CHECKLIST_SERVER_URL}")
+	@Value("${WEBSOCKET_PLACE_SERVER_URL}")
 	private String WEBSOCKET_PLACE_SERVER;
 
 	@Bean
@@ -48,6 +48,9 @@ public class GatewayConfig {
 				.filters(gatewayFilterSpec -> gatewayFilterSpec.filter(authenticationFilter))
 				.uri(TOUR_SERVER_URL))
 			.route("PLACE_SERVER", predicateSpec -> predicateSpec.path("/place/**")
+				.filters(gatewayFilterSpec -> gatewayFilterSpec.filter(authenticationFilter))
+				.uri(PLACE_SERVER_URL))
+			.route("PLACE_SERVER", predicateSpec -> predicateSpec.path("/activity/**")
 				.filters(gatewayFilterSpec -> gatewayFilterSpec.filter(authenticationFilter))
 				.uri(PLACE_SERVER_URL))
 			.route("PAYMENT_SERVER", predicateSpec -> predicateSpec.path("/payment/**")
