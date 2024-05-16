@@ -1,12 +1,22 @@
 import { useEffect, useState } from "react";
 import MyButton from "./Buttons/myButton";
-import { TourActivity, TourInfoDetail, TourPlaceItem } from "../types/types";
+
+import {
+    Item,
+    TourActivity,
+    TourInfoDetail,
+    TourPlaceItem,
+} from "../types/types";
 
 import tourPlaceTourId from "../dummy-data/get_tour_place_tourId.json";
 import { getTour } from "../util/api/tour";
-// import TourDetail from '../dummy-data/get_tour_detail.json';
+import { getPlaceList } from "../util/api/place";
+import { HttpStatusCode } from "axios";
+import { getChecklist } from "../util/api/checklist";
 
 interface Proptype {
+    item: Item;
+    filteredData: Item[];
     tourId: string;
     clickOK: () => void;
     clickCancel: () => void;
@@ -19,9 +29,8 @@ interface Group {
 }
 
 export default function SelectModal(props: Proptype) {
-    const [data, setData] = useState<TourPlaceItem[]>();
+    const [data, setData] = useState<TourPlaceItem[]>([]);
     const [tourData, setTourData] = useState<TourInfoDetail>({
-        tourId: "",
         tourTitle: "",
         cityList: [],
         startDate: "",
@@ -30,12 +39,20 @@ export default function SelectModal(props: Proptype) {
     });
     const [daysDifference, setDaysDifference] = useState<number>(0);
     const [daysList, setDaysList] = useState<number[]>([]);
-    const [groupedItems, setGroupedItems] = useState<Group>();
+    const [groupedPlaces, setGroupedPlaces] = useState<Group>();
+    const [updatedChecklist, setUpdatedChecklist] = useState<Item[]>([]);
 
     useEffect(() => {
-        setData(tourPlaceTourId);
-
+        setUpdatedChecklist([...props.filteredData]);
         if (props.tourId) {
+            getPlaceList(props.tourId)
+                .then((res) => {
+                    if (res.status == HttpStatusCode.Ok) {
+                        setData(res.data);
+                    }
+                })
+                .catch((err) => console.log(err));
+
             getTour(props.tourId)
                 .then((res) => {
                     setTourData({
@@ -50,27 +67,13 @@ export default function SelectModal(props: Proptype) {
                     console.log(err);
                 });
         }
+    }, [props]);
 
-        const end: Date = new Date(tourData ? tourData.endDate : "");
-        const start: Date = new Date(tourData ? tourData.startDate : "");
-
-        // 밀리초(milliseconds) 단위의 차이를 날짜간 차이로 변환
-        setDaysDifference(
-            (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1
-        );
-        // 0 제외
-        setDaysList(
-            Array.from({ length: daysDifference }, (_, index) => index + 1)
-        );
-
-        // day 별로 장소 및 활동 분류
-        groupItems();
-    }, [data]);
-
-    const groupItems = () => {
+    useEffect(() => {
+        // day 별로 여행 정보 장소 및 활동 분류
         const grouped: Group = {};
 
-        data?.forEach((place) => {
+        data.forEach((place) => {
             const { tourDay, placeName, activityList } = place;
 
             if (!grouped[tourDay]) {
@@ -84,9 +87,22 @@ export default function SelectModal(props: Proptype) {
             grouped[tourDay][placeName] = [...activityList];
         });
 
-        // state 업데이트
-        setGroupedItems(grouped);
-    };
+        setGroupedPlaces(grouped);
+    }, [data]);
+
+    useEffect(() => {
+        const end: Date = new Date(tourData.endDate);
+        const start: Date = new Date(tourData.startDate);
+
+        // 밀리초(milliseconds) 단위의 차이를 날짜간 차이로 변환
+        setDaysDifference(
+            (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1
+        );
+
+        setDaysList(
+            Array.from({ length: daysDifference + 1 }, (_, index) => index)
+        );
+    }, [tourData, daysDifference]);
 
     const formatNumberToTwoDigits = (num: number): string => {
         return `${num < 10 && num > 0 ? "0" : ""}${num}`;
@@ -95,11 +111,43 @@ export default function SelectModal(props: Proptype) {
     const calcDate = (day: number): string => {
         const startDate = new Date(tourData ? tourData.startDate : "");
         const startDay = startDate.getDate();
-        startDate.setDate(startDay + day);
+        startDate.setDate(startDay + day - 1);
 
         return `${startDate.getFullYear()}.${
             startDate.getMonth() + 1
         }.${startDate.getDate()}`;
+    };
+
+    const handleCheckbox = (
+        day: number,
+        placeId: string,
+        activity?: TourActivity
+    ) => {
+        if (!activity) {
+            if (
+                !updatedChecklist.some(
+                    (item) => item.tourDay == day && item.placeId == placeId
+                )
+            ) {
+                const updatedItem = {
+                    tourId: props.item.tourId,
+                    placeId: placeId,
+                    activity: "",
+                    tourDay: day,
+                    item: props.item.item,
+                    isPublic: props.item.isPublic,
+                    isChecked: props.item.isChecked, // ??
+                };
+
+                setUpdatedChecklist([...updatedChecklist, updatedItem]);
+            } else {
+                const checklist = updatedChecklist.filter(
+                    (item) => item.tourDay != day && item.placeId != placeId
+                );
+                setUpdatedChecklist(checklist);
+            }
+        }
+        console.log(updatedChecklist);
     };
 
     return (
@@ -115,46 +163,117 @@ export default function SelectModal(props: Proptype) {
                                 {`| ${calcDate(day)}`}
                             </div>
                             <div className="border-t-2 border-black mt-2 mb-2">
-                                {groupedItems &&
-                                    groupedItems[day] &&
-                                    Object.keys(groupedItems[day]).map(
-                                        (placeId, index) => (
-                                            <div className="ml-3" key={index}>
-                                                <div className="text-lg font-semibold">
-                                                    {placeId != "" ? (
-                                                        <div>{placeId}</div>
-                                                    ) : (
-                                                        ""
-                                                    )}
-                                                </div>
-                                                <div className="ml-3">
-                                                    {groupedItems[day][
-                                                        placeId
-                                                    ].map((item, index) => (
-                                                        <div
-                                                            key={index}
-                                                            className=" grid grid-cols-3 justify-center m-1"
-                                                        >
-                                                            <div className="flex items-center col-span-2">
-                                                                <input
-                                                                    id={`checkbox-${index}`}
-                                                                    type="checkbox"
-                                                                    // onChange={() => handleCheckbox(item)}
-                                                                    // checked={item.isChecked}
-                                                                    className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
-                                                                />
-                                                                <label className="ms-2 text-lg w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
-                                                                    {
-                                                                        item.activity
-                                                                    }
-                                                                </label>
+                                {groupedPlaces && groupedPlaces[day] ? (
+                                    <>
+                                        {Object.keys(groupedPlaces[day]).map(
+                                            (placeId, index) => (
+                                                <div
+                                                    className="ml-3"
+                                                    key={index}
+                                                >
+                                                    <div className="">
+                                                        {placeId != "" ? (
+                                                            <div className="text-lg font-bold">
+                                                                {placeId}
                                                             </div>
-                                                        </div>
-                                                    ))}
+                                                        ) : (
+                                                            ""
+                                                        )}
+                                                    </div>
+                                                    <div className="ml-3">
+                                                        {groupedPlaces[day][
+                                                            placeId
+                                                        ].length > 0 ? (
+                                                            <>
+                                                                {groupedPlaces[
+                                                                    day
+                                                                ][placeId].map(
+                                                                    (
+                                                                        activity,
+                                                                        index
+                                                                    ) => (
+                                                                        <div
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            className=" grid grid-cols-3 justify-center m-1"
+                                                                        >
+                                                                            <div className="flex items-center col-span-2">
+                                                                                <input
+                                                                                    id={`checkbox-${index}`}
+                                                                                    type="checkbox"
+                                                                                    onChange={() =>
+                                                                                        handleCheckbox(
+                                                                                            day,
+                                                                                            placeId,
+                                                                                            activity
+                                                                                        )
+                                                                                    }
+                                                                                    checked={props.filteredData
+                                                                                        .map(
+                                                                                            (
+                                                                                                item
+                                                                                            ) =>
+                                                                                                item.activity
+                                                                                        )
+                                                                                        .includes(
+                                                                                            activity.activity
+                                                                                        )}
+                                                                                    className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
+                                                                                />
+                                                                                <label className="ms-2 text-lg w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
+                                                                                    {
+                                                                                        activity.activity
+                                                                                    }
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    )
+                                                                )}
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <div className=" grid grid-cols-3 justify-center m-1">
+                                                                    <div className="flex items-center col-span-2">
+                                                                        <input
+                                                                            id={`checkbox-${index}`}
+                                                                            type="checkbox"
+                                                                            onChange={() =>
+                                                                                handleCheckbox(
+                                                                                    day,
+                                                                                    placeId
+                                                                                )
+                                                                            }
+                                                                            checked={updatedChecklist
+                                                                                .map(
+                                                                                    (
+                                                                                        item
+                                                                                    ) =>
+                                                                                        item.placeId
+                                                                                )
+                                                                                .includes(
+                                                                                    placeId
+                                                                                )}
+                                                                            className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
+                                                                        />
+                                                                        <label className="ms-2 text-lg w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
+                                                                            (장소에
+                                                                            추가하기)
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    )}
+                                            )
+                                        )}
+                                    </>
+                                ) : (
+                                    <div className="flex justify-center items-center h-[5vh]">
+                                        아직 장소/활동이 없어요.
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ))}
