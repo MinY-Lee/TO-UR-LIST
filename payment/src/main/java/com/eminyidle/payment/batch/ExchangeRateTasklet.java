@@ -1,5 +1,6 @@
 package com.eminyidle.payment.batch;
 
+import com.eminyidle.payment.dto.ExchangeRate;
 import com.eminyidle.payment.service.BatchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -30,6 +32,13 @@ public class ExchangeRateTasklet implements Tasklet {
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+        // 만약 이미 데이터가 있다면 넘어감
+        List<ExchangeRate> DuplicateExchangeDateList = batchService.loadExchangeRateList();
+        if (!DuplicateExchangeDateList.isEmpty()) {
+            log.debug("금일 환율 데이터는 이미 반영되어 있습니다.");
+            return RepeatStatus.FINISHED;
+        }
+
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();

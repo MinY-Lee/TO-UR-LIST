@@ -1,5 +1,6 @@
 package com.eminyidle.payment.scheduler;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -22,12 +23,19 @@ public class BatchScheduler {
     private final JobLauncher jobLauncher;
     private final JobRegistry jobRegistry;
 
+    private final Job exchangeRateJob;
+
 //    @Bean
 //    public JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor(){
 //        JobRegistryBeanPostProcessor jobProcessor = new JobRegistryBeanPostProcessor();
 //        jobProcessor.setJobRegistry(jobRegistry);
 //        return jobProcessor;
 //    }
+    // 서버를 실행했을때 무조건 한번 시작
+    @PostConstruct
+    public void runJobOnStartup() {
+        runJob();
+    }
 
     @Scheduled(cron = "0 5 11 * * *") // 11시 05분에 실행
 //    @Scheduled(cron = "0/10 * * * * *") // 10초마다 실행
