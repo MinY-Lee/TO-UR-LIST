@@ -347,7 +347,7 @@ export default function PlaceAddDetailPage() {
                         <span>{placeInfo.placeName}</span>
                         {tourDetail?.isSelected ? (
                             <div
-                                className="w-[20%] h-7vw text-5vw border-rad-3vw bg-white color-text-blue-2 color-border-blue-2 border-halfvw flex justify-center items-center"
+                                className="w-[20%] h-8vw text-5vw border-rad-3vw bg-white color-text-blue-2 color-border-blue-2 border-halfvw flex justify-center items-center"
                                 onClick={() => {
                                     //여행 삭제
                                     if (wsClient)
@@ -373,7 +373,7 @@ export default function PlaceAddDetailPage() {
                             </div>
                         ) : (
                             <div
-                                className="w-[20%] h-7vw text-5vw border-rad-3vw color-bg-blue-2 text-white flex justify-center items-center"
+                                className="w-[20%] h-8vw text-5vw border-rad-3vw color-bg-blue-2 text-white flex justify-center items-center"
                                 onClick={() => {
                                     //추가하는 요청 전송
                                     if (wsClient) {

@@ -36,7 +36,7 @@ export default function PlaceSearchCard(props: PropType) {
                     {props.visitedCache.has(props.placeInfo.placeId) ? (
                         //이미 있는 장소면 추가됨
                         <div
-                            className="w-[20%] h-7vw text-5vw border-rad-3vw bg-white color-text-blue-2 color-border-blue-2 border-halfvw flex justify-center items-center"
+                            className="w-[20%] h-8vw text-5vw border-rad-3vw bg-white color-text-blue-2 color-border-blue-2 border-halfvw flex justify-center items-center"
                             onClick={(event) => {
                                 //여행 삭제
                                 if (wsClient) {
@@ -64,7 +64,7 @@ export default function PlaceSearchCard(props: PropType) {
                         </div>
                     ) : (
                         <div
-                            className="w-[20%] h-7vw text-5vw border-rad-3vw color-bg-blue-2 text-white flex justify-center items-center"
+                            className="w-[20%] h-8vw text-5vw border-rad-3vw color-bg-blue-2 text-white flex justify-center items-center"
                             onClick={(event) => {
                                 //추가하는 요청 전송
                                 if (wsClient) {
