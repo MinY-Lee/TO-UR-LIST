@@ -43,6 +43,7 @@ class PaymentInfoRepositoryTest {
                 .payAmount(1000)
                 .unit("$")
                 .currencyCode("USD")
+                .exchangeRate(1.34)
                 .payMethod("현금")
                 .payDatetime(time)
                 .payContent("관광비")
@@ -56,6 +57,7 @@ class PaymentInfoRepositoryTest {
                 .payAmount(1001)
                 .unit("₩")
                 .currencyCode("KRW")
+                .exchangeRate(1.34)
                 .payMethod("카드")
                 .payDatetime(LocalDateTime.now().minusDays(1))
                 .payContent("저녁 먹기")
@@ -93,9 +95,11 @@ class PaymentInfoRepositoryTest {
         Assertions.assertThat(dbPublicPayment.getPayAmount()).isEqualTo(1000);
         Assertions.assertThat(dbPublicPayment.getUnit()).isEqualTo("$");
         Assertions.assertThat(dbPublicPayment.getCurrencyCode()).isEqualTo("USD");
+        Assertions.assertThat(dbPublicPayment.getExchangeRate()).isEqualTo(1.34);
         Assertions.assertThat(dbPublicPayment.getPayMethod()).isEqualTo("현금");
         Assertions.assertThat(dbPublicPayment.getPayDatetime()).isEqualTo(time);
         Assertions.assertThat(dbPublicPayment.getPayContent()).isEqualTo("관광비");
+        Assertions.assertThat(dbPublicPayment.getPayCategory()).isEqualTo("관광");
         Assertions.assertThat(dbPublicPayment.getPayerId()).isEqualTo("123123");
         Assertions.assertThat(dbPublicPayment.getPayMemberList().size()).isEqualTo(1);
     }
