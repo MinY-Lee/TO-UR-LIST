@@ -18,6 +18,7 @@ export default function Maps(props: PropType) {
             const initMap = new window.google.maps.Map(googleMapRef.current, {
                 center: { lat: 37.5, lng: 127 },
                 zoom: 13,
+                disableDefaultUI: true,
             });
 
             const marker = new google.maps.Marker({

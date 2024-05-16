@@ -191,9 +191,10 @@ export default function PlaceAddPage() {
 
     return (
         <>
-            <section className="w-full h-full overflow-y-hidden">
+            <section className="w-full h-full overflow-y-hidden flex flex-col items-center justify-between">
                 {isLoading ? <Loading /> : <></>}
                 <HeaderBar />
+                <SearchBar searchEvent={searchEvent} />
                 <div className="w-full h-[83%] flex flex-col overflow-y-hidden">
                     {/* 현재 날짜 보여주기 */}
                     {selectedDate !== -1 ? (
@@ -203,7 +204,6 @@ export default function PlaceAddPage() {
                     ) : (
                         <></>
                     )}
-                    <SearchBar searchEvent={searchEvent} />
                     <Wrapper
                         apiKey={`${
                             import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY

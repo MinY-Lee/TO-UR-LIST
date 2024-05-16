@@ -116,7 +116,7 @@ export default function SearchSlideBar(props: PropType) {
                     <div className="w-[20%] h-vw bg-[#929292] border-rad-dot5vw"></div>
                 </div>
                 {/* 일정 정보 표시 */}
-                <div className="w-full h-[85%] overflow-y-scroll flex flex-col items-center">
+                <div className="w-full h-[75%] overflow-y-scroll flex flex-col items-center">
                     {props.searchedPlaces.map((place) => {
                         return (
                             <PlaceSearchCard
@@ -132,6 +132,7 @@ export default function SearchSlideBar(props: PropType) {
                         );
                     })}
                 </div>
+                <div className="w-full h-15vw z-10 bg-white absolute bottom-0"></div>
             </div>
         </>
     );

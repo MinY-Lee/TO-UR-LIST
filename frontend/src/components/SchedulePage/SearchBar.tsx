@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface PropType {
     searchEvent: (
@@ -8,7 +8,7 @@ interface PropType {
 }
 
 export default function SearchBar(props: PropType) {
-    const [searchValue, setSearchValue] = useState<string>('');
+    const [searchValue, setSearchValue] = useState<string>("");
 
     const valueChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
@@ -16,7 +16,7 @@ export default function SearchBar(props: PropType) {
 
     return (
         <input
-            className="w-[80%] h-[7%] absolute left-[10%] top-[12%] bg-white border-[#929292] border-dot3vw border-rad-3vw px-2vw text-black text-6vw flex justify-between items-center z-10"
+            className="w-[80%] h-[7%] absolute left-[10%] top-[8%] bg-white border-[#929292] border-dot3vw border-rad-3vw px-2vw text-black text-6vw flex justify-between items-center z-10"
             onChange={valueChanged}
             value={searchValue}
             type="search"
