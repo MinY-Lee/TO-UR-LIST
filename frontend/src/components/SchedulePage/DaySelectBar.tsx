@@ -32,8 +32,8 @@ export default function DaySelectBar(props: PropType) {
                     <p
                         className={`flex w-[70%] aspect-square justify-center items-center flex-shrink-0 ${
                             props.selectedDate === i
-                                ? 'color-bg-blue-5 rounded-[50%]'
-                                : ''
+                                ? "color-bg-blue-5 rounded-[50%]"
+                                : ""
                         }`}
                     >
                         {newDate.getDate()}
@@ -46,7 +46,7 @@ export default function DaySelectBar(props: PropType) {
 
     return (
         <>
-            <div className="absolute w-[90%] h-10vw left-[5%] top-[10%] border-halfvw border-rad-5vw color-border-blue-2 flex items-center px-5vw overflow-x-scroll bg-white">
+            <div className="absolute w-[90%] h-10vw left-[5%] top-[5%] border-halfvw border-rad-5vw color-border-blue-2 flex items-center px-5vw overflow-x-scroll bg-white">
                 {dates()}
             </div>
         </>

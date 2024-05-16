@@ -4,6 +4,9 @@
     --color-blue-3: #94cef2;
     --color-blue-4: #d5e7f2;
     --color-blue-5: #a2dcf2;
+    --color-blue-6: #2ba1f9;
+    --color-green-1: #eaffe8;
+    --color-green-2: #49bf3f;
 }
 
 /* text color */
@@ -27,6 +30,14 @@
     color: var(--color-blue-5);
 }
 
+.color-text-blue-6 {
+    color: var(--color-blue-6);
+}
+
+.color-text-green-2 {
+    color: var(--color-green-2);
+}
+
 /* background color */
 .color-bg-blue-1 {
     background-color: var(--color-blue-1);
@@ -48,6 +59,10 @@
     background-color: var(--color-blue-5);
 }
 
+.color-bg-green-1 {
+    background-color: var(--color-green-1);
+}
+
 /* border color */
 .color-border-blue-1 {
     border-color: var(--color-blue-1);
@@ -67,6 +82,14 @@
 
 .color-border-blue-5 {
     border-color: var(--color-blue-5);
+}
+
+.color-border-blue-6 {
+    border-color: var(--color-blue-6);
+}
+
+.color-border-green-2 {
+    border-color: var(--color-green-2);
 }
 
 /* font weight 여부 */
@@ -202,6 +225,10 @@
 
 .mt-vw {
     margin-top: min(1vw, 4.8px);
+}
+
+.mb-2vw {
+    margin-bottom: min(2vw, 9.6px);
 }
 
 .mx-vw {
@@ -346,6 +373,10 @@
 
 .border-rad-5vw {
     border-radius: min(5vw, 24px);
+}
+
+.border-rad-3dot5vw {
+    border-radius: min(3.5vw, 16.8px);
 }
 
 /* width viewwidth */

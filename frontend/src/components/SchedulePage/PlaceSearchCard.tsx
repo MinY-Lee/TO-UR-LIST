@@ -24,9 +24,9 @@ export default function PlaceSearchCard(props: PropType) {
     const tourId = props.tourId;
 
     return (
-        <div className="w-full h-38vw flex justify-center items-center flex-shrink-0 p-vw">
+        <div className="w-full h-38vw flex justify-center items-center flex-shrink-0 p-vw mb-2vw">
             <div
-                className="w-[95%] p-2vw h-full color-border-blue-2 border-halfvw border-rad-2vw flex flex-col"
+                className="w-[95%] p-2vw h-full flex flex-col border-t-[1px] border-b-[3px] border-rad-2vw border-[#cecece]"
                 onClick={() => props.goDetail(props.placeInfo.placeId)}
             >
                 <div className="w-full h-[30%] flex justify-between items-center">
@@ -36,7 +36,7 @@ export default function PlaceSearchCard(props: PropType) {
                     {props.visitedCache.has(props.placeInfo.placeId) ? (
                         //이미 있는 장소면 추가됨
                         <div
-                            className="w-[20%] h-7vw text-4vw border-rad-3vw bg-white color-text-blue-2 color-border-blue-2 border-halfvw flex justify-center items-center"
+                            className="w-[20%] h-7vw text-4vw border-rad-3dot5vw color-bg-green-1 color-text-green-2 color-border-green-2 border-halfvw flex justify-center items-center"
                             onClick={(event) => {
                                 //여행 삭제
                                 if (wsClient) {
@@ -64,7 +64,7 @@ export default function PlaceSearchCard(props: PropType) {
                         </div>
                     ) : (
                         <div
-                            className="w-[20%] h-7vw text-4vw border-rad-3vw color-bg-blue-2 text-white flex justify-center items-center"
+                            className="w-[20%] h-7vw text-4vw border-rad-3dot5vw bg-white border-halfvw color-border-blue-6 color-text-blue-6 text-white flex justify-center items-center"
                             onClick={(event) => {
                                 //추가하는 요청 전송
                                 if (wsClient) {
