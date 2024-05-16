@@ -144,6 +144,7 @@ export default function TourSchedulePage() {
                         tourId={tourId}
                         period={period}
                         wsClient={wsClient}
+                        setIsLoading={setIsLoading}
                     />
                     <DaySelectBar
                         startDate={tourInfo.startDate}
