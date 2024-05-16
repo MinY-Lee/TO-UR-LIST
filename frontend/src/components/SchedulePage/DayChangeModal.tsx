@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface PropType {
     closeModal: () => void;
@@ -9,12 +9,12 @@ interface PropType {
 }
 
 export default function DayChangeModal(props: PropType) {
-    console.log(props.startDate.split('T')[0]);
+    // console.log(props.startDate.split('T')[0]);
 
     const [daySelectBox, setDaySelectBox] = useState<string[]>([]);
 
     useEffect(() => {
-        const newSelect = ['날짜없음'];
+        const newSelect = ["날짜없음"];
 
         const startDate = new Date(props.startDate);
 
@@ -24,8 +24,8 @@ export default function DayChangeModal(props: PropType) {
             const dateString = `${date.getFullYear()}.${
                 date.getMonth() + 1 >= 10
                     ? date.getMonth() + 1
-                    : '0' + (date.getMonth() + 1)
-            }.${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()}`;
+                    : "0" + (date.getMonth() + 1)
+            }.${date.getDate() >= 10 ? date.getDate() : "0" + date.getDate()}`;
 
             newSelect.push(dateString);
         }

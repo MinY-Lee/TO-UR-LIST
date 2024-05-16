@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { subMonths } from 'date-fns';
-import getCalendar from './getCalendar';
+import { useState, useEffect } from "react";
+import { subMonths } from "date-fns";
+import getCalendar from "./getCalendar";
 
 interface ChildProps {
     isDatePicker: boolean;
@@ -9,7 +9,8 @@ interface ChildProps {
 }
 
 export default function myCalendar(props: ChildProps) {
-    const { weekCalendarList, currentDate, setCurrentDate, weekDayList } = getCalendar();
+    const { weekCalendarList, currentDate, setCurrentDate, weekDayList } =
+        getCalendar();
 
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [endDate, setEndDate] = useState<Date | undefined>();
@@ -26,6 +27,7 @@ export default function myCalendar(props: ChildProps) {
         }
         if (isVaildDate && startDate && endDate) {
             props.checkValue(isVaildDate);
+            console.log(startDate, endDate);
             props.onChange([startDate, endDate]);
         }
     }, [startDate, endDate]);
@@ -69,8 +71,14 @@ export default function myCalendar(props: ChildProps) {
     };
 
     return (
-        <div id="calendar-container" className="flex flex-col items-center justify-center w-full mb-10">
-            <div id="move-container" className="flex justify-between w-[70%] m-5">
+        <div
+            id="calendar-container"
+            className="flex flex-col items-center justify-center w-full mb-10"
+        >
+            <div
+                id="move-container"
+                className="flex justify-between w-[70%] m-5"
+            >
                 <button
                     onClick={() => {
                         setCurrentDate(subMonths(currentDate, 1));
@@ -79,9 +87,9 @@ export default function myCalendar(props: ChildProps) {
                     &lt;
                 </button>
                 <div className="text-lg">
-                    {currentDate.toLocaleDateString('ko-KR', {
-                        year: 'numeric',
-                        month: 'long',
+                    {currentDate.toLocaleDateString("ko-KR", {
+                        year: "numeric",
+                        month: "long",
                     })}
                 </div>
                 <button
@@ -101,14 +109,29 @@ export default function myCalendar(props: ChildProps) {
             </div>
             <div id="day-container" className="w-full">
                 {weekCalendarList.map((item) => (
-                    <div className="grid grid-cols-7 w-full h-[14vw] text-center" key={Math.random()}>
+                    <div
+                        className="grid grid-cols-7 w-full h-[14vw] text-center"
+                        key={Math.random()}
+                    >
                         {item.map((day, index) => {
-                            const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+                            const selectedDate = new Date(
+                                currentDate.getFullYear(),
+                                currentDate.getMonth(),
+                                day
+                            );
                             const isBetween =
-                                startDate && endDate && selectedDate > startDate && selectedDate < endDate;
+                                startDate &&
+                                endDate &&
+                                selectedDate > startDate &&
+                                selectedDate < endDate;
                             const isStartOrEnd =
-                                (startDate?.getDate() === day && startDate.getMonth() === currentDate.getMonth()) ||
-                                (endDate && endDate.getDate() === day && endDate.getMonth() === currentDate.getMonth());
+                                (startDate?.getDate() === day &&
+                                    startDate.getMonth() ===
+                                        currentDate.getMonth()) ||
+                                (endDate &&
+                                    endDate.getDate() === day &&
+                                    endDate.getMonth() ===
+                                        currentDate.getMonth());
                             return (
                                 <button
                                     onClick={() => {
@@ -128,36 +151,47 @@ export default function myCalendar(props: ChildProps) {
                                     }}
                                     className={`
                                         col-span-1 h-[14vw]
-                                        ${day === 0 ? ' invisible ' : ''}
-                                        ${isBetween || isStartOrEnd ? 'color-bg-blue-4' : ''}
+                                        ${day === 0 ? " invisible " : ""}
                                         ${
-                                            selectedDate.getTime() === startDate?.getTime()
-                                                ? 'rounded-tl-full rounded-bl-full'
-                                                : ''
+                                            isBetween || isStartOrEnd
+                                                ? "color-bg-blue-4"
+                                                : ""
                                         }
                                         ${
-                                            selectedDate.getTime() === endDate?.getTime()
-                                                ? 'rounded-tr-full rounded-br-full'
-                                                : ''
+                                            selectedDate.getTime() ===
+                                            startDate?.getTime()
+                                                ? "rounded-tl-full rounded-bl-full"
+                                                : ""
                                         }
-                                        ${startDate && endDate ? '' : 'rounded-full'}
+                                        ${
+                                            selectedDate.getTime() ===
+                                            endDate?.getTime()
+                                                ? "rounded-tr-full rounded-br-full"
+                                                : ""
+                                        }
+                                        ${
+                                            startDate && endDate
+                                                ? ""
+                                                : "rounded-full"
+                                        }
                                     `}
                                     key={index}
                                 >
                                     {/* 오늘 날짜 및 일요일 스타일 */}
                                     <div
                                         className={`
-                                        ${index === 0 ? 'text-red-500' : ''}
+                                        ${index === 0 ? "text-red-500" : ""}
                                         ${
-                                            currentDate.getMonth() === new Date().getMonth() &&
+                                            currentDate.getMonth() ===
+                                                new Date().getMonth() &&
                                             day === new Date().getDate()
-                                                ? 'color-text-blue-1 font-bold'
-                                                : ''
+                                                ? "color-text-blue-1 font-bold"
+                                                : ""
                                         }
                                         ${
                                             isStartOrEnd
-                                                ? 'color-bg-blue-3 h-14 flex items-center justify-center rounded-full'
-                                                : ''
+                                                ? "color-bg-blue-3 h-14 flex items-center justify-center rounded-full"
+                                                : ""
                                         }
                                     
                                     `}
@@ -175,10 +209,12 @@ export default function myCalendar(props: ChildProps) {
                     className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
                     role="alert"
                 >
-                    <div className="font-medium">⚠️ 여행 날짜 설정은 오늘 이후만 가능해요!</div>
+                    <div className="font-medium">
+                        ⚠️ 여행 날짜 설정은 오늘 이후만 가능해요!
+                    </div>
                 </div>
             ) : (
-                ''
+                ""
             )}
         </div>
     );

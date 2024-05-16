@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { CountryMapping, TourCardInfo } from "../../types/types";
-import { GetCountryList } from "../../util/api/country";
-import { HttpStatusCode } from "axios";
 import CountryCodeToName from "../TourPage/countryIdToName";
 
 interface PropType {
@@ -11,20 +9,15 @@ interface PropType {
 }
 
 export default function TourCard(props: PropType) {
-    const tour = props.tourInfo;
-    // const [countryList, setCountryList] = useState<CountryMapping[]>([]);
-
-    // useEffect(() => {
-    //     GetCountryList()
-    //         .then((res) => {
-    //             if (res.status === HttpStatusCode.Ok) {
-    //                 setCountryList(res.data);
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-    // }, []);
+    const [countryName, setCountryName] = useState<string>("");
+    useEffect(() => {
+        setCountryName(
+            CountryCodeToName(
+                props.tourInfo.cityList[0].countryCode,
+                props.countryList
+            )
+        );
+    }, [props, countryName]);
 
     //mode -> 진행중 : 0, 다가오는 : 1, 지난 : 2
     const nowTime = new Date();
@@ -35,9 +28,9 @@ export default function TourCard(props: PropType) {
         }-${nowTime.getDate()}`
     );
 
-    const startDate = new Date(tour.startDate);
+    const startDate = new Date(props.tourInfo.startDate);
 
-    const endDate = new Date(tour.endDate);
+    const endDate = new Date(props.tourInfo.endDate);
     let mode = 0;
     let dayElement = (
         <>
@@ -102,7 +95,7 @@ export default function TourCard(props: PropType) {
                     boxShadow: "#EBEBEB 1vw 1vw ",
                 }}
                 onClick={() => {
-                    window.location.href = `/tour/${tour.tourId}`;
+                    window.location.href = `/tour/${props.tourInfo.tourId}`;
                 }}
             >
                 {/* 날짜 표시 */}
@@ -119,22 +112,19 @@ export default function TourCard(props: PropType) {
                     } h-full flex flex-col items-start justify-center p-[2vw]`}
                 >
                     <p className="text-6vw weight-text-semibold">
-                        {tour.tourTitle}
+                        {props.tourInfo.tourTitle}
                     </p>
                     <p className="text-4vw">{`${dateStringToString(
-                        tour.startDate
-                    )}~${dateStringToString(tour.endDate)}`}</p>
+                        props.tourInfo.startDate
+                    )}~${dateStringToString(props.tourInfo.endDate)}`}</p>
                     <div className="text-5vw flex items-center">
                         <span className="material-symbols-outlined mr-vw">
                             location_on
                         </span>
-                        <p>{`${CountryCodeToName(
-                            tour.cityList[0].countryCode,
-                            props.countryList
-                        )}, ${tour.cityList[0].cityName}`}</p>
+                        <p>{`${countryName}, ${props.tourInfo.cityList[0].cityName}`}</p>
                         <div>
-                            {tour.cityList.length >= 2
-                                ? Badge(tour.cityList.length - 1)
+                            {props.tourInfo.cityList.length >= 2
+                                ? Badge(props.tourInfo.cityList.length - 1)
                                 : ""}
                         </div>
                     </div>

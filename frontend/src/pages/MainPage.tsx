@@ -38,7 +38,7 @@ export default function MainPage() {
         //체크
         getUserInfo()
             .then((res) => {
-                console.log(res);
+                // console.log(res);
 
                 if (res.data.userId !== "") {
                     const userInfo: UserInfo = {
@@ -56,7 +56,7 @@ export default function MainPage() {
                         userInfo.userBirth = res.data.userBirth.split("T")[0];
                     }
                     userInfo.userGender = res.data.userGender;
-                    console.log(userInfo);
+                    // console.log(userInfo);
 
                     setUser(userInfo);
                     // if(user.userProfileImageId){
@@ -150,7 +150,7 @@ export default function MainPage() {
 
     return (
         <section className="w-full h-[90%] overflow-y-scroll flex flex-col flex-nowrap items-center">
-            <div className="w-[90%] h-[20%] flex items-center justify-between py-vw">
+            <div className="w-[90%] h-[20%] flex items-center justify-between py-vw ">
                 <div className="text-6vw h-full flex flex-col justify-center items-start">
                     <p>
                         <span className="text-7vw weight-text-semibold mr-vw">
@@ -214,8 +214,6 @@ export default function MainPage() {
                 <></>
             )}
 
-            <div className="h-[10vh]"></div>
-
             {nowTourList.length == 0 &&
             comingTourList.length == 0 &&
             passTourList.length == 0 ? (
@@ -228,7 +226,7 @@ export default function MainPage() {
             ) : (
                 <></>
             )}
-
+            <div className="h-16">" "</div>
             <TabBarMain tabMode={1} />
         </section>
     );

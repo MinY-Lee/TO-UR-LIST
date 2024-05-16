@@ -1,15 +1,15 @@
-import loginImage from '../assets/image/loginPage.jpg';
-import googleLogin from '../assets/image/googleLogin.png';
-import { useEffect } from 'react';
-import { Cookies } from 'react-cookie';
+import loginImage from "../assets/image/loginPage.jpg";
+import googleLogin from "../assets/image/googleLogin.png";
+import { useEffect } from "react";
+import { Cookies } from "react-cookie";
 
 export default function LoginPage() {
     const cookies = new Cookies();
 
     useEffect(() => {
         //로그인 되어 있으면 리다이렉트
-        if (cookies.get('accessToken')) {
-            window.location.href = '/main';
+        if (cookies.get("accessToken")) {
+            window.location.href = "/main";
         }
     });
 
@@ -20,8 +20,8 @@ export default function LoginPage() {
                     backgroundImage: `url(${loginImage})`,
                     backgroundRepeat: `no-repeat`,
                     backgroundPosition: `center`,
-                    backgroundSize: 'cover',
-                    backgroundAttachment: 'fixed',
+                    backgroundSize: "cover",
+                    backgroundAttachment: "fixed",
                 }}
                 className="w-full h-full"
             >
@@ -34,13 +34,13 @@ export default function LoginPage() {
                         <div className="flex flex-col items-center">
                             <h1
                                 className="color-text-blue-1 text-10vw"
-                                style={{ fontFamily: 'TTHakgyoansimSamulhamR' }}
+                                style={{ fontFamily: "TTHakgyoansimSamulhamR" }}
                             >
                                 TO-UR-LIST
                             </h1>
                             <h5
                                 className="color-text-blue-1 text-6vw"
-                                style={{ fontFamily: 'TTHakgyoansimSamulhamR' }}
+                                style={{ fontFamily: "TTHakgyoansimSamulhamR" }}
                             >
                                 여행의 처음부터 끝까지!
                             </h5>
@@ -52,6 +52,17 @@ export default function LoginPage() {
                             <div
                                 className="w-[60%] cursor-pointer"
                                 onClick={() => {
+                                    //delete service worker
+                                    if ("serviceWorker" in navigator) {
+                                        navigator.serviceWorker.ready
+                                            .then((registration) => {
+                                                registration.unregister();
+                                            })
+                                            .catch((err) => {
+                                                console.log(err);
+                                            });
+                                    }
+                                    //go to login link
                                     window.location.href =
                                         import.meta.env.VITE_REACT_GOOGLE_LOGIN_URL;
                                 }}

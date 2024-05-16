@@ -1,4 +1,4 @@
-import localAxios from './http-common';
+import localAxios from "./http-common";
 const local = localAxios();
 
 /**유저 정보 불러오기 */
@@ -39,4 +39,9 @@ export async function changeBirthDay(userBirth: any) {
 /**회원 탈퇴 */
 export async function withdraw() {
     return await local.delete(`/api/user`);
+}
+
+/**회원 검색 */
+export async function searchUserByNickname(userNickname: string) {
+    return await local.get(`/api/user/${userNickname}`);
 }

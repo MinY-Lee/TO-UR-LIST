@@ -1,34 +1,35 @@
 //router
-import { Route, Routes } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import MainPage from './pages/MainPage';
-import InfoPage from './pages/InfoPage';
-import TourPage from './pages/TourPage';
-import TourCreatePage from './pages/TourCreatePage';
-import MyPage from './pages/MyPage/Mypage';
-import MypageInfo from './pages/MyPage/MypageInfo';
-import MypageMyfeed from './pages/MyPage/MypageMyfeed';
-import MypageLike from './pages/MyPage/MypageLike';
-import TourSchedulePage from './pages/Schedule/TourSchedulePage';
-import PlaceAddPage from './pages/Schedule/PlaceAddPage';
-import TourScheduleEditPage from './pages/Schedule/TourScheduleEditPage';
-import ChecklistPage from './pages/Checklist/ChecklistPage';
-import ChecklistEditAllPage from './pages/Checklist/ChecklistEditAllPage';
-import ChecklistEditDayPage from './pages/Checklist/ChecklistEditDayPage';
-import ChecklistEditItemPage from './pages/Checklist/ChecklistEditItemPage';
-import AccountPage from './pages/Account/AccountPage';
-import AccountTotalPage from './pages/Account/AccountTotalPage';
-import AccountAddPage from './pages/Account/AccountAddPage';
-import AccountEditPage from './pages/Account/AccountEditPage';
-import FeedPage from './pages/Feed/FeedPage';
-import FeedDetailPage from './pages/Feed/FeedDetailPage';
-import FeedWritePage from './pages/Feed/FeedWritePage';
-import FeedEditPage from './pages/Feed/FeedEditPage';
+import { Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import MainPage from "./pages/MainPage";
+import InfoPage from "./pages/InfoPage";
+import TourPage from "./pages/TourPage";
+import TourCreatePage from "./pages/TourCreatePage";
+import MyPage from "./pages/MyPage/Mypage";
+import MypageInfo from "./pages/MyPage/MypageInfo";
+import MypageMyfeed from "./pages/MyPage/MypageMyfeed";
+import MypageLike from "./pages/MyPage/MypageLike";
+import TourSchedulePage from "./pages/Schedule/TourSchedulePage";
+import PlaceAddPage from "./pages/Schedule/PlaceAddPage";
+import TourScheduleEditPage from "./pages/Schedule/TourScheduleEditPage";
+import ChecklistPage from "./pages/Checklist/ChecklistPage";
+import ChecklistEditAllPage from "./pages/Checklist/ChecklistEditAllPage";
+import ChecklistEditDayPage from "./pages/Checklist/ChecklistEditDayPage";
+import ChecklistEditItemPage from "./pages/Checklist/ChecklistEditItemPage";
+import AccountPage from "./pages/Account/AccountPage";
+import AccountTotalPage from "./pages/Account/AccountTotalPage";
+import AccountAddPage from "./pages/Account/AccountAddPage";
+import AccountEditPage from "./pages/Account/AccountEditPage";
+import FeedPage from "./pages/Feed/FeedPage";
+import FeedDetailPage from "./pages/Feed/FeedDetailPage";
+import FeedWritePage from "./pages/Feed/FeedWritePage";
+import FeedEditPage from "./pages/Feed/FeedEditPage";
 
 //css
-import './App.css';
-import LoginCheck from './pages/AuthCheck/LoginCheck';
-import PlaceAddDetailPage from './pages/Schedule/PlaceAddDetailPage';
+import "./App.css";
+import LoginCheck from "./pages/AuthCheck/LoginCheck";
+import PlaceAddDetailPage from "./pages/Schedule/PlaceAddDetailPage";
+import FeedComingSoon from "./pages/Feed/FeedCommingSoon";
 
 export default function App() {
     return (
@@ -121,13 +122,14 @@ export default function App() {
 
                 {/* 피드 관련 */}
                 {/* 피드 목록 페이지 */}
-                <Route path="/feed" element={<FeedPage />} />
+                {/* <Route path="/feed" element={<FeedPage />} /> */}
                 {/* 피드 상세보기 페이지 */}
-                <Route path="/feed/:feedid" element={<FeedDetailPage />} />
+                {/* <Route path="/feed/:feedid" element={<FeedDetailPage />} /> */}
                 {/* 피드 추가 페이지 */}
-                <Route path="/feed/write" element={<FeedWritePage />} />
+                {/* <Route path="/feed/write" element={<FeedWritePage />} /> */}
                 {/* 피드 수정 페이지 */}
-                <Route path="/feed/:feedid/edit" element={<FeedEditPage />} />
+                {/* <Route path="/feed/:feedid/edit" element={<FeedEditPage />} /> */}
+                <Route path="/feed" element={<FeedComingSoon />} />
             </Route>
         </Routes>
     );

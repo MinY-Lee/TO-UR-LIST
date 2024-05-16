@@ -71,15 +71,15 @@
 
 /* font weight 여부 */
 .weight-text-regular {
-    font-family: 'Freesentation-4Regular';
+    font-family: "Freesentation-4Regular";
 }
 
 .weight-text-medium {
-    font-family: 'Freesentation-5Medium';
+    font-family: "Freesentation-5Medium";
 }
 
 .weight-text-semibold {
-    font-family: 'Freesentation-6SemiBold';
+    font-family: "Freesentation-6SemiBold";
 }
 
 /* text viewwidth */
@@ -344,4 +344,9 @@
 /* top viewwidth */
 .top-2vw {
     top: min(2vw, 9.6px);
+}
+
+.check {
+    width: min(80%, 384px);
+    left: max(10%, calc(50vw - 192px));
 }

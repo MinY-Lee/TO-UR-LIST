@@ -1,10 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { UserInfo } from '../../types/types';
-import { logout } from '../../util/api/auth';
-import { httpStatusCode } from '../../util/api/http-status';
-import CheckModal from '../CheckModal';
-import { useState } from 'react';
-import { userWholeState } from '../../util/reduxSlices/userSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { UserInfo } from "../../types/types";
+import { logout } from "../../util/api/auth";
+import { httpStatusCode } from "../../util/api/http-status";
+import CheckModal from "../CheckModal";
+import { useState } from "react";
+import { userWholeState } from "../../util/reduxSlices/userSlice";
 
 export default function MyInfoCard() {
     const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
@@ -12,19 +12,19 @@ export default function MyInfoCard() {
 
     const dispatch = useDispatch();
 
-    let gender: string = '';
+    let gender: string = "";
     switch (userInfo.userGender) {
         case 0:
-            gender = '미지정';
+            gender = "미지정";
             break;
         case 1:
-            gender = '남성';
+            gender = "남성";
             break;
         case 2:
-            gender = '여성';
+            gender = "여성";
             break;
         case 3:
-            gender = '기타';
+            gender = "기타";
             break;
     }
 
@@ -33,14 +33,25 @@ export default function MyInfoCard() {
             if (res.status === httpStatusCode.OK) {
                 //redux에서 유저 정보 초기화
                 const userInfo: UserInfo = {
-                    userId: '',
-                    userNickname: '',
-                    userName: '',
-                    userBirth: '',
+                    userId: "",
+                    userNickname: "",
+                    userName: "",
+                    userBirth: "",
                     userGender: 0,
                 };
                 dispatch(userWholeState(userInfo));
-                window.location.href = '/';
+
+                //delete service worker
+                if ("serviceWorker" in navigator) {
+                    navigator.serviceWorker.ready
+                        .then((registration) => {
+                            registration.unregister();
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                }
+                window.location.href = "/";
             }
         });
     };
@@ -66,7 +77,7 @@ export default function MyInfoCard() {
             <div
                 className="w-[90%] h-[40%] flex flex-col items-center px-1vw py-4vw my-1vw border-halfvw border-black"
                 style={{
-                    borderRadius: 'min(7vw, 33.6px)',
+                    borderRadius: "min(7vw, 33.6px)",
                 }}
             >
                 {/* 닉네임 */}
@@ -87,8 +98,8 @@ export default function MyInfoCard() {
                         <p>{userInfo.userName}</p>
                         <p>
                             {userInfo.userBirth
-                                ? userInfo.userBirth.replaceAll('-', '.')
-                                : '미지정'}
+                                ? userInfo.userBirth.replaceAll("-", ".")
+                                : "미지정"}
                         </p>
                         <p>{gender}</p>
                     </div>
@@ -98,7 +109,7 @@ export default function MyInfoCard() {
                         className="w-[45%] h-full color-bg-blue-2 text-white text-5vw weight-text-semibold flex justify-center items-center cursor-pointer"
                         style={{ borderRadius: `min(3vw, 14.4px)` }}
                         onClick={() => {
-                            window.location.href = '/mypage/info';
+                            window.location.href = "/mypage/info";
                         }}
                     >
                         정보수정

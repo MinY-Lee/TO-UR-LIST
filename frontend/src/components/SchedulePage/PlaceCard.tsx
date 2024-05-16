@@ -1,7 +1,7 @@
-import { BaseSyntheticEvent, useEffect, useState } from 'react';
-import { WebSockPlace } from '../../types/types';
-import CheckModal from '../CheckModal';
-import { Client } from '@stomp/stompjs';
+import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { WebSockPlace } from "../../types/types";
+import CheckModal from "../CheckModal";
+import { Client } from "@stomp/stompjs";
 
 interface PropType {
     schedule: WebSockPlace;
@@ -17,7 +17,7 @@ export default function PlaceCard(props: PropType) {
     const [isDeleteModalActive, setIsDeleteModalActive] =
         useState<boolean>(false);
 
-    const bgColor = ['color-bg-blue-5', 'bg-[#FFD4D4]', 'color-bg-blue-2`'];
+    const bgColor = ["color-bg-blue-5", "bg-[#FFD4D4]", "color-bg-blue-2`"];
 
     const deleteItem = (event: BaseSyntheticEvent) => {
         setIsDeleteModalActive(true);
@@ -34,7 +34,7 @@ export default function PlaceCard(props: PropType) {
             props.wsClient.publish({
                 destination: `/app/place/${props.tourId}`,
                 body: JSON.stringify({
-                    type: 'DELETE_PLACE',
+                    type: "DELETE_PLACE",
                     body: {
                         tourId: props.tourId,
                         placeId: schedule.placeId,
@@ -86,6 +86,7 @@ export default function PlaceCard(props: PropType) {
                     {schedule.activityList.map((activity, index) => {
                         return (
                             <p
+                                key={activity}
                                 className={`text-4vw px-vw mx-dot5vw border-rad-2vw ${
                                     bgColor[index % 2]
                                 }`}

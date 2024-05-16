@@ -1,5 +1,5 @@
-import { Client } from '@stomp/stompjs';
-import { PlaceInfo } from '../../types/types';
+import { Client } from "@stomp/stompjs";
+import { PlaceInfo } from "../../types/types";
 
 interface PropType {
     placeInfo: PlaceInfo;
@@ -13,9 +13,9 @@ interface PropType {
 export default function PlaceSearchCard(props: PropType) {
     const photoReference =
         props.placeInfo.placePhotoList.length >= 1
-            ? props.placeInfo.placePhotoList[0].split('/')[3]
-            : '';
-    const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoReference}&key=${
+            ? props.placeInfo.placePhotoList[0].split("/")[3]
+            : "";
+    const photoUrl = `/maps/api/place/photo?maxwidth=400&photo_reference=${photoReference}&key=${
         import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY
     }`;
 
@@ -42,7 +42,7 @@ export default function PlaceSearchCard(props: PropType) {
                                     wsClient.publish({
                                         destination: `/app/place/${tourId}`,
                                         body: JSON.stringify({
-                                            type: 'DELETE_PLACE',
+                                            type: "DELETE_PLACE",
                                             body: {
                                                 tourId: tourId,
                                                 placeId:
@@ -68,7 +68,7 @@ export default function PlaceSearchCard(props: PropType) {
                                     wsClient.publish({
                                         destination: `/app/place/${tourId}`,
                                         body: JSON.stringify({
-                                            type: 'ADD_PLACE',
+                                            type: "ADD_PLACE",
                                             body: {
                                                 tourId: tourId,
                                                 placeId:
@@ -88,8 +88,9 @@ export default function PlaceSearchCard(props: PropType) {
                     )}
                 </div>
                 <div className="w-full h-[70%] flex items-center">
-                    {photoReference !== '' ? (
+                    {photoReference !== "" ? (
                         <img
+                            crossOrigin="anonymous"
                             src={photoUrl}
                             className="w-[30%] h-full aspect-square border-rad-2vw"
                         />

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import CircleMenu from './CircleMenu';
+import { useEffect, useRef, useState } from "react";
+import CircleMenu from "./CircleMenu";
 
 interface PropType {
     tourMode: number;
@@ -21,12 +21,12 @@ export default function TabBarTour(props: PropType) {
     return (
         <>
             <div
-                className={`w-full h-[10%] absolute bottom-0 left-0 flex justify-center items-center border-t-halfvw border-t-gray-400 bg-white z-10`}
+                className={`w-full h-[7%] absolute bottom-0 left-0 flex justify-center items-center border-t-halfvw border-t-gray-400 bg-white z-10`}
             >
                 <div
                     className={`w-[33%] h-full flex justify-center items-center bg-white`}
                     onClick={() => {
-                        window.location.href = '/feed';
+                        window.location.href = "/feed";
                     }}
                 >
                     <span className="material-symbols-outlined">search</span>
@@ -46,7 +46,7 @@ export default function TabBarTour(props: PropType) {
                                 tourId={props.tourId}
                             />
                             <div
-                                className="w-[75%] aspect-square rounded-[50%] color-bg-blue-5 absolute left-[50%] flex justify-center items-center"
+                                className="w-[60%] aspect-square rounded-[50%] color-bg-blue-5 absolute left-[50%] flex justify-center items-center"
                                 style={{ transform: `translate(-50%, -50%)` }}
                                 onClick={() => {
                                     setIsMenuOpen(false);
@@ -59,7 +59,7 @@ export default function TabBarTour(props: PropType) {
                         </>
                     ) : (
                         <div
-                            className="w-[75%] aspect-square rounded-full color-bg-blue-5 absolute left-[50%] flex justify-center items-center"
+                            className="w-[60%] aspect-square rounded-full color-bg-blue-5 absolute left-[50%] flex justify-center items-center"
                             style={{ transform: `translate(-50%, -50%)` }}
                             onClick={() => {
                                 setIsMenuOpen(true);
@@ -77,7 +77,7 @@ export default function TabBarTour(props: PropType) {
                 <div
                     className={`w-[33%] h-full flex justify-center items-center bg-white`}
                     onClick={() => {
-                        window.location.href = '/mypage';
+                        window.location.href = "/mypage";
                     }}
                 >
                     <span className="material-symbols-outlined">person</span>

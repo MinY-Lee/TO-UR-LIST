@@ -1,8 +1,8 @@
-import { useRef, useState } from 'react';
-import { WebSockPlace } from '../../types/types';
-import DayList from './DayList';
-import { useNavigate } from 'react-router-dom';
-import { Client } from '@stomp/stompjs';
+import { useRef, useState } from "react";
+import { WebSockPlace } from "../../types/types";
+import DayList from "./DayList";
+import { useNavigate } from "react-router-dom";
+import { Client } from "@stomp/stompjs";
 
 interface PropType {
     schedule: WebSockPlace[][];
@@ -14,7 +14,7 @@ interface PropType {
 }
 
 export default function ScheduleBar(props: PropType) {
-    console.log(props.schedule);
+    // console.log(props.schedule);
 
     const navigate = useNavigate();
 
@@ -63,9 +63,9 @@ export default function ScheduleBar(props: PropType) {
         <>
             <div
                 className={`w-full bottom-0 absolute border-rad-2vw border-halfvw border-[#D9D9D9] z-10 bg-white ${
-                    mode === 0 ? 'h-full' : mode === 1 ? 'h-[50%]' : 'h-[20%]'
+                    mode === 0 ? "h-full" : mode === 1 ? "h-[50%]" : "h-[20%]"
                 }`}
-                style={{ transitionDuration: '1s' }}
+                style={{ transitionDuration: "1s" }}
             >
                 {/* 추가 편집 버튼 */}
                 <div className="w-[30%] h-6vw absolute right-[5%] top-2vw flex justify-between items-center">
@@ -104,13 +104,13 @@ export default function ScheduleBar(props: PropType) {
                         dragStartPosY = e.clientY;
 
                         if (swipeRef.current) {
-                            swipeRef.current.classList.add('color-bg-blue-4');
+                            swipeRef.current.classList.add("color-bg-blue-4");
                         }
                     }}
                     onDragEnd={(e) => {
                         if (swipeRef.current) {
                             swipeRef.current.classList.remove(
-                                'color-bg-blue-4'
+                                "color-bg-blue-4"
                             );
                         }
 
@@ -126,13 +126,13 @@ export default function ScheduleBar(props: PropType) {
                         touchStartPosY = e.touches[0].clientY;
 
                         if (swipeRef.current) {
-                            swipeRef.current.classList.add('color-bg-blue-4');
+                            swipeRef.current.classList.add("color-bg-blue-4");
                         }
                     }}
                     onTouchEnd={(e) => {
                         if (swipeRef.current) {
                             swipeRef.current.classList.remove(
-                                'color-bg-blue-4'
+                                "color-bg-blue-4"
                             );
                         }
 
@@ -160,7 +160,7 @@ export default function ScheduleBar(props: PropType) {
                                   <DayList
                                       key={
                                           dailySchedule.length +
-                                          ' ' +
+                                          " " +
                                           date.getTime()
                                       }
                                       dayNumber={index}

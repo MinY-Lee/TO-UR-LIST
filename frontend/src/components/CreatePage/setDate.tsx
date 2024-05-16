@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import MyCalendar from '../../components/Calendar/myCalendar';
+import MyCalendar from "../../components/Calendar/myCalendar";
 
 interface PropType {
     onChangeDate: ([startDate, endDate]: Date[]) => void;
@@ -26,7 +26,11 @@ export default function SetDate(props: PropType) {
         <>
             <div className="text-2xl font-bold">언제 떠나시나요?</div>
             <div id="search-container" className="w-full">
-                <MyCalendar isDatePicker={false} onChange={handleDataFromChild} checkValue={props.checkValue} />
+                <MyCalendar
+                    isDatePicker={false}
+                    onChange={handleDataFromChild}
+                    checkValue={props.checkValue}
+                />
             </div>
         </>
     );
