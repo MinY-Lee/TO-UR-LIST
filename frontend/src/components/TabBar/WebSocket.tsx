@@ -1,11 +1,11 @@
-import { Client } from '@stomp/stompjs';
-import { useEffect, useState } from 'react';
-import { Cookies } from 'react-cookie';
+import { Client } from "@stomp/stompjs";
+import { useEffect, useState } from "react";
+import { Cookies } from "react-cookie";
 
-import { UserInfo, WebSockPlace } from '../../types/types';
-import { useSelector } from 'react-redux';
+import { UserInfo, WebSockPlace } from "../../types/types";
+import { useSelector } from "react-redux";
 
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 
 interface PropType {
     tourId: string;
@@ -20,7 +20,7 @@ export default function WebSocket(props: PropType) {
 
     //handshake
     useEffect(() => {
-        const accessToken = cookies.get('accessToken');
+        const accessToken = cookies.get("accessToken");
         const decoded: any = jwtDecode(accessToken);
 
         const userId = decoded.userId;
@@ -35,7 +35,7 @@ export default function WebSocket(props: PropType) {
                 UserNickname: userNickname,
             },
             debug: function (str) {
-                console.log(str);
+                // console.log(str);
             },
             reconnectDelay: 5000,
         });
@@ -46,24 +46,24 @@ export default function WebSocket(props: PropType) {
                 const msg = JSON.parse(message.body);
 
                 switch (msg.type) {
-                    case 'ADD_PLACE':
+                    case "ADD_PLACE":
                         // console.log(msg);
                         break;
-                    case 'UPDATE_PLACE':
+                    case "UPDATE_PLACE":
                         // console.log(msg.body);
-                        console.log('updated');
+                        // console.log("updated");
                         props.update(msg.body.placeList);
                         break;
-                    case 'DELETE_PLACE':
+                    case "DELETE_PLACE":
                         // console.log(msg);
                         break;
-                    case 'UPDATE_PLACE_DATE':
+                    case "UPDATE_PLACE_DATE":
                         // console.log(msg);
                         break;
-                    case 'ADD_ACTIVITY':
+                    case "ADD_ACTIVITY":
                         // console.log(msg);
                         break;
-                    case 'DELETE_ACTIVITY':
+                    case "DELETE_ACTIVITY":
                         // console.log(msg);
                         break;
                 }

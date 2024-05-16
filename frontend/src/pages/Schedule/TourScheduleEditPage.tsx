@@ -1,14 +1,14 @@
 //
-import TabBarTour from '../../components/TabBar/TabBarTour';
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import DayList from '../../components/SchedulePage/DayList';
-import { TourInfoDetail, WebSockPlace } from '../../types/types';
-import HeaderBar from '../../components/HeaderBar/HeaderBar';
-import WebSocket from '../../components/TabBar/WebSocket';
-import { Client } from '@stomp/stompjs';
-import { getTour } from '../../util/api/tour';
-import { getPlaceList } from '../../util/api/place';
+import TabBarTour from "../../components/TabBar/TabBarTour";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import DayList from "../../components/SchedulePage/DayList";
+import { TourInfoDetail, WebSockPlace } from "../../types/types";
+import HeaderBar from "../../components/HeaderBar/HeaderBar";
+import WebSocket from "../../components/TabBar/WebSocket";
+import { Client } from "@stomp/stompjs";
+import { getTour } from "../../util/api/tour";
+import { getPlaceList } from "../../util/api/place";
 
 export default function TourScheduleEditPage() {
     const [selectedDate, setSelectedDate] = useState<number>(-1);
@@ -18,9 +18,9 @@ export default function TourScheduleEditPage() {
 
     //여행 정보
     const [tourInfo, setTourInfo] = useState<TourInfoDetail>({
-        tourTitle: '',
-        startDate: '',
-        endDate: '',
+        tourTitle: "",
+        startDate: "",
+        endDate: "",
         memberList: [],
         cityList: [],
     });
@@ -30,7 +30,7 @@ export default function TourScheduleEditPage() {
     const [newSchedule, setNewSchedule] = useState<WebSockPlace[]>([]);
 
     // 투어 아이디 불러오기
-    const address: string[] = window.location.href.split('/');
+    const address: string[] = window.location.href.split("/");
     const tourId: string = address[address.length - 3];
 
     //state로 넘어온게 n이면 n+1일차만 띄우기
@@ -46,7 +46,7 @@ export default function TourScheduleEditPage() {
     useEffect(() => {
         getTour(tourId)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 setTourInfo(res.data);
             })
             .catch((err) => {
@@ -113,7 +113,7 @@ export default function TourScheduleEditPage() {
         <>
             <section className="w-full h-full">
                 <HeaderBar />
-                <div className="w-full h-[80%] px-2vw relative overflow-y-auto flex flex-col">
+                <div className="w-full h-[87%] px-2vw relative overflow-y-auto flex flex-col">
                     <div className="w-full h-[10%] flex justify-between items-center">
                         <p className="text-7vw">일정 편집</p>
                         <div

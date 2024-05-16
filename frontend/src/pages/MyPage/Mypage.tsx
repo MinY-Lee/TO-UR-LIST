@@ -1,28 +1,28 @@
-import MyInfoCard from '../../components/MyPage/MyInfoCard';
-import TabBarMain from '../../components/TabBar/TabBarMain';
+import MyInfoCard from "../../components/MyPage/MyInfoCard";
+import TabBarMain from "../../components/TabBar/TabBarMain";
 
-import { useEffect, useState } from 'react';
-import { Feed, UserInfo } from '../../types/types';
-import FeedCard from '../../components/FeedPage/FeedCard';
-import { useNavigate } from 'react-router';
-import HeaderBar from '../../components/HeaderBar/HeaderBar';
-import { getUserInfo, withdraw } from '../../util/api/user';
-import { useDispatch } from 'react-redux';
-import { userWholeState } from '../../util/reduxSlices/userSlice';
+import { useEffect, useState } from "react";
+import { Feed, UserInfo } from "../../types/types";
+import FeedCard from "../../components/FeedPage/FeedCard";
+import { useNavigate } from "react-router";
+import HeaderBar from "../../components/HeaderBar/HeaderBar";
+import { getUserInfo, withdraw } from "../../util/api/user";
+import { useDispatch } from "react-redux";
+import { userWholeState } from "../../util/reduxSlices/userSlice";
 
-import CheckModal from '../../components/CheckModal';
-import { httpStatusCode } from '../../util/api/http-status';
-import { Cookies } from 'react-cookie';
-import { getLikedFeed, getPublishedFeed } from '../../util/api/feed';
+import CheckModal from "../../components/CheckModal";
+import { httpStatusCode } from "../../util/api/http-status";
+import { Cookies } from "react-cookie";
+import { getLikedFeed, getPublishedFeed } from "../../util/api/feed";
 
 export default function MyPage() {
     const [myPublishList, setMyPublishList] = useState<Feed[]>([]);
     const [myLikedList, setMyLikedList] = useState<Feed[]>([]);
     const [user, setUser] = useState<UserInfo>({
-        userId: '',
-        userNickname: '',
-        userName: '',
-        userBirth: '',
+        userId: "",
+        userNickname: "",
+        userName: "",
+        userBirth: "",
         userGender: 0,
     });
 
@@ -40,20 +40,20 @@ export default function MyPage() {
         //체크
         getUserInfo()
             .then((res) => {
-                console.log(res);
+                // console.log(res);
 
                 const userInfo: UserInfo = {
-                    userId: '',
-                    userNickname: '',
-                    userName: '',
-                    userBirth: '',
+                    userId: "",
+                    userNickname: "",
+                    userName: "",
+                    userBirth: "",
                     userGender: 0,
                 };
                 //불러와서 저장
                 userInfo.userId = res.data.userId;
                 userInfo.userNickname = res.data.userNickname;
                 userInfo.userName = res.data.userName;
-                userInfo.userBirth = res.data.userBirth.split('T')[0];
+                userInfo.userBirth = res.data.userBirth.split("T")[0];
                 userInfo.userGender = res.data.userGender;
                 setUser(userInfo);
 
@@ -61,7 +61,7 @@ export default function MyPage() {
             })
             .catch((err) => {
                 if (err.response.status === 400) {
-                    window.location.href = '/info';
+                    window.location.href = "/info";
                 }
             });
     }, []);
@@ -103,8 +103,20 @@ export default function MyPage() {
         withdraw().then((res) => {
             if (res.status === httpStatusCode.OK) {
                 setIsWithdrawalProceeding(false);
-                cookies.remove('accessToken', { path: '/' });
-                window.location.href = '/';
+                cookies.remove("accessToken", { path: "/" });
+
+                //delete service worker
+                if ("serviceWorker" in navigator) {
+                    navigator.serviceWorker.ready
+                        .then((registration) => {
+                            registration.unregister();
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                }
+
+                window.location.href = "/";
             }
         });
     };

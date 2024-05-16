@@ -38,7 +38,7 @@ export default function MainPage() {
         //체크
         getUserInfo()
             .then((res) => {
-                console.log(res);
+                // console.log(res);
 
                 if (res.data.userId !== "") {
                     const userInfo: UserInfo = {
@@ -56,7 +56,7 @@ export default function MainPage() {
                         userInfo.userBirth = res.data.userBirth.split("T")[0];
                     }
                     userInfo.userGender = res.data.userGender;
-                    console.log(userInfo);
+                    // console.log(userInfo);
 
                     setUser(userInfo);
                     // if(user.userProfileImageId){

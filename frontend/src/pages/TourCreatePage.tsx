@@ -90,7 +90,7 @@ export default function TourCreatePage() {
                         });
                         setStep(step + 1);
                     } else {
-                        console.log(res);
+                        // console.log(res);
                     }
                 })
                 .catch((err) => {

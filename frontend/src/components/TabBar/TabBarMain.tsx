@@ -9,16 +9,16 @@ export default function TabBarMain(props: PropType) {
     return (
         <>
             <div
-                className={`w-full h-[10%] absolute bottom-0 left-0 flex justify-center items-center border-t-dot3vw border-t-gray-400 bg-white cursor-pointer`}
+                className={`w-full h-[7%] absolute bottom-0 left-0 flex justify-center items-center border-t-dot3vw border-t-gray-400 bg-white cursor-pointer`}
             >
                 <div
                     className={`w-[33%] h-full flex justify-center items-center ${
                         tabMode === 0
-                            ? ' color-border-blue-2 border-t-halfvw'
-                            : ''
+                            ? " color-border-blue-2 border-t-halfvw"
+                            : ""
                     }`}
                     onClick={() => {
-                        window.location.href = '/feed';
+                        window.location.href = "/feed";
                     }}
                 >
                     <span className="material-symbols-outlined">search</span>
@@ -27,21 +27,21 @@ export default function TabBarMain(props: PropType) {
                 <div
                     className={`w-[33%] h-full relative ${
                         tabMode === 1
-                            ? ' color-border-blue-2 border-t-halfvw'
-                            : 'flex justify-center items-center'
+                            ? " color-border-blue-2 border-t-halfvw"
+                            : "flex justify-center items-center"
                     }`}
                     onClick={() => {
                         if (tabMode !== 1) {
-                            window.location.href = '/main';
+                            window.location.href = "/main";
                         }
                     }}
                 >
                     {tabMode === 1 ? (
                         <div
-                            className="w-[75%] aspect-square rounded-[50%] color-bg-blue-5 absolute left-[50%] flex justify-center items-center"
+                            className="w-[60%] aspect-square rounded-[50%] color-bg-blue-5 absolute left-[50%] flex justify-center items-center"
                             style={{ transform: `translate(-50%, -50%)` }}
                             onClick={() => {
-                                window.location.href = '/create';
+                                window.location.href = "/create";
                             }}
                         >
                             <p className="text-white text-12vw">+</p>
@@ -54,11 +54,11 @@ export default function TabBarMain(props: PropType) {
                 <div
                     className={`w-[33%] h-full flex justify-center items-center ${
                         tabMode === 2
-                            ? ' color-border-blue-2 border-t-halfvw'
-                            : ''
+                            ? " color-border-blue-2 border-t-halfvw"
+                            : ""
                     }`}
                     onClick={() => {
-                        window.location.href = '/mypage';
+                        window.location.href = "/mypage";
                     }}
                 >
                     <span className="material-symbols-outlined">person</span>

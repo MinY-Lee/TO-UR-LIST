@@ -1,29 +1,29 @@
-import { useLocation } from 'react-router-dom';
-import HeaderBar from '../../components/HeaderBar/HeaderBar';
-import { useCallback, useEffect, useState } from 'react';
-import TabBarTour from '../../components/TabBar/TabBarTour';
+import { useLocation } from "react-router-dom";
+import HeaderBar from "../../components/HeaderBar/HeaderBar";
+import { useCallback, useEffect, useState } from "react";
+import TabBarTour from "../../components/TabBar/TabBarTour";
 import {
     TourEditDetail,
     WebSockPlace,
     TourInfoDetail,
     PlaceInfoDetail,
-} from '../../types/types';
+} from "../../types/types";
 
 //dummy data
 
-import TestActivity from '../../dummy-data/test_activitylist.json';
+// import TestActivity from "../../dummy-data/test_activitylist.json";
 
 import {
     getActivityList,
     getPlaceList,
     searchPlaceDetail,
-} from '../../util/api/place';
-import { httpStatusCode } from '../../util/api/http-status';
-import WebSocket from '../../components/TabBar/WebSocket';
-import { getTour } from '../../util/api/tour';
-import { Client } from '@stomp/stompjs';
-import ActivityAddModal from '../../components/SchedulePage/ActivityAddModal';
-import DayChangeModal from '../../components/SchedulePage/DayChangeModal';
+} from "../../util/api/place";
+import { httpStatusCode } from "../../util/api/http-status";
+import WebSocket from "../../components/TabBar/WebSocket";
+import { getTour } from "../../util/api/tour";
+import { Client } from "@stomp/stompjs";
+import ActivityAddModal from "../../components/SchedulePage/ActivityAddModal";
+import DayChangeModal from "../../components/SchedulePage/DayChangeModal";
 
 export default function PlaceAddDetailPage() {
     const location = useLocation();
@@ -32,38 +32,38 @@ export default function PlaceAddDetailPage() {
     const [isActivityModal, setIsActivityModal] = useState<boolean>(false);
     const [selectedSchedule, setSelectedSchedule] = useState<WebSockPlace>({
         activityList: [],
-        placeId: '',
-        placeName: '',
+        placeId: "",
+        placeName: "",
         tourDay: 0,
-        tourPlaceId: '',
+        tourPlaceId: "",
     });
 
     const [isDayChange, setIsDayChange] = useState<boolean>(false);
     const [selectedDate, setSelectedDate] = useState<number>(0);
 
     const [tourDay, setTourDay] = useState<number>(0);
-    const [tourId, setTourId] = useState<string>('');
-    const [placeId, setPlaceId] = useState<string>('');
+    const [tourId, setTourId] = useState<string>("");
+    const [placeId, setPlaceId] = useState<string>("");
     const [period, setPeriod] = useState<number>(0);
     const [startDate, setStartDate] = useState<Date>(new Date());
 
     //여행 정보
     const [tourInfo, setTourInfo] = useState<TourInfoDetail>({
-        tourTitle: '',
-        startDate: '',
-        endDate: '',
+        tourTitle: "",
+        startDate: "",
+        endDate: "",
         memberList: [],
         cityList: [],
     });
 
     const [tourDetail, setTourDetail] = useState<TourEditDetail>();
     const [placeInfo, setPlaceInfo] = useState<PlaceInfoDetail>({
-        placeId: '',
-        placeName: '',
-        placePrimaryType: '',
+        placeId: "",
+        placeName: "",
+        placePrimaryType: "",
         placeLatitude: 0,
         placeLongitude: 0,
-        placeAddress: '',
+        placeAddress: "",
         placePhotoList: [],
     });
 
@@ -79,7 +79,7 @@ export default function PlaceAddDetailPage() {
     /**state로부터 장소 정보 불러오기, 초기 세팅 */
     useEffect(() => {
         if (location.state) {
-            console.log(location.state.tourDay + 1);
+            // console.log(location.state.tourDay + 1);
 
             setPlaceId(location.state.placeId);
             setTourDay(location.state.tourDay + 1);
@@ -92,7 +92,7 @@ export default function PlaceAddDetailPage() {
                 location.state.placeId
             )
                 .then((res) => {
-                    console.log(res);
+                    // console.log(res);
 
                     if (res.status === httpStatusCode.OK) {
                         setTourDetail(res.data);
@@ -106,14 +106,17 @@ export default function PlaceAddDetailPage() {
             //전체 활동목록 받아오기
             getActivityList(location.state.placeId)
                 .then((res) => {
-                    console.log(res);
+                    // console.log(res);
+                    if (res.status === httpStatusCode.OK) {
+                        setActivityList(res.data);
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
                 }); //원래는 이걸로 받아오는데 현재 미구현
 
             //dummydata이용
-            setActivityList(TestActivity);
+            // setActivityList(TestActivity);
 
             //여행정보 받아오기
             getTour(location.state.tourId)
@@ -122,7 +125,7 @@ export default function PlaceAddDetailPage() {
                         setTourInfo(res.data);
                         setStartDate(new Date(res.data.startDate));
                     } else {
-                        console.log('Error');
+                        // console.log("Error");
                     }
                 })
                 .catch((err) => {
@@ -146,15 +149,15 @@ export default function PlaceAddDetailPage() {
     /**date to string */
     const dateToString = useCallback(
         (day: number) => {
-            if (day === 0) return '날짜 없음';
+            if (day === 0) return "날짜 없음";
             //ms
             const date = new Date(startDate.getTime() + (day - 1) * 86400000);
 
             return `${date.getFullYear()}.${
                 date.getMonth() + 1 >= 10
                     ? date.getMonth() + 1
-                    : '0' + (date.getMonth() + 1)
-            }.${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()}`;
+                    : "0" + (date.getMonth() + 1)
+            }.${date.getDate() >= 10 ? date.getDate() : "0" + date.getDate()}`;
         },
         [startDate]
     );
@@ -180,7 +183,7 @@ export default function PlaceAddDetailPage() {
         filtered.sort(
             (a: WebSockPlace, b: WebSockPlace) => a.tourDay - b.tourDay
         );
-        console.log(filtered);
+        // console.log(filtered);
 
         setThisPlaceVisit(filtered);
     };
@@ -192,16 +195,16 @@ export default function PlaceAddDetailPage() {
                 place.placeId === selectedSchedule.placeId &&
                 place.tourDay === selectedSchedule.tourDay
             ) {
-                console.log(place);
+                // console.log(place);
                 setSelectedSchedule(place);
             }
         });
     }, [thisPlaceVisit]);
 
     const makePhotoUrl = (original: string) => {
-        const photoRefer = original.split('/')[3];
+        const photoRefer = original.split("/")[3];
         const apiKey = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
-        return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRefer}&key=${apiKey}`;
+        return `/maps/api/place/photo?maxwidth=400&photo_reference=${photoRefer}&key=${apiKey}`;
     };
 
     /**활동 추가 모달 닫기 */
@@ -218,7 +221,7 @@ export default function PlaceAddDetailPage() {
             wsClient.publish({
                 destination: `/app/place/${tourId}`,
                 body: JSON.stringify({
-                    type: 'ADD_ACTIVITY',
+                    type: "ADD_ACTIVITY",
                     body: {
                         tourId: tourId,
                         placeId: placeId,
@@ -235,7 +238,7 @@ export default function PlaceAddDetailPage() {
             wsClient.publish({
                 destination: `/app/place/${tourId}`,
                 body: JSON.stringify({
-                    type: 'DELETE_ACTIVITY',
+                    type: "DELETE_ACTIVITY",
                     body: {
                         tourPlaceId: tourPlaceId,
                         activity: activity,
@@ -250,7 +253,7 @@ export default function PlaceAddDetailPage() {
             wsClient.publish({
                 destination: `/app/place/${tourId}`,
                 body: JSON.stringify({
-                    type: 'UPDATE_PLACE_DATE',
+                    type: "UPDATE_PLACE_DATE",
                     body: {
                         tourId: tourId,
                         placeId: placeId,
@@ -295,7 +298,7 @@ export default function PlaceAddDetailPage() {
                 <></>
             )}
             <section className="w-full h-full">
-                <div className="flex flex-col w-full h-[90%] overflow-y-scroll p-vw">
+                <div className="flex flex-col w-full h-[93%] overflow-y-scroll p-vw">
                     <HeaderBar />
                     {/* 이미지 */}
                     <div className="w-full h-[20%] flex overflow-x-scroll mb-2vw">
@@ -304,6 +307,7 @@ export default function PlaceAddDetailPage() {
 
                             return (
                                 <img
+                                    crossOrigin="anonymous"
                                     className="w-[33%] h-full flex-shrink-0 px-dot5vw border-rad-2vw"
                                     src={`${photoUrl}`}
                                     key={`${photoUrl}`}
@@ -324,7 +328,7 @@ export default function PlaceAddDetailPage() {
                                         wsClient.publish({
                                             destination: `/app/place/${tourId}`,
                                             body: JSON.stringify({
-                                                type: 'DELETE_PLACE',
+                                                type: "DELETE_PLACE",
                                                 body: {
                                                     tourId: tourId,
                                                     placeId:
@@ -350,7 +354,7 @@ export default function PlaceAddDetailPage() {
                                         wsClient.publish({
                                             destination: `/app/place/${tourId}`,
                                             body: JSON.stringify({
-                                                type: 'ADD_PLACE',
+                                                type: "ADD_PLACE",
                                                 body: {
                                                     tourId: tourId,
                                                     placeId:
@@ -380,7 +384,10 @@ export default function PlaceAddDetailPage() {
                         <>
                             {thisPlaceVisit.map((place) => {
                                 return (
-                                    <div className="w-full text-6vw flex items-center">
+                                    <div
+                                        className="w-full text-6vw flex items-center"
+                                        key={place.tourDay}
+                                    >
                                         <div
                                             className="w-[10%] flex justify-center items-center"
                                             onClick={() => {
@@ -389,7 +396,7 @@ export default function PlaceAddDetailPage() {
                                                     wsClient.publish({
                                                         destination: `/app/place/${tourId}`,
                                                         body: JSON.stringify({
-                                                            type: 'DELETE_PLACE',
+                                                            type: "DELETE_PLACE",
                                                             body: {
                                                                 tourId: tourId,
                                                                 placeId:
@@ -422,19 +429,19 @@ export default function PlaceAddDetailPage() {
                                         <div className="w-[20%] text-4vw color-text-blue-2 color-border-blue-2 border-halfvw border-rad-2vw m-vw flex justify-center items-center">
                                             {place.activityList.length > 1
                                                 ? place.activityList[0] +
-                                                  '+' +
+                                                  "+" +
                                                   (place.activityList.length -
                                                       1)
                                                 : place.activityList.length ===
                                                   1
                                                 ? place.activityList[0]
-                                                : '활동없음'}
+                                                : "활동없음"}
                                         </div>
                                         <div
                                             className="w-[20%] text-4vw color-text-blue-2 color-border-blue-2 border-halfvw border-rad-2vw px-vw flex justify-center items-center border-dotted"
                                             onClick={() => {
                                                 //활동 추가 로직
-                                                console.log(place);
+                                                // console.log(place);
                                                 setSelectedSchedule(place);
                                                 setIsActivityModal(true);
                                             }}
