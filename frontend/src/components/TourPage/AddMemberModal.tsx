@@ -9,6 +9,7 @@ interface Proptype {
     tourId: string;
     data: TourInfoDetail;
     handleMemberAdd: (member: MemberInfo) => void;
+    handleMemberDelete: (member: MemberInfo) => void;
     closeMemberModal: () => void;
 }
 
@@ -85,7 +86,6 @@ export default function AddMemberModal(props: Proptype) {
                 event.preventDefault(); // 이미 있는 아이템이면 제출 막기
             } else if (!event.nativeEvent.isComposing) {
                 // 고스트 멤버 추가
-                // 리턴받은 ghostId, ghostNickname 으로 객체 만들어서 넣어라
                 const itemApi = {
                     tourId: props.tourId,
                     ghostNickname: ghostNickname,
@@ -101,7 +101,7 @@ export default function AddMemberModal(props: Proptype) {
                                 memberType: "ghost",
                             };
 
-                            console.log(newGhostMember);
+                            props.handleMemberAdd(newGhostMember);
 
                             setUpdatedMemberList([
                                 ...updatedMemberList,

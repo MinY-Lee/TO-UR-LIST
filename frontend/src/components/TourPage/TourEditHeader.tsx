@@ -153,7 +153,7 @@ export default function TourEditHeader(props: PropType) {
             })
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
-                        props.onUpdate(true); // 변화 알려
+                        props.onUpdate(true);
                     }
                 })
                 .catch((err) => console.log(err));
@@ -312,8 +312,9 @@ export default function TourEditHeader(props: PropType) {
     ) => {
         event.stopPropagation(); // 이벤트 버블링 중단
         setDeleteMember(member);
-        handleMemberDelete();
         setMemberDeleteModal(true);
+
+        // handleMemberDelete();
     };
 
     const closeMemberDeleteModal = () => {
@@ -344,6 +345,7 @@ export default function TourEditHeader(props: PropType) {
                         tourId={props.tourId}
                         data={data}
                         handleMemberAdd={handleMemberAdd}
+                        handleMemberDelete={handleMemberDelete}
                         closeMemberModal={closeMemberModal}
                     />
                 </div>
