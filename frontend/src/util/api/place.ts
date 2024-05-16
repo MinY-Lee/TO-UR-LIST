@@ -8,7 +8,7 @@ export async function searchPlace(
     longitude: number
 ) {
     return await local.get(
-        `/api/place/search/${keyword}/${latitude}/${longitude}`
+        `/api/place/search/${keyword}/${longitude}/${latitude}`
     );
 }
 

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { WebSockPlace } from '../../types/types';
+import { useEffect, useState } from "react";
+import { WebSockPlace } from "../../types/types";
 
 interface PropType {
     selectedSchedule: WebSockPlace;
@@ -43,7 +43,7 @@ export default function ActivityAddModal(props: PropType) {
                                                 );
                                             }}
                                         >
-                                            {'- ' + activity}
+                                            {"- " + activity}
                                         </span>
                                     );
                                 }
@@ -68,7 +68,7 @@ export default function ActivityAddModal(props: PropType) {
                                         );
                                     }}
                                 >
-                                    {'- ' + props.activityList[0]}
+                                    {"- " + props.activityList[0]}
                                 </span>
                             ) : (
                                 <span
@@ -81,7 +81,7 @@ export default function ActivityAddModal(props: PropType) {
                                         )
                                     }
                                 >
-                                    {'+ ' + props.activityList[0]}
+                                    {"+ " + props.activityList[0]}
                                 </span>
                             )
                         ) : (
@@ -98,7 +98,7 @@ export default function ActivityAddModal(props: PropType) {
                                         );
                                     }}
                                 >
-                                    {'- ' + props.activityList[1]}
+                                    {"- " + props.activityList[1]}
                                 </span>
                             ) : (
                                 <span
@@ -111,7 +111,7 @@ export default function ActivityAddModal(props: PropType) {
                                         )
                                     }
                                 >
-                                    {'+ ' + props.activityList[1]}
+                                    {"+ " + props.activityList[1]}
                                 </span>
                             )
                         ) : (
@@ -128,7 +128,7 @@ export default function ActivityAddModal(props: PropType) {
                                         );
                                     }}
                                 >
-                                    {'- ' + props.activityList[2]}
+                                    {"- " + props.activityList[2]}
                                 </span>
                             ) : (
                                 <span
@@ -141,7 +141,7 @@ export default function ActivityAddModal(props: PropType) {
                                         )
                                     }
                                 >
-                                    {'+ ' + props.activityList[2]}
+                                    {"+ " + props.activityList[2]}
                                 </span>
                             )
                         ) : (
@@ -168,11 +168,11 @@ export default function ActivityAddModal(props: PropType) {
                                                 );
                                             }}
                                         >
-                                            {'- ' + activity}
+                                            {"- " + activity}
                                         </span>
                                     ) : (
                                         <span
-                                            className="px-2vw border-halfvw border-[#afafaf] border-rad-3vw mx-vw flex-shrink-0"
+                                            className="px-2vw border-halfvw border-[#afafaf] border-rad-3vw m-vw flex-shrink-0"
                                             onClick={() =>
                                                 props.addActivity(
                                                     props.selectedSchedule
@@ -183,7 +183,7 @@ export default function ActivityAddModal(props: PropType) {
                                                 )
                                             }
                                         >
-                                            {'+ ' + activity}
+                                            {"+ " + activity}
                                         </span>
                                     );
                                 })

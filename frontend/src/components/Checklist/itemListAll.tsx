@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import TrashIcon from "../../assets/svg/trashIcon";
 import { Item, TourInfoDetail } from "../../types/types";
 import ChecklistInput from "./checklistInput";
+import { useEffect, useState } from "react";
 
 interface ItemPerPlace {
     [placeId: string]: Item[];
@@ -31,11 +32,19 @@ interface PropType {
 }
 
 export default function ItemListAll(props: PropType) {
+    const [filteredGroup, setFilteredGroup] = useState<CountItem>({});
+    const [filteredChecklist, setFilteredChecklist] = useState<Item[]>([]);
+
     const navigate = useNavigate();
     const mapping: Mapping = {
         walking: ["👣 산책", "color-bg-blue-3"],
         shopping: ["🛒 쇼핑", "bg-pink-100"],
     };
+
+    useEffect(() => {
+        setFilteredChecklist(props.filteredChecklist);
+        setFilteredGroup(props.filteredGroup);
+    }, [props]);
 
     // 활동 id 를 한글로 변환
     const ActivityToKor = (activity: string): string => {

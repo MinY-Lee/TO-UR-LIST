@@ -26,3 +26,8 @@ export async function deleteChecklist(item: ItemApi) {
         data: JSON.stringify(item),
     });
 }
+
+/** 체크리스트 수정 */
+export async function modifyItem(req: any) {
+    return await local.put(`/api/checklist/item`, JSON.stringify(req));
+}

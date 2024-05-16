@@ -9,7 +9,12 @@ import { useLocation } from "react-router-dom";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import WebSocket from "../../components/TabBar/WebSocket";
 
-import { PlaceInfo, TourInfoDetail, WebSockPlace } from "../../types/types";
+import {
+    PlaceInfo,
+    PlaceInfoDetail,
+    TourInfoDetail,
+    WebSockPlace,
+} from "../../types/types";
 import SearchMaps from "../../components/SchedulePage/SearchMaps";
 import SearchSlideBar from "../../components/SchedulePage/SearchSlideBar";
 import SearchBar from "../../components/SchedulePage/SearchBar";
@@ -104,10 +109,16 @@ export default function PlaceAddPage() {
                 lng = map.getCenter().lng();
             }
             //일단 api로 여행 정보 불러오기
-            searchPlace(tourInfo.cityList[0].cityName + " 관광", lat, lng)
+            searchPlace(tourInfo.cityList[0].cityName, lat, lng)
                 .then((res) => {
-                    // console.log(res);
-                    setSearchedPlaces(res.data);
+                    const placeInfo: PlaceInfoDetail[] = res.data;
+                    setSearchedPlaces(placeInfo);
+                    if (placeInfo.length > 0 && map) {
+                        map.setCenter({
+                            lat: placeInfo[0].placeLatitude,
+                            lng: placeInfo[0].placeLongitude,
+                        });
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
@@ -145,6 +156,7 @@ export default function PlaceAddPage() {
             searchPlace(searchValue, lat, lng)
                 .then((res) => {
                     if (res.status === httpStatusCode.OK) {
+                        console.log(res);
                         setSearchedPlaces(res.data);
                     } else {
                         // console.log(res);
