@@ -46,7 +46,7 @@ export default function TourCheckList(props: PropType) {
 
     // 활동 id 를 한글로 변환
     const ActivityToKor = (activity: string): string => {
-        if (mapping[activity]) {
+        if (mapping[activity] !== undefined) {
             return mapping[activity][0];
         }
         return "활동 관련";
@@ -54,7 +54,7 @@ export default function TourCheckList(props: PropType) {
 
     // 활동 id 별 색상 부여
     const setColor = (activity: string): string => {
-        if (mapping[activity]) {
+        if (mapping[activity] !== undefined) {
             return mapping[activity][1];
         }
         return "color-bg-blue-3";

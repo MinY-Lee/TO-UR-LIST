@@ -227,7 +227,11 @@ export default function ChecklistEditItemPage() {
                                     {item.activity != "" ? (
                                         <div className="col-span-3 text-lg">
                                             {item.placeId} /{" "}
-                                            {mapping[item.activity][0].slice(2)}
+                                            {mapping[item.activity]
+                                                ? mapping[
+                                                      item.activity
+                                                  ][0].slice(2)
+                                                : item.activity}
                                         </div>
                                     ) : (
                                         <div className="col-span-3 text-lg">

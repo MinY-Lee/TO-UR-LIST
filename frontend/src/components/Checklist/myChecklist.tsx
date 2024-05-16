@@ -31,12 +31,18 @@ export default function MyCheckList(props: PropType) {
 
     // 활동 id 를 한글로 변환
     const ActivityToKor = (activity: string): string => {
-        return mapping[activity][0];
+        if (mapping[activity]) {
+            return mapping[activity][0];
+        }
+        return "활동 관련";
     };
 
     // 활동 id 별 색상 부여
     const setColor = (activity: string): string => {
-        return mapping[activity][1];
+        if (mapping[activity]) {
+            return mapping[activity][1];
+        }
+        return "color-bg-blue-3";
     };
 
     useEffect(() => {
