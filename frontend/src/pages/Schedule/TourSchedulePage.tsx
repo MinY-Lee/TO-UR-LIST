@@ -153,7 +153,7 @@ export default function TourSchedulePage() {
                         period={period}
                     />
                 </div>
-                <TabBarTour tourMode={2} tourId={tourId} />
+                <TabBarTour tourMode={2} tourId={tourId} type="schedule" />
                 <WebSocket
                     setWsClient={setWsClient}
                     tourId={tourId}

@@ -1,67 +1,84 @@
+import { useEffect, useState } from "react";
+import FeedIcon from "../../assets/svg/feedIcon";
+
 interface PropType {
     tabMode: number;
+    type: string;
 }
 
 export default function TabBarMain(props: PropType) {
     //메인 화면 등 투어 화면이 아닌 곳에서 보이는 탭바
-    const tabMode = props.tabMode;
+    const selected = `color-text-blue-2`;
+
+    const [type, setType] = useState<string>("");
+
+    useEffect(() => {
+        if (props.type) {
+            setType(props.type);
+        }
+    }, [props]);
 
     return (
         <>
             <div
-                className={`w-full h-[7%] absolute bottom-0 left-0 flex justify-center items-center border-t-dot3vw border-t-gray-400 bg-white cursor-pointer`}
+                className={`${
+                    type == "feed" ? selected : ""
+                }  w-[96%] grid grid-cols-3 absolute bottom-2 left-2  text-neutral-500 rounded-lg  justify-around items-center border-2 drop-shadow-md bg-white z-10`}
             >
                 <div
-                    className={`w-[33%] h-full flex justify-center items-center ${
-                        tabMode === 0
-                            ? " color-border-blue-2 border-t-halfvw"
-                            : ""
-                    }`}
+                    className="hover:bg-[#d5e7f2] h-full rounded-l-lg flex pt-1 flex-col items-center justify-center"
                     onClick={() => {
-                        window.location.href = "/feed";
+                        window.location.href = `/feed`;
                     }}
                 >
-                    <span className="material-symbols-outlined">search</span>
+                    <FeedIcon />
+                    <div>피드</div>
                 </div>
-                <div className="w-dot5vw h-[80%] bg-gray-400"></div>
-                <div
-                    className={`w-[33%] h-full relative ${
-                        tabMode === 1
-                            ? " color-border-blue-2 border-t-halfvw"
-                            : "flex justify-center items-center"
-                    }`}
-                    onClick={() => {
-                        if (tabMode !== 1) {
-                            window.location.href = "/main";
-                        }
-                    }}
-                >
-                    {tabMode === 1 ? (
+                <div className="hover:bg-[#d5e7f2] h-full  ">
+                    {props.tabMode == 2 ? (
                         <div
-                            className="w-[60%] aspect-square rounded-[50%] color-bg-blue-5 absolute left-[50%] flex justify-center items-center"
-                            style={{ transform: `translate(-50%, -50%)` }}
+                            className={`${
+                                props.type == "main" ? selected : ""
+                            } mt-0 flex flex-col items-center justify-center  rounded-full px-10 py-1 text-neutral-500`}
                             onClick={() => {
-                                window.location.href = "/create";
+                                window.location.href = `/`;
                             }}
                         >
-                            <p className="text-white text-12vw">+</p>
+                            <span className="material-symbols-outlined  text-4xl ">
+                                home
+                            </span>
+                            <div>메인</div>
                         </div>
                     ) : (
-                        <span className="material-symbols-outlined">home</span>
+                        <div
+                            className={`${
+                                type == "create" ? selected : ""
+                            }   flex flex-col items-center justify-center text-neutral-500 rounded-full px-10 py-1`}
+                            onClick={() => {
+                                window.location.href = `/create`;
+                            }}
+                        >
+                            <span className="flex justify-center items-center text-4xl font-bold">
+                                +
+                            </span>
+                            <div>여행추가</div>
+                        </div>
                     )}
                 </div>
-                <div className={`w-dot5vw h-[80%] bg-gray-400`}></div>
-                <div
-                    className={`w-[33%] h-full flex justify-center items-center ${
-                        tabMode === 2
-                            ? " color-border-blue-2 border-t-halfvw"
-                            : ""
-                    }`}
-                    onClick={() => {
-                        window.location.href = "/mypage";
-                    }}
-                >
-                    <span className="material-symbols-outlined">person</span>
+                <div className=" hover:bg-[#d5e7f2] h-full">
+                    <div
+                        className={`${
+                            type == "mypage" ? selected : ""
+                        } flex flex-col pt-1 rounded-r-lg items-center justify-center text-neutral-500`}
+                        onClick={() => {
+                            window.location.href = `/mypage`;
+                        }}
+                    >
+                        <span className="material-symbols-outlined  text-3xl ">
+                            person
+                        </span>
+                        <div className="">마이페이지</div>
+                    </div>
                 </div>
             </div>
         </>

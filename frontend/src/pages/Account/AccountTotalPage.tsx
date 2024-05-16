@@ -251,7 +251,7 @@ export default function AccountAddPage() {
                 </div>
             </div>
             <footer>
-                <TabBarTour tourId={tourId} tourMode={3} />
+                <TabBarTour tourId={tourId} tourMode={3} type="account" />
             </footer>
         </>
     );

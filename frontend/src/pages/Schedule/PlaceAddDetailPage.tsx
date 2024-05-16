@@ -516,7 +516,7 @@ export default function PlaceAddDetailPage() {
                         </>
                     )}
                 </div>
-                <TabBarTour tourId={tourId} tourMode={2} />
+                <TabBarTour tourId={tourId} tourMode={2} type="schedule" />
                 <WebSocket
                     tourId={tourId}
                     setWsClient={setWsClient}

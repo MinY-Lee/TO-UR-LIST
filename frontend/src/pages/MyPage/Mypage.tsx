@@ -210,7 +210,7 @@ export default function MyPage() {
                 >
                     회원탈퇴
                 </p>
-                <TabBarMain tabMode={2} />
+                <TabBarMain tabMode={2} type="mypage" />
             </section>
         </>
     );

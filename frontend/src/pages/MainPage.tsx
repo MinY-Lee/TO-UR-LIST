@@ -235,7 +235,8 @@ export default function MainPage() {
             ) : (
                 <></>
             )}
-            <TabBarMain tabMode={1} />
+            <div className="h-16"></div>
+            <TabBarMain tabMode={1} type="main" />
         </section>
     );
 }

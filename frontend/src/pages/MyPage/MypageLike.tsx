@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import HeaderBar from '../../components/HeaderBar/HeaderBar';
-import TabBarMain from '../../components/TabBar/TabBarMain';
-import { Feed } from '../../types/types';
-import { useLocation } from 'react-router';
-import FeedCard from '../../components/FeedPage/FeedCard';
-import { getLikedFeed } from '../../util/api/feed';
-import { httpStatusCode } from '../../util/api/http-status';
+import { useEffect, useState } from "react";
+import HeaderBar from "../../components/HeaderBar/HeaderBar";
+import TabBarMain from "../../components/TabBar/TabBarMain";
+import { Feed } from "../../types/types";
+import { useLocation } from "react-router";
+import FeedCard from "../../components/FeedPage/FeedCard";
+import { getLikedFeed } from "../../util/api/feed";
+import { httpStatusCode } from "../../util/api/http-status";
 
 export default function MypageLike() {
     const [myLikedList, setMyLikedList] = useState<Feed[]>([]);
@@ -49,7 +49,7 @@ export default function MypageLike() {
                     </div>
                 )}
             </section>
-            <TabBarMain tabMode={2} />
+            <TabBarMain tabMode={2} type="feed" />
         </>
     );
 }
