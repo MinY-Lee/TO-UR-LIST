@@ -43,6 +43,8 @@ spec:
           volumeMounts:
             - name: tourlist-place-neo4j-volume
               mountPath: /data
+            - name: tourlist-place-neo4j-initdb
+              mountPath: /import
           envFrom:
             - configMapRef:
                 name: tourlist-place-db-config
@@ -52,3 +54,6 @@ spec:
         - name: tourlist-place-neo4j-volume
           persistentVolumeClaim:
             claimName: tourlist-place-neo4j-pvc
+        - name: tourlist-place-neo4j-initdb
+          configMap:
+            name: tourlist-place-initdb-config

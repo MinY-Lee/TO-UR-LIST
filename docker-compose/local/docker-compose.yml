@@ -74,7 +74,11 @@ services:
     volumes:
       - place-neo4j-data:/data
       - place-neo4j-conf:/conf
+      - ../place/initgraph.d:/import
     environment:
+      NEO4J_AUTH: ${PLACE_NEO4J_USER_NAME}/${PLACE_NEO4J_USER_PASSWORD}
+      NEO4J_dbms_security_allow__csv__import__from__file__urls: true
+      EXTENSION_SCRIPT: /import/init_place_neo4j.sh
       TZ: 'Asia/Seoul'
     ports:
       - "7474:7474"

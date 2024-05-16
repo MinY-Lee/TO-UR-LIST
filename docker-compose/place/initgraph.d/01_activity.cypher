@@ -1,2 +1,2 @@
-LOAD CSV WITH HEADERS FROM 'activities.csv' AS row
-CREATE (a:ACTIVITY {activity: row})
+LOAD CSV WITH HEADERS FROM 'file:///activities.csv' AS row
+MERGE (:ACTIVITY {activity: row.activity})

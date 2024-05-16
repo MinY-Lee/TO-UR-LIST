@@ -16,9 +16,14 @@ public interface TourRepository extends Neo4jRepository<Tour, String> {
             "DETACH DELETE t")
     void deleteAllTour(String tourId);
 
-    @Query("MATCH (t:TOUR{tourId: $tourId})" +
-            "WITH t, " +
-            "SET t=$tour" +
-            "")
+    @Query("MATCH (t:TOUR{tourId: $tourId}) " +
+            "WITH t, t.tourPeriod As oldTourPeriod " +
+            "SET t.startDate = $start, t.endDate = $end, t.tourPeriod = $period " +
+            "WITH t, oldTourPeriod " +
+            "OPTIONAL MATCH (t)-[d:DO]->(:TOUR_PLACE) " +
+            "WITH t, oldTourPeriod, COLLECT(d) AS do " +
+            "FOREACH (d IN do | " +
+                "FOREACH (_ IN CASE WHEN oldTourPeriod > $period AND d.tourDay > $period THEN [1] ELSE [] END | " +
+                    "SET d.tourDay = 0))")
     void updateTour(String tourId, String tourName, LocalDateTime start, LocalDateTime end, Integer period);
 }
