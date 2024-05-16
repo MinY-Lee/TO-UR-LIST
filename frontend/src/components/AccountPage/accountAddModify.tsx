@@ -154,6 +154,7 @@ export default function AccountAddModify(props: PropType) {
         } else {
             setAmount(0);
         }
+        setIsVaildPayAmount(true);
     };
 
     const handleCurrencyRate = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -167,6 +168,7 @@ export default function AccountAddModify(props: PropType) {
 
     const handleTypeChange = (type: string) => {
         setType(type);
+        setIsVaildPayType(true);
         setTypeDropdownClick(false);
     };
 
@@ -194,6 +196,7 @@ export default function AccountAddModify(props: PropType) {
 
     const handleContent = (event: BaseSyntheticEvent) => {
         setContent(event.target.value);
+        setIsVaildPayContent(true);
     };
 
     const handlePayMember = (memberId: string) => {
@@ -206,6 +209,16 @@ export default function AccountAddModify(props: PropType) {
         }
         setPayMember(updatedMember);
     };
+
+    /**
+     * 빈 값 검증 로직
+     */
+
+    const [isVaildPayAmount, setIsVaildPayAmount] = useState<boolean>(true);
+    // const [isVaildPayCurrencyAmount, setIsVaildPayCurrencyAmount] = useState<boolean>(true);
+    const [isVaildPayContent, setIsVaildPayContent] = useState<boolean>(true);
+    const [isVaildPayCategory, setIsVaildPayCategory] = useState<boolean>(true);
+    const [isVaildPayType, setIsVaildPayType] = useState<boolean>(true);
 
     const handleSave = () => {
         // N빵 후 보내
@@ -230,6 +243,22 @@ export default function AccountAddModify(props: PropType) {
             payMemberList: updatedMember,
         };
 
+        if(newAccountItem.payAmount==0){
+            setIsVaildPayAmount(false);
+            return;
+        }
+        if(!categories.includes(newAccountItem.payCategory)){
+            setIsVaildPayCategory(false);
+            return;
+        }
+        if(!newAccountItem.payContent){
+            setIsVaildPayContent(false);
+            return;
+        }
+        if(newAccountItem.payMethod!="카드" && newAccountItem.payMethod!="현금"){
+            setIsVaildPayType(false);
+            return;
+        }
         if (props.isModify) {
             editAccount(payId, newAccountItem)
                 .then((res) => {
@@ -306,6 +335,18 @@ export default function AccountAddModify(props: PropType) {
                     </div>
                 </div>
                 <div className="w-[70%] flex flex-col gap-5 justify-start h-full mx-10 my-5">
+                    {!isVaildPayAmount ? (
+                        <div
+                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                            role="alert"
+                        >
+                            <div className="font-medium">
+                                ⚠️ 결제 금액을 입력해주세요!
+                            </div>
+                        </div>
+                    ) : (
+                        ""
+                    )}
                     <div className="grid grid-cols-3">
                         <div className="col-span-1">적용환율</div>
                         <div className="col-span-2 flex gap-2 items-center">
@@ -456,7 +497,10 @@ export default function AccountAddModify(props: PropType) {
                                 <div
                                     key={index}
                                     className="text-center"
-                                    onClick={() => setCategory(cat)}
+                                    onClick={() => {
+                                        setCategory(cat);
+                                        setIsVaildPayCategory(true);
+                                    }}
                                 >
                                     <div
                                         className={`${
@@ -472,6 +516,18 @@ export default function AccountAddModify(props: PropType) {
                             ))}
                         </div>
                     </div>
+                    {!isVaildPayCategory ? (
+                        <div
+                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                            role="alert"
+                        >
+                            <div className="font-medium">
+                                ⚠️ 카테고리를 선택해주세요!
+                            </div>
+                        </div>
+                    ) : (
+                        ""
+                    )}
                     <div className="grid grid-cols-3">
                         <div className="col-span-1">내용</div>
                         <div className="w-full col-span-2">
@@ -483,6 +539,18 @@ export default function AccountAddModify(props: PropType) {
                             />
                         </div>
                     </div>
+                    {!isVaildPayContent ? (
+                        <div
+                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                            role="alert"
+                        >
+                            <div className="font-medium">
+                                ⚠️ 결제 내용을 입력해주세요!
+                            </div>
+                        </div>
+                    ) : (
+                        ""
+                    )}
                     <div className="grid grid-cols-3">
                         <div className="col-span-1">결제수단</div>
                         <div className="flex col-span-2">
@@ -526,6 +594,18 @@ export default function AccountAddModify(props: PropType) {
                             </div>
                         </div>
                     </div>
+                    {!isVaildPayType ? (
+                        <div
+                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                            role="alert"
+                        >
+                            <div className="font-medium">
+                                ⚠️ 결제 수단을 선택해주세요!
+                            </div>
+                        </div>
+                    ) : (
+                        ""
+                    )}
                 </div>
 
                 <div className="absolute bottom-28 grid grid-cols-2 w-[90%] gap-2">
