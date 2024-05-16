@@ -347,7 +347,7 @@ export default function PlaceAddDetailPage() {
                         <span>{placeInfo.placeName}</span>
                         {tourDetail?.isSelected ? (
                             <div
-                                className="w-[20%] h-8vw text-5vw border-rad-3vw bg-white color-text-blue-2 color-border-blue-2 border-halfvw flex justify-center items-center"
+                                className="w-[20%] h-7vw text-4vw border-rad-3dot5vw color-bg-green-1 color-text-green-2 color-border-green-2 border-halfvw flex justify-center items-center"
                                 onClick={() => {
                                     //여행 삭제
                                     if (wsClient)
@@ -373,7 +373,7 @@ export default function PlaceAddDetailPage() {
                             </div>
                         ) : (
                             <div
-                                className="w-[20%] h-8vw text-5vw border-rad-3vw color-bg-blue-2 text-white flex justify-center items-center"
+                                className="w-[20%] h-7vw text-4vw border-rad-3dot5vw bg-white border-halfvw color-border-blue-6 color-text-blue-6 text-white flex justify-center items-center"
                                 onClick={() => {
                                     //추가하는 요청 전송
                                     if (wsClient) {
@@ -492,21 +492,21 @@ export default function PlaceAddDetailPage() {
                             </div>
                             <div className="flex items-center text-5vw text-[#afafaf]">
                                 {activityList.length > 0 ? (
-                                    <span className="px-2vw border-halfvw border-[#afafaf] border-rad-3vw mx-vw">
+                                    <span className="h-7vw px-3vw border-halfvw border-[#afafaf] border-rad-3dot5vw mx-vw flex justify-center items-center">
                                         {activityList[0]}
                                     </span>
                                 ) : (
                                     <></>
                                 )}
                                 {activityList.length > 1 ? (
-                                    <span className="px-2vw border-halfvw border-[#afafaf] border-rad-3vw mx-vw">
+                                    <span className="h-7vw px-3vw border-halfvw border-[#afafaf] border-rad-3dot5vw mx-vw flex justify-center items-center">
                                         {activityList[1]}
                                     </span>
                                 ) : (
                                     <></>
                                 )}
                                 {activityList.length > 2 ? (
-                                    <span className="px-2vw border-halfvw border-[#afafaf] border-rad-3vw mx-vw">
+                                    <span className="h-7vw px-3vw border-halfvw border-[#afafaf] border-rad-3dot5vw mx-vw flex justify-center items-center">
                                         {activityList[2]}
                                     </span>
                                 ) : (

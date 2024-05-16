@@ -177,6 +177,11 @@
     padding-right: min(5vw, 24px);
 }
 
+.px-3vw {
+    padding-left: min(3vw, 14.4px);
+    padding-right: min(3vw, 14.4px);
+}
+
 .px-2vw {
     padding-left: min(2vw, 9.6px);
     padding-right: min(2vw, 9.6px);
