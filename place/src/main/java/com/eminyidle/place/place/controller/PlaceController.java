@@ -40,10 +40,11 @@ public class PlaceController {
     }
 
     // 장소 검색
-    @GetMapping("/place/search/{keyword}")
-    public ResponseEntity<List<SearchPlaceListRes>> searchPlaceList(@PathVariable String keyword) throws IOException {
+    @GetMapping("/place/search/{keyword}/{longitude}/{latitude}")
+    public ResponseEntity<List<SearchPlaceListRes>> searchPlaceList(@PathVariable String keyword, @PathVariable Float longitude,
+                                                                    @PathVariable Float latitude) throws IOException {
         log.info(keyword);
-        return ResponseEntity.ok().body(placeService.searchPlaceList(keyword));
+        return ResponseEntity.ok().body(placeService.searchPlaceList(keyword, longitude, latitude));
     }
 
     // 장소 상세 정보 조회

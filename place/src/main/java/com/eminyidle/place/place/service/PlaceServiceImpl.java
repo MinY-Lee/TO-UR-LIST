@@ -45,16 +45,20 @@ public class PlaceServiceImpl implements PlaceService{
 
     // POST 요청을 통해 장소 검색 결과 받아오기
     @Override
-    public List<SearchPlaceListRes> searchPlaceList(String keyword) {
+    public List<SearchPlaceListRes> searchPlaceList(String keyword, Float longitude, Float latitude) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON); // Json 형식으로 받겠다
         headers.set("X-Goog-Api-Key", googleMapKey);    // 발급받은 Google Api key 설정
         headers.set("X-Goog-FieldMask", "places.id,places.displayName,places.photos," +
                 "places.types,places.googleMapsUri,places.primaryType,places.addressComponents," +
                 "places.shortFormattedAddress,places.subDestinations,places.location");   // 받아 올 정보
+        String locationBias = "{\"circle\": {" + "\"center\": { \"latitude\":" + latitude + ", \"longitude\":" + longitude + "}, \"radius\":" + 5000 + "}}";
+        log.info(locationBias);
+
         String requestBody = "{ " +
                 "\"textQuery\" : \"" + keyword + "\", " +
-                "\"languageCode\" : \"ko\" }";
+                "\"languageCode\" : \"ko\", "+
+                "\"locationBias\" : " + locationBias + " }";
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
         log.info(requestEntity.toString());

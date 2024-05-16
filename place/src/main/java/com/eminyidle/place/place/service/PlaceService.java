@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface PlaceService {
-    List<SearchPlaceListRes> searchPlaceList(String keyword);
+    List<SearchPlaceListRes> searchPlaceList(String keyword, Float longitude, Float latitude);
 
     // 장소 세부 검색
     TourPlaceDetailRes searchPlaceDetail(String tourId, Integer tourDay, String placeId);
