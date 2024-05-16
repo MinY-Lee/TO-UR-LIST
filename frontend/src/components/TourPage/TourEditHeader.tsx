@@ -3,7 +3,6 @@ import {
     TourInfoDetail,
     MemberInfo,
     City,
-    Country,
     CountryMapping,
 } from "../../types/types";
 import MyButton from "../Buttons/myButton";
@@ -12,8 +11,6 @@ import MemberAddModal from "../TourPage/AddMemberModal";
 import SearchBar from "../SearchBar/mySearchBar";
 
 import MapIcon from "../../assets/svg/mapIcon";
-
-import CountryList from "../../dummy-data/get_country.json";
 
 import GhostHandleModal from "./GhostHandleModal";
 import HostHandleModal from "./HostHandleModal";
@@ -80,7 +77,6 @@ export default function TourEditHeader(props: PropType) {
     const [selectedCity, setSelectedCity] = useState<City[]>([]); // 선택된 도시
 
     const [countryList, setCountryList] = useState<CountryMapping[]>([]);
-    const [cityList, setCityList] = useState<City[]>([]);
 
     const addMemberModalRef = useRef(null);
 
@@ -283,22 +279,24 @@ export default function TourEditHeader(props: PropType) {
     };
 
     const handleMemberDelete = () => {
-        if (deleteMember.userId) {
+        if (deleteMember.userId != "") {
             const target = {
                 tourId: props.tourId,
                 userId: deleteMember.userId,
                 userNickname: deleteMember.userNickname,
                 memberType: deleteMember.memberType,
             };
-            deleteMemberApi(target).then((res) => {
-                if (res.status == HttpStatusCode.Ok) {
-                    const updatedList = memberList.filter(
-                        (mem) => mem !== deleteMember
-                    );
-                    setMemberDeleteModal(false);
-                    setMemberList(updatedList);
-                }
-            });
+            deleteMemberApi(target)
+                .then((res) => {
+                    if (res.status == HttpStatusCode.Ok) {
+                        const updatedList = memberList.filter(
+                            (mem) => mem !== deleteMember
+                        );
+                        setMemberList(updatedList);
+                        setMemberDeleteModal(false);
+                    }
+                })
+                .catch((err) => console.log(err));
         }
     };
 
@@ -313,8 +311,6 @@ export default function TourEditHeader(props: PropType) {
         event.stopPropagation(); // 이벤트 버블링 중단
         setDeleteMember(member);
         setMemberDeleteModal(true);
-
-        // handleMemberDelete();
     };
 
     const closeMemberDeleteModal = () => {
@@ -335,6 +331,25 @@ export default function TourEditHeader(props: PropType) {
 
     const handleEndDate = (event: BaseSyntheticEvent) => {
         setEndDate(event.target.value);
+    };
+
+    // 고스트 업데이트
+    const onUpdate = (updatedMember: MemberInfo, ghostId?: string) => {
+        const updateList: MemberInfo[] = [];
+        if (!ghostId) {
+            memberList.map((member) => {
+                member.userId == updatedMember.userId
+                    ? updateList.push(updatedMember)
+                    : updateList.push(member);
+            });
+        } else {
+            memberList.map((member) => {
+                member.userId == ghostId
+                    ? updateList.push(updatedMember)
+                    : updateList.push(member);
+            });
+        }
+        setMemberList(updateList);
     };
 
     return (
@@ -369,7 +384,9 @@ export default function TourEditHeader(props: PropType) {
             {ghostHandleModal ? (
                 <GhostHandleModal
                     selectedGhostMember={selectedGhostMember}
-                    data={data}
+                    memberList={memberList}
+                    tourId={props.tourId}
+                    onUpdate={onUpdate}
                     closeGhostHandleModal={closeGhostHandleModal}
                 />
             ) : (

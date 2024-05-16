@@ -15,6 +15,7 @@ import { getTour } from "../../util/api/tour";
 import { getPlaceList } from "../../util/api/place";
 import { Client } from "@stomp/stompjs";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
+import Loading from "../../components/Loading";
 
 export default function TourSchedulePage() {
     const [period, setPeriod] = useState<number>(0);
@@ -39,12 +40,15 @@ export default function TourSchedulePage() {
 
     const [newSchedule, setNewSchedule] = useState<WebSockPlace[]>([]);
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
     // 투어 아이디 불러오기
     const address: string[] = window.location.href.split("/");
     const tourId: string = address[address.length - 2];
 
     /**여행 정보 불러오기 */
     useEffect(() => {
+        setIsLoading(true);
         getTour(tourId)
             .then((res) => {
                 // console.log(res);
@@ -52,12 +56,16 @@ export default function TourSchedulePage() {
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }, []);
 
     /**기간 계산 */
     useEffect(() => {
         if (tourInfo.startDate && tourInfo.endDate) {
+            setIsLoading(true);
             const startDate = new Date(tourInfo.startDate);
             const endDate = new Date(tourInfo.endDate);
 
@@ -84,6 +92,9 @@ export default function TourSchedulePage() {
                 })
                 .catch((err) => {
                     console.log(err);
+                })
+                .finally(() => {
+                    setIsLoading(false);
                 });
         }
     }, [tourInfo, newSchedule]);
@@ -103,6 +114,7 @@ export default function TourSchedulePage() {
 
     return (
         <>
+            {isLoading ? <Loading /> : <></>}
             <section className="w-full h-full">
                 <HeaderBar />
                 <div className="w-full h-[25%]">
@@ -132,6 +144,7 @@ export default function TourSchedulePage() {
                         tourId={tourId}
                         period={period}
                         wsClient={wsClient}
+                        setIsLoading={setIsLoading}
                     />
                     <DaySelectBar
                         startDate={tourInfo.startDate}
@@ -141,7 +154,7 @@ export default function TourSchedulePage() {
                         period={period}
                     />
                 </div>
-                <TabBarTour tourMode={2} tourId={tourId} />
+                <TabBarTour tourMode={2} tourId={tourId} type="schedule" />
                 <WebSocket
                     setWsClient={setWsClient}
                     tourId={tourId}

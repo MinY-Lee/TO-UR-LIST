@@ -13,12 +13,15 @@ import { getUserInfo } from "../util/api/user";
 import { getMyTourList } from "../util/api/tour";
 import { GetCountryList } from "../util/api/country";
 import { HttpStatusCode } from "axios";
+import Loading from "../components/Loading";
 
 export default function MainPage() {
     const [nowTourList, setNowTourList] = useState<TourCardInfo[]>([]);
     const [comingTourList, setComingTourList] = useState<TourCardInfo[]>([]);
     const [passTourList, setPassTourList] = useState<TourCardInfo[]>([]);
     const [countryList, setCountryList] = useState<CountryMapping[]>([]);
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const [today, setToday] = useState<string>("1111-11-11");
 
@@ -35,6 +38,8 @@ export default function MainPage() {
     //유저 정보 불러오기
     //redux에 저장 + main페이지에서는 새로 불러오기
     useEffect(() => {
+        setIsLoading(true);
+
         //체크
         getUserInfo()
             .then((res) => {
@@ -73,6 +78,9 @@ export default function MainPage() {
                         window.location.href = "/info";
                     }
                 }
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }, []);
 
@@ -150,6 +158,7 @@ export default function MainPage() {
 
     return (
         <section className="w-full h-[90%] overflow-y-scroll flex flex-col flex-nowrap items-center">
+            {isLoading ? <Loading /> : <></>}
             <div className="w-[90%] h-[20%] flex items-center justify-between py-vw ">
                 <div className="text-6vw h-full flex flex-col justify-center items-start">
                     <p>
@@ -226,8 +235,8 @@ export default function MainPage() {
             ) : (
                 <></>
             )}
-            <div className="h-16">" "</div>
-            <TabBarMain tabMode={1} />
+            <div className="h-16"></div>
+            <TabBarMain tabMode={1} type="main" />
         </section>
     );
 }

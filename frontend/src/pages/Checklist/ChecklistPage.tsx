@@ -86,7 +86,7 @@ export default function ChecklistPage() {
                 </div>
             </div>
             <footer>
-                <TabBarTour tourMode={1} tourId={tourId} />
+                <TabBarTour tourMode={1} tourId={tourId} type="checklist" />
             </footer>
         </div>
     );

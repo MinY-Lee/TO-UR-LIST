@@ -8,6 +8,7 @@ interface PropType {
     wsClient: Client;
     tourId: string;
     tourDay: number;
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function PlaceSearchCard(props: PropType) {
@@ -35,10 +36,11 @@ export default function PlaceSearchCard(props: PropType) {
                     {props.visitedCache.has(props.placeInfo.placeId) ? (
                         //이미 있는 장소면 추가됨
                         <div
-                            className="w-[20%] h-7vw text-5vw border-rad-3vw bg-white color-text-blue-2 color-border-blue-2 border-halfvw flex justify-center items-center"
+                            className="w-[20%] h-8vw text-5vw border-rad-3vw bg-white color-text-blue-2 color-border-blue-2 border-halfvw flex justify-center items-center"
                             onClick={(event) => {
                                 //여행 삭제
-                                if (wsClient)
+                                if (wsClient) {
+                                    props.setIsLoading(true);
                                     wsClient.publish({
                                         destination: `/app/place/${tourId}`,
                                         body: JSON.stringify({
@@ -53,6 +55,7 @@ export default function PlaceSearchCard(props: PropType) {
                                             },
                                         }),
                                     });
+                                }
                                 //전파 차단
                                 event.stopPropagation();
                             }}
@@ -61,10 +64,11 @@ export default function PlaceSearchCard(props: PropType) {
                         </div>
                     ) : (
                         <div
-                            className="w-[20%] h-7vw text-5vw border-rad-3vw color-bg-blue-2 text-white flex justify-center items-center"
+                            className="w-[20%] h-8vw text-5vw border-rad-3vw color-bg-blue-2 text-white flex justify-center items-center"
                             onClick={(event) => {
                                 //추가하는 요청 전송
-                                if (wsClient)
+                                if (wsClient) {
+                                    props.setIsLoading(true);
                                     wsClient.publish({
                                         destination: `/app/place/${tourId}`,
                                         body: JSON.stringify({
@@ -79,6 +83,7 @@ export default function PlaceSearchCard(props: PropType) {
                                             },
                                         }),
                                     });
+                                }
                                 //전파 차단
                                 event.stopPropagation();
                             }}

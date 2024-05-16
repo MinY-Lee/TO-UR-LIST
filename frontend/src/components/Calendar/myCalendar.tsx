@@ -110,7 +110,7 @@ export default function myCalendar(props: ChildProps) {
             <div id="day-container" className="w-full">
                 {weekCalendarList.map((item) => (
                     <div
-                        className="grid grid-cols-7 w-full h-[14vw] text-center"
+                        className="grid grid-cols-7 w-full h-14vw text-center"
                         key={Math.random()}
                     >
                         {item.map((day, index) => {
@@ -150,7 +150,7 @@ export default function myCalendar(props: ChildProps) {
                                         }
                                     }}
                                     className={`
-                                        col-span-1 h-[14vw]
+                                        col-span-1 h-14vw
                                         ${day === 0 ? " invisible " : ""}
                                         ${
                                             isBetween || isStartOrEnd

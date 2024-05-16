@@ -10,6 +10,7 @@ import CreateDone from "../components/CreatePage/createDone";
 import { City, TourCardInfo } from "../types/types";
 import { createTour } from "../util/api/tour";
 import { httpStatusCode } from "../util/api/http-status";
+import Loading from "../components/Loading";
 
 export default function TourCreatePage() {
     const [step, setStep] = useState<number>(1);
@@ -19,6 +20,8 @@ export default function TourCreatePage() {
     const [endDate, setEndDate] = useState<Date>(new Date());
     const [isValidDate, setIsVaildDate] = useState<boolean>(false);
     const [title, setTitle] = useState<string>("");
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const [tourCard, setTourCard] = useState<TourCardInfo>({
         tourId: "",
@@ -71,6 +74,7 @@ export default function TourCreatePage() {
 
     useEffect(() => {
         if (isDone) {
+            setIsLoading(true);
             createTour({
                 tourTitle: title,
                 cityList: selectedCity,
@@ -95,6 +99,9 @@ export default function TourCreatePage() {
                 })
                 .catch((err) => {
                     console.log(err);
+                })
+                .finally(() => {
+                    setIsLoading(false);
                 });
         }
     }, [isDone]);
@@ -135,6 +142,7 @@ export default function TourCreatePage() {
 
     return (
         <section className="grid grid-rows-8 h-[95vh]">
+            {isLoading ? <Loading /> : <></>}
             <header className="row-span-2">
                 <HeaderBar />
                 <h1 className="m-3 text-3xl font-bold">여행 만들기</h1>

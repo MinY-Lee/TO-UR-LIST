@@ -12,6 +12,7 @@ import {
     checkDuplicatedNick,
 } from "../../util/api/user";
 import { httpStatusCode } from "../../util/api/http-status";
+import Loading from "../../components/Loading";
 
 export default function MypageInfo() {
     const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
@@ -37,6 +38,8 @@ export default function MypageInfo() {
     const [isValidBirthday, setIsValidBirthDay] = useState<boolean>(true);
 
     const [isChangePossible, setIsChangePossible] = useState<boolean>(true);
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     //navigator
     const navigate = useNavigate();
@@ -145,6 +148,8 @@ export default function MypageInfo() {
      * 닉네임 중복 여부 확인
      */
     const checkDupleNickname = () => {
+        setIsLoading(true);
+
         checkDuplicatedNick(userNickname)
             .then((res) => {
                 if (res.data.isDuplicated) {
@@ -156,6 +161,9 @@ export default function MypageInfo() {
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     };
 
@@ -187,6 +195,7 @@ export default function MypageInfo() {
 
     /**submitChange() 수정을 완료한다. */
     const submitChange = async () => {
+        setIsLoading(true);
         //api호출
         const res1 = await changeName({
             userName: userName,
@@ -204,6 +213,8 @@ export default function MypageInfo() {
         const res4 = await changeGender({
             userGender: userGender,
         });
+
+        setIsLoading(false);
 
         if (
             res1.status === httpStatusCode.OK &&
@@ -233,6 +244,7 @@ export default function MypageInfo() {
 
     return (
         <>
+            {isLoading ? <Loading /> : <></>}
             <section
                 className="w-full h-full py-vw flex flex-col justify-between items-center"
                 onClick={() => {
@@ -386,7 +398,7 @@ export default function MypageInfo() {
                     </div>
                 </div>
 
-                <TabBarMain tabMode={2} />
+                <TabBarMain tabMode={2} type="mypage" />
             </section>
         </>
     );

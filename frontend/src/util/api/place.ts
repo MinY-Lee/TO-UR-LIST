@@ -1,9 +1,15 @@
-import localAxios from './http-common';
+import localAxios from "./http-common";
 const local = localAxios();
 
 /**장소 검색*/
-export async function searchPlace(keyword: string) {
-    return await local.get(`/api/place/search/${keyword}`);
+export async function searchPlace(
+    keyword: string,
+    latitude: number,
+    longitude: number
+) {
+    return await local.get(
+        `/api/place/search/${keyword}/${latitude}/${longitude}`
+    );
 }
 
 /**장소 상세 정보 조회 */

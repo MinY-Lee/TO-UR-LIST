@@ -6,9 +6,9 @@ import TourCheckList from "../components/TourPage/TourChecklist";
 
 import { MemberInfo, TourInfoDetail } from "../types/types";
 // import TourDetail from '../dummy-data/get_tour_detail.json';
-import TabBarTour from "../components/TabBar/TabBarTour";
 import TourEditHeader from "../components/TourPage/TourEditHeader";
 import { getTour } from "../util/api/tour";
+import TabBarTour from "../components/TabBar/TabBarTour";
 
 export default function TourPage() {
     const [type, setType] = useState<string>("");

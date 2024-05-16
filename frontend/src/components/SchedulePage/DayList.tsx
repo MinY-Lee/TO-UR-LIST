@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
-import { WebSockPlace } from '../../types/types';
-import PlaceCard from './PlaceCard';
-import { Client } from '@stomp/stompjs';
+import { useNavigate } from "react-router-dom";
+import { WebSockPlace } from "../../types/types";
+import PlaceCard from "./PlaceCard";
+import { Client } from "@stomp/stompjs";
 
 interface PropType {
     dayNumber: number;
@@ -11,6 +11,7 @@ interface PropType {
     tourId: string;
     wsClient: Client;
     period: number;
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function DayList(props: PropType) {
@@ -18,8 +19,8 @@ export default function DayList(props: PropType) {
         return `${date.getFullYear()}.${
             date.getMonth() + 1 >= 10
                 ? date.getMonth() + 1
-                : '0' + (date.getMonth() + 1)
-        }.${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()}`;
+                : "0" + (date.getMonth() + 1)
+        }.${date.getDate() >= 10 ? date.getDate() : "0" + date.getDate()}`;
     };
 
     const navigate = useNavigate();
@@ -72,7 +73,7 @@ export default function DayList(props: PropType) {
                                 <PlaceCard
                                     key={
                                         schedule.tourDay +
-                                        ' ' +
+                                        " " +
                                         schedule.placeId
                                     }
                                     schedule={schedule}
@@ -80,6 +81,7 @@ export default function DayList(props: PropType) {
                                     tourId={props.tourId}
                                     goToDetail={goToDetail}
                                     wsClient={props.wsClient}
+                                    setIsLoading={props.setIsLoading}
                                 />
                             );
                         })

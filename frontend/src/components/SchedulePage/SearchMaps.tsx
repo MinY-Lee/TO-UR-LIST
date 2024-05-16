@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
-import { PlaceInfo } from '../../types/types';
+import { useEffect, useRef, useState } from "react";
+import { PlaceInfo } from "../../types/types";
 
 interface PropType {
     searchedPlaces: PlaceInfo[];
+    setMap: React.Dispatch<React.SetStateAction<google.maps.Map | undefined>>;
 }
 
 export default function SearchMaps(props: PropType) {
@@ -21,6 +22,9 @@ export default function SearchMaps(props: PropType) {
             setMarkers(arr);
 
             setGoogleMap(initMap);
+            if (props.setMap) {
+                props.setMap(initMap);
+            }
         }
     }, []);
 

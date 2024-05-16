@@ -11,6 +11,7 @@ interface PropType {
     tourId: string;
     period: number;
     wsClient: Client;
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function ScheduleBar(props: PropType) {
@@ -55,6 +56,7 @@ export default function ScheduleBar(props: PropType) {
                 tourId={props.tourId}
                 wsClient={props.wsClient}
                 period={props.period}
+                setIsLoading={props.setIsLoading}
             />
         );
     };
@@ -170,6 +172,7 @@ export default function ScheduleBar(props: PropType) {
                                       tourId={props.tourId}
                                       wsClient={props.wsClient}
                                       period={props.period}
+                                      setIsLoading={props.setIsLoading}
                                   />
                               );
                           })
