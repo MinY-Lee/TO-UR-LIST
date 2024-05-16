@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -88,27 +89,31 @@ public class PaymentServiceImpl implements PaymentService {
                 publicPaymentMap.put(publicPaymentId, publicPayment);
                 payment.setPublicPayment(publicPaymentMap);
 
-                // 개인 지출 유무
-                if (!payment.getPrivatePayment().containsKey(userId)) {
-                    // 개인 지출 항목 생성
-                    ArrayList<String> publicPaymentList = new ArrayList<>();
-                    publicPaymentList.add(publicPaymentId);
+                // 공동 구매 내용 반영
+                List<PaymentMember> payMemberList = paymentInfo.getPayMemberList();
+                for(PaymentMember payMember : payMemberList) {
+                    if (!payment.getPrivatePayment().containsKey(payMember.getUserId())) {
+                        // 개인 지출 항목 생성
+                        ArrayList<String> publicPaymentList = new ArrayList<>();
+                        publicPaymentList.add(publicPaymentId);
 
-                    PrivatePayment updatePrivatePayment = PrivatePayment.builder()
-                            .privatePaymentList(new ArrayList<>())
-                            .publicPaymentList(publicPaymentList)
-                            .build();
-                    // 반영
-                    Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
-                    privatePayment.put(userId, updatePrivatePayment);
-                    payment.setPrivatePayment(privatePayment);
-                } else {
-                    // 기존 항목에 추가
-                    Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
-                    List<String> publicPaymentList = privatePayment.get(userId).getPublicPaymentList();
-                    publicPaymentList.add(publicPaymentId);
-                    payment.setPrivatePayment(privatePayment);
+                        PrivatePayment updatePrivatePayment = PrivatePayment.builder()
+                                .privatePaymentList(new ArrayList<>())
+                                .publicPaymentList(publicPaymentList)
+                                .build();
+                        // 반영
+                        Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
+                        privatePayment.put(payMember.getUserId(), updatePrivatePayment);
+                        payment.setPrivatePayment(privatePayment);
+                    } else {
+                        // 기존 항목에 추가
+                        Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
+                        List<String> publicPaymentList = privatePayment.get(payMember.getUserId()).getPublicPaymentList();
+                        publicPaymentList.add(publicPaymentId);
+                        payment.setPrivatePayment(privatePayment);
+                    }
                 }
+
                 payId = publicPaymentId;
                 break;
             }
@@ -163,8 +168,46 @@ public class PaymentServiceImpl implements PaymentService {
                 }
                 PublicPayment updatePublicPayment = makePublicPayment(paymentInfo);
 
+                // 기존 멤버 추출
+                Set<String> prevMember = payment.getPublicPayment().get(payId).getPayMemberList().stream()
+                        .map(PaymentMember::getUserId)
+                        .collect(Collectors.toSet());
+
+                log.debug(prevMember.toString());
+                // 새로운 멤버 추출
+                Set<String> newMember = paymentInfo.getPayMemberList().stream()
+                        .map(PaymentMember::getUserId)
+                        .collect(Collectors.toSet());
+
+                log.debug(prevMember.toString());
+
+                // 빠진 사람: 기존 멤버에서 새로운 멤버를 뺀 차집합
+                Set<String> removedMembers = new HashSet<>(prevMember);
+                removedMembers.removeAll(newMember);
+
+                // 추가된 사람: 새로운 멤버에서 기존 멤버를 뺀 차집합
+                Set<String> addedMembers = new HashSet<>(newMember);
+                addedMembers.removeAll(prevMember);
+
+                // 반영
+                // `privatePayment`의 `publicPaymentList` 업데이트
+                for (Map.Entry<String, PrivatePayment> entry : payment.getPrivatePayment().entrySet()) {
+                    PrivatePayment privatePayment = entry.getValue();
+
+                    // 제거할 사람 반영
+                    if (removedMembers.contains(entry.getKey())) {
+                        privatePayment.getPublicPaymentList().remove(payId);
+                    }
+
+                    // 추가할 사람 반영
+                    if (addedMembers.contains(entry.getKey())) {
+                        privatePayment.getPublicPaymentList().add(payId);
+                    }
+                }
+
                 //payId에 해당하는 공동 지출 내역 변경 및 반영
                 payment.getPublicPayment().replace(payId, updatePublicPayment);
+                // 모든 private 지출 목록을 돌면서 해당
                 break;
             }
             // 개인 지출
@@ -307,6 +350,7 @@ public class PaymentServiceImpl implements PaymentService {
             PublicPayment publicPayment = publicPaymentMap.get(publicPaymentId);
             PaymentInfoRes paymentInfoRes = makePaymentInfoRes(tourId, publicPaymentId, publicPayment);
             result.add(paymentInfoRes);
+            log.debug(paymentInfoRes.toString());
         }
         return result;
     }
