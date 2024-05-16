@@ -117,7 +117,7 @@ export default function TourEditHeader(props: PropType) {
                 )
         );
         setResultList(updatedResultList);
-        if(updatedResultList.length>0){
+        if (updatedResultList.length > 0) {
             setIsVaildCityList(true);
         }
         // 결과에 있었던 거면 다시 들어가 (재검색)
@@ -132,18 +132,18 @@ export default function TourEditHeader(props: PropType) {
     const [isVaildTitle, setIsVaildTitle] = useState<boolean>(true);
     const [isVaildDate, setIsVaildDate] = useState<boolean>(true);
     const [isVaildCityList, setIsVaildCityList] = useState<boolean>(true);
-    function areDatesInOrder(startDateString: string , endDateString: string) {
+    function areDatesInOrder(startDateString: string, endDateString: string) {
         // Date 객체를 생성
         const date1 = new Date(startDateString);
         const date2 = new Date(endDateString);
 
         // 유효한 날짜인지 확인
-        if (isNaN(date1) || isNaN(date2)) {
+        if (isNaN(date1.getTime()) || isNaN(date2.getTime())) {
             throw new Error("Invalid date format");
         }
 
         // 비교 결과 반환
-        return date1 <= date2;
+        return date1.getTime() <= date2.getTime();
     }
     const handleTypeChange = (type: string) => {
         const updatedTourInfo: TourInfoDetail = {
@@ -156,7 +156,7 @@ export default function TourEditHeader(props: PropType) {
 
         if (data.tourTitle != title) {
             //title이 없으면 에러
-            if(title.trim()===""){
+            if (title.trim() === "") {
                 setIsVaildTitle(false);
                 return;
             }
@@ -172,7 +172,7 @@ export default function TourEditHeader(props: PropType) {
 
         if (data.startDate != startDate || data.endDate != endDate) {
             //startDate <= endDate여야함
-            if(!areDatesInOrder(startDate,endDate)){
+            if (!areDatesInOrder(startDate, endDate)) {
                 setIsVaildDate(false);
                 return;
             }
@@ -192,7 +192,7 @@ export default function TourEditHeader(props: PropType) {
 
         if (data.cityList != selectedCity) {
             //city 1개 이상
-            if(selectedCity.length===0){
+            if (selectedCity.length === 0) {
                 setIsVaildCityList(false);
                 return;
             }
@@ -215,7 +215,7 @@ export default function TourEditHeader(props: PropType) {
 
     const handleInputChange = (event: BaseSyntheticEvent) => {
         setTitle(event.target.value);
-        if(title.length>0){
+        if (title.length > 0) {
             setIsVaildTitle(true);
         }
     };
@@ -372,14 +372,14 @@ export default function TourEditHeader(props: PropType) {
     const handleStartDate = (event: BaseSyntheticEvent) => {
         setStartDate(event.target.value);
         console.log(startDate, endDate);
-        if(areDatesInOrder(startDate,endDate)){
+        if (areDatesInOrder(startDate, endDate)) {
             setIsVaildDate(true);
         }
     };
 
     const handleEndDate = (event: BaseSyntheticEvent) => {
         setEndDate(event.target.value);
-        if(areDatesInOrder(startDate,endDate)){
+        if (areDatesInOrder(startDate, endDate)) {
             setIsVaildDate(true);
         }
     };
