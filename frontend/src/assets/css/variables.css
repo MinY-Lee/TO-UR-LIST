@@ -245,6 +245,10 @@
     height: min(75vw, 360px);
 }
 
+.h-38vw {
+    height: min(38vw, 182.4px);
+}
+
 .h-35vw {
     height: min(35vw, 168px);
 }
