@@ -3,6 +3,7 @@ import GenderSelectBox from "../components/MyPage/GenderSelectBox";
 import { useNavigate } from "react-router-dom";
 import { checkDuplicatedNick, getUserInfo, register } from "../util/api/user";
 import { httpStatusCode } from "../util/api/http-status";
+import Loading from "../components/Loading";
 
 export default function InfoPage() {
     const [userName, setUserName] = useState<string>("");
@@ -23,11 +24,14 @@ export default function InfoPage() {
 
     const [isChangePossible, setIsChangePossible] = useState<boolean>(false);
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
     //navigator
     const navigate = useNavigate();
 
     //회원가입 정보 있으면 main페이지로 리다이렉트
     useEffect(() => {
+        setIsLoading(true);
         getUserInfo()
             .then((res) => {
                 //회원정보 존재시 main으로
@@ -35,6 +39,9 @@ export default function InfoPage() {
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }, []);
 
@@ -142,6 +149,7 @@ export default function InfoPage() {
      * 닉네임 중복 여부 확인
      */
     const checkDupleNickname = () => {
+        setIsLoading(true);
         checkDuplicatedNick(userNickname)
             .then((res) => {
                 if (res.data.isDuplicated) {
@@ -153,6 +161,9 @@ export default function InfoPage() {
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     };
 
@@ -184,6 +195,7 @@ export default function InfoPage() {
 
     /**submitChange() 수정을 완료한다. */
     const submitChange = () => {
+        setIsLoading(true);
         //api호출
         // console.log(userBirthDay);
         // console.log(new Date(userBirthDay));
@@ -203,12 +215,16 @@ export default function InfoPage() {
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
         //전송 후 올바르게 변형되면 redux 반영
     };
 
     return (
         <>
+            {isLoading ? <Loading /> : <></>}
             <section
                 className="w-full h-full py-vw flex flex-col justify-between items-center"
                 onClick={() => {

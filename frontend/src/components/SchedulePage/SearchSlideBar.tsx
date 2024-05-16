@@ -1,8 +1,8 @@
-import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { PlaceInfo } from '../../types/types';
-import PlaceSearchCard from './PlaceSearchCard';
-import { Client } from '@stomp/stompjs';
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { PlaceInfo } from "../../types/types";
+import PlaceSearchCard from "./PlaceSearchCard";
+import { Client } from "@stomp/stompjs";
 
 interface PropType {
     searchedPlaces: PlaceInfo[];
@@ -11,6 +11,7 @@ interface PropType {
     period: number;
     visitedCache: Set<string>;
     wsClient: Client;
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function SearchSlideBar(props: PropType) {
@@ -56,9 +57,9 @@ export default function SearchSlideBar(props: PropType) {
         <>
             <div
                 className={`w-full bottom-0 absolute border-rad-2vw border-halfvw border-[#D9D9D9] z-10 bg-white ${
-                    mode === 0 ? 'h-full' : mode === 1 ? 'h-[50%]' : 'h-[20%]'
+                    mode === 0 ? "h-full" : mode === 1 ? "h-[50%]" : "h-[20%]"
                 }`}
-                style={{ transitionDuration: '1s' }}
+                style={{ transitionDuration: "1s" }}
             >
                 {/* 스크롤 */}
                 <div
@@ -68,13 +69,13 @@ export default function SearchSlideBar(props: PropType) {
                         dragStartPosY = e.clientY;
 
                         if (swipeRef.current) {
-                            swipeRef.current.classList.add('color-bg-blue-4');
+                            swipeRef.current.classList.add("color-bg-blue-4");
                         }
                     }}
                     onDragEnd={(e) => {
                         if (swipeRef.current) {
                             swipeRef.current.classList.remove(
-                                'color-bg-blue-4'
+                                "color-bg-blue-4"
                             );
                         }
 
@@ -90,13 +91,13 @@ export default function SearchSlideBar(props: PropType) {
                         touchStartPosY = e.touches[0].clientY;
 
                         if (swipeRef.current) {
-                            swipeRef.current.classList.add('color-bg-blue-4');
+                            swipeRef.current.classList.add("color-bg-blue-4");
                         }
                     }}
                     onTouchEnd={(e) => {
                         if (swipeRef.current) {
                             swipeRef.current.classList.remove(
-                                'color-bg-blue-4'
+                                "color-bg-blue-4"
                             );
                         }
 
@@ -126,6 +127,7 @@ export default function SearchSlideBar(props: PropType) {
                                 tourId={props.tourId}
                                 tourDay={props.selectedDate + 1}
                                 wsClient={props.wsClient}
+                                setIsLoading={props.setIsLoading}
                             />
                         );
                     })}

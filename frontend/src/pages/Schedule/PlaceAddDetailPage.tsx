@@ -24,6 +24,7 @@ import { getTour } from "../../util/api/tour";
 import { Client } from "@stomp/stompjs";
 import ActivityAddModal from "../../components/SchedulePage/ActivityAddModal";
 import DayChangeModal from "../../components/SchedulePage/DayChangeModal";
+import Loading from "../../components/Loading";
 
 export default function PlaceAddDetailPage() {
     const location = useLocation();
@@ -46,6 +47,8 @@ export default function PlaceAddDetailPage() {
     const [placeId, setPlaceId] = useState<string>("");
     const [period, setPeriod] = useState<number>(0);
     const [startDate, setStartDate] = useState<Date>(new Date());
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     //여행 정보
     const [tourInfo, setTourInfo] = useState<TourInfoDetail>({
@@ -80,6 +83,7 @@ export default function PlaceAddDetailPage() {
     useEffect(() => {
         if (location.state) {
             // console.log(location.state.tourDay + 1);
+            setIsLoading(true);
 
             setPlaceId(location.state.placeId);
             setTourDay(location.state.tourDay + 1);
@@ -101,6 +105,9 @@ export default function PlaceAddDetailPage() {
                 })
                 .catch((err) => {
                     console.log(err);
+                })
+                .finally(() => {
+                    setIsLoading(false);
                 });
 
             //전체 활동목록 받아오기
@@ -113,6 +120,9 @@ export default function PlaceAddDetailPage() {
                 })
                 .catch((err) => {
                     console.log(err);
+                })
+                .finally(() => {
+                    setIsLoading(false);
                 }); //원래는 이걸로 받아오는데 현재 미구현
 
             //dummydata이용
@@ -130,19 +140,27 @@ export default function PlaceAddDetailPage() {
                 })
                 .catch((err) => {
                     console.log(err);
+                })
+                .finally(() => {
+                    setIsLoading(false);
                 });
 
             //전체 스케줄 조회
-            getPlaceList(location.state.tourId).then((res) => {
-                const filtered = res.data.filter(
-                    (place: WebSockPlace) =>
-                        place.placeId === location.state.placeId
-                );
-                filtered.sort(
-                    (a: WebSockPlace, b: WebSockPlace) => a.tourDay - b.tourDay
-                );
-                setThisPlaceVisit(filtered);
-            });
+            getPlaceList(location.state.tourId)
+                .then((res) => {
+                    const filtered = res.data.filter(
+                        (place: WebSockPlace) =>
+                            place.placeId === location.state.placeId
+                    );
+                    filtered.sort(
+                        (a: WebSockPlace, b: WebSockPlace) =>
+                            a.tourDay - b.tourDay
+                    );
+                    setThisPlaceVisit(filtered);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
         }
     }, []);
 
@@ -164,6 +182,7 @@ export default function PlaceAddDetailPage() {
 
     //UPDATE_PLACE도착
     const update = (newSchedule: WebSockPlace[]) => {
+        setIsLoading(true);
         //장소 상세 정보 재조회
         searchPlaceDetail(tourId, tourDay, placeId)
             .then((res) => {
@@ -173,6 +192,9 @@ export default function PlaceAddDetailPage() {
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
 
         //새로운 일정으로 업데이트
@@ -217,6 +239,7 @@ export default function PlaceAddDetailPage() {
         tourDay: number,
         activity: string
     ) => {
+        setIsLoading(true);
         if (wsClient) {
             wsClient.publish({
                 destination: `/app/place/${tourId}`,
@@ -234,6 +257,7 @@ export default function PlaceAddDetailPage() {
     };
 
     const deleteActivity = (tourPlaceId: string, activity: string) => {
+        setIsLoading(true);
         if (wsClient) {
             wsClient.publish({
                 destination: `/app/place/${tourId}`,
@@ -249,6 +273,7 @@ export default function PlaceAddDetailPage() {
     };
 
     const changeDate = (oldDate: number, newDate: number) => {
+        setIsLoading(true);
         if (wsClient) {
             wsClient.publish({
                 destination: `/app/place/${tourId}`,
@@ -297,6 +322,7 @@ export default function PlaceAddDetailPage() {
             ) : (
                 <></>
             )}
+            {isLoading ? <Loading /> : <></>}
             <section className="w-full h-full">
                 <div className="flex flex-col w-full h-[93%] overflow-y-scroll p-vw">
                     <HeaderBar />
@@ -350,7 +376,9 @@ export default function PlaceAddDetailPage() {
                                 className="w-[20%] h-7vw text-5vw border-rad-3vw color-bg-blue-2 text-white flex justify-center items-center"
                                 onClick={() => {
                                     //추가하는 요청 전송
-                                    if (wsClient)
+                                    if (wsClient) {
+                                        setIsLoading(true);
+
                                         wsClient.publish({
                                             destination: `/app/place/${tourId}`,
                                             body: JSON.stringify({
@@ -367,6 +395,7 @@ export default function PlaceAddDetailPage() {
                                                 },
                                             }),
                                         });
+                                    }
                                 }}
                             >
                                 추가
@@ -392,7 +421,9 @@ export default function PlaceAddDetailPage() {
                                             className="w-[10%] flex justify-center items-center"
                                             onClick={() => {
                                                 //삭제 요청
-                                                if (wsClient)
+                                                if (wsClient) {
+                                                    setIsLoading(true);
+
                                                     wsClient.publish({
                                                         destination: `/app/place/${tourId}`,
                                                         body: JSON.stringify({
@@ -408,6 +439,7 @@ export default function PlaceAddDetailPage() {
                                                             },
                                                         }),
                                                     });
+                                                }
                                             }}
                                         >
                                             X

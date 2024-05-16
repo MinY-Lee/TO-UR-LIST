@@ -17,11 +17,14 @@ import { getPlaceList, searchPlace } from "../../util/api/place";
 import { httpStatusCode } from "../../util/api/http-status";
 import { getTour } from "../../util/api/tour";
 import { Client } from "@stomp/stompjs";
+import Loading from "../../components/Loading";
 
 export default function PlaceAddPage() {
     const [selectedDate, setSelectedDate] = useState<number>(-1);
     const [searchedPlaces, setSearchedPlaces] = useState<PlaceInfo[]>([]);
     const [period, setPeriod] = useState<number>(0);
+
+    const [map, setMap] = useState<google.maps.Map | undefined>();
 
     //웹소켓
     const [wsClient, setWsClient] = useState<Client>(new Client());
@@ -33,6 +36,8 @@ export default function PlaceAddPage() {
         memberList: [],
         cityList: [],
     });
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     // 투어 아이디 불러오기
     const address: string[] = window.location.href.split("/");
@@ -51,7 +56,7 @@ export default function PlaceAddPage() {
             setSelectedDate(location.state.selectedDate);
             setPeriod(location.state.period);
         }
-
+        setIsLoading(true);
         //초기 여행 정보 불러오기
         getTour(tourId)
             .then((res) => {
@@ -63,35 +68,52 @@ export default function PlaceAddPage() {
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
 
         //전체 일정 불러오기 및 날짜 기반으로 캐시 생성
-        getPlaceList(tourId).then((res) => {
-            if (res.status === httpStatusCode.OK) {
-                const schedule: WebSockPlace[] = res.data;
-                const newCache: Set<string> = new Set();
-                schedule.map((place) => {
-                    //넘어온 선택 날짜는 +1 해주어야 함.
-                    if (place.tourDay === location.state.selectedDate + 1) {
-                        newCache.add(place.placeId);
-                    }
-                });
-                //새 캐시 인식
-                setVisitedCache(newCache);
-            }
-        });
+        getPlaceList(tourId)
+            .then((res) => {
+                if (res.status === httpStatusCode.OK) {
+                    const schedule: WebSockPlace[] = res.data;
+                    const newCache: Set<string> = new Set();
+                    schedule.map((place) => {
+                        //넘어온 선택 날짜는 +1 해주어야 함.
+                        if (place.tourDay === location.state.selectedDate + 1) {
+                            newCache.add(place.placeId);
+                        }
+                    });
+                    //새 캐시 인식
+                    setVisitedCache(newCache);
+                }
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }, []);
 
     useEffect(() => {
         if (tourInfo.cityList.length > 0) {
+            setIsLoading(true);
+            let lat = 37.5;
+            let lng = 127;
+            if (map) {
+                lat = map.getCenter().lat();
+                lng = map.getCenter().lng();
+            }
             //일단 api로 여행 정보 불러오기
-            searchPlace(tourInfo.cityList[0].cityName + " 관광")
+            searchPlace(tourInfo.cityList[0].cityName + " 관광", lat, lng)
                 .then((res) => {
                     // console.log(res);
                     setSearchedPlaces(res.data);
                 })
                 .catch((err) => {
                     console.log(err);
+                })
+                .finally(() => {
+                    setIsLoading(false);
                 });
         }
     }, [tourInfo.cityList]);
@@ -113,7 +135,14 @@ export default function PlaceAddPage() {
         searchValue: string
     ) => {
         if (e.key === "Enter") {
-            searchPlace(searchValue)
+            setIsLoading(true);
+            let lat = 37.5;
+            let lng = 127;
+            if (map) {
+                lat = map.getCenter().lat();
+                lng = map.getCenter().lng();
+            }
+            searchPlace(searchValue, lat, lng)
                 .then((res) => {
                     if (res.status === httpStatusCode.OK) {
                         setSearchedPlaces(res.data);
@@ -123,12 +152,16 @@ export default function PlaceAddPage() {
                 })
                 .catch((err) => {
                     console.log(err);
+                })
+                .finally(() => {
+                    setIsLoading(false);
                 });
         }
     };
 
     /**웹소켓으로 업데이트 된 정보가 오면? */
     const update = (newSchedule: WebSockPlace[]) => {
+        setIsLoading(true);
         //캐시 업데이트
         const newCache: Set<string> = new Set();
         newSchedule.map((place) => {
@@ -140,11 +173,14 @@ export default function PlaceAddPage() {
 
         //새 캐시 업데이트
         setVisitedCache(newCache);
+
+        setIsLoading(false);
     };
 
     return (
         <>
             <section className="w-full h-full overflow-y-hidden">
+                {isLoading ? <Loading /> : <></>}
                 <HeaderBar />
                 <div className="w-full h-[83%] flex flex-col overflow-y-hidden">
                     {/* 현재 날짜 보여주기 */}
@@ -162,7 +198,10 @@ export default function PlaceAddPage() {
                         }`}
                         libraries={["marker", "places"]}
                     >
-                        <SearchMaps searchedPlaces={searchedPlaces} />
+                        <SearchMaps
+                            searchedPlaces={searchedPlaces}
+                            setMap={setMap}
+                        />
                     </Wrapper>
                     <SearchSlideBar
                         searchedPlaces={searchedPlaces}
@@ -171,6 +210,7 @@ export default function PlaceAddPage() {
                         period={period}
                         visitedCache={visitedCache}
                         wsClient={wsClient}
+                        setIsLoading={setIsLoading}
                     />
                 </div>
                 <TabBarTour tourMode={2} tourId={tourId} />

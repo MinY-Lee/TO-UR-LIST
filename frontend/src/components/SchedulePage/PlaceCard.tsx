@@ -9,6 +9,7 @@ interface PropType {
     tourId: string;
     goToDetail: (schedule: WebSockPlace) => void;
     wsClient: Client;
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function PlaceCard(props: PropType) {
@@ -31,6 +32,7 @@ export default function PlaceCard(props: PropType) {
     const deleteOK = () => {
         //api 요청 후 모달 닫기
         if (props.wsClient) {
+            props.setIsLoading(true);
             props.wsClient.publish({
                 destination: `/app/place/${props.tourId}`,
                 body: JSON.stringify({

@@ -9,12 +9,15 @@ import WebSocket from "../../components/TabBar/WebSocket";
 import { Client } from "@stomp/stompjs";
 import { getTour } from "../../util/api/tour";
 import { getPlaceList } from "../../util/api/place";
+import Loading from "../../components/Loading";
 
 export default function TourScheduleEditPage() {
     const [selectedDate, setSelectedDate] = useState<number>(-1);
     const [period, setPeriod] = useState<number>(0);
 
     const [wsClient, setWsClient] = useState<Client>(new Client());
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     //여행 정보
     const [tourInfo, setTourInfo] = useState<TourInfoDetail>({
@@ -44,6 +47,7 @@ export default function TourScheduleEditPage() {
 
     /**여행 정보 불러오기 */
     useEffect(() => {
+        setIsLoading(true);
         getTour(tourId)
             .then((res) => {
                 // console.log(res);
@@ -51,12 +55,16 @@ export default function TourScheduleEditPage() {
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }, []);
 
     /**기간 계산 */
     useEffect(() => {
         if (tourInfo.startDate && tourInfo.endDate) {
+            setIsLoading(true);
             const startDate = new Date(tourInfo.startDate);
             const endDate = new Date(tourInfo.endDate);
 
@@ -83,6 +91,9 @@ export default function TourScheduleEditPage() {
                 })
                 .catch((err) => {
                     console.log(err);
+                })
+                .finally(() => {
+                    setIsLoading(false);
                 });
         }
     }, [newSchedule, tourInfo]);
@@ -100,6 +111,7 @@ export default function TourScheduleEditPage() {
                 tourId={tourId}
                 wsClient={wsClient}
                 period={period}
+                setIsLoading={setIsLoading}
             />
         );
     };
@@ -112,6 +124,7 @@ export default function TourScheduleEditPage() {
     return (
         <>
             <section className="w-full h-full">
+                {isLoading ? <Loading /> : <></>}
                 <HeaderBar />
                 <div className="w-full h-[87%] px-2vw relative overflow-y-auto flex flex-col">
                     <div className="w-full h-[10%] flex justify-between items-center">
@@ -140,6 +153,7 @@ export default function TourScheduleEditPage() {
                                           tourId={tourId}
                                           wsClient={wsClient}
                                           period={period}
+                                          setIsLoading={setIsLoading}
                                       />
                                   );
                               })

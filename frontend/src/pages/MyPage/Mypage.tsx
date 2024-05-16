@@ -14,6 +14,7 @@ import CheckModal from "../../components/CheckModal";
 import { httpStatusCode } from "../../util/api/http-status";
 import { Cookies } from "react-cookie";
 import { getLikedFeed, getPublishedFeed } from "../../util/api/feed";
+import Loading from "../../components/Loading";
 
 export default function MyPage() {
     const [myPublishList, setMyPublishList] = useState<Feed[]>([]);
@@ -26,6 +27,8 @@ export default function MyPage() {
         userGender: 0,
     });
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
     const cookies = new Cookies();
 
     const [isWithdrawalProceeding, setIsWithdrawalProceeding] =
@@ -37,6 +40,7 @@ export default function MyPage() {
     //유저 정보 불러오기
     //redux에 저장 + main페이지에서는 새로 불러오기
     useEffect(() => {
+        setIsLoading(true);
         //체크
         getUserInfo()
             .then((res) => {
@@ -63,6 +67,9 @@ export default function MyPage() {
                 if (err.response.status === 400) {
                     window.location.href = "/info";
                 }
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }, []);
 
@@ -127,6 +134,7 @@ export default function MyPage() {
 
     return (
         <>
+            {isLoading ? <Loading /> : <></>}
             {isWithdrawalProceeding ? (
                 <CheckModal
                     mainText="회원탈퇴 하시겠습니까?"
