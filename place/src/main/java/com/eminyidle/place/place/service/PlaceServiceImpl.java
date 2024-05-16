@@ -52,7 +52,7 @@ public class PlaceServiceImpl implements PlaceService{
         headers.set("X-Goog-FieldMask", "places.id,places.displayName,places.photos," +
                 "places.types,places.googleMapsUri,places.primaryType,places.addressComponents," +
                 "places.shortFormattedAddress,places.subDestinations,places.location");   // 받아 올 정보
-        String locationBias = "{\"circle\": {" + "\"center\": { \"latitude\":" + latitude + ", \"longitude\":" + longitude + "}, \"radius\":" + 5000 + "}}";
+        String locationBias = "{\"circle\": {" + "\"center\": { \"latitude\":" + latitude + ", \"longitude\":" + longitude + "}, \"radius\":" + 50000 + "}}";
         log.info(locationBias);
 
         String requestBody = "{ " +
@@ -72,6 +72,8 @@ public class PlaceServiceImpl implements PlaceService{
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             // 사진이 없는 경우는 빈 리스트로 대체하여 반환
             if(responseEntity != null) {
+                log.info("비어있지 않은 리스폰스엔티티");
+                log.info(responseEntity.getBody().toString());
                 return responseEntity.getBody().getPlaces().stream().map(place -> {
                     SearchPlaceListRes searchPlaceRes = SearchPlaceListRes.builder()
                             .placeId(place.getId())
