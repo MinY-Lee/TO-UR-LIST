@@ -75,8 +75,8 @@ public class TourKafkaProducer {
         produceKafkaMessage(KAFKA_TOUR_TOPIC, type, tour);
     }
 
-    public void produceTourKafkaDetailMessage(String type, Tour tour, String desc) {
-        produceKafkaMessage(KAFKA_TOUR_TOPIC, type, tour, desc);
+    public void produceTourKafkaDetailMessage(String type, Tour tour, String detail) {
+        produceKafkaMessage(KAFKA_TOUR_TOPIC, type, tour, detail);
     }
 
     public void produceTourMemberKafkaMessage(String type, TourMember member) {

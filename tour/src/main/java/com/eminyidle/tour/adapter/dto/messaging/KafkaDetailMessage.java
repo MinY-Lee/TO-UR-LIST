@@ -8,15 +8,15 @@ import lombok.Setter;
 @Setter
 public class KafkaDetailMessage extends KafkaMessage{
 
-    private String desc;
+    private String detail;
     public KafkaDetailMessage() {
         super();
     }
     public KafkaDetailMessage(String type, Object body) {
         super(type, body);
     }
-    public KafkaDetailMessage(String type, Object body, String desc) {
+    public KafkaDetailMessage(String type, Object body, String detail) {
         super(type, body);
-        setDesc(desc);
+        setDetail(detail);
     }
 }
