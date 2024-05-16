@@ -6,10 +6,9 @@ import TabBarTour from "../../components/TabBar/TabBarTour";
 import MyButton from "../../components/Buttons/myButton";
 import ChecklistInput from "../../components/Checklist/checklistInput";
 
-import Checklist from "../../dummy-data/get_checklist.json";
 import CheckModal from "../../components/CheckModal";
 import SelectModal from "../../components/SelectModal";
-import { getChecklist } from "../../util/api/checklist";
+import { getChecklist, modifyItem } from "../../util/api/checklist";
 import { HttpStatusCode } from "axios";
 
 interface Mapping {
@@ -19,6 +18,15 @@ interface Mapping {
 export default function ChecklistEditItemPage() {
     const [tourId, setTourId] = useState<string>("");
     const [editItem, setEditItem] = useState<Item>({
+        tourId: "",
+        placeId: "",
+        activity: "",
+        item: "",
+        tourDay: 0,
+        isChecked: false,
+        isPublic: false,
+    });
+    const [newItem, setNewItem] = useState<Item>({
         tourId: "",
         placeId: "",
         activity: "",
@@ -60,10 +68,30 @@ export default function ChecklistEditItemPage() {
     }, [data, editItem]);
 
     const handleDone = () => {
-        ///////////////////
-        // 수정된 상태 띄우기
-
-        navigate(-1);
+        modifyItem({
+            oldItem: {
+                tourId: editItem.tourId,
+                placeId: editItem.placeId,
+                activity: editItem.activity,
+                tourDay: editItem.tourDay,
+                item: editItem.item,
+                isChecked: editItem.isChecked,
+            },
+            newItem: {
+                tourId: newItem.tourId,
+                placeId: newItem.placeId,
+                activity: newItem.activity,
+                tourDay: newItem.tourDay,
+                item: newItem.item,
+                isChecked: newItem.isChecked,
+            },
+        })
+            .then((res) => {
+                if (res.status == HttpStatusCode.Ok && !res.data.isDuplicated) {
+                    navigate(-1);
+                }
+            })
+            .catch((err) => console.log(err));
     };
 
     const closeModal = () => {
@@ -75,7 +103,7 @@ export default function ChecklistEditItemPage() {
     };
 
     const onUpdate = (item: Item) => {
-        console.log("edit 페이지 도착 : " + item.item);
+        setNewItem(item);
     };
 
     const mapping: Mapping = {
@@ -112,7 +140,25 @@ export default function ChecklistEditItemPage() {
 
     const handleEdit = () => {
         // 장소 및 활동 수정 api
-        // 삭제까지 반영
+        // 삭제까지 반영??
+        // {
+        //     oldItem :  {
+        //         tourId : String,
+        //         placeId : String,
+        //         activity  : String,
+        //         tourDay : Number,
+        //         item :  String,
+        //         isChecked: Boolean
+        //     },
+        //     newItem : {
+        //         tourId : String,
+        //         placeId : String,
+        //         activity  : String,
+        //         tourDay : Number,
+        //         item :  String,
+        //         isChecked: Boolean
+        //     }
+        // }
 
         setSelectModalActive(false);
     };
@@ -153,7 +199,7 @@ export default function ChecklistEditItemPage() {
                     <MyButton
                         className="text-xl text-white font-medium"
                         isSelected={true}
-                        onClick={() => handleDone()}
+                        onClick={handleDone}
                         text="완료"
                         type="small"
                     />

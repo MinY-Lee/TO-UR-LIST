@@ -32,7 +32,7 @@ export default function ChecklistInput(props: PropType) {
     useEffect(() => {
         setIsPublicInput(props.default ? props.default.isPublic : false);
         setItemInput(props.default ? props.default.item : "");
-    }, [props]);
+    }, [props.default]);
 
     const setDropdown = (isClicked: boolean) => {
         return isClicked ? "" : "hidden";
@@ -44,7 +44,22 @@ export default function ChecklistInput(props: PropType) {
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setItemInput(event.target.value);
+        const val = event.target.value;
+        setItemInput(val);
+        // 변화시 바로 반영
+        if (props.default) {
+            // 수정인 경우
+
+            props.onUpdate({
+                tourId: props.tourId,
+                placeId: props.default.placeId || "",
+                activity: props.default.activity,
+                item: val,
+                tourDay: props.default.tourDay,
+                isChecked: props.default.isChecked,
+                isPublic: props.default.isPublic,
+            });
+        }
     };
 
     // 엔터로 add
@@ -95,19 +110,6 @@ export default function ChecklistInput(props: PropType) {
                     }
                 })
                 .catch((err) => console.log(err));
-        } else {
-            // 수정인 경우
-            console.log("아이템 수정 : " + itemInput);
-
-            props.onUpdate({
-                tourId: props.tourId,
-                placeId: props.default.placeId || "",
-                activity: props.default.activity,
-                item: itemInput,
-                tourDay: props.default.tourDay,
-                isChecked: props.default.isChecked,
-                isPublic: props.default.isPublic,
-            });
         }
     };
 

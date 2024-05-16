@@ -121,9 +121,6 @@ export default function TourCheckList(props: PropType) {
                     updatedChecklist[index].isChecked =
                         !updatedChecklist[index].isChecked;
 
-                    const movedItem = updatedChecklist.splice(index, 1)[0];
-                    updatedChecklist.push(movedItem);
-
                     setFilteredChecklist(updatedChecklist);
                 }
             })

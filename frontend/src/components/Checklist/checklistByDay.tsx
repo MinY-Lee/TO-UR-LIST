@@ -73,7 +73,18 @@ export default function ChecklistByDay(props: PropType) {
         // 일자 및 장소 별로 그룹핑
         let grouped: ItemPerDayAndPlace = {};
 
-        checklist.forEach((item) => {
+        // isChecked 기준으로 checklist 정렬
+        const sortedChecklist = [...checklist].sort((a, b) => {
+            if (a.isChecked === b.isChecked) {
+                return 0;
+            } else if (a.isChecked) {
+                return 1;
+            } else {
+                return -1;
+            }
+        });
+
+        sortedChecklist.forEach((item) => {
             const { tourDay, placeId } = item;
 
             if (!grouped[tourDay]) {

@@ -53,7 +53,6 @@ export default function ChecklistEditDayPage() {
                         const checklistData = res.data;
                         setChecklist(checklistData);
                     }
-                    console.log(res.data);
                 })
                 .catch((err) => console.log(err));
 
@@ -105,20 +104,6 @@ export default function ChecklistEditDayPage() {
         const arr = Array.from({ length: length }, () => false);
         setIsAddState(arr);
     }, [data, daysDifference]);
-
-    const formatNumberToTwoDigits = (num: number): string => {
-        return `${num < 10 && num > 0 ? "0" : ""}${num}`;
-    };
-
-    const calcDate = (day: number): string => {
-        const startDate = new Date(data?.startDate);
-        const startDay = startDate.getDate();
-        startDate.setDate(startDay + day);
-
-        return `${startDate.getFullYear()}.${
-            startDate.getMonth() + 1
-        }.${startDate.getDate()}`;
-    };
 
     const handleAddState = (day: number) => {
         const updatedIsAddState = [...isAddState];
@@ -201,30 +186,28 @@ export default function ChecklistEditDayPage() {
     };
 
     const onUpdate = (item: Item) => {
-        if (groupedItems) {
-            const updatedChecklist = [
-                ...groupedItems[item.tourDay][item.placeId],
-                item,
-            ];
-            const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
-
-            Object.keys(updatedFullChecklist).forEach((dayString) => {
-                const day = Number(dayString);
-                Object.keys(updatedFullChecklist[day]).forEach((placeId) => {
-                    if (day == item.tourDay && placeId == item.placeId) {
-                        updatedFullChecklist[day][placeId] = [
-                            ...updatedChecklist,
-                        ]; // 새로운 배열로 교체
-                    } else {
-                        updatedFullChecklist[day][placeId] = [
-                            ...updatedFullChecklist[day][placeId],
-                        ];
-                    }
-                });
-            });
-
-            setGroupedItems(updatedFullChecklist);
-        }
+        // if (groupedItems) {
+        //     const updatedChecklist = [
+        //         ...groupedItems[item.tourDay][item.placeId],
+        //         item,
+        //     ];
+        //     const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
+        //     Object.keys(updatedFullChecklist).forEach((dayString) => {
+        //         const day = Number(dayString);
+        //         Object.keys(updatedFullChecklist[day]).forEach((placeId) => {
+        //             if (day == item.tourDay && placeId == item.placeId) {
+        //                 updatedFullChecklist[day][placeId] = [
+        //                     ...updatedChecklist,
+        //                 ]; // 새로운 배열로 교체
+        //             } else {
+        //                 updatedFullChecklist[day][placeId] = [
+        //                     ...updatedFullChecklist[day][placeId],
+        //                 ];
+        //             }
+        //         });
+        //     });
+        //     setGroupedItems(updatedFullChecklist);
+        // }
     };
 
     return (
@@ -257,7 +240,7 @@ export default function ChecklistEditDayPage() {
                     />
                 </div>
 
-                <div className="border border-black p-5 rounded-xl overflow-y-scroll h-[70vh]">
+                <div className="border border-black p-5 rounded-xl overflow-y-scroll h-[77vh]">
                     <ItemListPerDay
                         data={data}
                         daysList={daysList}
