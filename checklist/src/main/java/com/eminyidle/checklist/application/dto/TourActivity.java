@@ -13,12 +13,12 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 @Setter
 @Builder
 public class TourActivity {
-    @Id @GeneratedValue
+    @Id
     private String tourActivityId;
-    private String activityName;
+    private String activity;
 
     @Relationship(type = "REFERENCE")
-    private Activity activity;
+    private Activity activityNode;
 
     @Relationship(type = "DO",direction = Relationship.Direction.INCOMING)
     private TourPlace tourPlace;

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -264,7 +265,7 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
         TourPlace targetTourPlace=tourPlaceRepository.findByTourIdAndPlaceIdAndTourDay(tourId,placeId,tourDayAfter).orElseThrow(NoSuchTourPlaceException::new);
 
         tourActivityRepository.findAllByTourPlaceId(tourPlaceId).forEach(tourActivity -> {
-            if(tourActivityRepository.existsByTourPlaceIdAndActivity(targetTourPlace.getTourPlaceId(), tourActivity.getActivityName())){
+            if(tourActivityRepository.existsByTourPlaceIdAndActivity(targetTourPlace.getTourPlaceId(), tourActivity.getActivity())){
                 //기존에 동일한 활동 있다
                 //해당 날짜에 있는 활동과, 그 장소가 가진 활동들 잘 합쳐 줘야 함
                 //현재 tourPlaceId에 연결된 모든 활동을.... 대상 쪽으로 머지...!
@@ -295,13 +296,16 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
         // activity 확인
         log.debug("%%%%%%%% "+activityName);
         Activity activity = activityRepository.findById(activityName).orElseThrow(NoSuchActivityException::new);
-        log.debug("ACTIVITY: 활동 확인");
+        log.debug("ACTIVITY: 활동 확인 "+activity.toString());
         // tour_activity 생성
-        TourActivity tourActivity = tourActivityRepository.save(tourPlaceId, activityName);
+        TourActivity tourActivity = tourActivityRepository.save(tourPlaceId, activityName, UUID.randomUUID().toString());
         log.debug("ACTIVITY: 생성 완료");
         //필요한 아이템 -> public 관계 연결
         activity.getItemList().forEach(
-                item -> itemRepository.createPublicRelationshipByTourActivityId(tourActivity.getTourActivityId(), item.getItem())
+                item -> {
+                    itemRepository.createPublicRelationshipByTourActivityId(tourActivity.getTourActivityId(), item.getItem());
+                    log.debug(item.getItem()+" 완료!");
+                }
         );
         //TODO - 연결 확인
         //모든 멤버에 대해 TAKE 관계도 만들기!

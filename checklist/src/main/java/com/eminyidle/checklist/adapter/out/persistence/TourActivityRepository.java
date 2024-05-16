@@ -9,8 +9,8 @@ import java.util.List;
 public interface TourActivityRepository extends Neo4jRepository<TourActivity,String> {
     //save: activity의 NEED관계 다 public으로 연결해두기....
     @Query("MATCH (p:TOUR_PLACE{tourPlaceId: $tourPlaceId}) WITH p MATCH (a:ACTIVITY{activity: $activity}) " +
-            "CREATE (p)-[:DO]->(x:TOUR_ACTIVITY{activity:$activity})-[:REFERENCE]->(a) RETURN x")
-    TourActivity save(String tourPlaceId, String activity);
+            "CREATE (p)-[:DO]->(x:TOUR_ACTIVITY{activity:$activity, tourActivityId: $tourActivityId})-[:REFERENCE]->(a) RETURN x")
+    TourActivity save(String tourPlaceId, String activity, String tourActivityId);
     //delete
     @Query("MATCH (:TOUR_PLACE{tourPlaceId: $tourPlaceId})-[:DO]->(x:TOUR_ACTIVITY{activity:$activity}) DETACH DELETE x")
     void delete(String tourPlaceId, String activity);
