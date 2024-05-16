@@ -71,3 +71,8 @@ export async function deleteMemberApi(target: any) {
         data: JSON.stringify(target),
     });
 }
+
+/** 고스트멤버 닉네임 변경 */
+export async function changeGhostNickname(target: any) {
+    return await local.put(`/api/tour/member/ghost`, JSON.stringify(target));
+}
