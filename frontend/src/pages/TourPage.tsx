@@ -4,7 +4,7 @@ import TourHeader from "../components/TourPage/TourHeader";
 import TourBasicInfo from "../components/TourPage/TourBasicInfo";
 import TourCheckList from "../components/TourPage/TourChecklist";
 
-import { TourInfoDetail } from "../types/types";
+import { MemberInfo, TourInfoDetail } from "../types/types";
 // import TourDetail from '../dummy-data/get_tour_detail.json';
 import TabBarTour from "../components/TabBar/TabBarTour";
 import TourEditHeader from "../components/TourPage/TourEditHeader";
@@ -31,14 +31,30 @@ export default function TourPage() {
         if (tourId) {
             getTour(tourId)
                 .then((res) => {
+                    const sortedMemberList = res.data.memberList.sort(
+                        (a: MemberInfo, b: MemberInfo) => {
+                            if (
+                                a.memberType === "host" &&
+                                b.memberType !== "host"
+                            ) {
+                                return -1;
+                            } else if (
+                                a.memberType !== "host" &&
+                                b.memberType === "host"
+                            ) {
+                                return 1;
+                            } else {
+                                return 0;
+                            }
+                        }
+                    );
                     setData({
                         tourTitle: res.data.tourTitle,
                         cityList: res.data.cityList,
                         startDate: res.data.startDate.split("T")[0],
                         endDate: res.data.endDate.split("T")[0],
-                        memberList: res.data.memberList,
+                        memberList: sortedMemberList,
                     });
-                    console.log(res.data.memberList);
                 })
                 .catch((err) => {
                     console.log(err);

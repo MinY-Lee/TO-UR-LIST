@@ -138,7 +138,9 @@ export default function TourEditHeader(props: PropType) {
         if (data.tourTitle != title) {
             editTitle({ tourId: props.tourId, tourTitle: title })
                 .then((res) => {
-                    props.onUpdate(true);
+                    if (res.status == HttpStatusCode.Ok) {
+                        props.onUpdate(true); // 변화 알려
+                    }
                 })
                 .catch((err) => console.log(err));
         }
@@ -150,19 +152,25 @@ export default function TourEditHeader(props: PropType) {
                 endDate: new Date(endDate),
             })
                 .then((res) => {
-                    props.onUpdate(true);
+                    if (res.status == HttpStatusCode.Ok) {
+                        props.onUpdate(true); // 변화 알려
+                    }
                 })
                 .catch((err) => console.log(err));
         }
 
         if (data.cityList != selectedCity) {
-            console.log(selectedCity);
             editCity({ tourId: props.tourId, cityList: selectedCity })
                 .then((res) => {
-                    console.log("도시 수정");
-                    props.onUpdate(true); // 변화 알려
+                    if (res.status == HttpStatusCode.Ok) {
+                        props.onUpdate(true);
+                    }
                 })
                 .catch((err) => console.log(err));
+        }
+
+        if (data.memberList != memberList) {
+            props.onUpdate(true);
         }
 
         props.onChange(type);
