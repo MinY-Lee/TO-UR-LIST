@@ -232,7 +232,7 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
                 .build());
         log.debug("place 생성 완료");
         // 그에 맞게 활동 없음 tour_activity 생성
-        createActivity(tourPlaceId, "");
+        createActivityByAssertedTourPlaceId(tourPlaceId, "");
     }
 
     @Override
