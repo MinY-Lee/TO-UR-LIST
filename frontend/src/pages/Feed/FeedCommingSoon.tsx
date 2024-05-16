@@ -9,7 +9,7 @@ export default function FeedComingSoon() {
                 <div className="text-7vw">
                     피드 기능은 추후 제공 예정입니다.
                 </div>
-                <TabBarMain tabMode={0} />
+                <TabBarMain tabMode={0} type="feed" />
             </section>
         </>
     );

@@ -386,7 +386,7 @@ export default function MypageInfo() {
                     </div>
                 </div>
 
-                <TabBarMain tabMode={2} />
+                <TabBarMain tabMode={2} type="mypage" />
             </section>
         </>
     );

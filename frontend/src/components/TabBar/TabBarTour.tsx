@@ -1,86 +1,107 @@
 import { useEffect, useRef, useState } from "react";
-import CircleMenu from "./CircleMenu";
+import FeedIcon from "../../assets/svg/feedIcon";
 
 interface PropType {
     tourMode: number;
     tourId: string;
+    type?: string;
 }
 
 export default function TabBarTour(props: PropType) {
-    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-
-    const [widthSize, setWidthSize] = useState<number>(0);
+    const selected = `color-text-blue-2`;
+    const [type, setType] = useState<string>("");
 
     useEffect(() => {
-        if (widthRef.current) {
-            setWidthSize(widthRef.current.offsetWidth);
+        if (props.type) {
+            setType(props.type);
         }
-    }, []);
-    const widthRef = useRef<HTMLDivElement>(null);
+    }, [props]);
 
     return (
         <>
             <div
-                className={`w-full h-[7%] absolute bottom-0 left-0 flex justify-center items-center border-t-halfvw border-t-gray-400 bg-white z-10`}
+                className={`${
+                    type == "feed" ? selected : ""
+                } w-[96%] grid grid-cols-5 absolute bottom-2 left-2 rounded-lg justify-around items-center border-2 drop-shadow-md bg-white z-10`}
             >
                 <div
-                    className={`w-[33%] h-full flex justify-center items-center bg-white`}
+                    className="hover:bg-[#d5e7f2] h-full rounded-l-lg flex flex-col items-center justify-center text-neutral-500"
                     onClick={() => {
-                        window.location.href = "/feed";
+                        window.location.href = `/feed`;
                     }}
                 >
-                    <span className="material-symbols-outlined">search</span>
+                    <FeedIcon />
+                    <div>피드</div>
                 </div>
-                <div className="w-dot5vw h-full bg-white flex justify-center items-center">
-                    <div className="w-full h-[80%] bg-gray-400"></div>
+                <div className="hover:bg-[#d5e7f2] h-full">
+                    <div
+                        className={`${
+                            type == "checklist" ? selected : ""
+                        } flex flex-col items-center justify-center text-neutral-500`}
+                        onClick={() => {
+                            if (props.tourMode !== 3) {
+                                window.location.href = `/tour/${props.tourId}/checklist`;
+                            }
+                        }}
+                    >
+                        <span className="material-symbols-outlined text-3xl">
+                            checklist_rtl
+                        </span>
+                        <div>체크리스트</div>
+                    </div>
                 </div>
-                <div
-                    className={`w-[33%] h-full relative color-border-blue-2 border-t-halfvw bg-white`}
-                    ref={widthRef}
-                >
-                    {isMenuOpen ? (
-                        <>
-                            <CircleMenu
-                                width={widthSize}
-                                tourMode={props.tourMode}
-                                tourId={props.tourId}
-                            />
-                            <div
-                                className="w-[60%] aspect-square rounded-[50%] color-bg-blue-5 absolute left-[50%] flex justify-center items-center"
-                                style={{ transform: `translate(-50%, -50%)` }}
-                                onClick={() => {
-                                    setIsMenuOpen(false);
-                                }}
-                            >
-                                <span className="material-symbols-outlined text-8vw text-white">
-                                    close
-                                </span>
-                            </div>
-                        </>
-                    ) : (
-                        <div
-                            className="w-[60%] aspect-square rounded-full color-bg-blue-5 absolute left-[50%] flex justify-center items-center"
-                            style={{ transform: `translate(-50%, -50%)` }}
+                <div className="hover:bg-[#d5e7f2] h-full">
+                    <div
+                        className={`${
+                            type == "schedule" ? selected : ""
+                        } flex flex-col items-center justify-center text-neutral-500`}
+                    >
+                        <span
+                            className="material-symbols-outlined  text-3xl"
                             onClick={() => {
-                                setIsMenuOpen(true);
+                                if (props.tourMode !== 2) {
+                                    window.location.href = `/tour/${props.tourId}/schedule`;
+                                }
                             }}
                         >
-                            <span className="material-symbols-outlined text-8vw text-white">
-                                menu
-                            </span>
-                        </div>
-                    )}
+                            calendar_month
+                        </span>
+                        <div>일정</div>
+                    </div>
                 </div>
-                <div className="w-dot5vw h-full bg-white flex justify-center items-center">
-                    <div className="w-full h-[80%] bg-gray-400"></div>
+                <div className="hover:bg-[#d5e7f2] h-full">
+                    <div
+                        className={`${
+                            type == "account" ? selected : ""
+                        } flex flex-col items-center justify-center text-neutral-500 `}
+                    >
+                        <span
+                            className="material-symbols-outlined  text-3xl"
+                            onClick={() => {
+                                if (props.tourMode !== 1) {
+                                    window.location.href = `/tour/${props.tourId}/account`;
+                                }
+                            }}
+                        >
+                            receipt
+                        </span>
+                        <div>가계부</div>
+                    </div>
                 </div>
-                <div
-                    className={`w-[33%] h-full flex justify-center items-center bg-white`}
-                    onClick={() => {
-                        window.location.href = "/mypage";
-                    }}
-                >
-                    <span className="material-symbols-outlined">person</span>
+                <div className="hover:bg-[#d5e7f2] h-full rounded-r-lg">
+                    <div
+                        className={`${
+                            type == "mypage" ? selected : ""
+                        } flex flex-col items-center justify-center text-neutral-500`}
+                        onClick={() => {
+                            window.location.href = `/mypage`;
+                        }}
+                    >
+                        <span className="material-symbols-outlined  text-3xl ">
+                            person
+                        </span>
+                        <div className="">마이페이지</div>
+                    </div>
                 </div>
             </div>
         </>

@@ -173,7 +173,7 @@ export default function PlaceAddPage() {
                         wsClient={wsClient}
                     />
                 </div>
-                <TabBarTour tourMode={2} tourId={tourId} />
+                <TabBarTour tourMode={2} tourId={tourId} type="schedule" />
                 <WebSocket
                     setWsClient={setWsClient}
                     tourId={tourId}

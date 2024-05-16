@@ -188,7 +188,7 @@ export default function ChecklistEditAllPage() {
                 </div>
             </div>
             <footer className="h-[]">
-                <TabBarTour tourMode={1} tourId={tourId} />
+                <TabBarTour tourMode={1} tourId={tourId} type="checklist" />
             </footer>
         </>
     );

@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import FeedSearchBar from '../../components/FeedPage/FeedSearchBar';
-import HeaderBar from '../../components/HeaderBar/HeaderBar';
-import TabBarMain from '../../components/TabBar/TabBarMain';
+import { useState } from "react";
+import FeedSearchBar from "../../components/FeedPage/FeedSearchBar";
+import HeaderBar from "../../components/HeaderBar/HeaderBar";
+import TabBarMain from "../../components/TabBar/TabBarMain";
 
 export default function FeedPage() {
     const [isDetailActive, setIsDetailActive] = useState<boolean>(false);
@@ -25,7 +25,7 @@ export default function FeedPage() {
                         </div>
                     </div>
                 </div>
-                <TabBarMain tabMode={1} />
+                <TabBarMain tabMode={1} type="feed" />
             </section>
         </>
     );
