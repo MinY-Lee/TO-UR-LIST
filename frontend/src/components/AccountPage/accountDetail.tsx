@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { AccountInfo, PayMember, TourInfoDetail, UserInfo } from "../../types/types";
+import { AccountInfo, CurrencyInfo, PayMember, TourInfoDetail, UserInfo } from "../../types/types";
 
 import CategoryToImg from "./categoryToImg";
 import { useSelector } from "react-redux";
@@ -14,6 +14,7 @@ import { HttpStatusCode } from "axios";
 interface PropType {
     data: AccountInfo[];
     tourData: TourInfoDetail;
+    currency: CurrencyInfo;
 }
 
 interface DataPerDayInfo {
@@ -388,13 +389,40 @@ export default function AccountDetail(props: PropType) {
                                                         </div>
                                                         {item.payType == "private" ? (
                                                             <div>
-                                                                {item.payAmount.toLocaleString()}{" "}
-                                                                {item.unit}
+                                                                {tabIdx == 1 ? (
+                                                                    <>
+                                                                        {item.payAmount.toLocaleString()}{" "}
+                                                                        원
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        {(
+                                                                            item.payAmount /
+                                                                            item.exchangeRate
+                                                                        ).toLocaleString()}{" "}
+                                                                        {props.currency.unit}
+                                                                    </>
+                                                                )}
                                                             </div>
                                                         ) : (
                                                             <div className="text-orange-500">
-                                                                {getMyAmount(item).toLocaleString()}{" "}
-                                                                {item.unit}
+                                                                {tabIdx == 1 ? (
+                                                                    <>
+                                                                        {item.payAmount.toLocaleString()}{" "}
+                                                                        원
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        {(
+                                                                            getMyAmount(item) /
+                                                                            item.exchangeRate
+                                                                        ).toLocaleString()}{" "}
+                                                                        {
+                                                                            props.currency
+                                                                                .currencyCode
+                                                                        }
+                                                                    </>
+                                                                )}
                                                             </div>
                                                         )}
                                                     </div>
@@ -423,8 +451,20 @@ export default function AccountDetail(props: PropType) {
                                                                 </div>
                                                             </div>
                                                             <div className=" text-neutral-500 ">
-                                                                {item.payAmount.toLocaleString()}{" "}
-                                                                {item.unit}
+                                                                {tabIdx == 1 ? (
+                                                                    <>
+                                                                        {item.payAmount.toLocaleString()}{" "}
+                                                                        원
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        {(
+                                                                            item.payAmount /
+                                                                            item.exchangeRate
+                                                                        ).toLocaleString()}{" "}
+                                                                        {props.currency.unit}
+                                                                    </>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     ) : (

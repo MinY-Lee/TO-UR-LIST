@@ -183,7 +183,7 @@ export default function AccountPage() {
                     </div>
                 </div>
                 <div className="w-full">
-                    <AccountDetail data={data} tourData={tourData} />
+                    <AccountDetail data={data} tourData={tourData} currency={currency} />
                     <div className="h-[10vh]"></div>
                 </div>
 

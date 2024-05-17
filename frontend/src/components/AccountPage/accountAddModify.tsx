@@ -45,7 +45,6 @@ export default function AccountAddModify(props: PropType) {
     const [content, setContent] = useState<string>("");
     const [isPublic, setIsPublic] = useState<boolean>(false);
     const [date, setDate] = useState<string>("");
-    const [dateStr, setDateStr] = useState<string>("");
     const [payer, setPayer] = useState<string>("");
     const [payId, setPayId] = useState<string>("");
     const [payMember, setPayMember] = useState<PayMember[]>([]);
@@ -130,6 +129,7 @@ export default function AccountAddModify(props: PropType) {
     }, [isPublic]);
 
     const handleUnit = (unit: string) => {
+        setExchangeRate(1);
         setUnit(unit);
         setWonDropdownClick(false);
     };
@@ -184,11 +184,13 @@ export default function AccountAddModify(props: PropType) {
 
     const handlePayMember = (memberId: string) => {
         let updatedMember: PayMember[] = [];
+        console.log(payMember);
+        console.log(memberId);
         const payMemberIds = payMember.map((member) => member.userId);
         if (payMemberIds.includes(memberId)) {
             updatedMember = payMember.filter((item) => item.userId != memberId);
         } else {
-            updatedMember = [...payMember, { userId: memberId, payAmount: 0 }];
+            updatedMember.push({ userId: memberId, payAmount: 0 });
         }
         setPayMember(updatedMember);
     };
@@ -198,7 +200,6 @@ export default function AccountAddModify(props: PropType) {
      */
 
     const [isVaildPayAmount, setIsVaildPayAmount] = useState<boolean>(true);
-    // const [isVaildPayCurrencyAmount, setIsVaildPayCurrencyAmount] = useState<boolean>(true);
     const [isVaildPayContent, setIsVaildPayContent] = useState<boolean>(true);
     const [isVaildPayCategory, setIsVaildPayCategory] = useState<boolean>(true);
     const [isVaildPayMember, setIsVaildPayMember] = useState<boolean>(true);
@@ -215,7 +216,7 @@ export default function AccountAddModify(props: PropType) {
         const newAccountItem: AccountInfo = {
             payType: isPublic ? "public" : "private",
             tourId: props.tourId,
-            payAmount: amount * exchangeRate,
+            payAmount: unit == "₩" ? amount : Math.round(exchangeRate * amount),
             exchangeRate: exchangeRate,
             unit: unit,
             currencyCode: currency.currencyCode,
@@ -306,7 +307,7 @@ export default function AccountAddModify(props: PropType) {
                                 type="button"
                                 onClick={() => setWonDropdownClick(!wonDropdownClick)}
                             >
-                                {currency.unit}
+                                {unit}
                                 <DropdownIcon isClicked={wonDropdownClick} />
                             </button>
                             <div
@@ -349,6 +350,7 @@ export default function AccountAddModify(props: PropType) {
                                     <input
                                         value={exchangeRate == 0 ? "" : exchangeRate}
                                         onChange={handleCurrencyRate}
+                                        disabled={unit == "₩"}
                                         type="number"
                                         className="block w-20 px-2 text-sm text-gray-900 border"
                                     />
