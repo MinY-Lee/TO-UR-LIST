@@ -1,4 +1,4 @@
-package com.eminyidle.auth.auth.jwt;
+package com.eminyidle.auth.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

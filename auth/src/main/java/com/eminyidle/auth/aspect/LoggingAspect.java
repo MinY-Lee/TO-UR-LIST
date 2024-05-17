@@ -13,7 +13,7 @@ import org.springframework.util.StopWatch;
 public class LoggingAspect {
 
    // 모든 컨트롤러 메서드에 시작, 끝 로그 적용 및 메서드 실행시간 측정
-    @Around("execution(* com.eminyidle.auth.*.controller.*.*(..))")
+    @Around("execution(* com.eminyidle.auth.controller.*.*(..))")
     public Object timeLogAround(ProceedingJoinPoint joinPoint) throws Throwable{
         StopWatch stopWatch=new StopWatch();
 

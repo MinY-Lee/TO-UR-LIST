@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserinfoRepository extends JpaRepository<Userinfo, String> {
     Optional<Userinfo> findByUserId(String userId);
+
+    void deleteByUserId(String userId);
 }

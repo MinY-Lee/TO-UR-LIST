@@ -1,14 +1,18 @@
-package com.eminyidle.auth.auth.dto.req;
+package com.eminyidle.auth.dto.res;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
-public class TokenReq {
+@NoArgsConstructor
+public class LoginRes {
+
+  private String accessToken;
   private String refreshToken;
 }
