@@ -17,7 +17,7 @@ export default function SearchBar(props: PropType) {
 
     return (
         <div
-            className="w-[86%] h-[5%] absolute left-[7%] top-20vw bg-white border-[#929292] border-dot3vw border-rad-3vw px-2vw text-black text-5vw flex justify-between items-center px-3vw z-10"
+            className="w-[86%] h-[5%] absolute left-[7%] top-20vw bg-white border-rad-3vw px-2vw text-black text-5vw flex justify-between items-center px-3vw z-10"
             style={{ boxShadow: "0px 2px 6px 1px #929292" }}
         >
             <input

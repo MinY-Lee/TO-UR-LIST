@@ -4,7 +4,7 @@ export default function HeaderBar() {
     const navigate = useNavigate();
 
     const goBack = () => {
-        navigate(-1);
+        navigate(`/main`);
     };
 
     return (
@@ -18,14 +18,6 @@ export default function HeaderBar() {
                         west
                     </span>
                     <span className="text-5vw">TO-UR-LIST</span>
-                </div>
-                <div
-                    className="underline"
-                    onClick={() => {
-                        window.location.href = `/`;
-                    }}
-                >
-                    여행메인
                 </div>
             </div>
         </>

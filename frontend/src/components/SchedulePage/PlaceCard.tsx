@@ -18,7 +18,12 @@ export default function PlaceCard(props: PropType) {
     const [isDeleteModalActive, setIsDeleteModalActive] =
         useState<boolean>(false);
 
-    const bgColor = ["color-bg-blue-5", "bg-[#FFD4D4]", "color-bg-blue-2`"];
+    const bgColor = [
+        "color-bg-blue-6",
+        "bg-[#FFB1B1]",
+        "bg-[#FF9315]",
+        "bg-[#5CD651]",
+    ];
 
     const deleteItem = (event: BaseSyntheticEvent) => {
         setIsDeleteModalActive(true);
@@ -68,7 +73,8 @@ export default function PlaceCard(props: PropType) {
                 <></>
             )}
             <div
-                className="w-full p-vw my-dot5vw border-rad-2vw border-halfvw border-[#D9D9D9]"
+                className="w-full p-2vw my-vw border-rad-2dot5vw"
+                style={{ boxShadow: "0px 2px 4px 1px #cecece" }}
                 onClick={() => props.goToDetail(schedule)}
             >
                 <div className="w-full flex justify-between items-center">
@@ -89,9 +95,10 @@ export default function PlaceCard(props: PropType) {
                         return (
                             <p
                                 key={activity}
-                                className={`text-4vw px-vw mx-dot5vw border-rad-2vw ${
-                                    bgColor[index % 2]
+                                className={`text-4vw text-white px-2vw mx-dot5vw border-rad-2vw ${
+                                    bgColor[index % 4]
                                 }`}
+                                style={{ boxShadow: "0px 2px 4px 1px #cecece" }}
                             >
                                 {activity}
                             </p>
