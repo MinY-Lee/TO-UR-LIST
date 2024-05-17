@@ -1354,7 +1354,7 @@ stringData:
   JWT_KEY:
   AUTH_REDIS_PASSWORD:
 ```
-- secrets
+- db-secrets
 ```yaml
 # tourlist-auth-db-secrets
 apiVersion: v1
