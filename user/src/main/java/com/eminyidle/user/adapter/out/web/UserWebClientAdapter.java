@@ -15,7 +15,7 @@ public class UserWebClientAdapter implements DeleteUserRequestPort {
 	@Value("${INTERNAL_KEY}")
 	private String INTERNAL_KEY;
 
-	@Value("${AUTH_SERVICE_URL}")
+	@Value("${AUTH_SERVER_URL}")
 	private String AUTH_SERVICE_URL;
 
 	@Override
