@@ -26,7 +26,7 @@ export default function TabBarMain(props: PropType) {
                 }  w-[96%] grid grid-cols-3 absolute bottom-2 left-2  text-neutral-500 rounded-lg  justify-around items-center border-2 drop-shadow-md bg-white z-10`}
             >
                 <div
-                    className="hover:bg-[#d5e7f2] h-full rounded-l-lg flex pt-1 flex-col items-center justify-center"
+                    className="hover:bg-[#d5e7f2] h-full rounded-l-lg flex pt-1 flex-col items-center justify-evenly"
                     onClick={() => {
                         window.location.href = `/feed`;
                     }}
@@ -39,12 +39,12 @@ export default function TabBarMain(props: PropType) {
                         <div
                             className={`${
                                 props.type == "main" ? selected : ""
-                            } mt-0 flex flex-col items-center justify-center  rounded-full px-10 py-1 text-neutral-500`}
+                            } mt-0 h-full  flex flex-col items-center justify-evenly rounded-full py-1 text-neutral-500`}
                             onClick={() => {
                                 window.location.href = `/`;
                             }}
                         >
-                            <span className="material-symbols-outlined  text-4xl ">
+                            <span className="material-symbols-outlined text-4xl ">
                                 home
                             </span>
                             <div>메인</div>
@@ -53,7 +53,7 @@ export default function TabBarMain(props: PropType) {
                         <div
                             className={`${
                                 type == "create" ? selected : ""
-                            }   flex flex-col items-center justify-center text-neutral-500 rounded-full px-10 py-1`}
+                            } h-full  flex flex-col items-center justify-evenly text-neutral-500 rounded-full py-1`}
                             onClick={() => {
                                 window.location.href = `/create`;
                             }}
@@ -69,7 +69,7 @@ export default function TabBarMain(props: PropType) {
                     <div
                         className={`${
                             type == "mypage" ? selected : ""
-                        } flex flex-col pt-1 rounded-r-lg items-center justify-center text-neutral-500`}
+                        } h-full flex flex-col pt-1 rounded-r-lg items-center justify-evenly text-neutral-500`}
                         onClick={() => {
                             window.location.href = `/mypage`;
                         }}
