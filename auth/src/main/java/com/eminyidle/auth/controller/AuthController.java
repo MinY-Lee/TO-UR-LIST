@@ -48,7 +48,7 @@ public class AuthController {
 		CookieUtil.deleteTokenCookie(request, response);
 	}
 
-	@PostMapping("/token")
+	@GetMapping("/token")
 	public ResponseEntity<TokenRes> tokenRegenerate(@RequestHeader String userId,
 		@RequestHeader String refreshToken) {
 
