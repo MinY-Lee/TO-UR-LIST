@@ -12,6 +12,7 @@ interface CountItem {
 }
 
 interface PropType {
+    checklist: Item[];
     filteredChecklist: Item[];
     tourId: string;
     filteredGroup: CountItem;
@@ -45,12 +46,9 @@ export default function ItemListAll(props: PropType) {
     };
 
     const getActivity = (target: Item): string => {
-        console.log(props.filteredChecklist);
-        console.log(target);
-
-        const itemActivity = props.filteredChecklist.find((item) => item.item === target.item);
-
-        console.log(itemActivity);
+        const itemActivity = props.checklist.find(
+            (item) => item.item === target.item && item.activity != ""
+        );
 
         return itemActivity ? itemActivity.activity : "";
     };

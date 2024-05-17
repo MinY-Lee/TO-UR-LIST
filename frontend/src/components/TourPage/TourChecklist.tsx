@@ -108,6 +108,14 @@ export default function TourCheckList(props: PropType) {
             .catch((err) => console.log(err));
     };
 
+    const getActivity = (target: Item): string => {
+        const itemActivity = checklist.find(
+            (item) => item.item === target.item && item.activity != ""
+        );
+
+        return itemActivity ? itemActivity.activity : "";
+    };
+
     return (
         <>
             <div className="w-full  justify-between items-end p-5 bak">
@@ -150,18 +158,18 @@ export default function TourCheckList(props: PropType) {
                                             </div>
                                             <div className="relative w-fit">
                                                 <div>
-                                                    {item.activity ? (
+                                                    {getActivity(item) ? (
                                                         <span
                                                             className={`${setColor(
-                                                                item.activity
+                                                                getActivity(item)
                                                             )} ${
-                                                                setColor(item.activity) ==
+                                                                setColor(getActivity(item)) ==
                                                                 "bg-[#2BA1F9]"
                                                                     ? "text-white"
                                                                     : "text-gray-500"
                                                             } drop-shadow-md px-2.5 py-0.5 rounded`}
                                                         >
-                                                            {item.activity}
+                                                            {getActivity(item)}
                                                         </span>
                                                     ) : (
                                                         ""

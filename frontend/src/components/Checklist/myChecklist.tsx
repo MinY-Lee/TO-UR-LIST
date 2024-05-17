@@ -88,7 +88,6 @@ export default function MyCheckList(props: PropType) {
         checkItem(targetItem)
             .then((res) => {
                 if (res.status == HttpStatusCode.Ok) {
-                    // 화면상 반영 및 아래로 이동
                     const updatedChecklist = [...filteredChecklist];
                     updatedChecklist[index].isChecked = !updatedChecklist[index].isChecked;
 
@@ -135,6 +134,7 @@ export default function MyCheckList(props: PropType) {
 
                                     <div className="relative text-end mr-3">
                                         <ActivityBadge
+                                            checklist={checklist}
                                             hadNoContent={false}
                                             item={item}
                                             filteredChecklist={filteredChecklist}

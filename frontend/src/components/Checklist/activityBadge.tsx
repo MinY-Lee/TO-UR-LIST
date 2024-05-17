@@ -6,6 +6,7 @@ interface CountItem {
 }
 
 interface PropType {
+    checklist: Item[];
     filteredChecklist: Item[];
     filteredGroup: CountItem;
     item: Item;
@@ -21,18 +22,26 @@ export default function ActivityBadge(props: PropType) {
         return "color-bg-green-1";
     };
 
+    const getActivity = (target: Item): string => {
+        const itemActivity = props.checklist.find(
+            (item) => item.item === target.item && item.activity != ""
+        );
+
+        return itemActivity ? itemActivity.activity : "";
+    };
+
     return (
         <>
             <div>
-                {props.item.activity ? (
+                {getActivity(props.item) ? (
                     <span
-                        className={`${setColor(props.item.activity)} ${
-                            setColor(props.item.activity) == "bg-[#2BA1F9]"
+                        className={`${setColor(getActivity(props.item))} ${
+                            setColor(getActivity(props.item)) == "bg-[#2BA1F9]"
                                 ? "text-white"
                                 : "text-gray-500"
                         } drop-shadow-md px-2.5 py-0.5 rounded`}
                     >
-                        {props.item.activity}
+                        {getActivity(props.item)}
                     </span>
                 ) : (
                     ""

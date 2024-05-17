@@ -58,7 +58,6 @@ export default function ChecklistEditItemPage() {
         setTourId(address[address.length - 3]);
         // 전달받은 아이템
         setEditItem(state.item);
-        console.log(editItem);
 
         if (tourId != "") {
             // 장소 id 랑 이름 매칭 위해

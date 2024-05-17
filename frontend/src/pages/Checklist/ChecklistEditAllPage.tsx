@@ -173,6 +173,7 @@ export default function ChecklistEditAllPage() {
                 </div>
                 <div className="flex flex-col justify-start items-center h-[65vh]  overflow-y-auto pt-2">
                     <ItemListAll
+                        checklist={data}
                         filteredChecklist={filteredChecklist}
                         filteredGroup={filteredGroup}
                         handleDeleteModal={handleDeleteModal}
