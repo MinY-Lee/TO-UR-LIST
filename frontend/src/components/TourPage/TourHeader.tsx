@@ -29,7 +29,7 @@ export default function TourHeader(props: PropType) {
 
     const isHost = (member: MemberInfo): string => {
         if (member.memberType === "host") {
-            return "w-14 h-14 rounded-full flex border-gradient bg-gradient-to-b from-blue-500 via-blue-400 to-blue-100";
+            return "w-12 h-12 rounded-full flex border-gradient bg-gradient-to-b from-blue-500 via-blue-400 to-blue-100";
         }
         return "";
     };
@@ -148,7 +148,7 @@ export default function TourHeader(props: PropType) {
             ) : (
                 <></>
             )}
-            <div className="w-full grid grid-cols-6 justify-between items-end p-5 bak">
+            <div className=" grid grid-cols-6 justify-between items-end p-7 bak">
                 <div className="col-span-5">
                     <div className="text-7vw font-bold w-[100%] overflow-ellipsis overflow-hidden whitespace-nowrap">
                         {props.tourInfo.tourTitle}
@@ -157,7 +157,7 @@ export default function TourHeader(props: PropType) {
                         props.tourInfo.startDate.split("T")[0]
                     }~${props.tourInfo.endDate.split("T")[0]}`}</div>
 
-                    <div className="flex items-center w-full overflow-x-scroll h-[40%]">
+                    <div className="flex items-center w-full mt-3 overflow-x-scroll h-[40%]">
                         {props.tourInfo.memberList.map(
                             (member: MemberInfo, index: number) => (
                                 <div
@@ -170,11 +170,11 @@ export default function TourHeader(props: PropType) {
                                 >
                                     <div className={`${isHost(member)}`}>
                                         {member.memberType !== "ghost" ? (
-                                            <div className="drop-shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-12 h-12 rounded-full flex justify-center items-center">
+                                            <div className="drop-shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-10 h-10 rounded-full flex justify-center items-center">
                                                 {member.userNickname[0]}
                                             </div>
                                         ) : (
-                                            <div className="drop-shadow-lg m-1 font-bold text-3xl p-2 bg-gray-400 w-12 h-12 rounded-full flex justify-center items-center">
+                                            <div className="drop-shadow-lg m-1 font-bold text-3xl p-2 bg-gray-400 w-10 h-10 rounded-full flex justify-center items-center">
                                                 <img src={GhostProfile}></img>
                                             </div>
                                         )}
@@ -188,7 +188,7 @@ export default function TourHeader(props: PropType) {
                             )
                         )}
                     </div>
-                    <div className="text-5vw flex items-center mt-3 ">
+                    <div className="text-5vw flex items-center mt-3">
                         <MapIcon />
                         <div className="flex flex-wrap">
                             {props.tourInfo.cityList.map((city, index) => (
@@ -204,7 +204,7 @@ export default function TourHeader(props: PropType) {
                 </div>
                 <div
                     ref={dropdownRef}
-                    className="flex justify-center"
+                    className="flex justify-end"
                     onClick={() => setIsClicked(!isClicked)}
                 >
                     <MenuIcon />

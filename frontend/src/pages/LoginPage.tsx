@@ -45,7 +45,7 @@ export default function LoginPage() {
                                 여행의 처음부터 끝까지!
                             </h5>
                         </div>
-                        <div className="flex flex-col items-center">
+                        <div className="flex flex-col gap-3 items-center">
                             <p className="text-[#565656] text-5vw">
                                 구글 아이디로 편리하게 로그인하세요!
                             </p>

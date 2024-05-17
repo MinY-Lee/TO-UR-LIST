@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface MyButtonProps {
     className?: string; // 추가 커스텀 사항
@@ -8,17 +8,31 @@ interface MyButtonProps {
     onClick: () => void;
 }
 
-const MyButton: React.FC<MyButtonProps> = ({ className, type, text, isSelected, onClick }) => {
+const MyButton: React.FC<MyButtonProps> = ({
+    className,
+    type,
+    text,
+    isSelected,
+    onClick,
+}) => {
     // const [buttonColor, setButtonColor] = useState<String>(isSelected ? 'color-bg-blue-1 text-white text-bold' : 'color-bg-blue-5 text-white');
-    const buttonColor = isSelected ? 'color-bg-blue-1' : 'box-border border-[#5faad9] border-2';
+    const buttonColor = isSelected
+        ? "color-bg-blue-1"
+        : "box-border border-[#5faad9] border-2";
     return (
         <div className="">
-            {type === 'full' ? (
-                <button className={`rounded-lg w-full text-lg ${buttonColor} ${className} `} onClick={onClick}>
+            {type === "full" ? (
+                <button
+                    className={`rounded-lg w-full text-lg ${buttonColor} ${className} `}
+                    onClick={onClick}
+                >
                     {text}
                 </button>
             ) : (
-                <button className={`rounded-xl px-5 ${buttonColor} ${className}`} onClick={onClick}>
+                <button
+                    className={`rounded-xl px-6 py-1 ${buttonColor} ${className}`}
+                    onClick={onClick}
+                >
                     {text}
                 </button>
             )}

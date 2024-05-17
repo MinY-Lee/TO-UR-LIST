@@ -454,7 +454,7 @@ export default function TourEditHeader(props: PropType) {
                 <></>
             )}
 
-            <div className="w-full justify-between items-end p-5">
+            <div className="w-full justify-between items-end p-7">
                 <div className="flex flex-col">
                     <div className="w-full rounded-lg border border-solid border-neutral-300 text-3xl font-bold pl-5">
                         <input
