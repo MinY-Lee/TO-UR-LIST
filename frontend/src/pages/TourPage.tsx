@@ -103,7 +103,7 @@ export default function TourPage() {
                 </div>
             </div>
             <footer>
-                <TabBarTour tourMode={0} tourId={tourId} />
+                <TabBarTour tourMode={0} tourId={tourId} type="tourMain" />
             </footer>
         </>
     );

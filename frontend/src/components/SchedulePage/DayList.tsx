@@ -12,15 +12,23 @@ interface PropType {
     wsClient: Client;
     period: number;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    setSelectedSchedule: React.Dispatch<
+        React.SetStateAction<WebSockPlace | undefined>
+    >;
+    selectedSchedule: WebSockPlace | undefined;
 }
 
 export default function DayList(props: PropType) {
+    const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
+
     const dateToString = (date: Date) => {
-        return `${date.getFullYear()}.${
+        return `${
             date.getMonth() + 1 >= 10
                 ? date.getMonth() + 1
                 : "0" + (date.getMonth() + 1)
-        }.${date.getDate() >= 10 ? date.getDate() : "0" + date.getDate()}`;
+        }.${date.getDate() >= 10 ? date.getDate() : "0" + date.getDate()} (${
+            WEEKDAY[date.getDay()]
+        })`;
     };
 
     const navigate = useNavigate();
@@ -35,56 +43,54 @@ export default function DayList(props: PropType) {
                     period: props.period,
                 },
             });
+        } else {
+            if (schedule !== props.selectedSchedule) {
+                props.setSelectedSchedule(schedule);
+            }
         }
     };
 
     return (
         <>
-            <div className="w-full flex px-[5%] my-vw">
+            <div className="w-full flex flex-col px-[5%] my-vw">
                 {/* 날짜 있냐 없냐에 따라 조건문 */}
-                <div className="w-[25%] flex justify-between">
+                <div className="w-full flex justify-start text-5vw">
                     {props.dayNumber === 0 ? (
                         <>
-                            <div className="w-[90%] flex flex-col text-[#828282] items-center">
-                                <p className="text-6vw">날짜 없음</p>
-                            </div>
-                            <div className="w-dot5vw h-full bg-[#828282]"></div>
+                            <div className="w-dot5vw h-full bg-[#828282] mr-vw"></div>
+                            <p className="text-[#828282]">날짜 미 선택</p>
                         </>
                     ) : (
                         <>
-                            <div className="w-[90%] flex flex-col text-[#828282] items-center">
-                                <p className="text-7vw">
-                                    Day {props.dayNumber}
-                                </p>
-                                <p className="text-4vw">
-                                    {dateToString(props.date)}
-                                </p>
-                            </div>
-                            <div className="w-dot5vw h-full bg-[#828282]"></div>
+                            <p className="mr-vw">Day {props.dayNumber}</p>
+                            <div className="w-dot5vw h-full bg-[#828282] mr-vw"></div>
+                            <p className="">{dateToString(props.date)}</p>
                         </>
                     )}
                 </div>
-                <div className="w-[75%] p-vw flex flex-col items-center">
+                <div className="w-full p-vw flex flex-col items-center">
                     {props.dailySchedule.length === 0 ? (
                         <p className="text-6vw">일정 없음</p>
                     ) : (
-                        props.dailySchedule.map((schedule) => {
-                            return (
-                                <PlaceCard
-                                    key={
-                                        schedule.tourDay +
-                                        " " +
-                                        schedule.placeId
-                                    }
-                                    schedule={schedule}
-                                    isEditable={props.isEditable}
-                                    tourId={props.tourId}
-                                    goToDetail={goToDetail}
-                                    wsClient={props.wsClient}
-                                    setIsLoading={props.setIsLoading}
-                                />
-                            );
-                        })
+                        <>
+                            {props.dailySchedule.map((schedule) => {
+                                return (
+                                    <PlaceCard
+                                        key={
+                                            schedule.tourDay +
+                                            " " +
+                                            schedule.placeId
+                                        }
+                                        schedule={schedule}
+                                        isEditable={props.isEditable}
+                                        tourId={props.tourId}
+                                        goToDetail={goToDetail}
+                                        wsClient={props.wsClient}
+                                        setIsLoading={props.setIsLoading}
+                                    />
+                                );
+                            })}
+                        </>
                     )}
                 </div>
             </div>

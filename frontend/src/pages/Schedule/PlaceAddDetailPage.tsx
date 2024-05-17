@@ -96,7 +96,7 @@ export default function PlaceAddDetailPage() {
                 location.state.placeId
             )
                 .then((res) => {
-                    // console.log(res);
+                    console.log(res);
 
                     if (res.status === httpStatusCode.OK) {
                         setTourDetail(res.data);

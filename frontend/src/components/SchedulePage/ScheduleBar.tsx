@@ -12,6 +12,10 @@ interface PropType {
     period: number;
     wsClient: Client;
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    setSelectedSchedule: React.Dispatch<
+        React.SetStateAction<WebSockPlace | undefined>
+    >;
+    selectedSchedule: WebSockPlace | undefined;
 }
 
 export default function ScheduleBar(props: PropType) {
@@ -57,6 +61,8 @@ export default function ScheduleBar(props: PropType) {
                 wsClient={props.wsClient}
                 period={props.period}
                 setIsLoading={props.setIsLoading}
+                setSelectedSchedule={props.setSelectedSchedule}
+                selectedSchedule={props.selectedSchedule}
             />
         );
     };
@@ -69,23 +75,15 @@ export default function ScheduleBar(props: PropType) {
                 }`}
                 style={{ transitionDuration: "1s" }}
             >
+                {/* 제목 */}
+                <div className="w-[30%] h-6vw text-5vw weight-text-semibold absolute left-[5%] top-2vw flex justify-between items-center">
+                    일정
+                </div>
                 {/* 추가 편집 버튼 */}
                 <div className="w-[30%] h-6vw absolute right-[5%] top-2vw flex justify-between items-center">
                     <div
-                        className="w-[48%] h-full text-white color-bg-blue-2 border-rad-4vw flex justify-center items-center"
-                        onClick={() => {
-                            navigate(`/tour/${props.tourId}/schedule/add`, {
-                                state: {
-                                    selectedDate: props.selectedDate,
-                                    period: props.period,
-                                },
-                            });
-                        }}
-                    >
-                        추가
-                    </div>
-                    <div
-                        className="w-[48%] h-full color-bg-blue-4 border-rad-4vw flex justify-center items-center"
+                        className="w-[48%] h-full text-[#232323] bg-[#e7f4ff] border-rad-2dot5vw flex justify-center items-center"
+                        style={{ boxShadow: "0px 2px 4px 1px #cecece" }}
                         onClick={() => {
                             navigate(`/tour/${props.tourId}/schedule/edit`, {
                                 state: {
@@ -96,6 +94,20 @@ export default function ScheduleBar(props: PropType) {
                         }}
                     >
                         편집
+                    </div>
+                    <div
+                        className="w-[48%] h-full text-white color-bg-blue-6 border-rad-2dot5vw flex justify-center items-center"
+                        style={{ boxShadow: "0px 2px 4px 1px #cecece" }}
+                        onClick={() => {
+                            navigate(`/tour/${props.tourId}/schedule/add`, {
+                                state: {
+                                    selectedDate: props.selectedDate,
+                                    period: props.period,
+                                },
+                            });
+                        }}
+                    >
+                        추가
                     </div>
                 </div>
                 {/* 스크롤 */}
@@ -150,33 +162,69 @@ export default function ScheduleBar(props: PropType) {
                     }}
                     ref={swipeRef}
                 >
-                    <div className="w-[20%] h-vw bg-[#929292] border-rad-dot5vw"></div>
+                    <div className="w-[20%] h-dot5vw bg-[#929292] border-rad-dot5vw"></div>
                 </div>
                 {/* 일정 정보 표시 */}
                 <div className="w-full h-[85%] overflow-y-scroll flex flex-col">
-                    {props.selectedDate === -1
-                        ? props.schedule.map((dailySchedule, index) => {
-                              const date = new Date(props.startDate);
-                              date.setDate(date.getDate() + index - 1);
-                              return (
-                                  <DayList
-                                      key={
-                                          dailySchedule.length +
-                                          " " +
-                                          date.getTime()
-                                      }
-                                      dayNumber={index}
-                                      date={date}
-                                      dailySchedule={dailySchedule}
-                                      isEditable={false}
-                                      tourId={props.tourId}
-                                      wsClient={props.wsClient}
-                                      period={props.period}
-                                      setIsLoading={props.setIsLoading}
-                                  />
-                              );
-                          })
-                        : dayInfo()}
+                    {props.selectedDate === -1 ? (
+                        <>
+                            {props.schedule.map((dailySchedule, index) => {
+                                if (index === 0) return <></>;
+
+                                const date = new Date(props.startDate);
+                                date.setDate(date.getDate() + index - 1);
+                                return (
+                                    <DayList
+                                        key={
+                                            dailySchedule.length +
+                                            " " +
+                                            date.getTime()
+                                        }
+                                        dayNumber={index}
+                                        date={date}
+                                        dailySchedule={dailySchedule}
+                                        isEditable={false}
+                                        tourId={props.tourId}
+                                        wsClient={props.wsClient}
+                                        period={props.period}
+                                        setIsLoading={props.setIsLoading}
+                                        setSelectedSchedule={
+                                            props.setSelectedSchedule
+                                        }
+                                        selectedSchedule={
+                                            props.selectedSchedule
+                                        }
+                                    />
+                                );
+                            })}
+                            {/* 미선택 */}
+                            <DayList
+                                key={
+                                    props.schedule[0].length +
+                                    " " +
+                                    new Date(
+                                        new Date(props.startDate).getDate() - 1
+                                    ).getTime()
+                                }
+                                dayNumber={0}
+                                date={
+                                    new Date(
+                                        new Date(props.startDate).getDate() - 1
+                                    )
+                                }
+                                dailySchedule={props.schedule[0]}
+                                isEditable={false}
+                                tourId={props.tourId}
+                                wsClient={props.wsClient}
+                                period={props.period}
+                                setIsLoading={props.setIsLoading}
+                                setSelectedSchedule={props.setSelectedSchedule}
+                                selectedSchedule={props.selectedSchedule}
+                            />
+                        </>
+                    ) : (
+                        dayInfo()
+                    )}
                 </div>
             </div>
         </>

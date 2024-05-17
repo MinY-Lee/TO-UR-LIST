@@ -1,7 +1,6 @@
 import TabBarTour from "../../components/TabBar/TabBarTour";
 import DaySelectBar from "../../components/SchedulePage/DaySelectBar";
 import { useState, useEffect } from "react";
-import TourHeader from "../../components/TourPage/TourHeader";
 import ScheduleBar from "../../components/SchedulePage/ScheduleBar";
 import Maps from "../../components/SchedulePage/Maps";
 import { Wrapper } from "@googlemaps/react-wrapper";
@@ -16,18 +15,19 @@ import { getPlaceList } from "../../util/api/place";
 import { Client } from "@stomp/stompjs";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
 import Loading from "../../components/Loading";
+import TourScheduleHeader from "../../components/SchedulePage/TourScheduleHeader";
 
 export default function TourSchedulePage() {
     const [period, setPeriod] = useState<number>(0);
-
-    //헤더 타입
-    const [type, setType] = useState<string>("");
 
     //스케줄 저장 배열 schedule[i]는 i일째 일정(0은 일정 없음)
     const [schedule, setSchedule] = useState<WebSockPlace[][]>([[]]);
 
     //websocket
     const [wsClient, setWsClient] = useState<Client>(new Client());
+
+    //장소 포커스
+    const [selectedSchedule, setSelectedSchedule] = useState<WebSockPlace>();
 
     //여행 정보
     const [tourInfo, setTourInfo] = useState<TourInfoDetail>({
@@ -102,29 +102,29 @@ export default function TourSchedulePage() {
     //-1 nothing, 0:d+0, 1:d+1...
     const [selectedDate, setSelectedDate] = useState<number>(-1);
 
-    //헤더 타입 변환
-    const onChange = (type: string) => {
-        setType(type);
-    };
-
     /**웹소켓으로 업데이트 된 정보가 오면? */
     const update = (newSchedule: WebSockPlace[]) => {
         setNewSchedule(newSchedule);
+        setSelectedSchedule(undefined);
     };
 
     return (
         <>
             {isLoading ? <Loading /> : <></>}
-            <section className="w-full h-full">
+            <section className="w-full h-full flex flex-col items-center">
                 <HeaderBar />
-                <div className="w-full h-[25%]">
-                    <TourHeader
-                        tourId={tourId}
-                        tourInfo={tourInfo}
-                        onChange={onChange}
-                    />
+                <div className="w-full h-[20%]">
+                    <TourScheduleHeader tourInfo={tourInfo} />
                 </div>
-                <div className="w-full h-[63%] relative overflow-hidden">
+                <DaySelectBar
+                    startDate={tourInfo.startDate}
+                    endDate={tourInfo.endDate}
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    period={period}
+                    setSelectedSchedule={setSelectedSchedule}
+                />
+                <div className="w-full h-[64%] relative overflow-hidden">
                     <Wrapper
                         apiKey={`${
                             import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY
@@ -135,6 +135,7 @@ export default function TourSchedulePage() {
                             schedule={schedule}
                             selectedDate={selectedDate}
                             tourId={tourId}
+                            selectedSchedule={selectedSchedule}
                         />
                     </Wrapper>
                     <ScheduleBar
@@ -145,13 +146,8 @@ export default function TourSchedulePage() {
                         period={period}
                         wsClient={wsClient}
                         setIsLoading={setIsLoading}
-                    />
-                    <DaySelectBar
-                        startDate={tourInfo.startDate}
-                        endDate={tourInfo.endDate}
-                        selectedDate={selectedDate}
-                        setSelectedDate={setSelectedDate}
-                        period={period}
+                        setSelectedSchedule={setSelectedSchedule}
+                        selectedSchedule={selectedSchedule}
                     />
                 </div>
                 <TabBarTour tourMode={2} tourId={tourId} type="schedule" />

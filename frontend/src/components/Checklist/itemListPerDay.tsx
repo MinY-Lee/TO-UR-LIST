@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import TrashIcon from "../../assets/svg/trashIcon";
-import { Item, TourInfoDetail } from "../../types/types";
+import { Item, PlaceMapping, TourInfoDetail } from "../../types/types";
 import ChecklistInput from "./checklistInput";
+import ColorMapping from "../../assets/colorMapping";
 
 interface ItemPerPlace {
     [placeId: string]: Item[];
@@ -12,14 +13,11 @@ interface ItemPerDayAndPlace {
     [day: number]: ItemPerPlace;
 }
 
-interface Mapping {
-    [key: string]: string[];
-}
-
 interface PropType {
     tourId: string;
     data: TourInfoDetail;
     daysList: number[];
+    placeData: PlaceMapping;
     groupedItems: ItemPerDayAndPlace;
     isAddState: boolean[];
     handleDeleteModal: (item: Item) => void;
@@ -29,25 +27,13 @@ interface PropType {
 
 export default function ItemListPerDay(props: PropType) {
     const navigate = useNavigate();
-    const mapping: Mapping = {
-        walking: ["👣 산책", "color-bg-blue-3"],
-        shopping: ["🛒 쇼핑", "bg-pink-100"],
-    };
-
-    // 활동 id 를 한글로 변환
-    const ActivityToKor = (activity: string): string => {
-        if (mapping[activity]) {
-            return mapping[activity][0];
-        }
-        return "활동 관련";
-    };
 
     // 활동 id 별 색상 부여
     const setColor = (activity: string): string => {
-        if (mapping[activity]) {
-            return mapping[activity][1];
+        if (ColorMapping()[activity]) {
+            return ColorMapping()[activity];
         }
-        return "color-bg-blue-3";
+        return "color-bg-green-1";
     };
 
     const formatNumberToTwoDigits = (num: number): string => {
@@ -91,7 +77,13 @@ export default function ItemListPerDay(props: PropType) {
                                             >
                                                 <div className="text-lg font-semibold">
                                                     {placeId != "" ? (
-                                                        <div>{placeId}</div>
+                                                        <div>
+                                                            {
+                                                                props.placeData[
+                                                                    placeId
+                                                                ]
+                                                            }
+                                                        </div>
                                                     ) : (
                                                         ""
                                                     )}
@@ -122,24 +114,26 @@ export default function ItemListPerDay(props: PropType) {
                                                                 </label>
                                                             </div>
                                                             <div className="flex justify-between">
-                                                                {item.activity ? (
-                                                                    <span
-                                                                        className={`${setColor(
-                                                                            item.activity
-                                                                        )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
-                                                                    >
-                                                                        {ActivityToKor(
-                                                                            item.activity
-                                                                        )}
-                                                                    </span>
-                                                                ) : (
-                                                                    <span
-                                                                        className={` text-gray-500 border-2 border-dashed px-2.5 py-0.5 rounded`}
-                                                                    >
-                                                                        +
-                                                                        활동없음
-                                                                    </span>
-                                                                )}
+                                                                <div className="flex justify-center w-full">
+                                                                    {item.activity ? (
+                                                                        <span
+                                                                            className={`${setColor(
+                                                                                item.activity
+                                                                            )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
+                                                                        >
+                                                                            {
+                                                                                item.activity
+                                                                            }
+                                                                        </span>
+                                                                    ) : (
+                                                                        <span
+                                                                            className={` text-gray-500 border-2 border-dashed px-2.5 py-0.5 rounded`}
+                                                                        >
+                                                                            +
+                                                                            활동없음
+                                                                        </span>
+                                                                    )}
+                                                                </div>
                                                                 <div
                                                                     onClick={() => {
                                                                         props.handleDeleteModal(

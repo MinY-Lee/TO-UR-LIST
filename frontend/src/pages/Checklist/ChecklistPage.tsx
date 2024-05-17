@@ -78,9 +78,6 @@ export default function ChecklistPage() {
                         />
                     )}
                 </div>
-                <div>
-                    <TourBasicInfo tourInfo={data} />
-                </div>
                 <div className="">
                     <ChecklistTab tourId={tourId} />
                 </div>

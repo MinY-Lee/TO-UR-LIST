@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import MyButton from "../../components/Buttons/myButton";
 
-import { Item, ItemApi, TourInfoDetail } from "../../types/types";
+import {
+    Item,
+    ItemApi,
+    TourInfoDetail,
+    TourPlaceItem,
+} from "../../types/types";
 
 import TourDetail from "../../dummy-data/get_tour_detail.json";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
@@ -9,6 +14,7 @@ import { checkItem, getChecklist } from "../../util/api/checklist";
 import { HttpStatusCode } from "axios";
 import { getTour } from "../../util/api/tour";
 import ItemList from "./tourItemList";
+import { getPlaceList } from "../../util/api/place";
 
 interface PropType {
     tourId: string;
@@ -20,6 +26,10 @@ interface ItemPerPlace {
 
 interface ItemPerDayAndPlace {
     [day: number]: ItemPerPlace;
+}
+
+interface PlaceMapping {
+    [placeId: string]: string;
 }
 
 export default function ChecklistByDay(props: PropType) {
@@ -35,9 +45,24 @@ export default function ChecklistByDay(props: PropType) {
     const [daysDifference, setDaysDifference] = useState<number>(0);
     const [daysList, setDaysList] = useState<number[]>([]);
     const [groupedItems, setGroupedItems] = useState<ItemPerDayAndPlace>({});
+    const [placeData, setPlaceData] = useState<PlaceMapping>({});
 
     useEffect(() => {
         if (props.tourId != "") {
+            // 장소 id 랑 이름 매칭 위해
+            getPlaceList(props.tourId)
+                .then((res) => {
+                    if (res.status == HttpStatusCode.Ok) {
+                        let mapping: PlaceMapping = {};
+                        res.data.map((schedule: TourPlaceItem) => {
+                            mapping[schedule.placeId] = schedule.placeName;
+                        });
+
+                        setPlaceData(mapping);
+                    }
+                })
+                .catch((err) => console.log(err));
+
             getChecklist(props.tourId)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
@@ -158,6 +183,7 @@ export default function ChecklistByDay(props: PropType) {
                             <ItemList
                                 data={data}
                                 daysList={daysList}
+                                placeData={placeData}
                                 groupedItems={groupedItems}
                                 handleCheckbox={handleCheckbox}
                             />

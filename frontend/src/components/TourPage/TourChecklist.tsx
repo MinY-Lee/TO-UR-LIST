@@ -6,12 +6,10 @@ import { Item, ItemApi } from "../../types/types";
 import { HttpStatusCode } from "axios";
 import { checkItem, getChecklist } from "../../util/api/checklist";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
+import ColorMapping from "../../assets/colorMapping";
 
 interface PropType {
     tourId: string;
-}
-interface Mapping {
-    [key: string]: string[];
 }
 
 interface CountItem {
@@ -39,23 +37,10 @@ export default function TourCheckList(props: PropType) {
         }
     }, [props]);
 
-    const mapping: Mapping = {
-        walking: ["👣 산책", "color-bg-blue-3"],
-        shopping: ["🛒 쇼핑", "bg-pink-100"],
-    };
-
-    // 활동 id 를 한글로 변환
-    const ActivityToKor = (activity: string): string => {
-        if (mapping[activity] !== undefined) {
-            return mapping[activity][0];
-        }
-        return "활동 관련";
-    };
-
     // 활동 id 별 색상 부여
     const setColor = (activity: string): string => {
-        if (mapping[activity] !== undefined) {
-            return mapping[activity][1];
+        if (ColorMapping()[activity]) {
+            return ColorMapping()[activity];
         }
         return "color-bg-blue-3";
     };
@@ -181,9 +166,7 @@ export default function TourCheckList(props: PropType) {
                                                                 item.activity
                                                             )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
                                                         >
-                                                            {ActivityToKor(
-                                                                item.activity
-                                                            )}
+                                                            {item.activity}
                                                         </span>
                                                     ) : (
                                                         ""
