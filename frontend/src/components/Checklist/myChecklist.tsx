@@ -16,7 +16,7 @@ interface CountItem {
 }
 
 interface Mapping {
-    [key: string]: string[];
+    [key: string]: string;
 }
 
 export default function MyCheckList(props: PropType) {
@@ -25,22 +25,14 @@ export default function MyCheckList(props: PropType) {
     const [filteredGroup, setFilteredGroup] = useState<CountItem>({});
 
     const mapping: Mapping = {
-        walking: ["👣 산책", "color-bg-blue-3"],
-        shopping: ["🛒 쇼핑", "bg-pink-100"],
-    };
-
-    // 활동 id 를 한글로 변환
-    const ActivityToKor = (activity: string): string => {
-        if (mapping[activity]) {
-            return mapping[activity][0];
-        }
-        return "활동 관련";
+        산책: "color-bg-blue-3",
+        쇼핑: "bg-pink-100",
     };
 
     // 활동 id 별 색상 부여
     const setColor = (activity: string): string => {
         if (mapping[activity]) {
-            return mapping[activity][1];
+            return mapping[activity];
         }
         return "color-bg-blue-3";
     };
@@ -177,9 +169,7 @@ export default function MyCheckList(props: PropType) {
                                                         item.activity
                                                     )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
                                                 >
-                                                    {ActivityToKor(
-                                                        item.activity
-                                                    )}
+                                                    {item.activity}
                                                 </span>
                                             ) : (
                                                 ""

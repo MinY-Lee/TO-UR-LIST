@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Item } from "../../types/types";
+import { Item, TourPlaceItem } from "../../types/types";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
 import TabBarTour from "../../components/TabBar/TabBarTour";
 import MyButton from "../../components/Buttons/myButton";
@@ -10,9 +10,13 @@ import CheckModal from "../../components/CheckModal";
 import SelectModal from "../../components/SelectModal";
 import { getChecklist, modifyItem } from "../../util/api/checklist";
 import { HttpStatusCode } from "axios";
+import { getPlaceList } from "../../util/api/place";
 
 interface Mapping {
     [key: string]: string[];
+}
+interface PlaceMapping {
+    [placeId: string]: string;
 }
 
 export default function ChecklistEditItemPage() {
@@ -40,6 +44,7 @@ export default function ChecklistEditItemPage() {
     const [checkModalActive, setCheckModalActive] = useState<boolean>(false);
     const [selectModalActive, setSelectModalActive] = useState<boolean>(false);
     const [deleteItem, setDeleteItem] = useState<Item>();
+    const [placeData, setPlaceData] = useState<PlaceMapping>({});
 
     const location = useLocation();
     const state = location.state;
@@ -53,6 +58,20 @@ export default function ChecklistEditItemPage() {
         setEditItem(state.item);
 
         if (tourId != "") {
+            // 장소 id 랑 이름 매칭 위해
+            getPlaceList(tourId)
+                .then((res) => {
+                    if (res.status == HttpStatusCode.Ok) {
+                        let mapping: PlaceMapping = {};
+                        res.data.map((schedule: TourPlaceItem) => {
+                            mapping[schedule.placeId] = schedule.placeName;
+                        });
+
+                        setPlaceData(mapping);
+                    }
+                })
+                .catch((err) => console.log(err));
+
             getChecklist(tourId)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
@@ -226,16 +245,12 @@ export default function ChecklistEditItemPage() {
                                     </div>
                                     {item.activity != "" ? (
                                         <div className="col-span-3 text-lg">
-                                            {item.placeId} /{" "}
-                                            {mapping[item.activity]
-                                                ? mapping[
-                                                      item.activity
-                                                  ][0].slice(2)
-                                                : item.activity}
+                                            {placeData[item.placeId]} /{" "}
+                                            {item.activity}
                                         </div>
                                     ) : (
                                         <div className="col-span-3 text-lg">
-                                            {item.placeId}
+                                            {placeData[item.placeId]}
                                         </div>
                                     )}
 
