@@ -4,13 +4,7 @@ import { useNavigate } from "react-router-dom";
 import MyButton from "../../components/Buttons/myButton";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
 import CheckModal from "../../components/CheckModal";
-import {
-    Item,
-    ItemApi,
-    PlaceMapping,
-    TourInfoDetail,
-    TourPlaceItem,
-} from "../../types/types";
+import { Item, ItemApi, PlaceMapping, TourInfoDetail, TourPlaceItem } from "../../types/types";
 
 import TabBarTour from "../../components/TabBar/TabBarTour";
 import { deleteChecklist, getChecklist } from "../../util/api/checklist";
@@ -114,12 +108,8 @@ export default function ChecklistEditDayPage() {
         const start: Date = new Date(data.startDate);
 
         // 밀리초(milliseconds) 단위의 차이를 날짜간 차이로 변환
-        setDaysDifference(
-            (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1
-        );
-        setDaysList(
-            Array.from({ length: daysDifference + 1 }, (_, index) => index)
-        );
+        setDaysDifference((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
+        setDaysList(Array.from({ length: daysDifference + 1 }, (_, index) => index));
 
         // 항목추가 활성화 유무 배열 만들기
         const length = daysDifference + 1;
@@ -149,8 +139,7 @@ export default function ChecklistEditDayPage() {
 
     const handleDelete = () => {
         if (deleteItem) {
-            const { activity, isChecked, item, placeId, tourDay, tourId } =
-                deleteItem;
+            const { activity, isChecked, item, placeId, tourDay, tourId } = deleteItem;
             const targetItem: ItemApi = {
                 activity: activity,
                 isChecked: !isChecked,
@@ -163,36 +152,23 @@ export default function ChecklistEditDayPage() {
             deleteChecklist(targetItem)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
-                        const updatedChecklist = groupedItems[
-                            deleteItem.tourDay
-                        ][deleteItem?.placeId].filter(
-                            (item: Item) => item !== deleteItem
-                        );
+                        const updatedChecklist = groupedItems[deleteItem.tourDay][
+                            deleteItem?.placeId
+                        ].filter((item: Item) => item !== deleteItem);
                         const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
 
-                        Object.keys(updatedFullChecklist).forEach(
-                            (dayString) => {
-                                const day = Number(dayString);
-                                Object.keys(updatedFullChecklist[day]).forEach(
-                                    (placeId) => {
-                                        if (
-                                            day == deleteItem.tourDay &&
-                                            placeId == deleteItem.placeId
-                                        ) {
-                                            updatedFullChecklist[day][placeId] =
-                                                [...updatedChecklist]; // 새로운 배열로 교체
-                                        } else {
-                                            updatedFullChecklist[day][placeId] =
-                                                [
-                                                    ...updatedFullChecklist[
-                                                        day
-                                                    ][placeId],
-                                                ];
-                                        }
-                                    }
-                                );
-                            }
-                        );
+                        Object.keys(updatedFullChecklist).forEach((dayString) => {
+                            const day = Number(dayString);
+                            Object.keys(updatedFullChecklist[day]).forEach((placeId) => {
+                                if (day == deleteItem.tourDay && placeId == deleteItem.placeId) {
+                                    updatedFullChecklist[day][placeId] = [...updatedChecklist]; // 새로운 배열로 교체
+                                } else {
+                                    updatedFullChecklist[day][placeId] = [
+                                        ...updatedFullChecklist[day][placeId],
+                                    ];
+                                }
+                            });
+                        });
 
                         setGroupedItems(updatedFullChecklist);
                         setIsCheckModalActive(false);
@@ -208,28 +184,23 @@ export default function ChecklistEditDayPage() {
     };
 
     const onUpdate = (item: Item) => {
-        // if (groupedItems) {
-        //     const updatedChecklist = [
-        //         ...groupedItems[item.tourDay][item.placeId],
-        //         item,
-        //     ];
-        //     const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
-        //     Object.keys(updatedFullChecklist).forEach((dayString) => {
-        //         const day = Number(dayString);
-        //         Object.keys(updatedFullChecklist[day]).forEach((placeId) => {
-        //             if (day == item.tourDay && placeId == item.placeId) {
-        //                 updatedFullChecklist[day][placeId] = [
-        //                     ...updatedChecklist,
-        //                 ]; // 새로운 배열로 교체
-        //             } else {
-        //                 updatedFullChecklist[day][placeId] = [
-        //                     ...updatedFullChecklist[day][placeId],
-        //                 ];
-        //             }
-        //         });
-        //     });
-        //     setGroupedItems(updatedFullChecklist);
-        // }
+        if (groupedItems) {
+            const updatedChecklist = [...groupedItems[item.tourDay][item.placeId], item];
+            const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
+            Object.keys(updatedFullChecklist).forEach((dayString) => {
+                const day = Number(dayString);
+                Object.keys(updatedFullChecklist[day]).forEach((placeId) => {
+                    if (day == item.tourDay && placeId == item.placeId) {
+                        updatedFullChecklist[day][placeId] = [...updatedChecklist]; // 새로운 배열로 교체
+                    } else {
+                        updatedFullChecklist[day][placeId] = [
+                            ...updatedFullChecklist[day][placeId],
+                        ];
+                    }
+                });
+            });
+            setGroupedItems(updatedFullChecklist);
+        }
     };
 
     return (

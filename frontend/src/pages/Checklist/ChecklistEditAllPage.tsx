@@ -39,6 +39,7 @@ export default function ChecklistEditAllPage() {
             getChecklist(tourId)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
+                        console.log(res.data);
                         const checklistData = res.data;
                         setData(checklistData);
                         // 중복 횟수 카운트
@@ -58,7 +59,6 @@ export default function ChecklistEditAllPage() {
         const itemGroups: CountItem = {};
 
         checklist.forEach((item) => {
-            console.log(item);
             const itemName = item.item;
             if (!itemGroups[itemName]) {
                 itemGroups[itemName] = 0;

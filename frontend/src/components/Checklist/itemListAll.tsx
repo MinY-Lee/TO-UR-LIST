@@ -102,7 +102,11 @@ export default function ItemListAll(props: PropType) {
                                                 <span className="sr-only">
                                                     Notifications
                                                 </span>
-                                                <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white color-bg-blue-1 border-2 border-white rounded-full -top-8 z-10 -end-5">
+                                                <div
+                                                    className={`${setColor(
+                                                        item.activity
+                                                    )} absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white border-2 border-white rounded-full -top-8 z-10 -end-5`}
+                                                >
                                                     {
                                                         props.filteredGroup[
                                                             item.item
