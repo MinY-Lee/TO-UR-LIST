@@ -6,12 +6,14 @@ import com.eminyidle.gateway.jwt.JWTUtil;
 import java.time.Duration;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.server.Cookie;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -31,6 +33,7 @@ import reactor.core.publisher.Mono;
 @RefreshScope
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationFilter implements GatewayFilter {
 
 	private final JWTUtil jwtUtil;
@@ -49,13 +52,13 @@ public class AuthenticationFilter implements GatewayFilter {
 			return this.onError(exchange, HttpStatus.UNAUTHORIZED);
 		}
 
-		MultiValueMap<String, ResponseCookie> cookies = exchange.getResponse().getCookies();
+		MultiValueMap<String, HttpCookie> cookies = exchange.getRequest().getCookies();
 
-		ResponseCookie accessTokenCookie = cookies.get("accessToken").get(0);
+		HttpCookie accessTokenCookie = cookies.get("accessToken").get(0);
 
-		ResponseCookie refreshTokenCookie =
+		HttpCookie refreshTokenCookie =
 			cookies.containsKey("refreshToken") ? cookies.get("refreshToken").get(0)
-				: ResponseCookie.from("refreshToken", "").build();
+				: new HttpCookie("refreshToken", "");
 
 		if (jwtUtil.isInvalid(accessTokenCookie.getValue())) {
 
@@ -98,7 +101,7 @@ public class AuthenticationFilter implements GatewayFilter {
 	private void updateResponse(ServerWebExchange exchange, String accessToken,
 		String refreshToken) {
 		ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", accessToken)
-			.maxAge(1000 * 60 * 60L * 3).path("/").build();
+			.maxAge(60 * 60 * 30).path("/").build();
 		ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
 			.maxAge(1000 * 60 * 60 * 24 * 14L).path("/").build();
 
@@ -107,11 +110,11 @@ public class AuthenticationFilter implements GatewayFilter {
 	}
 
 	private Mono<Void> onError(ServerWebExchange exchange, HttpStatus httpStatus,
-		ResponseCookie... responseCookies) {
+		HttpCookie... responseCookies) {
 		ServerHttpResponse serverHttpResponse = exchange.getResponse();
 		serverHttpResponse.setStatusCode(httpStatus);
-		for (ResponseCookie r : responseCookies) {
-			exchange.getResponse().addCookie(r.mutate().maxAge(Duration.ZERO).build());
+		for (HttpCookie r : responseCookies) {
+			exchange.getResponse().addCookie(ResponseCookie.from(r.getName(), r.getValue()).maxAge(0).build());
 		}
 		return serverHttpResponse.setComplete();
 	}
