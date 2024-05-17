@@ -1,7 +1,8 @@
 package com.eminyidle.user.adapter.out.message;
 
 import com.eminyidle.user.adapter.dto.message.KafkaMessage;
-import com.eminyidle.user.application.port.out.UpdateUserPort;
+import com.eminyidle.user.application.port.out.DeleteUserAlertPort;
+import com.eminyidle.user.application.port.out.UpdateUserAlertPort;
 import com.eminyidle.user.domain.User;
 import com.eminyidle.user.exception.ProduceMessageException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,14 +16,14 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UserKafkaProducer implements UpdateUserPort {
+public class UserKafkaProducer implements UpdateUserAlertPort, DeleteUserAlertPort {
     @Value("${KAFKA_USER_ALERT_TOPIC}")
     private String KAFKA_USER_TOPIC;
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Override
-    public void send(User user) {
+    public void updateUserAlertSend(User user) {
         produceUserKafkaMessage("UPDATE", user);
     }
 
@@ -46,4 +47,8 @@ public class UserKafkaProducer implements UpdateUserPort {
         }
     }
 
+    @Override
+    public void deleteUserAlertSend(User user) {
+        produceUserKafkaMessage("DELETE", user);
+    }
 }

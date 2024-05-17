@@ -5,19 +5,23 @@ import com.eminyidle.user.application.port.in.CreateUserUsecase;
 import com.eminyidle.user.application.port.in.DeleteUserUsecase;
 import com.eminyidle.user.application.port.in.SearchUserUsecase;
 import com.eminyidle.user.application.port.in.UpdateUserUsecase;
+import com.eminyidle.user.application.port.out.DeleteUserAlertPort;
 import com.eminyidle.user.application.port.out.DeleteUserPort;
+import com.eminyidle.user.application.port.out.DeleteUserRequestPort;
 import com.eminyidle.user.application.port.out.LoadUserPort;
 import com.eminyidle.user.application.port.out.SaveUserPort;
-import com.eminyidle.user.application.port.out.UpdateUserPort;
+import com.eminyidle.user.application.port.out.UpdateUserAlertPort;
 import com.eminyidle.user.domain.User;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService implements SearchUserUsecase, CreateUserUsecase, DeleteUserUsecase,
 	UpdateUserUsecase,
 	CheckNicknameDuplicationUsecase {
@@ -25,7 +29,9 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 	private final LoadUserPort loadUserPort;
 	private final SaveUserPort saveUserPort;
 	private final DeleteUserPort deleteUserPort;
-	private final UpdateUserPort updateUserPort;
+	private final UpdateUserAlertPort updateUserPort;
+	private final DeleteUserRequestPort deleteUserRequestPort;
+	private final DeleteUserAlertPort deleteUserAlertPort;
 
 	@Override
 	public Boolean checkNicknameDuplication(String userNickname) {
@@ -56,7 +62,10 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 
 	@Override
 	public void deleteUser(String userId) {
+
 		deleteUserPort.delete(userId);
+		deleteUserRequestPort.deleteUserRequest(userId);
+		deleteUserAlertPort.deleteUserAlertSend(User.builder().userId(userId).build());
 	}
 
 	@Override
@@ -65,7 +74,7 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 
 		user.setUserNickname(userNickname);
 		saveUserPort.save(user);
-		updateUserPort.send(user);
+		updateUserPort.updateUserAlertSend(user);
 	}
 
 	@Override
@@ -74,7 +83,7 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 
 		user.setUserName(userName);
 		saveUserPort.save(user);
-		updateUserPort.send(user);
+		updateUserPort.updateUserAlertSend(user);
 	}
 
 	@Override
