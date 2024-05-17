@@ -1,7 +1,6 @@
 package com.eminyidle.auth.config;
 
 import com.eminyidle.auth.filter.InternalKeyFilter;
-import com.eminyidle.auth.jwt.JWTFilter;
 import com.eminyidle.auth.jwt.JWTUtil;
 import com.eminyidle.auth.oauth2.CustomAuthorizationRequestResolver;
 import com.eminyidle.auth.oauth2.CustomClientRegistrationRepo;
