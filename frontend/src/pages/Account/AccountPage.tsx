@@ -147,7 +147,7 @@ export default function AccountPage() {
             <header>
                 <HeaderBar />
             </header>
-            <div className="flex flex-col items-center h-[75vh] overflow-y-scroll">
+            <div className="relative flex flex-col items-center h-[80vh] overflow-y-scroll">
                 <div id="tab-container" className="w-[90%] flex flex-col items-center">
                     <ul className="w-full grid grid-cols-3 text-sm text-center rounded-t-2xl">
                         <li className="border-r-black" onClick={() => setTabIdx(1)}>
@@ -184,10 +184,10 @@ export default function AccountPage() {
                 </div>
                 <div className="w-full">
                     <AccountDetail data={data} tourData={tourData} currency={currency} />
-                    <div className="h-[10vh]"></div>
+                    <div className="h-3"></div>
                 </div>
 
-                <div className="w-[90%] absolute bottom-28">
+                <div className="w-[90%] sticky bottom-0">
                     <MyButton
                         isSelected={true}
                         onClick={() => {

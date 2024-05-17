@@ -10,6 +10,7 @@ import CheckModal from "../CheckModal";
 import { deleteAccount } from "../../util/api/pay";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import { HttpStatusCode } from "axios";
+import GetISOStringKor from "./getISOStringKor";
 
 interface PropType {
     data: AccountInfo[];
@@ -61,23 +62,26 @@ export default function AccountDetail(props: PropType) {
 
         // data를 날짜별로 그룹화
         if (startDate) {
-            const tempDate = new Date(startDate.getTime() - 24 * 60 * 60 * 1000)
-                .toISOString()
-                .split("T")[0];
+            const tempDate = GetISOStringKor(
+                new Date(startDate.getTime() - 9 * 60 * 60 * 1000)
+            ).split("T")[0];
             data.forEach((info: AccountInfo) => {
-                const date = info.payDateStr ? info.payDateStr : new Date().toISOString();
+                const date = info.payDatetime;
 
                 if (isPayMember(userInfo.userId, info)) {
-                    if (calcDay(new Date(date), startDate) <= 0) {
+                    if (calcDay(new Date(date), new Date(tempDate)) < 0) {
                         if (!groupedByDate[tempDate]) {
                             groupedByDate[tempDate] = [];
                         }
                         groupedByDate[tempDate] = [info, ...groupedByDate[tempDate]];
                     } else {
-                        if (!groupedByDate[date]) {
-                            groupedByDate[date] = [];
+                        if (!groupedByDate[date.split("T")[0]]) {
+                            groupedByDate[date.split("T")[0]] = [];
                         }
-                        groupedByDate[date] = [info, ...groupedByDate[date]];
+                        groupedByDate[date.split("T")[0]] = [
+                            info,
+                            ...groupedByDate[date.split("T")[0]],
+                        ];
                     }
                 }
             });
@@ -92,6 +96,7 @@ export default function AccountDetail(props: PropType) {
                 groupedData.push(dataPerDay);
             }
         }
+        console.log(groupedData);
         // 날짜 순으로 정렬
         groupedData.sort(
             (a, b) => new Date(a.payDatetime).getTime() - new Date(b.payDatetime).getTime()
@@ -109,6 +114,7 @@ export default function AccountDetail(props: PropType) {
             setEndDate(new Date(props.tourData.endDate));
         }
         setRowData(props.data);
+        console.log(props.data);
         // 데이터 날짜별로 그룹핑
         DataPerDay(rowData);
     }, [tourId, props, rowData]);
@@ -192,12 +198,9 @@ export default function AccountDetail(props: PropType) {
     const getMyAmount = (info: AccountInfo): number => {
         let amount = 0;
         info.payMemberList.forEach((member) => {
+            console.log(member);
             if (member.userId == userInfo.userId) {
-                if (info.unit != "₩") {
-                    amount = member.payAmount / info.exchangeRate;
-                } else {
-                    amount = member.payAmount;
-                }
+                amount = member.payAmount;
             }
         });
 
@@ -225,7 +228,6 @@ export default function AccountDetail(props: PropType) {
                                 updatedData.push(groupedData[index]);
                             }
                         });
-                        console.log(updatedData);
                         setGroupedData(updatedData);
                     }
                 })
@@ -317,7 +319,7 @@ export default function AccountDetail(props: PropType) {
                                     1
                                 )} rounded-full text-center block border-x-0 border-b-2 border-t-0 border-transparent leading-tight text-neutral-500 `}
                             >
-                                원화
+                                KRW
                             </div>
                         </li>
                         <li className="rounded-full" onClick={() => setTabIdx(2)}>
@@ -326,7 +328,7 @@ export default function AccountDetail(props: PropType) {
                                     2
                                 )} rounded-full text-center block border-x-0 border-b-2 border-t-0 border-transparent leading-tight text-neutral-500 `}
                             >
-                                현지화폐
+                                원본
                             </div>
                         </li>
                     </ul>
@@ -346,22 +348,13 @@ export default function AccountDetail(props: PropType) {
                                     <div className="border-b-2 text-lg text-neutral-500 mb-2">
                                         DAY{" "}
                                         {startDate &&
-                                        calcDay(new Date(data.payDatetime), startDate) <= 0
+                                        calcDay(new Date(data.payDatetime), startDate) < 0
                                             ? `- | ~`
                                             : `${
                                                   startDate &&
-                                                  calcDay(new Date(data.payDatetime), startDate)
+                                                  calcDay(new Date(data.payDatetime), startDate) + 1
                                               } | `}
-                                        {
-                                            new Date(
-                                                new Date(
-                                                    props.tourData.startDate.split("T")[0]
-                                                ).getTime() -
-                                                    1000 * 60 * 60 * 24
-                                            )
-                                                .toISOString()
-                                                .split("T")[0]
-                                        }
+                                        {data.payDatetime}
                                     </div>
                                     <div>
                                         {data.data.map((item, index) => (
@@ -396,11 +389,8 @@ export default function AccountDetail(props: PropType) {
                                                                     </>
                                                                 ) : (
                                                                     <>
-                                                                        {(
-                                                                            item.payAmount /
-                                                                            item.exchangeRate
-                                                                        ).toLocaleString()}{" "}
-                                                                        {props.currency.unit}
+                                                                        {item.payAmount.toLocaleString()}{" "}
+                                                                        {item.unit}
                                                                     </>
                                                                 )}
                                                             </div>
@@ -408,19 +398,18 @@ export default function AccountDetail(props: PropType) {
                                                             <div className="text-orange-500">
                                                                 {tabIdx == 1 ? (
                                                                     <>
-                                                                        {item.payAmount.toLocaleString()}{" "}
+                                                                        {getMyAmount(
+                                                                            item
+                                                                        ).toLocaleString()}{" "}
                                                                         원
                                                                     </>
                                                                 ) : (
                                                                     <>
-                                                                        {(
+                                                                        {Math.ceil(
                                                                             getMyAmount(item) /
-                                                                            item.exchangeRate
+                                                                                item.exchangeRate
                                                                         ).toLocaleString()}{" "}
-                                                                        {
-                                                                            props.currency
-                                                                                .currencyCode
-                                                                        }
+                                                                        {item.unit}
                                                                     </>
                                                                 )}
                                                             </div>

@@ -94,7 +94,7 @@ export default function AccountAddModify(props: PropType) {
 
     useEffect(() => {
         console.log(props.data);
-        if (!props.isModify) {
+        if (!props.isModify && userInfo) {
             // payer 디폴트는 현재 가계부 작성하는 사람
             setPayer(userInfo.userId);
             setUnit(currency.unit);
@@ -129,7 +129,7 @@ export default function AccountAddModify(props: PropType) {
     }, [isPublic]);
 
     const handleUnit = (unit: string) => {
-        setExchangeRate(1);
+        unit == "₩" ? setExchangeRate(1) : setExchangeRate(currency.currencyRate);
         setUnit(unit);
         setWonDropdownClick(false);
     };
@@ -209,7 +209,10 @@ export default function AccountAddModify(props: PropType) {
         // N빵 후 보내
         let updatedMember: PayMember[] = [];
         payMember.map((member: PayMember) => {
-            const value = Math.ceil((amount * exchangeRate) / payMember.length);
+            const value =
+                unit != "₩"
+                    ? Math.ceil((amount * exchangeRate) / payMember.length)
+                    : Math.ceil(amount / payMember.length);
             updatedMember.push({ userId: member.userId, payAmount: value });
         });
 
@@ -219,7 +222,7 @@ export default function AccountAddModify(props: PropType) {
             payAmount: unit == "₩" ? amount : Math.round(exchangeRate * amount),
             exchangeRate: exchangeRate,
             unit: unit,
-            currencyCode: currency.currencyCode,
+            currencyCode: currency.currencyCode, // 매핑 안됨
             payMethod: type,
             payDatetime: date,
             payContent: content,
@@ -557,7 +560,7 @@ export default function AccountAddModify(props: PropType) {
                                 style={{ top: `${typeDropdownPosition}` }}
                                 className={`${
                                     typeDropdownClick ? "" : "hidden"
-                                } absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700`}
+                                } absolute bottom-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-48`}
                             >
                                 <ul
                                     className="py-2 text-sm text-gray-700 dark:text-gray-200"
