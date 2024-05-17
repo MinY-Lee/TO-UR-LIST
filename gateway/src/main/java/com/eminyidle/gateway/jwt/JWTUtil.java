@@ -31,8 +31,8 @@ public class JWTUtil {
     }
 
     // 남은 시간 가져오기
-    public Long getExpiredDate(String refreshToken) {
-        Date expiredate = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(refreshToken)
+    public Long getExpiredDate(String token) {
+        Date expiredate = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token)
                 .getBody().getExpiration();
         Date now = new Date();
         return expiredate.getTime() - now.getTime();
