@@ -32,6 +32,9 @@ export default function TourScheduleEditPage() {
 
     const [newSchedule, setNewSchedule] = useState<WebSockPlace[]>([]);
 
+    //장소 포커스
+    const [selectedSchedule, setSelectedSchedule] = useState<WebSockPlace>();
+
     // 투어 아이디 불러오기
     const address: string[] = window.location.href.split("/");
     const tourId: string = address[address.length - 3];
@@ -112,6 +115,8 @@ export default function TourScheduleEditPage() {
                 wsClient={wsClient}
                 period={period}
                 setIsLoading={setIsLoading}
+                selectedSchedule={selectedSchedule}
+                setSelectedSchedule={setSelectedSchedule}
             />
         );
     };
@@ -154,6 +159,10 @@ export default function TourScheduleEditPage() {
                                           wsClient={wsClient}
                                           period={period}
                                           setIsLoading={setIsLoading}
+                                          selectedSchedule={selectedSchedule}
+                                          setSelectedSchedule={
+                                              setSelectedSchedule
+                                          }
                                       />
                                   );
                               })
