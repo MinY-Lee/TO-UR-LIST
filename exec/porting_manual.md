@@ -1190,8 +1190,126 @@ sudo mv /tmp/eksctl /usr/local/bin
     - 보안그룹 : NodeGroup 보안 그룹
   - t3.large를 4개로 구성
 #### Bastion에서의 접근
-- 
-#### Route53
-### Yaml
-#### Secrets
+- aws cli 설정
+```bash
+aws configure
+### Access key id, Access key, region name 설정
+  ```
+```bash
+aws eks update-kubeconfig \
+--region ap-northeast-2 \
+--name 클러스터이름
+```
+### ALB controller 설치
+```bash
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy.json
+```
+
+```bash
+aws iam create-policy \
+    --policy-name AWSLoadBalancerControllerIAMPolicy \
+    --policy-document file://iam_policy.json
+```
+
+```bash
+eksctl create iamserviceaccount \
+  --cluster=[클러스터명] \
+  --namespace=kube-system \
+  --name=aws-load-balancer-controller \
+  --role-name AmazonEKSLoadBalancerControllerRole \
+  --attach-policy-arn=arn:aws:iam::[계정 ID]:policy/AWSLoadBalancerControllerIAMPolicy \
+  --approve
+```
+
+```bash
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
+```
+
+```bash
+curl -Lo v2_7_2_full.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.7.2/v2_7_2_full.yaml
+```
+
+```bash
+sed -i.bak -e '596,604d' ./v2_7_2_full.yaml
+```
+
+```bash
+sed -i.bak -e 's|your-cluster-name|[클러스터명]|' ./v2_7_2_full.yaml
+```
+
+```bash
+sed -i.bak -e 's|public.ecr.aws/eks/aws-load-balancer-controller|[계정id 번호].dkr.ecr.region-code.amazonaws.com/eks/aws-load-balancer-controller|' ./v2_7_2_full.yaml
+```
+
+```bash
+kubectl apply -f v2_7_2_full.yaml
+```
+
+```bash
+curl -Lo v2_7_2_ingclass.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.7.2/v2_7_2_ingclass.yaml
+```
+
+```bash
+kubectl apply -f v2_7_2_ingclass.yaml
+```
+
+### Istio 설치
+```bash
+curl -L https://istio.io/downloadIstio | sh -
+```
+
+```bash
+istioctl install --set profile=default
+```
+
+```bash
+kubectl label namespace default istio-injection=enabled
+```
+
+```bash
+# 파일 복사후
+istioctl install -f tourlist-istio.yml
+```
+
+```bash
+kubectl apply -f tourlist-istio-ingress.yml
+```
+
+```bash
+kubectl apply -f tourlist-istio-gateway.yml
+```
+
+```bash
+kubectl apply -f tourlist-istio-virtual-service.yml
+```
+
+### EBS 설정
+```bash
+eksctl create iamserviceaccount \
+  --name ebs-csi-controller-sa \
+  --namespace kube-system \
+  --cluster [클러스터 명] \
+  --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+  --approve \
+  --role-only \
+  --role-name AmazonEKS_EBS_CSI_DriverRole
+```
+
+```bash
+eksctl create addon --name aws-ebs-csi-driver --cluster [클러스터 명] --service-account-role-arn arn:aws:iam::[계정id]:role/AmazonEKS_EBS_CSI_DriverRole --force
+```
+
+### kafka 설치
+```bash
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
+```bash
+helm install tourlist-kafka oci://registry-1.docker.io/bitnamicharts/kafka
+```
+- 설치후 나오는 명령어를 참고하여 kafka-client 생성
+
+### Secrets
 ### .env
