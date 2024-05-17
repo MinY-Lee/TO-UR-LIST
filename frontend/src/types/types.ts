@@ -166,7 +166,7 @@ export interface AccountInfo {
     currencyCode: string;
     payMethod: string;
     payDateStr?: string;
-    payDatetime: Date;
+    payDatetime: string;
     payContent: string;
     payCategory: string;
     payerId: string;

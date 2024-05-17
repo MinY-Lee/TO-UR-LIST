@@ -1,10 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import {
-    AccountInfo,
-    PayMember,
-    TourInfoDetail,
-    UserInfo,
-} from "../../types/types";
+import { AccountInfo, PayMember, TourInfoDetail, UserInfo } from "../../types/types";
 
 import CategoryToImg from "./categoryToImg";
 import { useSelector } from "react-redux";
@@ -43,8 +38,7 @@ export default function AccountDetail(props: PropType) {
         unit: "",
         currencyCode: "",
         payMethod: "",
-        payDateStr: "",
-        payDatetime: new Date(),
+        payDatetime: "",
         payContent: "",
         payCategory: "",
         payerId: "",
@@ -70,19 +64,14 @@ export default function AccountDetail(props: PropType) {
                 .toISOString()
                 .split("T")[0];
             data.forEach((info: AccountInfo) => {
-                const date = info.payDateStr
-                    ? info.payDateStr
-                    : new Date().toISOString();
+                const date = info.payDateStr ? info.payDateStr : new Date().toISOString();
 
                 if (isPayMember(userInfo.userId, info)) {
                     if (calcDay(new Date(date), startDate) <= 0) {
                         if (!groupedByDate[tempDate]) {
                             groupedByDate[tempDate] = [];
                         }
-                        groupedByDate[tempDate] = [
-                            info,
-                            ...groupedByDate[tempDate],
-                        ];
+                        groupedByDate[tempDate] = [info, ...groupedByDate[tempDate]];
                     } else {
                         if (!groupedByDate[date]) {
                             groupedByDate[date] = [];
@@ -104,9 +93,7 @@ export default function AccountDetail(props: PropType) {
         }
         // 날짜 순으로 정렬
         groupedData.sort(
-            (a, b) =>
-                new Date(a.payDatetime).getTime() -
-                new Date(b.payDatetime).getTime()
+            (a, b) => new Date(a.payDatetime).getTime() - new Date(b.payDatetime).getTime()
         );
 
         setGroupedData(groupedData);
@@ -141,16 +128,10 @@ export default function AccountDetail(props: PropType) {
             let privateData: AccountInfo[] = [];
             let publicData: AccountInfo[] = [];
             rowData.forEach((item) => {
-                if (
-                    item.payType == "private" &&
-                    item.payerId == userInfo.userId
-                ) {
+                if (item.payType == "private" && item.payerId == userInfo.userId) {
                     privateData.push(item);
                 }
-                if (
-                    item.payType == "public" &&
-                    isPayMember(userInfo.userId, item)
-                ) {
+                if (item.payType == "public" && isPayMember(userInfo.userId, item)) {
                     publicData.push(item);
                 }
             });
@@ -198,9 +179,7 @@ export default function AccountDetail(props: PropType) {
     };
 
     const idToName = (memberId: string): string => {
-        const member = props.tourData.memberList.find(
-            (member) => member.userId === memberId
-        );
+        const member = props.tourData.memberList.find((member) => member.userId === memberId);
 
         if (member) {
             return member.userName;
@@ -233,12 +212,8 @@ export default function AccountDetail(props: PropType) {
                         console.log(deleteTarget);
                         let updatedData: DataPerDayInfo[] = [];
                         Object.keys(groupedData).map((date, index) => {
-                            if (
-                                date ==
-                                deleteTarget.payDatetime
-                                    .toISOString()
-                                    .split("T")[0]
-                            ) {
+                            if (date == deleteTarget.payDatetime.split("T")[0]) {
+                                // date = n일차임
                                 updatedData.push({
                                     payDatetime: date,
                                     data: groupedData[index].data.filter(
@@ -258,10 +233,7 @@ export default function AccountDetail(props: PropType) {
         }
     };
 
-    const handleDelete = (
-        item: AccountInfo,
-        event: React.MouseEvent<HTMLDivElement>
-    ) => {
+    const handleDelete = (item: AccountInfo, event: React.MouseEvent<HTMLDivElement>) => {
         event.stopPropagation();
         setCheckModalActive(true);
         setDeleteTarget(item);
@@ -272,9 +244,7 @@ export default function AccountDetail(props: PropType) {
     };
 
     const calcDay = (date1: Date, date2: Date) => {
-        return Math.round(
-            (date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24)
-        );
+        return Math.round((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
     };
     return (
         <>
@@ -310,10 +280,7 @@ export default function AccountDetail(props: PropType) {
                             isClicked
                         )} absolute top-[28%] z-10 bg-white divide-y divide-gray-100 shadow`}
                     >
-                        <ul
-                            className=" text-gray-700 "
-                            aria-labelledby="dropdown-button"
-                        >
+                        <ul className=" text-gray-700 " aria-labelledby="dropdown-button">
                             <li
                                 className="hover:bg-[#5faad9] px-5 py-2  border"
                                 onClick={() => handleTypeChange("all")}
@@ -343,10 +310,7 @@ export default function AccountDetail(props: PropType) {
 
                     {/* 원화 현지화폐 토글 */}
                     <ul className="grid grid-cols-2 w-[30vw] border rounded-full color-bg-blue-4">
-                        <li
-                            className="rounded-full"
-                            onClick={() => setTabIdx(1)}
-                        >
+                        <li className="rounded-full" onClick={() => setTabIdx(1)}>
                             <div
                                 className={`${getTabClass(
                                     1
@@ -355,10 +319,7 @@ export default function AccountDetail(props: PropType) {
                                 원화
                             </div>
                         </li>
-                        <li
-                            className="rounded-full"
-                            onClick={() => setTabIdx(2)}
-                        >
+                        <li className="rounded-full" onClick={() => setTabIdx(2)}>
                             <div
                                 className={`${getTabClass(
                                     2
@@ -369,9 +330,7 @@ export default function AccountDetail(props: PropType) {
                         </li>
                     </ul>
                     {/* 엑셀로 내보내기 */}
-                    <div className="text-neutral-500 underline">
-                        엑셀로 내보내기
-                    </div>
+                    <div className="text-neutral-500 underline">엑셀로 내보내기</div>
                 </div>
 
                 <div className="border-2 border-neutral-400 py-3 rounded-lg mx-8 mt-2">
@@ -386,26 +345,16 @@ export default function AccountDetail(props: PropType) {
                                     <div className="border-b-2 text-lg text-neutral-500 mb-2">
                                         DAY{" "}
                                         {startDate &&
-                                        calcDay(
-                                            new Date(data.payDatetime),
-                                            startDate
-                                        ) <= 0
+                                        calcDay(new Date(data.payDatetime), startDate) <= 0
                                             ? `- | ~`
                                             : `${
                                                   startDate &&
-                                                  calcDay(
-                                                      new Date(
-                                                          data.payDatetime
-                                                      ),
-                                                      startDate
-                                                  )
+                                                  calcDay(new Date(data.payDatetime), startDate)
                                               } | `}
                                         {
                                             new Date(
                                                 new Date(
-                                                    props.tourData.startDate.split(
-                                                        "T"
-                                                    )[0]
+                                                    props.tourData.startDate.split("T")[0]
                                                 ).getTime() -
                                                     1000 * 60 * 60 * 24
                                             )
@@ -433,58 +382,34 @@ export default function AccountDetail(props: PropType) {
                                                     <div className="flex justify-between">
                                                         <div className="flex gap-2">
                                                             <div className="bg-gray-100 p-1 rounded-full">
-                                                                {CategoryToImg(
-                                                                    item.payCategory
-                                                                )}
+                                                                {CategoryToImg(item.payCategory)}
                                                             </div>
-                                                            <div>
-                                                                {
-                                                                    item.payContent
-                                                                }
-                                                            </div>
+                                                            <div>{item.payContent}</div>
                                                         </div>
-                                                        {item.payType ==
-                                                        "private" ? (
+                                                        {item.payType == "private" ? (
                                                             <div>
                                                                 {item.payAmount.toLocaleString()}{" "}
                                                                 {item.unit}
                                                             </div>
                                                         ) : (
                                                             <div className="text-orange-500">
-                                                                {getMyAmount(
-                                                                    item
-                                                                ).toLocaleString()}{" "}
+                                                                {getMyAmount(item).toLocaleString()}{" "}
                                                                 {item.unit}
                                                             </div>
                                                         )}
                                                     </div>
-                                                    {item.payType ==
-                                                    "public" ? (
+                                                    {item.payType == "public" ? (
                                                         <div className="flex justify-between pl-10 text-sm">
                                                             <div className="flex gap-2 items-center ">
-                                                                <PayTypeIcon
-                                                                    isPublic={
-                                                                        true
-                                                                    }
-                                                                />
+                                                                <PayTypeIcon isPublic={true} />
                                                                 <div className="mr-3">
-                                                                    {
-                                                                        item
-                                                                            .payMemberList
-                                                                            .length
-                                                                    }
+                                                                    {item.payMemberList.length}
                                                                 </div>
                                                                 <div className="flex">
-                                                                    {getPayMember(
-                                                                        item
-                                                                    ).map(
-                                                                        (
-                                                                            member
-                                                                        ) => (
+                                                                    {getPayMember(item).map(
+                                                                        (member) => (
                                                                             <div
-                                                                                key={
-                                                                                    member.userId
-                                                                                }
+                                                                                key={member.userId}
                                                                                 className="color-bg-blue-4 w-6 h-6 flex justify-center items-center -ml-2 rounded-full shadow-md"
                                                                             >
                                                                                 {
@@ -508,12 +433,7 @@ export default function AccountDetail(props: PropType) {
                                                 </div>
                                                 <div
                                                     className="flex justify-end items-start"
-                                                    onClick={(event) =>
-                                                        handleDelete(
-                                                            item,
-                                                            event
-                                                        )
-                                                    }
+                                                    onClick={(event) => handleDelete(item, event)}
                                                 >
                                                     <TrashIcon />
                                                 </div>

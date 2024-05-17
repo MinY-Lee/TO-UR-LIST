@@ -4,13 +4,7 @@ import { useNavigate } from "react-router-dom";
 import MyButton from "../../components/Buttons/myButton";
 
 import CategoryToImg from "../../components/AccountPage/categoryToImg";
-import {
-    AccountInfo,
-    MemberInfo,
-    PayMember,
-    TourInfoDetail,
-    UserInfo,
-} from "../../types/types";
+import { AccountInfo, MemberInfo, PayMember, TourInfoDetail, UserInfo } from "../../types/types";
 
 import { useSelector } from "react-redux";
 import { addAccount, editAccount, getCurrency } from "../../util/api/pay";
@@ -18,6 +12,7 @@ import { httpStatusCode } from "../../util/api/http-status";
 import DropdownIcon from "../../assets/svg/dropdownIcon";
 import MemberList from "./memberList";
 import ButtonGroup from "./buttonGroup";
+import GetISOStringKor from "./getISOStringKor";
 
 interface PropType {
     tourId: string;
@@ -35,10 +30,8 @@ interface Currency {
 export default function AccountAddModify(props: PropType) {
     const [wonDropdownClick, setWonDropdownClick] = useState<boolean>(false);
     const [typeDropdownClick, setTypeDropdownClick] = useState<boolean>(false);
-    const [typeDropdownPosition, setTypeDropdownPosition] =
-        useState<string>("");
-    const [payerDropdownClick, setPayerDropdownClick] =
-        useState<boolean>(false);
+    const [typeDropdownPosition, setTypeDropdownPosition] = useState<string>("");
+    const [payerDropdownClick, setPayerDropdownClick] = useState<boolean>(false);
     const [currency, setCurrency] = useState<Currency>({
         unit: "",
         currencyCode: "",
@@ -51,7 +44,7 @@ export default function AccountAddModify(props: PropType) {
     const [category, setCategory] = useState<string>("");
     const [content, setContent] = useState<string>("");
     const [isPublic, setIsPublic] = useState<boolean>(false);
-    const [date, setDate] = useState<Date>(new Date());
+    const [date, setDate] = useState<string>("");
     const [dateStr, setDateStr] = useState<string>("");
     const [payer, setPayer] = useState<string>("");
     const [payId, setPayId] = useState<string>("");
@@ -62,9 +55,7 @@ export default function AccountAddModify(props: PropType) {
     const navigate = useNavigate();
 
     const idToName = (memberId: string): string => {
-        const member = props.tourData.memberList.find(
-            (member) => member.userId === memberId
-        );
+        const member = props.tourData.memberList.find((member) => member.userId === memberId);
 
         if (member) {
             return member.userName;
@@ -83,10 +74,7 @@ export default function AccountAddModify(props: PropType) {
         setPayId(address[address.length - 1]);
 
         if (props.tourData.cityList[0]) {
-            getCurrency(
-                props.tourData.cityList[0].countryCode,
-                new Date().toISOString().split("T")[0]
-            )
+            getCurrency(props.tourData.cityList[0].countryCode, GetISOStringKor().split("T")[0])
                 .then((res) => {
                     setCurrency({
                         unit: res.data.unit,
@@ -99,26 +87,18 @@ export default function AccountAddModify(props: PropType) {
     }, [payId, props]);
 
     useEffect(() => {
+        console.log(props.data);
         if (!props.isModify) {
             // payer 디폴트는 현재 가계부 작성하는 사람
             setPayer(userInfo.userId);
             setUnit(currency.unit);
             setExchangeRate(currency.currencyRate);
             setPayMember([{ payAmount: 0, userId: userInfo.userId }]);
-            setDateStr(new Date().toISOString().split("T")[0]);
+            setDate(GetISOStringKor());
         } else {
-            if (props.data) {
+            if (props.data && props.data.payId != "") {
                 setAmount(props.data.payAmount);
                 setDate(props.data.payDatetime);
-                if (
-                    props.data.payDatetime &&
-                    props.data.payDatetime instanceof Date
-                ) {
-                    const dateStr = props.data.payDatetime
-                        .toISOString()
-                        .split("T")[0];
-                    setDateStr(dateStr);
-                }
                 setIsPublic(props.data.payType == "public" ? true : false);
                 setPayer(props.data.payerId);
                 setPayMember(props.data.payMemberList);
@@ -149,7 +129,7 @@ export default function AccountAddModify(props: PropType) {
 
     const handleAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = parseInt(event.target.value);
-        if (!isNaN(inputValue)) {
+        if (!isNaN(inputValue) && inputValue > 0) {
             setAmount(inputValue);
         } else {
             setAmount(0);
@@ -175,18 +155,14 @@ export default function AccountAddModify(props: PropType) {
     const categories = ["숙소", "교통", "식비", "쇼핑", "기타"];
 
     const setButtonProp = (input: string) => {
-        if (
-            (input == "public" && !isPublic) ||
-            (input == "private" && isPublic)
-        ) {
+        if ((input == "public" && !isPublic) || (input == "private" && isPublic)) {
             return "text-neutral-400 border-neutral-400";
         }
         return "color-text-blue-2";
     };
 
     const handleDateChange = (event: BaseSyntheticEvent) => {
-        setDate(new Date(event.target.value));
-        setDateStr(event.target.value);
+        setDate(new Date(event.target.value).toISOString());
     };
 
     const handlePayerChange = (payer: string) => {
@@ -231,7 +207,7 @@ export default function AccountAddModify(props: PropType) {
         const newAccountItem: AccountInfo = {
             payType: isPublic ? "public" : "private",
             tourId: props.tourId,
-            payAmount: amount,
+            payAmount: amount * exchangeRate,
             exchangeRate: exchangeRate,
             unit: unit,
             currencyCode: currency.currencyCode,
@@ -255,10 +231,7 @@ export default function AccountAddModify(props: PropType) {
             setIsVaildPayContent(false);
             return;
         }
-        if (
-            newAccountItem.payMethod != "카드" &&
-            newAccountItem.payMethod != "현금"
-        ) {
+        if (newAccountItem.payMethod != "카드" && newAccountItem.payMethod != "현금") {
             setIsVaildPayType(false);
             return;
         }
@@ -287,9 +260,7 @@ export default function AccountAddModify(props: PropType) {
         <>
             <div className="w-full flex flex-col items-center h-[60vh] overflow-y-scroll mt-8 justify-between">
                 <div className="w-[70%]">
-                    <div className="text-sm mb-2 color-text-blue-1">
-                        *모든 항목 필수 입력
-                    </div>
+                    <div className="text-sm mb-2 color-text-blue-1">*모든 항목 필수 입력</div>
                     <div>
                         <div className="flex border border-black rounded-lg items-center">
                             <div className="relative w-full">
@@ -306,9 +277,7 @@ export default function AccountAddModify(props: PropType) {
                                 id="dropdown-button"
                                 className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 "
                                 type="button"
-                                onClick={() =>
-                                    setWonDropdownClick(!wonDropdownClick)
-                                }
+                                onClick={() => setWonDropdownClick(!wonDropdownClick)}
                             >
                                 {currency.unit}
                                 <DropdownIcon isClicked={wonDropdownClick} />
@@ -323,13 +292,8 @@ export default function AccountAddModify(props: PropType) {
                                     aria-labelledby="dropdown-button"
                                 >
                                     {[currency.unit, "₩"].map((unit) => (
-                                        <li
-                                            key={unit}
-                                            onClick={() => handleUnit(unit)}
-                                        >
-                                            <div className="block px-4 py-2">
-                                                {unit}
-                                            </div>
+                                        <li key={unit} onClick={() => handleUnit(unit)}>
+                                            <div className="block px-4 py-2">{unit}</div>
                                         </li>
                                     ))}
                                 </ul>
@@ -343,9 +307,7 @@ export default function AccountAddModify(props: PropType) {
                             className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
                             role="alert"
                         >
-                            <div className="font-medium">
-                                ⚠️ 결제 금액을 입력해주세요!
-                            </div>
+                            <div className="font-medium">⚠️ 결제 금액을 입력해주세요!</div>
                         </div>
                     ) : (
                         ""
@@ -356,11 +318,7 @@ export default function AccountAddModify(props: PropType) {
                             <div>
                                 <div>
                                     <input
-                                        value={
-                                            exchangeRate == 0
-                                                ? ""
-                                                : exchangeRate
-                                        }
+                                        value={exchangeRate == 0 ? "" : exchangeRate}
                                         onChange={handleCurrencyRate}
                                         type="number"
                                         className="block w-20 px-2 text-sm text-gray-900 border"
@@ -375,9 +333,7 @@ export default function AccountAddModify(props: PropType) {
                         <div className="col-span-2 flex gap-2 items-center">
                             <div>
                                 {unit != "₩"
-                                    ? `약 ${Math.round(
-                                          exchangeRate * amount
-                                      ).toLocaleString()}`
+                                    ? `약 ${Math.round(exchangeRate * amount).toLocaleString()}`
                                     : amount}{" "}
                                 원
                             </div>
@@ -387,7 +343,7 @@ export default function AccountAddModify(props: PropType) {
                         <div className="col-span-1">결제날짜</div>
                         <div className="col-span-2">
                             <input
-                                value={dateStr}
+                                value={date.split("T")[0]}
                                 onChange={handleDateChange}
                                 type="date"
                                 className="w-full text-sm text-gray-900 border py-1 px-2 rounded-lg"
@@ -399,18 +355,14 @@ export default function AccountAddModify(props: PropType) {
                         <div className="col-span-1">분류</div>
                         <div className="col-span-2 flex gap-1">
                             <MyButton
-                                className={`${setButtonProp(
-                                    "private"
-                                )} rounded-[8px]`}
+                                className={`${setButtonProp("private")} rounded-[8px]`}
                                 isSelected={false}
                                 type="small"
                                 onClick={() => setIsPublic(false)}
                                 text="개인"
                             ></MyButton>
                             <MyButton
-                                className={`${setButtonProp(
-                                    "public"
-                                )} rounded-[8px]`}
+                                className={`${setButtonProp("public")} rounded-[8px]`}
                                 isSelected={false}
                                 type="small"
                                 onClick={() => setIsPublic(true)}
@@ -427,22 +379,13 @@ export default function AccountAddModify(props: PropType) {
                                         {idToName(payer)[0]}
                                     </div>
                                     <button
-                                        onClick={() =>
-                                            setPayerDropdownClick(
-                                                !payerDropdownClick
-                                            )
-                                        }
+                                        onClick={() => setPayerDropdownClick(!payerDropdownClick)}
                                         id="dropdown-button"
                                         className="flex col-span-3 items-center p-3 text-sm text-gray-900 border py-1 px-2 rounded-lg justify-between"
                                         type="button"
                                     >
-                                        {idToName(payer)}{" "}
-                                        {payer == userInfo.userId
-                                            ? " (나)"
-                                            : ""}
-                                        <DropdownIcon
-                                            isClicked={payerDropdownClick}
-                                        />
+                                        {idToName(payer)} {payer == userInfo.userId ? " (나)" : ""}
+                                        <DropdownIcon isClicked={payerDropdownClick} />
                                     </button>
                                     <div
                                         className={`${
@@ -453,26 +396,21 @@ export default function AccountAddModify(props: PropType) {
                                             className="py-2 text-sm text-gray-700 max-h-[30vh] overflow-y-scroll"
                                             aria-labelledby="dropdown-button"
                                         >
-                                            {props.tourData.memberList.map(
-                                                (member, index) => (
-                                                    <li
-                                                        key={index}
-                                                        onClick={() =>
-                                                            handlePayerChange(
-                                                                member.userName
-                                                            )
-                                                        }
-                                                    >
-                                                        <div className="block px-4">
-                                                            {member.userName}
-                                                            {userInfo.userId ==
-                                                            member.userId
-                                                                ? " (나)"
-                                                                : ""}
-                                                        </div>
-                                                    </li>
-                                                )
-                                            )}
+                                            {props.tourData.memberList.map((member, index) => (
+                                                <li
+                                                    key={index}
+                                                    onClick={() =>
+                                                        handlePayerChange(member.userName)
+                                                    }
+                                                >
+                                                    <div className="block px-4">
+                                                        {member.userName}
+                                                        {userInfo.userId == member.userId
+                                                            ? " (나)"
+                                                            : ""}
+                                                    </div>
+                                                </li>
+                                            ))}
                                         </ul>
                                     </div>
                                 </div>
@@ -524,9 +462,7 @@ export default function AccountAddModify(props: PropType) {
                             className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
                             role="alert"
                         >
-                            <div className="font-medium">
-                                ⚠️ 카테고리를 선택해주세요!
-                            </div>
+                            <div className="font-medium">⚠️ 카테고리를 선택해주세요!</div>
                         </div>
                     ) : (
                         ""
@@ -547,9 +483,7 @@ export default function AccountAddModify(props: PropType) {
                             className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
                             role="alert"
                         >
-                            <div className="font-medium">
-                                ⚠️ 결제 내용을 입력해주세요!
-                            </div>
+                            <div className="font-medium">⚠️ 결제 내용을 입력해주세요!</div>
                         </div>
                     ) : (
                         ""
@@ -558,9 +492,7 @@ export default function AccountAddModify(props: PropType) {
                         <div className="col-span-1">결제수단</div>
                         <div className="flex col-span-2">
                             <button
-                                onClick={() =>
-                                    setTypeDropdownClick(!typeDropdownClick)
-                                }
+                                onClick={() => setTypeDropdownClick(!typeDropdownClick)}
                                 id="type-input"
                                 className={` flex items-center p-3 text-sm text-gray-900 border py-1 px-2 rounded-lg w-full justify-between`}
                                 type="button"
@@ -579,16 +511,12 @@ export default function AccountAddModify(props: PropType) {
                                     className="py-2 text-sm text-gray-700 dark:text-gray-200"
                                     aria-labelledby="dropdown-button"
                                 >
-                                    <li
-                                        onClick={() => handleTypeChange("카드")}
-                                    >
+                                    <li onClick={() => handleTypeChange("카드")}>
                                         <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             카드
                                         </div>
                                     </li>
-                                    <li
-                                        onClick={() => handleTypeChange("현금")}
-                                    >
+                                    <li onClick={() => handleTypeChange("현금")}>
                                         <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             현금
                                         </div>
@@ -602,9 +530,7 @@ export default function AccountAddModify(props: PropType) {
                             className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
                             role="alert"
                         >
-                            <div className="font-medium">
-                                ⚠️ 결제 수단을 선택해주세요!
-                            </div>
+                            <div className="font-medium">⚠️ 결제 수단을 선택해주세요!</div>
                         </div>
                     ) : (
                         ""
