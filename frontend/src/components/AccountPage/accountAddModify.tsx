@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import MyButton from "../../components/Buttons/myButton";
@@ -53,6 +53,13 @@ export default function AccountAddModify(props: PropType) {
     const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
 
     const navigate = useNavigate();
+
+    // 경고창 위치로 이동
+    const amountAlert = useRef<HTMLDivElement | null>(null);
+    const payTypeAlert = useRef<HTMLDivElement | null>(null);
+    const payContentAlert = useRef<HTMLDivElement | null>(null);
+    const payCategoryAlert = useRef<HTMLDivElement | null>(null);
+    const payMemberAlert = useRef<HTMLDivElement | null>(null);
 
     const idToName = (memberId: string): string => {
         const member = props.tourData.memberList.find((member) => member.userId === memberId);
@@ -194,6 +201,7 @@ export default function AccountAddModify(props: PropType) {
     // const [isVaildPayCurrencyAmount, setIsVaildPayCurrencyAmount] = useState<boolean>(true);
     const [isVaildPayContent, setIsVaildPayContent] = useState<boolean>(true);
     const [isVaildPayCategory, setIsVaildPayCategory] = useState<boolean>(true);
+    const [isVaildPayMember, setIsVaildPayMember] = useState<boolean>(true);
     const [isVaildPayType, setIsVaildPayType] = useState<boolean>(true);
 
     const handleSave = () => {
@@ -221,18 +229,37 @@ export default function AccountAddModify(props: PropType) {
 
         if (newAccountItem.payAmount == 0) {
             setIsVaildPayAmount(false);
+            if (amountAlert.current) {
+                amountAlert.current.scrollIntoView({ behavior: "smooth" });
+            }
+            return;
+        }
+        if (newAccountItem.payType == "public" && newAccountItem.payMemberList.length == 0) {
+            setIsVaildPayMember(false);
+            if (payMemberAlert.current) {
+                payMemberAlert.current.scrollIntoView({ behavior: "smooth" });
+            }
             return;
         }
         if (!categories.includes(newAccountItem.payCategory)) {
             setIsVaildPayCategory(false);
+            if (payCategoryAlert.current) {
+                payCategoryAlert.current.scrollIntoView({ behavior: "smooth" });
+            }
             return;
         }
         if (!newAccountItem.payContent) {
             setIsVaildPayContent(false);
+            if (payContentAlert.current) {
+                payContentAlert.current.scrollIntoView({ behavior: "smooth" });
+            }
             return;
         }
         if (newAccountItem.payMethod != "카드" && newAccountItem.payMethod != "현금") {
             setIsVaildPayType(false);
+            if (payTypeAlert.current) {
+                payTypeAlert.current.scrollIntoView({ behavior: "smooth" });
+            }
             return;
         }
         if (props.isModify) {
@@ -300,18 +327,20 @@ export default function AccountAddModify(props: PropType) {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="w-[70%] flex flex-col gap-5 justify-start h-full mx-10 my-5">
                     {!isVaildPayAmount ? (
                         <div
-                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                            className={`animate-bounce w-full pt-2 pl-2 text-sm text-gray-800`}
                             role="alert"
                         >
-                            <div className="font-medium">⚠️ 결제 금액을 입력해주세요!</div>
+                            <div ref={amountAlert} className="font-medium text-red-500">
+                                ⚠️ 결제 금액을 입력해주세요!
+                            </div>
                         </div>
                     ) : (
                         ""
                     )}
+                </div>
+                <div className="w-[70%] flex flex-col gap-5 justify-start h-full mx-10 my-5">
                     <div className="grid grid-cols-3">
                         <div className="col-span-1">적용환율</div>
                         <div className="col-span-2 flex gap-2 items-center">
@@ -393,15 +422,13 @@ export default function AccountAddModify(props: PropType) {
                                         } absolute top-[36.5%] right-[16%] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-36`}
                                     >
                                         <ul
-                                            className="py-2 text-sm text-gray-700 max-h-[30vh] overflow-y-scroll"
+                                            className="py-2 text-sm text-gray-700 max-h-[30vh] overflow-y-auto"
                                             aria-labelledby="dropdown-button"
                                         >
                                             {props.tourData.memberList.map((member, index) => (
                                                 <li
                                                     key={index}
-                                                    onClick={() =>
-                                                        handlePayerChange(member.userName)
-                                                    }
+                                                    onClick={() => handlePayerChange(member.userId)}
                                                 >
                                                     <div className="block px-4">
                                                         {member.userName}
@@ -417,13 +444,28 @@ export default function AccountAddModify(props: PropType) {
                             </div>
                             <div className="grid grid-cols-3">
                                 <div className="col-span-1">정산멤버</div>
-                                <div className="col-span-2 flex max-h-[11vh] gap-2 overflow-y-scroll flex-col">
+                                <div className="col-span-2 flex max-h-[11vh] gap-2 overflow-y-auto flex-col">
                                     <MemberList
                                         handlePayMember={handlePayMember}
                                         memberList={props.tourData.memberList}
                                         payMember={payMember}
                                         userId={userInfo.userId}
                                     />
+                                    {!isVaildPayMember ? (
+                                        <div
+                                            className={`animate-bounce w-full pt-2 pl-2 text-sm text-gray-800`}
+                                            role="alert"
+                                        >
+                                            <div
+                                                ref={payMemberAlert}
+                                                className="font-medium text-red-500"
+                                            >
+                                                ⚠️ 정산 멤버를 추가해주세요!
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        ""
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -455,18 +497,24 @@ export default function AccountAddModify(props: PropType) {
                                     <div className="text-sm">{cat}</div>
                                 </div>
                             ))}
+                            {!isVaildPayCategory ? (
+                                <div
+                                    className={`col-span-full animate-bounce w-full pt-2 pl-2 text-sm text-gray-800`}
+                                    role="alert"
+                                >
+                                    <div
+                                        ref={payCategoryAlert}
+                                        className="font-medium text-red-500"
+                                    >
+                                        ⚠️ 카테고리를 추가해주세요!
+                                    </div>
+                                </div>
+                            ) : (
+                                ""
+                            )}
                         </div>
                     </div>
-                    {!isVaildPayCategory ? (
-                        <div
-                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
-                            role="alert"
-                        >
-                            <div className="font-medium">⚠️ 카테고리를 선택해주세요!</div>
-                        </div>
-                    ) : (
-                        ""
-                    )}
+
                     <div className="grid grid-cols-3">
                         <div className="col-span-1">내용</div>
                         <div className="w-full col-span-2">
@@ -476,21 +524,23 @@ export default function AccountAddModify(props: PropType) {
                                 type="text"
                                 className="w-full text-sm text-gray-900 border py-1 px-2 rounded-lg"
                             />
+                            {!isVaildPayContent ? (
+                                <div
+                                    className={`animate-bounce w-full pt-2 pl-2 text-sm text-gray-800`}
+                                    role="alert"
+                                >
+                                    <div ref={payContentAlert} className="font-medium text-red-500">
+                                        ⚠️ 결제 내용을 입력해주세요!
+                                    </div>
+                                </div>
+                            ) : (
+                                ""
+                            )}
                         </div>
                     </div>
-                    {!isVaildPayContent ? (
-                        <div
-                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
-                            role="alert"
-                        >
-                            <div className="font-medium">⚠️ 결제 내용을 입력해주세요!</div>
-                        </div>
-                    ) : (
-                        ""
-                    )}
                     <div className="grid grid-cols-3">
                         <div className="col-span-1">결제수단</div>
-                        <div className="flex col-span-2">
+                        <div className="flex flex-col col-span-2">
                             <button
                                 onClick={() => setTypeDropdownClick(!typeDropdownClick)}
                                 id="type-input"
@@ -523,18 +573,20 @@ export default function AccountAddModify(props: PropType) {
                                     </li>
                                 </ul>
                             </div>
+                            {!isVaildPayType ? (
+                                <div
+                                    className={`animate-bounce w-full pt-2 pl-2 text-sm text-gray-800`}
+                                    role="alert"
+                                >
+                                    <div ref={payTypeAlert} className="font-medium text-red-500">
+                                        ⚠️ 결제 수단을 선택해주세요!
+                                    </div>
+                                </div>
+                            ) : (
+                                ""
+                            )}
                         </div>
                     </div>
-                    {!isVaildPayType ? (
-                        <div
-                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
-                            role="alert"
-                        >
-                            <div className="font-medium">⚠️ 결제 수단을 선택해주세요!</div>
-                        </div>
-                    ) : (
-                        ""
-                    )}
                 </div>
 
                 <div className="absolute bottom-28 grid grid-cols-2 w-[90%] gap-2">
