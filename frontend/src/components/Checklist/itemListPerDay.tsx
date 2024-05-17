@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import TrashIcon from "../../assets/svg/trashIcon";
-import { Item, TourInfoDetail } from "../../types/types";
+import { Item, PlaceMapping, TourInfoDetail } from "../../types/types";
 import ChecklistInput from "./checklistInput";
 
 interface ItemPerPlace {
@@ -20,6 +20,7 @@ interface PropType {
     tourId: string;
     data: TourInfoDetail;
     daysList: number[];
+    placeData: PlaceMapping;
     groupedItems: ItemPerDayAndPlace;
     isAddState: boolean[];
     handleDeleteModal: (item: Item) => void;
@@ -83,7 +84,13 @@ export default function ItemListPerDay(props: PropType) {
                                             >
                                                 <div className="text-lg font-semibold">
                                                     {placeId != "" ? (
-                                                        <div>{placeId}</div>
+                                                        <div>
+                                                            {
+                                                                props.placeData[
+                                                                    placeId
+                                                                ]
+                                                            }
+                                                        </div>
                                                     ) : (
                                                         ""
                                                     )}

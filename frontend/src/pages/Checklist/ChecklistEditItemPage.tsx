@@ -15,9 +15,6 @@ import { getPlaceList } from "../../util/api/place";
 interface Mapping {
     [key: string]: string[];
 }
-interface PlaceMapping {
-    [placeId: string]: string;
-}
 
 export default function ChecklistEditItemPage() {
     const [tourId, setTourId] = useState<string>("");

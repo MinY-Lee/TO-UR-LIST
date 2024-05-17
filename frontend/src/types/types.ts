@@ -100,6 +100,10 @@ export interface Item {
 }
 
 //일정 관련
+export interface PlaceMapping {
+    [placeId: string]: string;
+}
+
 export interface TourPlaceItem {
     placeId: string;
     placeName: string;

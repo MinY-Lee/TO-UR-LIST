@@ -4,13 +4,20 @@ import { useNavigate } from "react-router-dom";
 import MyButton from "../../components/Buttons/myButton";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
 import CheckModal from "../../components/CheckModal";
-import { Item, ItemApi, TourInfoDetail } from "../../types/types";
+import {
+    Item,
+    ItemApi,
+    PlaceMapping,
+    TourInfoDetail,
+    TourPlaceItem,
+} from "../../types/types";
 
 import TabBarTour from "../../components/TabBar/TabBarTour";
 import { deleteChecklist, getChecklist } from "../../util/api/checklist";
 import { HttpStatusCode } from "axios";
 import { getTour } from "../../util/api/tour";
 import ItemListPerDay from "../../components/Checklist/itemListPerDay";
+import { getPlaceList } from "../../util/api/place";
 
 interface ItemPerPlace {
     [placeId: string]: Item[];
@@ -33,6 +40,7 @@ export default function ChecklistEditDayPage() {
         endDate: "",
         memberList: [],
     });
+    const [placeData, setPlaceData] = useState<PlaceMapping>({});
 
     const [checkModalActive, setIsCheckModalActive] = useState<boolean>(false);
     const [deleteItem, setDeleteItem] = useState<Item>();
@@ -47,6 +55,20 @@ export default function ChecklistEditDayPage() {
         setTourId(address[address.length - 3]);
 
         if (tourId != "") {
+            // 장소 id 랑 이름 매칭 위해
+            getPlaceList(tourId)
+                .then((res) => {
+                    if (res.status == HttpStatusCode.Ok) {
+                        let mapping: PlaceMapping = {};
+                        res.data.map((schedule: TourPlaceItem) => {
+                            mapping[schedule.placeId] = schedule.placeName;
+                        });
+
+                        setPlaceData(mapping);
+                    }
+                })
+                .catch((err) => console.log(err));
+
             getChecklist(tourId)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
@@ -244,6 +266,7 @@ export default function ChecklistEditDayPage() {
                     <ItemListPerDay
                         data={data}
                         daysList={daysList}
+                        placeData={placeData}
                         groupedItems={groupedItems}
                         handleAddState={handleAddState}
                         handleDeleteModal={handleDeleteModal}
