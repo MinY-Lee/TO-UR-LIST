@@ -368,6 +368,10 @@
     border-radius: min(2vw, 9.6px);
 }
 
+.border-rad-2dot5vw {
+    border-radius: min(2.5vw, 12px);
+}
+
 .border-rad-3vw {
     border-radius: min(3vw, 14.4px);
 }
@@ -392,6 +396,10 @@
 /* top viewwidth */
 .top-2vw {
     top: min(2vw, 9.6px);
+}
+
+.top-20vw {
+    top: min(20vw, 96px);
 }
 
 .check {

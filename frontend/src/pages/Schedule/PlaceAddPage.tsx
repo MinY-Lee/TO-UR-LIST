@@ -171,6 +171,32 @@ export default function PlaceAddPage() {
         }
     };
 
+    /**버튼 누를 시 검색 */
+    const clickSearch = (searchValue: string) => {
+        setIsLoading(true);
+        let lat = 37.5;
+        let lng = 127;
+        if (map) {
+            lat = map.getCenter().lat();
+            lng = map.getCenter().lng();
+        }
+        searchPlace(searchValue, lat, lng)
+            .then((res) => {
+                if (res.status === httpStatusCode.OK) {
+                    console.log(res);
+                    setSearchedPlaces(res.data);
+                } else {
+                    // console.log(res);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
+    };
+
     /**웹소켓으로 업데이트 된 정보가 오면? */
     const update = (newSchedule: WebSockPlace[]) => {
         setIsLoading(true);
@@ -194,15 +220,20 @@ export default function PlaceAddPage() {
             <section className="w-full h-full overflow-y-hidden flex flex-col items-center justify-between">
                 {isLoading ? <Loading /> : <></>}
                 <HeaderBar />
-                <SearchBar searchEvent={searchEvent} />
-                <div className="w-full h-[83%] flex flex-col overflow-y-hidden">
+                <SearchBar
+                    searchEvent={searchEvent}
+                    clickSearch={clickSearch}
+                />
+                <div className="w-full h-full flex flex-col overflow-y-hidden">
                     {/* 현재 날짜 보여주기 */}
                     {selectedDate !== -1 ? (
-                        <div className="w-full h-[5%] text-5vw px-2vw flex items-center">
+                        <div className="w-full h-6vw text-4vw px-2vw flex items-center">
                             Day {selectedDate + 1} | {dateToString()}
                         </div>
                     ) : (
-                        <></>
+                        <div className="w-full h-6vw text-4vw px-2vw flex items-center">
+                            날짜 미지정
+                        </div>
                     )}
                     <Wrapper
                         apiKey={`${

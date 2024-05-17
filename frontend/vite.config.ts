@@ -77,9 +77,8 @@ export default defineConfig({
                 rewrite: (path) => path.replace(/^\/api/, ""),
             },
             "/maps": {
-                target: "https://maps.googleapis.com/maps/",
+                target: "https://maps.googleapis.com/",
                 changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/maps/, ""),
             },
         },
     },
