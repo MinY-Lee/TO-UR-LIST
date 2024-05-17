@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Item, TourPlaceItem } from "../../types/types";
+import { Item, PlaceMapping, TourPlaceItem } from "../../types/types";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
 import TabBarTour from "../../components/TabBar/TabBarTour";
 import MyButton from "../../components/Buttons/myButton";
@@ -13,7 +13,7 @@ import { HttpStatusCode } from "axios";
 import { getPlaceList } from "../../util/api/place";
 
 interface Mapping {
-    [key: string]: string[];
+    [key: string]: string;
 }
 
 export default function ChecklistEditItemPage() {
@@ -120,11 +120,6 @@ export default function ChecklistEditItemPage() {
 
     const onUpdate = (item: Item) => {
         setNewItem(item);
-    };
-
-    const mapping: Mapping = {
-        walking: ["👣 산책", "color-bg-blue-3"],
-        shopping: ["🛒 쇼핑", "bg-pink-100"],
     };
 
     // 해당 아이템이 사용되는 장소/활동 필터링

@@ -2,10 +2,6 @@ import { useEffect, useState } from "react";
 import TourCard from "../components/MainPage/TourCard";
 import TabBarMain from "../components/TabBar/TabBarMain";
 
-//dummy data(api완료 시 삭제 요망)
-// import tourList from '../dummy-data/get_tour.json';
-// import user from '../dummy-data/get_user.json';
-
 import { CountryMapping, TourCardInfo, UserInfo } from "../types/types";
 import { useDispatch } from "react-redux";
 import { userWholeState } from "../util/reduxSlices/userSlice";
@@ -159,7 +155,7 @@ export default function MainPage() {
     return (
         <section className="w-full h-[90%] overflow-y-scroll flex flex-col flex-nowrap items-center">
             {isLoading ? <Loading /> : <></>}
-            <div className="w-[90%] h-full flex items-center justify-between py-vw ">
+            <div className="w-[90%] h-[20%] flex items-center justify-between py-vw ">
                 <div className="text-6vw h-full flex flex-col justify-center items-start">
                     <p>
                         <span className="text-7vw weight-text-semibold mr-vw">

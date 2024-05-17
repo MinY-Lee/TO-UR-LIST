@@ -6,6 +6,7 @@ import { Item, ItemApi } from "../../types/types";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import { checkItem, getChecklist } from "../../util/api/checklist";
 import { HttpStatusCode } from "axios";
+import ActivityBadge from "./activityBadge";
 
 interface PropType {
     tourId: string;
@@ -15,27 +16,10 @@ interface CountItem {
     [key: string]: number;
 }
 
-interface Mapping {
-    [key: string]: string;
-}
-
 export default function MyCheckList(props: PropType) {
     const [checklist, setChecklist] = useState<Item[]>([]);
     const [filteredChecklist, setFilteredChecklist] = useState<Item[]>([]);
     const [filteredGroup, setFilteredGroup] = useState<CountItem>({});
-
-    const mapping: Mapping = {
-        산책: "color-bg-blue-3",
-        쇼핑: "bg-pink-100",
-    };
-
-    // 활동 id 별 색상 부여
-    const setColor = (activity: string): string => {
-        if (mapping[activity]) {
-            return mapping[activity];
-        }
-        return "color-bg-blue-3";
-    };
 
     useEffect(() => {
         if (props.tourId != "") {
@@ -110,9 +94,6 @@ export default function MyCheckList(props: PropType) {
                     updatedChecklist[index].isChecked =
                         !updatedChecklist[index].isChecked;
 
-                    // const movedItem = updatedChecklist.splice(index, 1)[0];
-                    // updatedChecklist.push(movedItem);
-
                     setFilteredChecklist(updatedChecklist);
                 }
             })
@@ -162,38 +143,14 @@ export default function MyCheckList(props: PropType) {
                                     </div>
 
                                     <div className="relative w-fit">
-                                        <div>
-                                            {item.activity ? (
-                                                <span
-                                                    className={`${setColor(
-                                                        item.activity
-                                                    )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
-                                                >
-                                                    {item.activity}
-                                                </span>
-                                            ) : (
-                                                ""
-                                            )}
-                                        </div>
-                                        <div>
-                                            {item.activity &&
-                                            filteredGroup[item.item] > 1 ? (
-                                                <div>
-                                                    <span className="sr-only">
-                                                        Notifications
-                                                    </span>
-                                                    <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white color-bg-blue-1 border-2 border-white rounded-full -top-2 -end-[20%]">
-                                                        {
-                                                            filteredGroup[
-                                                                item.item
-                                                            ]
-                                                        }
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                ""
-                                            )}
-                                        </div>
+                                        <ActivityBadge
+                                            hadNoContent={false}
+                                            item={item}
+                                            filteredChecklist={
+                                                filteredChecklist
+                                            }
+                                            filteredGroup={filteredGroup}
+                                        />
                                     </div>
                                 </div>
                             ))}

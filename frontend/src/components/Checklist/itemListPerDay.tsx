@@ -40,7 +40,7 @@ export default function ItemListPerDay(props: PropType) {
         if (mapping[activity]) {
             return mapping[activity];
         }
-        return "color-bg-blue-3";
+        return "color-bg-green-1";
     };
 
     const formatNumberToTwoDigits = (num: number): string => {

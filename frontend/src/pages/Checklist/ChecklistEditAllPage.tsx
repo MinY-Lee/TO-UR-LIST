@@ -62,11 +62,12 @@ export default function ChecklistEditAllPage() {
         const itemGroups: CountItem = {};
 
         checklist.forEach((item) => {
+            console.log(item);
             const itemName = item.item;
-            if (itemName) {
-                if (!itemGroups[itemName]) {
-                    itemGroups[itemName] = 0;
-                }
+            if (!itemGroups[itemName]) {
+                itemGroups[itemName] = 0;
+            }
+            if (item.activity != "") {
                 itemGroups[itemName]++;
             }
         });

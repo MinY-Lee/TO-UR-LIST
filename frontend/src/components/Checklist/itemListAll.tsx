@@ -14,7 +14,7 @@ interface ItemPerDayAndPlace {
 }
 
 interface Mapping {
-    [key: string]: string[];
+    [key: string]: string;
 }
 
 interface CountItem {
@@ -37,8 +37,8 @@ export default function ItemListAll(props: PropType) {
 
     const navigate = useNavigate();
     const mapping: Mapping = {
-        walking: ["👣 산책", "color-bg-blue-3"],
-        shopping: ["🛒 쇼핑", "bg-pink-100"],
+        산책: "color-bg-blue-3",
+        쇼핑: "bg-pink-100",
     };
 
     useEffect(() => {
@@ -46,18 +46,10 @@ export default function ItemListAll(props: PropType) {
         setFilteredGroup(props.filteredGroup);
     }, [props]);
 
-    // 활동 id 를 한글로 변환
-    const ActivityToKor = (activity: string): string => {
-        if (mapping[activity]) {
-            return mapping[activity][0];
-        }
-        return "활동 없음";
-    };
-
     // 활동 id 별 색상 부여
     const setColor = (activity: string): string => {
         if (mapping[activity]) {
-            return mapping[activity][1];
+            return mapping[activity];
         }
         return "color-bg-blue-3";
     };
@@ -100,11 +92,11 @@ export default function ItemListAll(props: PropType) {
                                                     item.activity
                                                 )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
                                             >
-                                                {ActivityToKor(item.activity)}
+                                                {item.activity}
                                             </span>
                                         ) : (
                                             <span
-                                                className={` text-gray-500 border-2 border-dashed px-2.5 py-0.5 rounded`}
+                                                className={` text-gray-200 border-2 border-dashed px-2.5 py-0.5 rounded`}
                                             >
                                                 + 활동없음
                                             </span>
@@ -113,11 +105,11 @@ export default function ItemListAll(props: PropType) {
                                     <div>
                                         {item.activity &&
                                         props.filteredGroup[item.item] > 1 ? (
-                                            <div>
+                                            <div className="relative">
                                                 <span className="sr-only">
                                                     Notifications
                                                 </span>
-                                                <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white color-bg-blue-1 border-2 border-white rounded-full -top-2 -end-[20%]">
+                                                <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white color-bg-blue-1 border-2 border-white rounded-full -top-8 z-10 -end-5">
                                                     {
                                                         props.filteredGroup[
                                                             item.item

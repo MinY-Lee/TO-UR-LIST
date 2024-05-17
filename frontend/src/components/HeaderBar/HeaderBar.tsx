@@ -9,14 +9,24 @@ export default function HeaderBar() {
 
     return (
         <>
-            <div className="w-full h-10vw flex justify-start items-center flex-shrink-0">
-                <span
-                    className="material-symbols-outlined w-[10%] h-full flex justify-center items-center cursor-pointer"
-                    onClick={goBack}
+            <div className="px-5 pt-2 flex w-full justify-between items-center">
+                <div className="h-10vw flex justify-start items-center flex-shrink-0">
+                    <span
+                        className="material-symbols-outlined h-full flex justify-center items-center cursor-pointer"
+                        onClick={goBack}
+                    >
+                        west
+                    </span>
+                    <span className="text-5vw">TO-UR-LIST</span>
+                </div>
+                <div
+                    className="underline"
+                    onClick={() => {
+                        window.location.href = `/`;
+                    }}
                 >
-                    west
-                </span>
-                <span className="text-5vw">TO-UR-LIST</span>
+                    여행메인
+                </div>
             </div>
         </>
     );
