@@ -48,17 +48,24 @@ public class AuthenticationFilter implements GatewayFilter {
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		ServerHttpRequest serverHttpRequest = exchange.getRequest();
 
-		if (this.isAccessTokenMissing(serverHttpRequest)) {
+		// token이 둘 다 없을 경우
+		if (this.isAccessTokenMissing(serverHttpRequest) && this.isRefreshTokenMissing(serverHttpRequest)) {
 			return this.onError(exchange, HttpStatus.UNAUTHORIZED);
 		}
 
 		MultiValueMap<String, HttpCookie> cookies = exchange.getRequest().getCookies();
 
-		HttpCookie accessTokenCookie = cookies.get("accessToken").get(0);
 
-		HttpCookie refreshTokenCookie =
-			cookies.containsKey("refreshToken") ? cookies.get("refreshToken").get(0)
-				: new HttpCookie("refreshToken", "");
+		HttpCookie accessTokenCookie = new HttpCookie("accessToken", "");
+		HttpCookie refreshTokenCookie = new HttpCookie("refreshToken", "");
+
+		if(!this.isAccessTokenMissing(serverHttpRequest)) {
+			accessTokenCookie = cookies.get("accessToken").get(0);
+		}
+
+		if(!this.isRefreshTokenMissing(serverHttpRequest)) {
+			refreshTokenCookie = cookies.get("refreshToken").get(0);
+		}
 
 		if (jwtUtil.isInvalid(accessTokenCookie.getValue())) {
 
@@ -121,6 +128,10 @@ public class AuthenticationFilter implements GatewayFilter {
 
 	private boolean isAccessTokenMissing(ServerHttpRequest serverHttpRequest) {
 		return !serverHttpRequest.getCookies().containsKey("accessToken");
+	}
+
+	private boolean isRefreshTokenMissing(ServerHttpRequest serverHttpRequest) {
+		return !serverHttpRequest.getCookies().containsKey("refreshToken");
 	}
 
 }
