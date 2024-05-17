@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,9 +42,12 @@ public class AuthController {
 
 	@GetMapping("/logout")
 	public void logout(HttpServletRequest request, HttpServletResponse response,
-		@AuthenticationPrincipal CustomOAuth2User user) {
-		// 레디스 정보 제거
-		authService.logoutUser(user.getUserId());
+		@CookieValue("accessToken") String accessToken) {
+
+		if (accessToken != null) {
+			// 레디스 정보 제거
+			authService.logoutUser(accessToken);
+		}
 		// 쿠키 지우기
 		CookieUtil.deleteTokenCookie(request, response);
 	}
