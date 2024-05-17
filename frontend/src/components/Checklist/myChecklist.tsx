@@ -43,10 +43,10 @@ export default function MyCheckList(props: PropType) {
 
         checklist.forEach((item) => {
             const itemName = item.item;
-            if (itemName) {
-                if (!itemGroups[itemName]) {
-                    itemGroups[itemName] = 0;
-                }
+            if (!itemGroups[itemName]) {
+                itemGroups[itemName] = 0;
+            }
+            if (item.activity != "") {
                 itemGroups[itemName]++;
             }
         });
@@ -74,8 +74,7 @@ export default function MyCheckList(props: PropType) {
     };
 
     const handleCheckbox = (index: number) => {
-        const { activity, isChecked, item, placeId, tourDay, tourId } =
-            filteredChecklist[index];
+        const { activity, isChecked, item, placeId, tourDay, tourId } = filteredChecklist[index];
 
         const targetItem: ItemApi = {
             activity: activity,
@@ -91,8 +90,7 @@ export default function MyCheckList(props: PropType) {
                 if (res.status == HttpStatusCode.Ok) {
                     // 화면상 반영 및 아래로 이동
                     const updatedChecklist = [...filteredChecklist];
-                    updatedChecklist[index].isChecked =
-                        !updatedChecklist[index].isChecked;
+                    updatedChecklist[index].isChecked = !updatedChecklist[index].isChecked;
 
                     setFilteredChecklist(updatedChecklist);
                 }
@@ -118,26 +116,19 @@ export default function MyCheckList(props: PropType) {
                         </div>
                         <div className="flex flex-col gap-1">
                             {filteredChecklist.map((item, index) => (
-                                <div
-                                    key={index}
-                                    className="grid grid-cols-3 justify-end m-1"
-                                >
+                                <div key={index} className="grid grid-cols-3 justify-end m-1">
                                     <div className="flex items-center col-span-2">
                                         <input
                                             id="default-checkbox"
                                             type="checkbox"
-                                            onChange={() =>
-                                                handleCheckbox(index)
-                                            }
+                                            onChange={() => handleCheckbox(index)}
                                             checked={item.isChecked}
-                                            className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
+                                            className="w-6 h-6 bg-gray-100 border-gray-300 rounded "
                                         />
                                         <div className="ml-2">
-                                            <PayTypeIcon
-                                                isPublic={item.isPublic}
-                                            />
+                                            <PayTypeIcon isPublic={item.isPublic} />
                                         </div>
-                                        <label className="ms-2 w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
+                                        <label className="text-lg ms-2 w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
                                             {item.item}
                                         </label>
                                     </div>
@@ -146,9 +137,7 @@ export default function MyCheckList(props: PropType) {
                                         <ActivityBadge
                                             hadNoContent={false}
                                             item={item}
-                                            filteredChecklist={
-                                                filteredChecklist
-                                            }
+                                            filteredChecklist={filteredChecklist}
                                             filteredGroup={filteredGroup}
                                         />
                                     </div>

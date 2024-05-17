@@ -76,7 +76,7 @@ export default function ItemList(props: PropType) {
                                                         type="checkbox"
                                                         onChange={() => props.handleCheckbox(item)}
                                                         checked={item.isChecked}
-                                                        className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
+                                                        className="w-6 h-6 bg-gray-100 border-gray-300 rounded "
                                                     />
                                                     <div className="ml-2">
                                                         <PayTypeIcon isPublic={item.isPublic} />

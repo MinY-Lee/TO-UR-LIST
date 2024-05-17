@@ -26,9 +26,11 @@ export default function ActivityBadge(props: PropType) {
             <div>
                 {props.item.activity ? (
                     <span
-                        className={`${setColor(
-                            props.item.activity
-                        )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
+                        className={`${setColor(props.item.activity)} ${
+                            setColor(props.item.activity) == "bg-[#2BA1F9]"
+                                ? "text-white"
+                                : "text-gray-500"
+                        } drop-shadow-md px-2.5 py-0.5 rounded`}
                     >
                         {props.item.activity}
                     </span>
@@ -37,8 +39,7 @@ export default function ActivityBadge(props: PropType) {
                 )}
             </div>
             <div>
-                {props.item.activity &&
-                props.filteredGroup[props.item.item] > 1 ? (
+                {props.item.activity && props.filteredGroup[props.item.item] > 1 ? (
                     <div className="relative">
                         <span className="sr-only">Notifications</span>
                         <div

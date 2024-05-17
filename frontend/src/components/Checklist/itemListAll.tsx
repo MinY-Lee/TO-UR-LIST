@@ -1,18 +1,11 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import TrashIcon from "../../assets/svg/trashIcon";
-import { Item, TourInfoDetail } from "../../types/types";
-import ChecklistInput from "./checklistInput";
-import { useEffect, useState } from "react";
 import ColorMapping from "../../assets/colorMapping";
 
-interface ItemPerPlace {
-    [placeId: string]: Item[];
-}
-
-interface ItemPerDayAndPlace {
-    [day: number]: ItemPerPlace;
-}
+import { Item } from "../../types/types";
 
 interface CountItem {
     [key: string]: number;
@@ -22,10 +15,7 @@ interface PropType {
     filteredChecklist: Item[];
     tourId: string;
     filteredGroup: CountItem;
-    handleDeleteModal: (
-        item: Item,
-        event: React.MouseEvent<HTMLDivElement>
-    ) => void;
+    handleDeleteModal: (item: Item, event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export default function ItemListAll(props: PropType) {
@@ -54,6 +44,17 @@ export default function ItemListAll(props: PropType) {
         });
     };
 
+    const getActivity = (target: Item): string => {
+        console.log(props.filteredChecklist);
+        console.log(target);
+
+        const itemActivity = props.filteredChecklist.find((item) => item.item === target.item);
+
+        console.log(itemActivity);
+
+        return itemActivity ? itemActivity.activity : "";
+    };
+
     return (
         <>
             {props.filteredChecklist.length == 0 ? (
@@ -72,20 +73,20 @@ export default function ItemListAll(props: PropType) {
                         >
                             <div className="ml-2 col-span-3 flex items-center">
                                 <PayTypeIcon isPublic={item.isPublic} />
-                                <div className=" text-lg flex items-center ml-3">
-                                    {item.item}
-                                </div>
+                                <div className=" text-lg flex items-center ml-3">{item.item}</div>
                             </div>
                             <div className="col-span-3 grid grid-cols-3 justify-center">
                                 <div className="relative w-full col-span-2 justify-end pr-3">
                                     <div className="flex justify-end w-full">
-                                        {item.activity ? (
+                                        {getActivity(item) != "" ? (
                                             <span
-                                                className={`${setColor(
-                                                    item.activity
-                                                )} text-gray-500 drop-shadow-md px-2.5 rounded`}
+                                                className={`${setColor(getActivity(item))} ${
+                                                    setColor(getActivity(item)) == "bg-[#2BA1F9]"
+                                                        ? "text-white"
+                                                        : "text-gray-500"
+                                                } drop-shadow-md px-2.5 rounded`}
                                             >
-                                                {item.activity}
+                                                {getActivity(item)}
                                             </span>
                                         ) : (
                                             <span
@@ -96,22 +97,15 @@ export default function ItemListAll(props: PropType) {
                                         )}
                                     </div>
                                     <div>
-                                        {item.activity &&
-                                        props.filteredGroup[item.item] > 1 ? (
+                                        {item.activity && props.filteredGroup[item.item] > 1 ? (
                                             <div className="relative">
-                                                <span className="sr-only">
-                                                    Notifications
-                                                </span>
+                                                <span className="sr-only">Notifications</span>
                                                 <div
                                                     className={`${setColor(
                                                         item.activity
-                                                    )} absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white border-2 border-white rounded-full -top-8 z-10 -end-5`}
+                                                    )} absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white border-2 border-white rounded-full -top-8 z-10 -end-[35%]`}
                                                 >
-                                                    {
-                                                        props.filteredGroup[
-                                                            item.item
-                                                        ]
-                                                    }
+                                                    {props.filteredGroup[item.item]}
                                                 </div>
                                             </div>
                                         ) : (

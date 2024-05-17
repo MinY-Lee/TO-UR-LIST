@@ -102,8 +102,7 @@ export default function ChecklistEditAllPage() {
 
     const handleDelete = () => {
         if (deleteItem) {
-            const { activity, isChecked, item, placeId, tourDay, tourId } =
-                deleteItem;
+            const { activity, isChecked, item, placeId, tourDay, tourId } = deleteItem;
             const targetItem: ItemApi = {
                 activity: activity,
                 isChecked: !isChecked,
@@ -129,10 +128,7 @@ export default function ChecklistEditAllPage() {
         setIsCheckModalActive(false);
     };
 
-    const handleDeleteModal = (
-        item: Item,
-        event: React.MouseEvent<HTMLDivElement>
-    ) => {
+    const handleDeleteModal = (item: Item, event: React.MouseEvent<HTMLDivElement>) => {
         event.stopPropagation(); // 이벤트 버블링 중단
 
         setIsCheckModalActive(true);
