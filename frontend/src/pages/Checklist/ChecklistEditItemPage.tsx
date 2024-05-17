@@ -12,10 +12,6 @@ import { getChecklist, modifyItem } from "../../util/api/checklist";
 import { HttpStatusCode } from "axios";
 import { getPlaceList } from "../../util/api/place";
 
-interface Mapping {
-    [key: string]: string;
-}
-
 export default function ChecklistEditItemPage() {
     const [tourId, setTourId] = useState<string>("");
     const [editItem, setEditItem] = useState<Item>({

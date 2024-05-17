@@ -12,10 +12,6 @@ import TabBarTour from "../../components/TabBar/TabBarTour";
 import { Item, ItemApi } from "../../types/types";
 import { deleteChecklist, getChecklist } from "../../util/api/checklist";
 
-interface Mapping {
-    [key: string]: string[];
-}
-
 interface CountItem {
     [key: string]: number;
 }

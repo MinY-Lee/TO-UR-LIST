@@ -105,7 +105,7 @@ export default function MyCheckList(props: PropType) {
             <div className="w-full  justify-between items-end p-5 bak">
                 <div>
                     <div className=" border-2 border-blue-200 rounded-2xl p-3">
-                        <div className="flex w-full justify-end">
+                        <div className="flex w-full justify-end mb-2">
                             <MyButton
                                 type="small"
                                 className="text-white font-medium"
@@ -120,7 +120,7 @@ export default function MyCheckList(props: PropType) {
                             {filteredChecklist.map((item, index) => (
                                 <div
                                     key={index}
-                                    className="grid grid-cols-3 justify-center m-1"
+                                    className="grid grid-cols-3 justify-end m-1"
                                 >
                                     <div className="flex items-center col-span-2">
                                         <input
@@ -142,7 +142,7 @@ export default function MyCheckList(props: PropType) {
                                         </label>
                                     </div>
 
-                                    <div className="relative w-fit">
+                                    <div className="relative text-end mr-3">
                                         <ActivityBadge
                                             hadNoContent={false}
                                             item={item}

@@ -1,3 +1,4 @@
+import ColorMapping from "../../assets/colorMapping";
 import { Item } from "../../types/types";
 
 interface CountItem {
@@ -11,20 +12,11 @@ interface PropType {
     hadNoContent: boolean; // + 활동없음 띄울지 말지
 }
 
-interface Mapping {
-    [key: string]: string;
-}
-
 export default function ActivityBadge(props: PropType) {
-    const mapping: Mapping = {
-        산책: "color-bg-blue-3",
-        쇼핑: "bg-pink-100",
-    };
-
     // 활동 id 별 색상 부여
     const setColor = (activity: string): string => {
-        if (mapping[activity]) {
-            return mapping[activity];
+        if (ColorMapping()[activity]) {
+            return ColorMapping()[activity];
         }
         return "color-bg-green-1";
     };
@@ -49,7 +41,11 @@ export default function ActivityBadge(props: PropType) {
                 props.filteredGroup[props.item.item] > 1 ? (
                     <div className="relative">
                         <span className="sr-only">Notifications</span>
-                        <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white color-bg-blue-1 border-2 border-white rounded-full -top-8  -end-3 z-10">
+                        <div
+                            className={`${setColor(
+                                props.item.activity
+                            )} absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white border-2 border-white rounded-full -top-8  -end-3 z-10`}
+                        >
                             {props.filteredGroup[props.item.item]}
                         </div>
                     </div>

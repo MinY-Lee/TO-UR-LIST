@@ -3,6 +3,7 @@ import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import TrashIcon from "../../assets/svg/trashIcon";
 import { Item, PlaceMapping, TourInfoDetail } from "../../types/types";
 import ChecklistInput from "./checklistInput";
+import ColorMapping from "../../assets/colorMapping";
 
 interface ItemPerPlace {
     [placeId: string]: Item[];
@@ -10,10 +11,6 @@ interface ItemPerPlace {
 
 interface ItemPerDayAndPlace {
     [day: number]: ItemPerPlace;
-}
-
-interface Mapping {
-    [key: string]: string;
 }
 
 interface PropType {
@@ -30,15 +27,11 @@ interface PropType {
 
 export default function ItemListPerDay(props: PropType) {
     const navigate = useNavigate();
-    const mapping: Mapping = {
-        산책: "color-bg-blue-3",
-        쇼핑: "bg-pink-100",
-    };
 
     // 활동 id 별 색상 부여
     const setColor = (activity: string): string => {
-        if (mapping[activity]) {
-            return mapping[activity];
+        if (ColorMapping()[activity]) {
+            return ColorMapping()[activity];
         }
         return "color-bg-green-1";
     };

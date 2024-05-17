@@ -85,7 +85,7 @@ export default function AccountAddModify(props: PropType) {
         if (props.tourData.cityList[0]) {
             getCurrency(
                 props.tourData.cityList[0].countryCode,
-                new Date("2024-05-13").toISOString().split("T")[0] // 나중에 수정해야 함
+                new Date().toISOString().split("T")[0]
             )
                 .then((res) => {
                     setCurrency({

@@ -4,6 +4,7 @@ import TrashIcon from "../../assets/svg/trashIcon";
 import { Item, TourInfoDetail } from "../../types/types";
 import ChecklistInput from "./checklistInput";
 import { useEffect, useState } from "react";
+import ColorMapping from "../../assets/colorMapping";
 
 interface ItemPerPlace {
     [placeId: string]: Item[];
@@ -11,10 +12,6 @@ interface ItemPerPlace {
 
 interface ItemPerDayAndPlace {
     [day: number]: ItemPerPlace;
-}
-
-interface Mapping {
-    [key: string]: string;
 }
 
 interface CountItem {
@@ -36,10 +33,6 @@ export default function ItemListAll(props: PropType) {
     const [filteredChecklist, setFilteredChecklist] = useState<Item[]>([]);
 
     const navigate = useNavigate();
-    const mapping: Mapping = {
-        산책: "color-bg-blue-3",
-        쇼핑: "bg-pink-100",
-    };
 
     useEffect(() => {
         setFilteredChecklist(props.filteredChecklist);
@@ -48,8 +41,8 @@ export default function ItemListAll(props: PropType) {
 
     // 활동 id 별 색상 부여
     const setColor = (activity: string): string => {
-        if (mapping[activity]) {
-            return mapping[activity];
+        if (ColorMapping()[activity]) {
+            return ColorMapping()[activity];
         }
         return "color-bg-blue-3";
     };

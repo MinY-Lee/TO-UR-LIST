@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import { Item, TourInfoDetail } from "../../types/types";
 import { act } from "react-dom/test-utils";
+import ColorMapping from "../../assets/colorMapping";
 
 interface ItemPerPlace {
     [placeId: string]: Item[];
@@ -9,10 +10,6 @@ interface ItemPerPlace {
 
 interface ItemPerDayAndPlace {
     [day: number]: ItemPerPlace;
-}
-
-interface Mapping {
-    [key: string]: string;
 }
 
 interface PlaceMapping {
@@ -42,17 +39,10 @@ export default function ItemList(props: PropType) {
         }.${startDate.getDate()}`;
     };
 
-    const mapping: Mapping = {
-        산책: "color-bg-blue-3",
-        쇼핑: "bg-pink-100",
-        사진: "bg-pink-100",
-        축제: "bg-yellow-100",
-    };
-
     // 활동 id 별 색상 부여
     const setColor = (activity: string): string => {
-        if (mapping[activity]) {
-            return mapping[activity];
+        if (ColorMapping()[activity]) {
+            return ColorMapping()[activity];
         }
         return "color-bg-blue-3";
     };
