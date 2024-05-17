@@ -1,31 +1,31 @@
 @font-face {
-    font-family: 'TTHakgyoansimSamulhamR';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimSamulhamR.woff2')
-        format('woff2');
+    font-family: "TTHakgyoansimSamulhamR";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimSamulhamR.woff2")
+        format("woff2");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Freesentation-4Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-4Regular.woff2')
-        format('woff2');
+    font-family: "Freesentation-4Regular";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-4Regular.woff2")
+        format("woff2");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Freesentation-5Medium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-5Medium.woff2')
-        format('woff2');
+    font-family: "Freesentation-5Medium";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-5Medium.woff2")
+        format("woff2");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Freesentation-6SemiBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-6SemiBold.woff2')
-        format('woff2');
+    font-family: "Freesentation-6SemiBold";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-6SemiBold.woff2")
+        format("woff2");
     font-weight: normal;
     font-style: normal;
 }
@@ -33,7 +33,12 @@
 html,
 body,
 #root {
-    font-family: 'Freesentation-4Regular';
+    font-family: "Freesentation-4Regular";
     width: 100%;
     height: 100%;
+}
+@supports (-webkit-touch-callout: none) {
+    #root {
+        height: -webkit-fill-available;
+    }
 }

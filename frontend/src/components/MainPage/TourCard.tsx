@@ -84,7 +84,7 @@ export default function TourCard(props: PropType) {
             <div
                 className={`${
                     props.className
-                } box-border w-[90%] h-[15%] m-2vw p-vw border-rad-2vw flex items-center flex-shrink-0 ${
+                } box-border w-[90%] h-[] m-2vw p-vw border-rad-2vw flex items-center flex-shrink-0 ${
                     mode === 0
                         ? "color-bg-blue-3"
                         : mode === 1

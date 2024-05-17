@@ -141,7 +141,7 @@ export default function TourCreatePage() {
     }
 
     return (
-        <section className="grid grid-rows-8 h-[95vh]">
+        <section className="grid grid-rows-8 h-[90vh]">
             {isLoading ? <Loading /> : <></>}
             <header className="row-span-2">
                 <HeaderBar />

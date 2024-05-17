@@ -243,19 +243,22 @@ export default function AccountAddModify(props: PropType) {
             payMemberList: updatedMember,
         };
 
-        if(newAccountItem.payAmount==0){
+        if (newAccountItem.payAmount == 0) {
             setIsVaildPayAmount(false);
             return;
         }
-        if(!categories.includes(newAccountItem.payCategory)){
+        if (!categories.includes(newAccountItem.payCategory)) {
             setIsVaildPayCategory(false);
             return;
         }
-        if(!newAccountItem.payContent){
+        if (!newAccountItem.payContent) {
             setIsVaildPayContent(false);
             return;
         }
-        if(newAccountItem.payMethod!="카드" && newAccountItem.payMethod!="현금"){
+        if (
+            newAccountItem.payMethod != "카드" &&
+            newAccountItem.payMethod != "현금"
+        ) {
             setIsVaildPayType(false);
             return;
         }
@@ -506,7 +509,7 @@ export default function AccountAddModify(props: PropType) {
                                         className={`${
                                             category !== cat
                                                 ? "bg-gray-200"
-                                                : "color-bg-blue-4 border-[#559bd9] border"
+                                                : "color-bg-blue-4 color-border-blue-1 border"
                                         } w-9 h-9 bg-gray-200 justify-center items-center rounded-full flex flex-col`}
                                     >
                                         {CategoryToImg(cat)}

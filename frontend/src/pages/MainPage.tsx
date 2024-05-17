@@ -159,7 +159,7 @@ export default function MainPage() {
     return (
         <section className="w-full h-[90%] overflow-y-scroll flex flex-col flex-nowrap items-center">
             {isLoading ? <Loading /> : <></>}
-            <div className="w-[90%] h-[20%] flex items-center justify-between py-vw ">
+            <div className="w-[90%] h-full flex items-center justify-between py-vw ">
                 <div className="text-6vw h-full flex flex-col justify-center items-start">
                     <p>
                         <span className="text-7vw weight-text-semibold mr-vw">
@@ -177,15 +177,17 @@ export default function MainPage() {
             {nowTourList.length > 0 ? (
                 <>
                     <p className="w-[90%] text-5vw my-vw">진행 중인 여행</p>
-                    {nowTourList.map((tour) => {
-                        return (
-                            <TourCard
-                                key={tour.tourId}
-                                tourInfo={tour}
-                                countryList={countryList}
-                            />
-                        );
-                    })}
+                    <div className="w-full flex flex-col gap-2 items-center">
+                        {nowTourList.map((tour) => {
+                            return (
+                                <TourCard
+                                    key={tour.tourId}
+                                    tourInfo={tour}
+                                    countryList={countryList}
+                                />
+                            );
+                        })}
+                    </div>
                 </>
             ) : (
                 <div></div>
@@ -193,15 +195,17 @@ export default function MainPage() {
             {comingTourList.length > 0 ? (
                 <>
                     <p className="w-[90%] text-5vw my-vw">다가오는 여행</p>
-                    {comingTourList.map((tour) => {
-                        return (
-                            <TourCard
-                                key={tour.tourId}
-                                tourInfo={tour}
-                                countryList={countryList}
-                            />
-                        );
-                    })}
+                    <div className="w-full flex flex-col gap-2 items-center">
+                        {comingTourList.map((tour) => {
+                            return (
+                                <TourCard
+                                    key={tour.tourId}
+                                    tourInfo={tour}
+                                    countryList={countryList}
+                                />
+                            );
+                        })}
+                    </div>
                 </>
             ) : (
                 <></>
@@ -209,15 +213,17 @@ export default function MainPage() {
             {passTourList.length > 0 ? (
                 <>
                     <p className="w-[90%] text-5vw my-vw">지난 여행</p>
-                    {passTourList.map((tour) => {
-                        return (
-                            <TourCard
-                                key={tour.tourId}
-                                tourInfo={tour}
-                                countryList={countryList}
-                            />
-                        );
-                    })}
+                    <div className="w-full flex flex-col gap-2 items-center">
+                        {passTourList.map((tour) => {
+                            return (
+                                <TourCard
+                                    key={tour.tourId}
+                                    tourInfo={tour}
+                                    countryList={countryList}
+                                />
+                            );
+                        })}
+                    </div>
                 </>
             ) : (
                 <></>

@@ -25,7 +25,7 @@ export default function TabBarTour(props: PropType) {
                 } w-[96%] grid grid-cols-5 absolute bottom-2 left-2 rounded-lg justify-around items-center border-2 drop-shadow-md bg-white z-10`}
             >
                 <div
-                    className="hover:bg-[#d5e7f2] h-full rounded-l-lg flex flex-col items-center justify-center text-neutral-500"
+                    className="hover:bg-[#d5e7f2] h-full rounded-l-lg flex flex-col items-center justify-evenly text-neutral-500"
                     onClick={() => {
                         window.location.href = `/feed`;
                     }}
@@ -37,7 +37,7 @@ export default function TabBarTour(props: PropType) {
                     <div
                         className={`${
                             type == "checklist" ? selected : ""
-                        } flex flex-col items-center justify-center text-neutral-500`}
+                        } h-full flex flex-col items-center  justify-evenly text-neutral-500`}
                         onClick={() => {
                             if (props.tourMode !== 3) {
                                 window.location.href = `/tour/${props.tourId}/checklist`;
@@ -54,7 +54,7 @@ export default function TabBarTour(props: PropType) {
                     <div
                         className={`${
                             type == "schedule" ? selected : ""
-                        } flex flex-col items-center justify-center text-neutral-500`}
+                        } flex flex-col h-full  items-center  justify-evenly text-neutral-500`}
                     >
                         <span
                             className="material-symbols-outlined  text-3xl"
@@ -73,7 +73,7 @@ export default function TabBarTour(props: PropType) {
                     <div
                         className={`${
                             type == "account" ? selected : ""
-                        } flex flex-col items-center justify-center text-neutral-500 `}
+                        } h-full justify-evenly flex flex-col items-center  text-neutral-500 `}
                     >
                         <span
                             className="material-symbols-outlined  text-3xl"
@@ -92,7 +92,7 @@ export default function TabBarTour(props: PropType) {
                     <div
                         className={`${
                             type == "mypage" ? selected : ""
-                        } flex flex-col items-center justify-center text-neutral-500`}
+                        } h-full flex flex-col items-center justify-evenly text-neutral-500`}
                         onClick={() => {
                             window.location.href = `/mypage`;
                         }}
