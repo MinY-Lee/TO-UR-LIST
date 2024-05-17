@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import { Item, TourInfoDetail } from "../../types/types";
+import { act } from "react-dom/test-utils";
 
 interface ItemPerPlace {
     [placeId: string]: Item[];
@@ -11,12 +12,17 @@ interface ItemPerDayAndPlace {
 }
 
 interface Mapping {
-    [key: string]: string[];
+    [key: string]: string;
+}
+
+interface PlaceMapping {
+    [placeId: string]: string;
 }
 
 interface PropType {
     data: TourInfoDetail;
     daysList: number[];
+    placeData: PlaceMapping;
     groupedItems: ItemPerDayAndPlace;
     handleCheckbox: (item: Item) => void;
 }
@@ -37,22 +43,16 @@ export default function ItemList(props: PropType) {
     };
 
     const mapping: Mapping = {
-        walking: ["👣 산책", "color-bg-blue-3"],
-        shopping: ["🛒 쇼핑", "bg-pink-100"],
-    };
-
-    // 활동 id 를 한글로 변환
-    const ActivityToKor = (activity: string): string => {
-        if (mapping[activity]) {
-            return mapping[activity][0];
-        }
-        return "활동 없음";
+        산책: "color-bg-blue-3",
+        쇼핑: "bg-pink-100",
+        사진: "bg-pink-100",
+        축제: "bg-yellow-100",
     };
 
     // 활동 id 별 색상 부여
     const setColor = (activity: string): string => {
         if (mapping[activity]) {
-            return mapping[activity][1];
+            return mapping[activity];
         }
         return "color-bg-blue-3";
     };
@@ -72,7 +72,9 @@ export default function ItemList(props: PropType) {
                                     <div className="ml-5" key={index}>
                                         <div className="text-lg font-semibold">
                                             {placeId != "" ? (
-                                                <div>{placeId} </div>
+                                                <div>
+                                                    {props.placeData[placeId]}{" "}
+                                                </div>
                                             ) : (
                                                 ""
                                             )}
@@ -117,9 +119,7 @@ export default function ItemList(props: PropType) {
                                                                     item.activity
                                                                 )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
                                                             >
-                                                                {ActivityToKor(
-                                                                    item.activity
-                                                                )}
+                                                                {item.activity}
                                                             </span>
                                                         )}
                                                     </div>

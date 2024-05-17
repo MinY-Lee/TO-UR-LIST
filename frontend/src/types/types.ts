@@ -104,7 +104,7 @@ export interface TourPlaceItem {
     placeId: string;
     placeName: string;
     tourDay: number;
-    activityList: TourActivity[];
+    activityList: string[];
 }
 
 export interface TourActivity {
