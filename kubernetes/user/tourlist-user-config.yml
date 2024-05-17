@@ -4,3 +4,4 @@ metadata:
   name: tourlist-user-config
 data:
   USER_DB_URL: "jdbc:mariadb://tourlist-user-db-service:3306/TOURLIST?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false"
+  AUTH_SERVER_URL: "http://tourlist-auth-service:8081"
