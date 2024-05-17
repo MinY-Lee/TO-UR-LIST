@@ -143,7 +143,7 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
 
         log.debug("tour 생성 완료! " + tour.toString());
         // 장소 없음 tour_place 생성 + 활동 없음 tour_activity 생성
-        createPlace(tourId, "_default_" + tourId, "", 0);
+        createPlace(tourId, "_default_" + tourId, "", 0,"");
 //        updateCountry(tourId, countryCodeSet);
         createCountry(tourId,countryCodeSet);
         createMember(tourId,userId);
@@ -212,7 +212,7 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
     }
 
     @Override
-    public void createPlace(String tourId, String tourPlaceId, String placeId, Integer tourDay) {
+    public void createPlace(String tourId, String tourPlaceId, String placeId, Integer tourDay, String placeName) {
         // 맞는 tour 확인 -> 없음 에러
         Tour tour = tourRepository.findByTourId(tourId).orElseThrow(NoSuchTourException::new);
         log.debug("PLACE: tour 있다");
@@ -226,6 +226,7 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
                 .tourPlaceId(tourPlaceId)
                 .placeAndTour(Go.builder()
                         .placeId(placeId)
+                        .placeName(placeName)
                         .tourDay(tourDay)
                         .tour(tour)
                         .build())
