@@ -132,7 +132,7 @@ export default function TourCheckList(props: PropType) {
             <div className="w-full  justify-between items-end p-5 bak">
                 <div className="text-xl font-bold mb-3">전체 체크리스트</div>
                 <div>
-                    <div className=" border-2 border-[#5faad9] rounded-2xl p-3">
+                    <div className=" border-2 color-border-blue-1 rounded-2xl p-3">
                         <div className="flex w-full justify-end">
                             <MyButton
                                 type="small"

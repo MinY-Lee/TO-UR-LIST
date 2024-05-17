@@ -65,7 +65,7 @@ export default function TourBasicInfo(props: PropType) {
                         countryInfoList.map((countryInfo, index) => (
                             <div
                                 key={index}
-                                className="border-2 border-[#5faad9] rounded-2xl p-3"
+                                className="border-2 color-border-blue-1 rounded-2xl p-3"
                             >
                                 <div className="grid grid-cols-3 mb-3">
                                     <div className="flex flex-col items-center">
@@ -98,7 +98,7 @@ export default function TourBasicInfo(props: PropType) {
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="flex flex-col items-center border-t border-[#559bd9] pt-3">
+                                    <div className="flex flex-col items-center border-t color-border-blue-1 pt-3">
                                         <div className="text-wrap text-lg">
                                             {countryInfo.climate}
                                         </div>

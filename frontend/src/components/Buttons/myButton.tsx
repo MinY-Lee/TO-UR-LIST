@@ -18,7 +18,7 @@ const MyButton: React.FC<MyButtonProps> = ({
     // const [buttonColor, setButtonColor] = useState<String>(isSelected ? 'color-bg-blue-1 text-white text-bold' : 'color-bg-blue-5 text-white');
     const buttonColor = isSelected
         ? "color-bg-blue-1"
-        : "box-border border-[#5faad9] border-2";
+        : "box-border color-border-blue-1 border-2";
     return (
         <div className="">
             {type === "full" ? (

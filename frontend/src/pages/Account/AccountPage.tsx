@@ -170,7 +170,7 @@ export default function AccountPage() {
                             <div
                                 className={`${
                                     tapIdx == 1 ? activeStyle : ""
-                                } border-r-2 border-[#d5e7f2] inline-block w-full py-2  rounded-tl-lg`}
+                                } border-r-2 color-border-blue-4 inline-block w-full py-2  rounded-tl-lg`}
                             >
                                 개인 지출
                             </div>
@@ -188,7 +188,7 @@ export default function AccountPage() {
                             <div
                                 className={`${
                                     tapIdx == 3 ? activeStyle : ""
-                                } border-l-2 border-[#d5e7f2]inline-block w-full py-2 rounded-tr-lg`}
+                                } border-l-2 color-border-blue-4 inline-block w-full py-2 rounded-tr-lg`}
                             >
                                 환율
                             </div>

@@ -218,7 +218,7 @@ export default function ChecklistEditItemPage() {
                             filteredData.map((item, index) => (
                                 <div
                                     key={index}
-                                    className="grid grid-cols-5 border-2 m-2 p-3 rounded-lg border-[#5faad9]"
+                                    className="grid grid-cols-5 border-2 m-2 p-3 rounded-lg color-border-blue-1"
                                 >
                                     <div className="col-span-1 color-text-blue-2 text-lg">
                                         Day
@@ -248,7 +248,7 @@ export default function ChecklistEditItemPage() {
                                 </div>
                             ))
                         ) : (
-                            <div className="grid border-dashed border m-2 p-3 rounded-lg border-[#5faad9] color-text-blue-2 text-center">
+                            <div className="grid border-dashed border m-2 p-3 rounded-lg color-border-blue-1 color-text-blue-2 text-center">
                                 사용되는 장소/활동이 없습니다
                             </div>
                         )}
