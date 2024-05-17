@@ -65,9 +65,9 @@ export default function ItemListPerDay(props: PropType) {
                         Day{formatNumberToTwoDigits(day)}{" "}
                         {day !== 0 ? `| ${calcDate(day)}` : "| 날짜 없음"}
                     </div>
-                    <div className="border-t-2 border-black mt-2 mb-2">
+                    <div className="border-t-2 border-black mt-2 mb-2 ">
                         {props.groupedItems[day] ? (
-                            <>
+                            <div className="">
                                 {props.groupedItems[day] &&
                                     Object.keys(props.groupedItems[day]).map(
                                         (placeId, index) => (
@@ -88,7 +88,7 @@ export default function ItemListPerDay(props: PropType) {
                                                         ""
                                                     )}
                                                 </div>
-                                                <div>
+                                                <div className="flex flex-col gap-1">
                                                     {props.groupedItems[day][
                                                         placeId
                                                     ].map((item, index) => (
@@ -114,12 +114,12 @@ export default function ItemListPerDay(props: PropType) {
                                                                 </label>
                                                             </div>
                                                             <div className="flex justify-between">
-                                                                <div className="flex justify-center w-full">
+                                                                <div className="flex justify-end pr-3 w-full">
                                                                     {item.activity ? (
                                                                         <span
                                                                             className={`${setColor(
                                                                                 item.activity
-                                                                            )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
+                                                                            )} text-gray-500 drop-shadow-md px-2 rounded overflow-hidden overflow-ellipsis`}
                                                                         >
                                                                             {
                                                                                 item.activity
@@ -127,7 +127,7 @@ export default function ItemListPerDay(props: PropType) {
                                                                         </span>
                                                                     ) : (
                                                                         <span
-                                                                            className={` text-gray-500 border-2 border-dashed px-2.5 py-0.5 rounded`}
+                                                                            className={` text-gray-400 border-2 border-dashed px-2 rounded`}
                                                                         >
                                                                             +
                                                                             활동없음
@@ -176,7 +176,7 @@ export default function ItemListPerDay(props: PropType) {
                                             </div>
                                         )
                                     )}
-                            </>
+                            </div>
                         ) : (
                             <div className="flex justify-center items-center h-[5vh]">
                                 해당 날짜의 체크리스트가 없습니다.

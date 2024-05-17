@@ -149,15 +149,15 @@ export default function TourHeader(props: PropType) {
                 <></>
             )}
             <div className=" grid grid-cols-6 justify-between items-end p-7 bak">
-                <div className="col-span-5">
-                    <div className="text-7vw font-bold w-[100%] overflow-ellipsis overflow-hidden whitespace-nowrap">
+                <div className="col-span-5 w-full">
+                    <div className="text-7vw font-bold w-full overflow-ellipsis overflow-hidden whitespace-nowrap">
                         {props.tourInfo.tourTitle}
                     </div>
                     <div className="text-4vw">{`${
                         props.tourInfo.startDate.split("T")[0]
                     }~${props.tourInfo.endDate.split("T")[0]}`}</div>
 
-                    <div className="flex items-center w-full mt-3 overflow-x-scroll h-[40%]">
+                    <div className="flex items-center w-full mt-3 overflow-x-auto">
                         {props.tourInfo.memberList.map(
                             (member: MemberInfo, index: number) => (
                                 <div
@@ -170,7 +170,7 @@ export default function TourHeader(props: PropType) {
                                 >
                                     <div className={`${isHost(member)}`}>
                                         {member.memberType !== "ghost" ? (
-                                            <div className="drop-shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-10 h-10 rounded-full flex justify-center items-center">
+                                            <div className="drop-shadow-lg m-1 font-bold text-3xl color-text-blue-1 color-bg-blue-4 w-10 h-10 rounded-full flex justify-center items-center">
                                                 {member.userNickname[0]}
                                             </div>
                                         ) : (

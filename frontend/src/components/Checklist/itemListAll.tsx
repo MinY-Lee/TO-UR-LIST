@@ -77,13 +77,13 @@ export default function ItemListAll(props: PropType) {
                                 </div>
                             </div>
                             <div className="col-span-3 grid grid-cols-3 justify-center">
-                                <div className="relative w-fit col-span-2">
-                                    <div>
+                                <div className="relative w-full col-span-2 justify-end pr-3">
+                                    <div className="flex justify-end w-full">
                                         {item.activity ? (
                                             <span
                                                 className={`${setColor(
                                                     item.activity
-                                                )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
+                                                )} text-gray-500 drop-shadow-md px-2.5 rounded`}
                                             >
                                                 {item.activity}
                                             </span>

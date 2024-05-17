@@ -116,7 +116,7 @@ export default function MyCheckList(props: PropType) {
                                 }}
                             />
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col gap-1">
                             {filteredChecklist.map((item, index) => (
                                 <div
                                     key={index}

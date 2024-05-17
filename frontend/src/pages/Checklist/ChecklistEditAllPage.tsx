@@ -175,7 +175,7 @@ export default function ChecklistEditAllPage() {
                         onUpdate={onUpdate}
                     />
                 </div>
-                <div className="flex flex-col justify-start items-center h-[65vh]  overflow-y-scroll pt-2">
+                <div className="flex flex-col justify-start items-center h-[65vh]  overflow-y-auto pt-2">
                     <ItemListAll
                         filteredChecklist={filteredChecklist}
                         filteredGroup={filteredGroup}

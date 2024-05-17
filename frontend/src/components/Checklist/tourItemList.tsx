@@ -48,7 +48,7 @@ export default function ItemList(props: PropType) {
     };
 
     return (
-        <>
+        <div className="">
             {props.daysList.map((day) => (
                 <div key={day}>
                     <div className="font-bold text-xl">
@@ -69,7 +69,7 @@ export default function ItemList(props: PropType) {
                                                 ""
                                             )}
                                         </div>
-                                        <div>
+                                        <div className=" flex flex-col gap-1">
                                             {props.groupedItems[day][
                                                 placeId
                                             ].map((item, index) => (
@@ -127,6 +127,6 @@ export default function ItemList(props: PropType) {
                     </div>
                 </div>
             ))}
-        </>
+        </div>
     );
 }
