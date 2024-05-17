@@ -251,8 +251,6 @@ export default function ChecklistEditItemPage() {
             }
         });
         setFilteredData(updatedChecklist);
-        // setCheckModalActive(false);
-
         setSelectModalActive(false);
     };
 
