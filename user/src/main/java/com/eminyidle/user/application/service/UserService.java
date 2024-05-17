@@ -37,12 +37,8 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 	public Boolean checkNicknameDuplication(String userNickname) {
 		// isDuplicated
 		// 중복시 true 반환
-		try {
-			loadUserPort.loadByUserNickname(userNickname);
-			return true;
-		} catch (NoSuchElementException e) {
-			return false;
-		}
+		User user = loadUserPort.loadByUserNickname(userNickname);
+		return user.getUserId() != null;
 	}
 
 	@Override

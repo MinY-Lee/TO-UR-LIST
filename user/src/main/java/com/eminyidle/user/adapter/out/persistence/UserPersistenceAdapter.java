@@ -28,10 +28,11 @@ public class UserPersistenceAdapter implements LoadUserPort, SaveUserPort, Delet
 	}
 
 	@Override
-	public void loadByUserNickname(String userNickname) {
-		UserEntity userEntity = userRepository.findByUserNicknameAndDeletedAtIsNull(userNickname).orElseThrow(NoSuchElementException::new);
+	public User loadByUserNickname(String userNickname) {
+		UserEntity userEntity = userRepository.findByUserNicknameAndDeletedAtIsNull(userNickname).orElse(
+			UserEntity.builder().build());
 
-		userMapper.toDomain(userEntity);
+		return userMapper.toDomain(userEntity);
 	}
 
 	@Override

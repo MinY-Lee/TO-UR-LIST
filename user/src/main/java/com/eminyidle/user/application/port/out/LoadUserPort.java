@@ -7,7 +7,7 @@ import java.util.List;
 public interface LoadUserPort {
 	User load(String userId);
 
-	void loadByUserNickname(String userNickname);
+	User loadByUserNickname(String userNickname);
 
 	List<User> loadUserListByUserNickname(String userNickname);
 }
