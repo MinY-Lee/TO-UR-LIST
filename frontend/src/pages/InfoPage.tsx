@@ -245,17 +245,16 @@ export default function InfoPage() {
                 <div className="w-[90%] h-[80%] flex flex-col flex-grow-0 flex-shrink-0 text-4vw">
                     {/* 이름 */}
                     <div className="w-full h-17vw flex justify-between items-start">
-                        <div className="w-[20%] my-vw">이름 *</div>
+                        <div className="w-[20%] my-vw dot5vw">이름 *</div>
                         <div className="w-[80%] flex flex-col">
                             <input
-                                className="px-2vw my-vw border-dot3vw border-[#929292]"
-                                style={{ borderRadius: "min(1vw, 4.12px)" }}
+                                className="px-2vw py-dot5vw my-vw border-dot3vw border-[#929292] border-rad-2dot5vw"
                                 value={userName}
                                 placeholder="이름을 입력하세요."
                                 onChange={nameChanged}
                             ></input>
                             {isValidName ? (
-                                <div className="color-text-blue-2 text-4vw px-2vw">
+                                <div className="color-text-blue-6 text-4vw px-2vw">
                                     사용 가능한 이름입니다.
                                 </div>
                             ) : (
@@ -268,40 +267,28 @@ export default function InfoPage() {
                     </div>
                     {/* 닉네임 */}
                     <div className="w-full h-17vw flex justify-between items-start">
-                        <div className="w-[20%] my-vw">닉네임 *</div>
+                        <div className="w-[20%] my-vw py-dot5vw">닉네임 *</div>
                         <div className="w-[80%] flex flex-col">
                             <div className="w-full flex">
                                 <input
-                                    className="px-2vw my-vw border-dot3vw border-[#929292] w-[70%] mr-vw"
-                                    style={{ borderRadius: "min(1vw, 4.12px)" }}
+                                    className="px-2vw py-dot5vw my-vw border-dot3vw border-[#929292] w-[70%] mr-vw border-rad-2dot5vw"
                                     value={userNickname}
                                     placeholder="닉네임을 입력하세요."
                                     onChange={nicknameChanged}
                                 ></input>
                                 {/* 닉네임 확인은 유효한 닉만 */}
-                                {isValidNickname ? (
-                                    <div
-                                        className="w-[28%] my-vw color-bg-blue-2 text-white flex justify-center items-center"
-                                        style={{
-                                            borderRadius: "min(1vw, 4.12px)",
-                                        }}
-                                        onClick={checkDupleNickname}
-                                    >
-                                        중복 체크
-                                    </div>
-                                ) : (
-                                    <div
-                                        className="w-[28%] my-vw bg-[#929292] text-white flex justify-center items-center"
-                                        style={{
-                                            borderRadius: "min(1vw, 4.12px)",
-                                        }}
-                                    >
-                                        중복 체크
-                                    </div>
-                                )}
+                                <div
+                                    className="w-[28%] my-vw py-dot5vw color-bg-blue-6 text-white flex justify-center items-center border-rad-2dot5vw"
+                                    style={{
+                                        boxShadow: "0px 2px 4px 1px #cecece",
+                                    }}
+                                    onClick={checkDupleNickname}
+                                >
+                                    중복 체크
+                                </div>
                             </div>
                             {isValidNickname && isNicknameDupleChecked ? (
-                                <div className="color-text-blue-2 text-4vw px-2vw">
+                                <div className="color-text-blue-6 text-4vw px-2vw">
                                     사용 가능한 닉네임입니다.
                                 </div>
                             ) : (
@@ -313,17 +300,18 @@ export default function InfoPage() {
                     </div>
                     {/* 생년월일 */}
                     <div className="w-full h-17vw flex justify-between items-start">
-                        <div className="w-[20%] my-vw">생년월일 *</div>
+                        <div className="w-[20%] my-vw py-dot5vw">
+                            생년월일 *
+                        </div>
                         <div className="w-[80%] flex flex-col">
                             <input
-                                className="px-2vw my-vw border-dot3vw border-[#929292]"
-                                style={{ borderRadius: "min(1vw, 4.12px)" }}
+                                className="px-2vw py-dot5vw my-vw border-dot3vw border-[#929292] border-rad-2dot5vw"
                                 value={userBirthDay}
                                 placeholder="YYYY.MM.DD"
                                 onChange={birtyDayChanged}
                             ></input>
                             {isValidBirthday ? (
-                                <div className="color-text-blue-2 text-4vw px-2vw">
+                                <div className="color-text-blue-6 text-4vw px-2vw">
                                     정확한 형식입니다.
                                 </div>
                             ) : (
@@ -348,19 +336,19 @@ export default function InfoPage() {
                     </div>
 
                     {/* 버튼 */}
-                    <div className="w-full flex justify-between items-center">
+                    <div className="w-full flex justify-between items-center mt-3vw">
                         {isChangePossible ? (
                             <div
-                                className="w-full color-bg-blue-2 text-white flex justify-center items-center py-2vw cursor-pointer"
-                                style={{ borderRadius: "min(1vw, 4.12px)" }}
+                                className="w-full color-bg-blue-6 text-white flex justify-center items-center py-2vw cursor-pointer border-rad-2dot5vw"
+                                style={{ boxShadow: "0px 2px 4px 1px #cecece" }}
                                 onClick={submitChange}
                             >
                                 입력 완료
                             </div>
                         ) : (
                             <div
-                                className="w-full bg-[#D9D9D9] text-[#646464] flex justify-center items-center py-2vw"
-                                style={{ borderRadius: "min(1vw, 4.12px)" }}
+                                className="w-full bg-[#D9D9D9] text-[#646464] flex justify-center items-center py-2vw border-rad-2dot5vw"
+                                style={{ boxShadow: "0px 2px 4px 1px #cecece" }}
                             >
                                 입력 조건 미충족
                             </div>

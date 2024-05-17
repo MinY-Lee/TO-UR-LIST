@@ -46,7 +46,7 @@ export default function LoginPage() {
                             </h5>
                         </div>
                         <div className="flex flex-col items-center">
-                            <p className="text-[#565656] text-5vw">
+                            <p className="text-[#565656] text-5vw mb-3vw">
                                 구글 아이디로 편리하게 로그인하세요!
                             </p>
                             <div
