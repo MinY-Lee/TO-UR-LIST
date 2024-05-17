@@ -1312,4 +1312,192 @@ helm install tourlist-kafka oci://registry-1.docker.io/bitnamicharts/kafka
 - 설치후 나오는 명령어를 참고하여 kafka-client 생성
 
 ### Secrets
-### .env
+- 모두 작성후 jenkins에 tourlist-[서비스명]-secrets / tourlist-[서비스명]-db-secrets 로 저장
+#### COMMON
+- secrets
+```yaml
+# tourlist-common-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-common-secrets
+stringData:
+  USER_NAME:
+  USER_PASSWORD:
+  DB_URL:
+```
+- db-secrets
+```yaml
+# tourlist-common-db-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-common-db-secrets
+stringData:
+  MARIADB_USER:
+  MARIADB_PASSWORD:
+  MARIADB_ROOT_PASSWORD:
+```
+#### AUTH
+- secrets
+```yaml
+# tourlist-auth-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-auth-secrets
+stringData:
+  AUTH_USER_NAME:
+  AUTH_USER_PASSWORD:
+  GOOGLE_CLIENT_ID:
+  GOOGLE_CLIENT_SECRET:
+  JWT_KEY:
+  AUTH_REDIS_PASSWORD:
+```
+- secrets
+```yaml
+# tourlist-auth-db-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-auth-db-secrets
+stringData:
+  MARIADB_USER:
+  MARIADB_PASSWORD:
+  MARIADB_ROOT_PASSWORD:
+  REDIS_PASSWORD:
+```
+#### CHECKLIST
+- secrets
+```yaml
+# tourlist-checklist-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-checklist-secrets
+stringData:
+  CHECKLIST_NEO4J_USER_NAME:
+  CHECKLIST_NEO4J_USER_PASSWORD:
+```
+- db-secrets
+```yaml
+# tourlist-checklist-db-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-checklist-db-secrets
+stringData:
+  NEO4J_AUTH: [username/password]
+```
+#### PLACE
+- secrets
+```yaml
+# tourlist-place-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-place-secrets
+stringData:
+  PLACE_GOOGLE_API_KEY:
+  PLACE_NEO4J_USER_NAME:
+  PLACE_NEO4J_USER_PASSWORD:
+```
+- db-secrets
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-place-db-config
+stringData:
+  NEO4J_AUTH:
+```
+#### USER
+- secrets
+```yaml
+# tourlist-user-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-user-secrets
+stringData:
+  USER_USER_NAME:
+  USER_USER_PASSWORD:
+```
+- db-secrets
+```yaml
+# tourlist-user-db-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-user-db-secrets
+stringData:
+  MARIADB_USER:
+  MARIADB_PASSWORD:
+  MARIADB_ROOT_PASSWORD:
+```
+#### FRONTEND
+- .env
+```
+# FRONTEND
+VITE_REACT_GOOGLE_LOGIN_URL=https://[domain]/oauth2/authorization/google
+VITE_REACT_API_URL=https://[domain]
+VITE_REACT_GOOGLE_MAPS_API_KEY=
+VITE_REACT_WEBSOCKET_URL=wss://[domain]/ws/place
+```
+#### GATEWAY
+- secrets
+```yaml
+# tourlist-gateway-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-gateway-secrets
+stringData:
+  JWT_KEY: auth와 동일
+```
+#### PAYMENT
+- secrets
+```yaml
+# tourlist-payment-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-payment-secrets
+stringData:
+  PAYMENT_MONGO_DB_ROOT_USER_NAME:
+  PAYMENT_MONGO_DB_ROOT_USER_PASSWORD:
+  EXCHANGERATE_KEY:
+```
+- db-secrets
+```yaml
+# tourlist-payment-db-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-payment-db-secrets
+stringData:
+  MONGO_INITDB_ROOT_USERNAME:
+  MONGO_INITDB_ROOT_PASSWORD:
+```
+#### TOUR
+- secrets
+```yaml
+# tourlist-tour-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-tour-secrets
+stringData:
+  PLACE_NEO4J_USER_NAME:
+  PLACE_NEO4J_USER_PASSWORD:
+```
+- db-secrets
+```yaml
+# tourlist-tour-secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tourlist-tour-db-config
+stringData:
+  NEO4J_AUTH:
+```
