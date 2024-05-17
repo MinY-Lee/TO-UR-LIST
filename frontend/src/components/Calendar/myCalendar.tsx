@@ -73,7 +73,7 @@ export default function myCalendar(props: ChildProps) {
     return (
         <div
             id="calendar-container"
-            className="flex flex-col items-center justify-center w-full mb-10"
+            className="flex flex-col items-center justify-center w-full"
         >
             <div
                 id="move-container"
@@ -100,7 +100,10 @@ export default function myCalendar(props: ChildProps) {
                     &gt;
                 </button>
             </div>
-            <div id="weekday-container" className="grid grid-cols-7 w-full">
+            <div
+                id="weekday-container"
+                className="grid grid-cols-7 h-10 w-full"
+            >
                 {weekDayList.map((weekday, index) => (
                     <div key={index} className="col-span-1 text-center">
                         {weekday}
@@ -110,7 +113,7 @@ export default function myCalendar(props: ChildProps) {
             <div id="day-container" className="w-full">
                 {weekCalendarList.map((item) => (
                     <div
-                        className="grid grid-cols-7 w-full h-14vw text-center"
+                        className="grid grid-cols-7 text-center"
                         key={Math.random()}
                     >
                         {item.map((day, index) => {
@@ -179,7 +182,7 @@ export default function myCalendar(props: ChildProps) {
                                 >
                                     {/* 오늘 날짜 및 일요일 스타일 */}
                                     <div
-                                        className={`
+                                        className={`h-full flex justify-center items-center
                                         ${index === 0 ? "text-red-500" : ""}
                                         ${
                                             currentDate.getMonth() ===
@@ -188,15 +191,22 @@ export default function myCalendar(props: ChildProps) {
                                                 ? "color-text-blue-1 font-bold"
                                                 : ""
                                         }
-                                        ${
-                                            isStartOrEnd
-                                                ? "color-bg-blue-3 h-14 flex items-center justify-center rounded-full"
-                                                : ""
-                                        }
+                                        
                                     
                                     `}
                                     >
-                                        <div>{day}</div>
+                                        <div className="relative flex justify-center h-full items-center">
+                                            <div className="text-center">
+                                                {day}
+                                            </div>
+                                            {isStartOrEnd ? (
+                                                <div className="absolute bottom-0 color-text-blue-1">
+                                                    ✦
+                                                </div>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </div>
                                     </div>
                                 </button>
                             );
