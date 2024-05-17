@@ -159,7 +159,7 @@ export default function MainPage() {
     return (
         <section className="w-full h-[90%] overflow-y-scroll flex flex-col flex-nowrap items-center">
             {isLoading ? <Loading /> : <></>}
-            <div className="w-[90%] h-full flex items-center justify-between py-vw ">
+            <div className="w-[90%] h-35vw flex items-center justify-between py-vw ">
                 <div className="text-6vw h-full flex flex-col justify-center items-start">
                     <p>
                         <span className="text-7vw weight-text-semibold mr-vw">

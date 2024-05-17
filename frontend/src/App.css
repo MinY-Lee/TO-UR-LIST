@@ -42,3 +42,17 @@ body,
         height: -webkit-fill-available;
     }
 }
+
+input:focus {
+    outline: none;
+}
+
+div::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: #cecece;
+}
+
+div::-webkit-scrollbar-thumb {
+    background-color: #a3a3a3;
+}

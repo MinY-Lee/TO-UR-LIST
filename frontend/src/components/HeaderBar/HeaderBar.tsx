@@ -4,7 +4,7 @@ export default function HeaderBar() {
     const navigate = useNavigate();
 
     const goBack = () => {
-        navigate(-1);
+        navigate(`/main`);
     };
 
     return (
@@ -14,7 +14,7 @@ export default function HeaderBar() {
                     className="material-symbols-outlined w-[10%] h-full flex justify-center items-center cursor-pointer"
                     onClick={goBack}
                 >
-                    west
+                    home
                 </span>
                 <span className="text-5vw">TO-UR-LIST</span>
             </div>

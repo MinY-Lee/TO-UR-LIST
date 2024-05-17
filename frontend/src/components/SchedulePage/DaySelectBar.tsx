@@ -1,9 +1,14 @@
+import { WebSockPlace } from "../../types/types";
+
 interface PropType {
     startDate: string;
     endDate: string;
     selectedDate: number;
     setSelectedDate: React.Dispatch<React.SetStateAction<number>>;
     period: number;
+    setSelectedSchedule: React.Dispatch<
+        React.SetStateAction<WebSockPlace | undefined>
+    >;
 }
 
 export default function DaySelectBar(props: PropType) {
@@ -22,6 +27,8 @@ export default function DaySelectBar(props: PropType) {
                     key={i}
                     className={`text-5vw w-[14.29%] flex justify-center items-center flex-shrink-0`}
                     onClick={() => {
+                        //선택된 일정 초기화
+                        props.setSelectedSchedule(undefined);
                         if (i !== props.selectedDate) {
                             props.setSelectedDate(i);
                         } else {
@@ -32,7 +39,7 @@ export default function DaySelectBar(props: PropType) {
                     <p
                         className={`flex w-[70%] aspect-square justify-center items-center flex-shrink-0 ${
                             props.selectedDate === i
-                                ? "color-bg-blue-5 rounded-[50%]"
+                                ? "bg-[#c1edff] rounded-[50%]"
                                 : ""
                         }`}
                     >
@@ -46,7 +53,10 @@ export default function DaySelectBar(props: PropType) {
 
     return (
         <>
-            <div className="absolute w-[90%] h-10vw left-[5%] top-[5%] border-halfvw border-rad-5vw color-border-blue-2 flex items-center px-5vw overflow-x-scroll bg-white">
+            <div
+                className="w-[90%] h-10vw my-2vw flex items-center px-5vw overflow-x-scroll bg-white border-rad-2dot5vw"
+                style={{ boxShadow: "0px 2px 4px 1px #cecece" }}
+            >
                 {dates()}
             </div>
         </>
