@@ -57,7 +57,10 @@ export default function CreateDone(props: PropType) {
                             클릭해서 일정 및 체크리스트를 추가해보세요!
                         </div>
                     </div>
-                    <div id="card-container" className="w-full">
+                    <div
+                        id="card-container"
+                        className="w-full  flex flex-col items-center"
+                    >
                         {tourCardComponent}
                     </div>
                     <div

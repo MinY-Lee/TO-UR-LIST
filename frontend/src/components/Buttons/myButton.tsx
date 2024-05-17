@@ -23,7 +23,7 @@ const MyButton: React.FC<MyButtonProps> = ({
         <div className="">
             {type === "full" ? (
                 <button
-                    className={`rounded-lg w-full text-lg ${buttonColor} ${className} `}
+                    className={`rounded-lg w-full text-lg drop-shadow-md ${buttonColor} ${className} `}
                     onClick={onClick}
                 >
                     {text}
