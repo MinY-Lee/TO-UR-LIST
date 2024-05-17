@@ -81,70 +81,14 @@ public class PaymentServiceImpl implements PaymentService {
         switch (paymentInfo.getPayType()) {
             // 공동 지출
             case ("public"): {
-                String publicPaymentId = UUID.randomUUID().toString();
-                PublicPayment publicPayment = makePublicPayment(paymentInfo);
-
-                // 반영
-                Map<String, PublicPayment> publicPaymentMap = payment.getPublicPayment();
-                publicPaymentMap.put(publicPaymentId, publicPayment);
-                payment.setPublicPayment(publicPaymentMap);
-
-                // 공동 구매 내용 반영
-                List<PaymentMember> payMemberList = paymentInfo.getPayMemberList();
-                for(PaymentMember payMember : payMemberList) {
-                    if (!payment.getPrivatePayment().containsKey(payMember.getUserId())) {
-                        // 개인 지출 항목 생성
-                        ArrayList<String> publicPaymentList = new ArrayList<>();
-                        publicPaymentList.add(publicPaymentId);
-
-                        PrivatePayment updatePrivatePayment = PrivatePayment.builder()
-                                .privatePaymentList(new ArrayList<>())
-                                .publicPaymentList(publicPaymentList)
-                                .build();
-                        // 반영
-                        Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
-                        privatePayment.put(payMember.getUserId(), updatePrivatePayment);
-                        payment.setPrivatePayment(privatePayment);
-                    } else {
-                        // 기존 항목에 추가
-                        Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
-                        List<String> publicPaymentList = privatePayment.get(payMember.getUserId()).getPublicPaymentList();
-                        publicPaymentList.add(publicPaymentId);
-                        payment.setPrivatePayment(privatePayment);
-                    }
-                }
-
-                payId = publicPaymentId;
+                payId = makePublicPayment(paymentInfo, payment);
                 break;
             }
             // 개인 지출
             case ("private"): {
                 // 개인 지출 항목 생성
-                String privatePaymentId = UUID.randomUUID().toString();
-                PrivatePaymentInfo privatePaymentInfo = makePrivatePayment(privatePaymentId, paymentInfo);
-
-                // 개인 지출 유무
-                if (!payment.getPrivatePayment().containsKey(userId)) {
-                    // 개인 지출
-                    ArrayList<PrivatePaymentInfo> paymentInfoArrayList = new ArrayList<>();
-                    paymentInfoArrayList.add(privatePaymentInfo);
-
-                    PrivatePayment updatePrivatePayment = PrivatePayment.builder()
-                            .privatePaymentList(paymentInfoArrayList)
-                            .publicPaymentList(new ArrayList<>())
-                            .build();
-                    // 반영
-                    Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
-                    privatePayment.put(userId, updatePrivatePayment);
-                    payment.setPrivatePayment(privatePayment);
-                } else {
-                    // 기존 항목에 추가
-                    Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
-                    List<PrivatePaymentInfo> privatePaymentList = privatePayment.get(userId).getPrivatePaymentList();
-                    privatePaymentList.add(privatePaymentInfo);
-                    payment.setPrivatePayment(privatePayment);
-                }
-                payId = privatePaymentId;
+                PrivatePaymentInfo privatePaymentInfo = makePrivatePaymentInfo(paymentInfo, userId, payment);
+                payId = privatePaymentInfo.getPrivatePaymentId();
                 break;
             }
         }
@@ -155,17 +99,18 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void updatePaymentInfo(String payId, PaymentInfoReq paymentInfo, String userId) {
+        boolean publicFlag = false;
+        boolean privateFlag = false;
 
         // tourId로 기존 데이터 가져오기
         PaymentInfo payment = paymentInfoRepository.findById(paymentInfo.getTourId())
                 .orElseThrow(() -> new PaymentNotExistException("해당하는 지출정보가 없습니다."));
 
-        switch (paymentInfo.getPayType()) {
-            // 공동 지출 내용만 변경
-            case ("public"): {
-                if (!payment.getPublicPayment().containsKey(payId)) {
-                    throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
-                }
+        // 공동 지출내용 변경
+        if (payment.getPublicPayment().containsKey(payId)) {
+            publicFlag = true;
+            // 공동 지출에서 공동 지출 내용 변경
+            if (paymentInfo.getPayType().equals("public")) {
                 PublicPayment updatePublicPayment = makePublicPayment(paymentInfo);
 
                 // 기존 멤버 추출
@@ -174,6 +119,7 @@ public class PaymentServiceImpl implements PaymentService {
                         .collect(Collectors.toSet());
 
                 log.debug(prevMember.toString());
+
                 // 새로운 멤버 추출
                 Set<String> newMember = paymentInfo.getPayMemberList().stream()
                         .map(PaymentMember::getUserId)
@@ -189,7 +135,6 @@ public class PaymentServiceImpl implements PaymentService {
                 Set<String> addedMembers = new HashSet<>(newMember);
                 addedMembers.removeAll(prevMember);
 
-                // 반영
                 // `privatePayment`의 `publicPaymentList` 업데이트
                 for (Map.Entry<String, PrivatePayment> entry : payment.getPrivatePayment().entrySet()) {
                     PrivatePayment privatePayment = entry.getValue();
@@ -205,37 +150,70 @@ public class PaymentServiceImpl implements PaymentService {
                     }
                 }
 
+                // `addedMembers`에 포함된 사용자 중 `privatePayment` 맵에 없는 사용자를 추가
+                for (String memberId : addedMembers) {
+                    if (!payment.getPrivatePayment().containsKey(memberId)) {
+                        PrivatePayment newPrivatePayment = new PrivatePayment();
+                        newPrivatePayment.setPublicPaymentList(new ArrayList<>());
+                        newPrivatePayment.setPrivatePaymentList(new ArrayList<>());
+                        newPrivatePayment.getPublicPaymentList().add(payId);
+                        payment.getPrivatePayment().put(memberId, newPrivatePayment);
+                    }
+                }
+
                 //payId에 해당하는 공동 지출 내역 변경 및 반영
                 payment.getPublicPayment().replace(payId, updatePublicPayment);
-                // 모든 private 지출 목록을 돌면서 해당
-                break;
             }
-            // 개인 지출
-            case ("private"): {
-                // 개인 지출 항목 생성
-                PrivatePaymentInfo updatePrivatePaymentInfo = makePrivatePayment(payId, paymentInfo);
+            // 공동 지출에서 개인 지출로 변경
+            else {
+                // 개인 지출 생성
+                makePrivatePaymentInfo(paymentInfo, userId, payment);
 
-                // 기존 항목에서 변경된 내용 추가
-                Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
-                List<PrivatePaymentInfo> privatePaymentList = privatePayment.get(userId).getPrivatePaymentList();
-
-                boolean flag = false;
-                int listIdx = 0;
-                for (PrivatePaymentInfo currPrivatePaymentInfo : privatePaymentList) {
-                    if (currPrivatePaymentInfo.getPrivatePaymentId().equals(payId)) {
-                        flag = true;
-                        break;
-                    }
-                    listIdx++;
-                }
-                // 없는 경우
-                if (!flag) {
-                    throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
-                }
-                privatePaymentList.set(listIdx, updatePrivatePaymentInfo);
-                break;
+                // 공동 지출에서 해당 지출을 제거
+                deletePublicPayment(payId, payment);
             }
         }
+        // 개인 지출 내용 변경
+        else {
+            // 개인 지출 찾기
+            Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
+            List<PrivatePaymentInfo> privatePaymentList = privatePayment.get(userId).getPrivatePaymentList();
+
+            int listIdx = 0;
+            for (PrivatePaymentInfo currPrivatePaymentInfo : privatePaymentList) {
+                if (currPrivatePaymentInfo.getPrivatePaymentId().equals(payId)) {
+                    privateFlag = true;
+                    break;
+                }
+                listIdx++;
+            }
+            // 개인 지출에서 공동 지출로 변경
+            if (paymentInfo.getPayType().equals("public")) {
+                // 개인 지출에서 제거
+                if (privateFlag) {
+                    PrivatePaymentInfo removePayment = privatePaymentList.remove(listIdx);
+                    log.debug(removePayment.toString());
+                }
+
+                // 공동 지출 생성
+                makePublicPayment(paymentInfo, payment);
+            }
+            else {
+                // 개인 지출 항목 생성
+                PrivatePaymentInfo updatePrivatePaymentInfo = makePrivatePayment(paymentInfo);
+
+                // 있는 경우
+                if (privateFlag) {
+                    privatePaymentList.set(listIdx, updatePrivatePaymentInfo);
+                }
+            }
+        }
+
+        // 둘다 없는 경우 에러 발생
+        if(!publicFlag && !privateFlag) {
+            throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
+        }
+
         // 디비에 저장
         paymentInfoRepository.save(payment);
     }
@@ -252,26 +230,7 @@ public class PaymentServiceImpl implements PaymentService {
         switch (payIdReq.getPayType()) {
             case "public": {
                 // payId로 해당 지출 내역 찾기 - 공통
-                if (payment.getPublicPayment().containsKey(payId)) {
-                    // 해당하는 지출 제거
-                    PublicPayment removedPayment = payment.getPublicPayment().remove(payId);
-                    log.debug(removedPayment.toString());
-
-                    // 개인지출의 public 리스트에서도 제거
-                    List<String> publicPaymentList = payment.getPrivatePayment().get(userId).getPublicPaymentList();
-
-                    int listIdx = 0;
-                    for (String currPublicPaymentId : publicPaymentList) {
-                        if (currPublicPaymentId.equals(payId)) {
-                            break;
-                        }
-                        listIdx++;
-                    }
-                    String removePaymentId = publicPaymentList.remove(listIdx);
-                    log.debug(removePaymentId);
-                } else {
-                    throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
-                }
+                deletePublicPayment(payId, payment);
                 break;
             }
             case "private": {
@@ -410,7 +369,7 @@ public class PaymentServiceImpl implements PaymentService {
             throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
         }
 
-        // publicPayment의 ghostId 변경
+        // publicPayment 의 ghostId 변경
         List<String> publicPaymentList = privatePayment.getPublicPaymentList();
 
         for(String payId : publicPaymentList) {
@@ -430,12 +389,100 @@ public class PaymentServiceImpl implements PaymentService {
             }
         }
 
-        // private의 ghostId 변경
+        // private 의 ghostId 변경
         privatePaymentMap.put(userId, privatePayment);
         privatePaymentMap.remove(ghostId);
 
         // 디비에 저장
         paymentInfoRepository.save(payment);
+    }
+
+    // 공통 지출 만들기
+    private String makePublicPayment(PaymentInfoReq paymentInfo, PaymentInfo payment) {
+        String publicPaymentId = UUID.randomUUID().toString();
+        PublicPayment publicPayment = makePublicPayment(paymentInfo);
+
+        // 반영
+        Map<String, PublicPayment> publicPaymentMap = payment.getPublicPayment();
+        publicPaymentMap.put(publicPaymentId, publicPayment);
+        payment.setPublicPayment(publicPaymentMap);
+
+        // 공동 구매 내용 반영
+        List<PaymentMember> payMemberList = paymentInfo.getPayMemberList();
+        for(PaymentMember payMember : payMemberList) {
+            if (!payment.getPrivatePayment().containsKey(payMember.getUserId())) {
+                // 개인 지출 항목 생성
+                ArrayList<String> publicPaymentList = new ArrayList<>();
+                publicPaymentList.add(publicPaymentId);
+
+                PrivatePayment updatePrivatePayment = PrivatePayment.builder()
+                        .privatePaymentList(new ArrayList<>())
+                        .publicPaymentList(publicPaymentList)
+                        .build();
+                // 반영
+                Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
+                privatePayment.put(payMember.getUserId(), updatePrivatePayment);
+                payment.setPrivatePayment(privatePayment);
+            } else {
+                // 기존 항목에 추가
+                Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
+                List<String> publicPaymentList = privatePayment.get(payMember.getUserId()).getPublicPaymentList();
+                publicPaymentList.add(publicPaymentId);
+                payment.setPrivatePayment(privatePayment);
+            }
+        }
+        return publicPaymentId;
+    }
+
+    // 개인 지출 만들기
+    private PrivatePaymentInfo makePrivatePaymentInfo(PaymentInfoReq paymentInfo, String userId, PaymentInfo payment) {
+        PrivatePaymentInfo privatePaymentInfo = makePrivatePayment(paymentInfo);
+
+        // 개인 지출 유무
+        if (!payment.getPrivatePayment().containsKey(userId)) {
+            // 개인 지출
+            ArrayList<PrivatePaymentInfo> paymentInfoArrayList = new ArrayList<>();
+            paymentInfoArrayList.add(privatePaymentInfo);
+
+            PrivatePayment updatePrivatePayment = PrivatePayment.builder()
+                    .privatePaymentList(paymentInfoArrayList)
+                    .publicPaymentList(new ArrayList<>())
+                    .build();
+            // 반영
+            Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
+            privatePayment.put(userId, updatePrivatePayment);
+            payment.setPrivatePayment(privatePayment);
+        } else {
+            // 기존 항목에 추가
+            Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
+            List<PrivatePaymentInfo> privatePaymentList = privatePayment.get(userId).getPrivatePaymentList();
+            privatePaymentList.add(privatePaymentInfo);
+            payment.setPrivatePayment(privatePayment);
+        }
+        return privatePaymentInfo;
+    }
+
+    // 공동 지출 제거
+    private void deletePublicPayment(String payId, PaymentInfo payment) {
+        if (payment.getPublicPayment().containsKey(payId)) {
+            // payMember 리스트에 해당하는 private 반영된 정보 제거
+            List<String> payMemberList = payment.getPublicPayment().get(payId).getPayMemberList().stream()
+                    .map(PaymentMember::getUserId)
+                    .toList();
+
+            for (String selectedUserId : payMemberList) {
+                PrivatePayment privatePayment = payment.getPrivatePayment().get(selectedUserId);
+                if (privatePayment != null) {
+                    privatePayment.getPublicPaymentList().remove(payId);
+                }
+            }
+
+            // 해당하는 지출 제거
+            PublicPayment removedPayment = payment.getPublicPayment().remove(payId);
+            log.debug(removedPayment.toString());
+        } else {
+            throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
+        }
     }
 
     private PublicPayment makePublicPayment(PaymentInfoReq paymentInfo) {
@@ -453,9 +500,9 @@ public class PaymentServiceImpl implements PaymentService {
                 .build();
     }
 
-    private PrivatePaymentInfo makePrivatePayment(String payId, PaymentInfoReq paymentInfo) {
+    private PrivatePaymentInfo makePrivatePayment(PaymentInfoReq paymentInfo) {
         return PrivatePaymentInfo.builder()
-                .privatePaymentId(payId)
+                .privatePaymentId(UUID.randomUUID().toString())
                 .payAmount(paymentInfo.getPayAmount())
                 .exchangeRate(paymentInfo.getExchangeRate())
                 .unit(paymentInfo.getUnit())
