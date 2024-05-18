@@ -8,7 +8,12 @@ import ChecklistInput from "../../components/Checklist/checklistInput";
 
 import CheckModal from "../../components/CheckModal";
 import SelectModal from "../../components/SelectModal";
-import { addChecklist, deleteChecklist, getChecklist, modifyItem } from "../../util/api/checklist";
+import {
+    addChecklist,
+    deleteChecklist,
+    getChecklist,
+    modifyItem,
+} from "../../util/api/checklist";
 import { HttpStatusCode } from "axios";
 import { getPlaceList } from "../../util/api/place";
 import CancelIcon from "../../assets/svg/cancelIcon";
@@ -18,6 +23,7 @@ export default function ChecklistEditItemPage() {
     const [editItem, setEditItem] = useState<Item>({
         tourId: "",
         placeId: "",
+        placeName: "",
         activity: "",
         item: "",
         tourDay: 0,
@@ -27,6 +33,7 @@ export default function ChecklistEditItemPage() {
     const [newItem, setNewItem] = useState<Item>({
         tourId: "",
         placeId: "",
+        placeName: "",
         activity: "",
         item: "",
         tourDay: 0,
@@ -40,6 +47,7 @@ export default function ChecklistEditItemPage() {
     const [deleteItem, setDeleteItem] = useState<Item>({
         tourId: "",
         placeId: "",
+        placeName: "",
         activity: "",
         item: "",
         tourDay: 0,
@@ -110,7 +118,10 @@ export default function ChecklistEditItemPage() {
                 },
             })
                 .then((res) => {
-                    if (res.status == HttpStatusCode.Ok && !res.data.isDuplicated) {
+                    if (
+                        res.status == HttpStatusCode.Ok &&
+                        !res.data.isDuplicated
+                    ) {
                         navigate(-1);
                     }
                 })
@@ -135,7 +146,9 @@ export default function ChecklistEditItemPage() {
 
     // 해당 아이템이 사용되는 장소/활동 필터링
     const filterItem = () => {
-        const dataList = data.filter((item) => item.placeId != "" && item.item == editItem.item);
+        const dataList = data.filter(
+            (item) => item.placeId != "" && item.item == editItem.item
+        );
         setFilteredData(dataList);
         console.log(dataList);
     };
@@ -150,7 +163,15 @@ export default function ChecklistEditItemPage() {
     };
 
     const handleDelete = () => {
-        const { tourId, placeId, activity, item, tourDay, isChecked, isPublic } = deleteItem;
+        const {
+            tourId,
+            placeId,
+            activity,
+            item,
+            tourDay,
+            isChecked,
+            isPublic,
+        } = deleteItem;
         if (filteredData.length == 1) {
             // 한 장소에서만 사용된 경우
             deleteChecklist({
@@ -195,7 +216,9 @@ export default function ChecklistEditItemPage() {
                 isChecked: isChecked,
             }).then((res) => {
                 if (res.status == HttpStatusCode.Ok) {
-                    const updatedActivity = filteredData.filter((item) => item !== deleteItem);
+                    const updatedActivity = filteredData.filter(
+                        (item) => item !== deleteItem
+                    );
                     setFilteredData(updatedActivity);
                     setCheckModalActive(false);
                 }
@@ -209,7 +232,8 @@ export default function ChecklistEditItemPage() {
         console.log("후: " + updatedChecklist);
 
         filteredData.map((item: Item) => {
-            const { tourId, placeId, activity, tourDay, isChecked, isPublic } = item;
+            const { tourId, placeId, activity, tourDay, isChecked, isPublic } =
+                item;
             if (!updatedChecklist.includes(item)) {
                 // 삭제
                 deleteChecklist({
@@ -231,7 +255,8 @@ export default function ChecklistEditItemPage() {
         });
 
         updatedChecklist.map((item: Item) => {
-            const { tourId, placeId, activity, tourDay, isChecked, isPublic } = item;
+            const { tourId, placeId, activity, tourDay, isChecked, isPublic } =
+                item;
             if (!filteredData.includes(item)) {
                 // 추가
                 addChecklist(isPublic ? "public" : "private", {
@@ -296,7 +321,11 @@ export default function ChecklistEditItemPage() {
                     />
                 </div>
                 <div className="mb-5">
-                    <ChecklistInput tourId={tourId} onUpdate={onUpdate} default={editItem} />
+                    <ChecklistInput
+                        tourId={tourId}
+                        onUpdate={onUpdate}
+                        default={editItem}
+                    />
                 </div>
                 <div>
                     <div className="text-xl">사용되는 장소/활동</div>
@@ -313,7 +342,8 @@ export default function ChecklistEditItemPage() {
                                     </div>
                                     {item.activity != "" ? (
                                         <div className="col-span-3 text-lg">
-                                            {placeData[item.placeId]} / {item.activity}
+                                            {placeData[item.placeId]} /{" "}
+                                            {item.activity}
                                         </div>
                                     ) : (
                                         <div className="col-span-3 text-lg">

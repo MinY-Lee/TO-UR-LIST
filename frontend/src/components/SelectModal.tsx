@@ -125,6 +125,7 @@ export default function SelectModal(props: Proptype) {
                 const updatedItem = {
                     tourId: props.item.tourId,
                     placeId: placeId,
+                    placeName: "",
                     activity: "",
                     tourDay: day,
                     item: props.item.item,
@@ -151,6 +152,7 @@ export default function SelectModal(props: Proptype) {
                 const updatedItem = {
                     tourId: props.item.tourId,
                     placeId: placeId,
+                    placeName: "",
                     activity: activity ? activity : "",
                     tourDay: day,
                     item: props.item.item,

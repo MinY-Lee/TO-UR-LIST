@@ -91,6 +91,7 @@ export interface ItemApi {
 export interface Item {
     tourId: string;
     placeId: string;
+    placeName: String;
     activity: string;
     item: string;
     tourDay: number;

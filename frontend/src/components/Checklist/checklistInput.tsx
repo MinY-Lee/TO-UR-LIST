@@ -19,6 +19,7 @@ interface PropType {
     checklist?: Item[];
     tourDay?: number;
     placeId?: string;
+    placeName?: string;
     checklistPerDay?: ItemPerDayAndPlace;
     onUpdate: (item: Item) => void;
     default?: Item;
@@ -53,6 +54,7 @@ export default function ChecklistInput(props: PropType) {
             props.onUpdate({
                 tourId: props.tourId,
                 placeId: props.default.placeId || "",
+                placeName: props.default.placeName || "",
                 activity: props.default.activity,
                 item: val,
                 tourDay: props.default.tourDay,
@@ -65,7 +67,9 @@ export default function ChecklistInput(props: PropType) {
     // 엔터로 add
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter" && itemInput.trim() != "") {
-            const existingItem = props.checklist?.find((item) => item.item === itemInput);
+            const existingItem = props.checklist?.find(
+                (item) => item.item === itemInput
+            );
             if (!existingItem) {
                 if (!event.nativeEvent.isComposing) {
                     addItem();
@@ -89,10 +93,14 @@ export default function ChecklistInput(props: PropType) {
             // 데이터 추가 api
             addChecklist(isPublicInput ? "public" : "private", newItem)
                 .then((res) => {
-                    if (res.status == HttpStatusCode.Ok && !res.data.isDuplicated) {
+                    if (
+                        res.status == HttpStatusCode.Ok &&
+                        !res.data.isDuplicated
+                    ) {
                         props.onUpdate({
                             tourId: props.tourId,
                             placeId: props.placeId || "",
+                            placeName: props.placeName || "",
                             activity: "",
                             item: itemInput,
                             tourDay: props.tourDay || 0,
@@ -107,7 +115,9 @@ export default function ChecklistInput(props: PropType) {
     };
 
     const handleHelpText = () => {
-        const existingItem = props.checklist?.find((item) => item.item == itemInput);
+        const existingItem = props.checklist?.find(
+            (item) => item.item == itemInput
+        );
         const existingItemPerDay =
             props.checklistPerDay && props.tourDay && props.placeId
                 ? props.checklistPerDay[props.tourDay][props.placeId].find(
@@ -139,7 +149,10 @@ export default function ChecklistInput(props: PropType) {
                             isClicked
                         )} absolute top-12 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow`}
                     >
-                        <ul className=" text-gray-700 " aria-labelledby="dropdown-button">
+                        <ul
+                            className=" text-gray-700 "
+                            aria-labelledby="dropdown-button"
+                        >
                             <li
                                 className="hover:bg-[#5faad9] px-5 py-2 rounded-t-lg border"
                                 onClick={() => handleTypeChange("private")}
@@ -169,7 +182,9 @@ export default function ChecklistInput(props: PropType) {
                             id="add-inputbox"
                             className="p-2.5 w-full z-20 text-gray-900 border-b-2 text-lg"
                             placeholder={
-                                props.default == undefined ? "추가하려는 항목을 입력하세요." : ""
+                                props.default == undefined
+                                    ? "추가하려는 항목을 입력하세요."
+                                    : ""
                             }
                         />
                         <p
