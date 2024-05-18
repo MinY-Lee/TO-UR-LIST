@@ -2,7 +2,7 @@ package com.eminyidle.checklist.application.port.in;
 
 public interface ChangeTourPlaceUsecase {
     //장소 생성
-    void createPlace(String tourId, String tourPlaceId, String placeId, Integer tourDay);
+    void createPlace(String tourId, String tourPlaceId, String placeId, Integer tourDay, String placeName);
 
     //장소 삭제
     void deletePlace(String tourId, String placeId, Integer tourDay);

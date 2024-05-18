@@ -97,7 +97,7 @@ public class KafkaListenerService {
                 case "CREATE":
                     log.debug("created place");
                     log.debug(tourPlace.toString());
-                    checklistService.createPlace(tourPlace.getTourId(),tourPlace.getTourPlaceId(),tourPlace.getPlaceId(), tourPlace.getTourDay());
+                    checklistService.createPlace(tourPlace.getTourId(),tourPlace.getTourPlaceId(),tourPlace.getPlaceId(), tourPlace.getTourDay(), tourPlace.getPlaceName());
                     break;
                 case "UPDATE":
                     log.debug("UPDATE place");
