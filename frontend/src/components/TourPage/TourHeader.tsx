@@ -157,7 +157,7 @@ export default function TourHeader(props: PropType) {
                         props.tourInfo.startDate.split("T")[0]
                     }~${props.tourInfo.endDate.split("T")[0]}`}</div>
 
-                    <div className="flex items-center w-full mt-3 overflow-x-auto">
+                    <div className="flex items-center w-full mt-3 overflow-x-scroll h-[40%]">
                         {props.tourInfo.memberList.map(
                             (member: MemberInfo, index: number) => (
                                 <div
@@ -170,7 +170,7 @@ export default function TourHeader(props: PropType) {
                                 >
                                     <div className={`${isHost(member)}`}>
                                         {member.memberType !== "ghost" ? (
-                                            <div className="drop-shadow-lg m-1 font-bold text-3xl color-text-blue-1 color-bg-blue-4 w-10 h-10 rounded-full flex justify-center items-center">
+                                            <div className="drop-shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-10 h-10 rounded-full flex justify-center items-center">
                                                 {member.userNickname[0]}
                                             </div>
                                         ) : (
@@ -181,7 +181,7 @@ export default function TourHeader(props: PropType) {
                                     </div>
                                     {hoveredMember === member && (
                                         <div className="absolute whitespace-nowrap z-10 text-sm bottom-1 left-[40%] bg-gray-500 pl-1 pr-1 rounded-md text-white">
-                                            {member.userNickname}
+                                            {member.userName}
                                         </div>
                                     )}
                                 </div>

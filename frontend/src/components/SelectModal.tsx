@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import MyButton from "./Buttons/myButton";
 
-import { Item, PlaceMapping, TourInfoDetail, TourPlaceItem } from "../types/types";
+import {
+    Item,
+    PlaceMapping,
+    TourInfoDetail,
+    TourPlaceItem,
+} from "../types/types";
 
 import { getTour } from "../util/api/tour";
 import { getPlaceList } from "../util/api/place";
@@ -91,15 +96,32 @@ export default function SelectModal(props: Proptype) {
         const start: Date = new Date(tourData.startDate);
 
         // 밀리초(milliseconds) 단위의 차이를 날짜간 차이로 변환
-        setDaysDifference((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1);
+        setDaysDifference(
+            (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1
+        );
+        setDaysDifference(
+            (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1
+        );
 
-        setDaysList(Array.from({ length: daysDifference + 1 }, (_, index) => index));
+        setDaysList(
+            Array.from({ length: daysDifference + 1 }, (_, index) => index)
+        );
+        setDaysList(
+            Array.from({ length: daysDifference + 1 }, (_, index) => index)
+        );
     }, [tourData, daysDifference]);
 
-    const handleCheckbox = (day: number, placeId: string, activity?: string) => {
-        console.log(day, placeId, activity);
+    const handleCheckbox = (
+        day: number,
+        placeId: string,
+        activity?: string
+    ) => {
         if (!activity) {
-            if (!updatedChecklist.some((item) => item.tourDay == day && item.placeId == placeId)) {
+            if (
+                !updatedChecklist.some(
+                    (item) => item.tourDay == day && item.placeId == placeId
+                )
+            ) {
                 const updatedItem = {
                     tourId: props.item.tourId,
                     placeId: placeId,
@@ -121,13 +143,15 @@ export default function SelectModal(props: Proptype) {
             if (
                 !updatedChecklist.some(
                     (item) =>
-                        item.tourDay == day && item.placeId == placeId && item.activity == activity
+                        item.tourDay == day &&
+                        item.placeId == placeId &&
+                        item.activity == activity
                 )
             ) {
                 const updatedItem = {
                     tourId: props.item.tourId,
                     placeId: placeId,
-                    activity: activity,
+                    activity: activity ? activity : "",
                     tourDay: day,
                     item: props.item.item,
                     isPublic: props.item.isPublic,
@@ -139,7 +163,9 @@ export default function SelectModal(props: Proptype) {
                 // 있으면 빼
                 const checklist = updatedChecklist.filter(
                     (item) =>
-                        item.tourDay != day || item.placeId != placeId || item.activity != activity
+                        item.tourDay != day ||
+                        item.placeId != placeId ||
+                        item.activity != activity
                 );
                 setUpdatedChecklist(checklist);
             }

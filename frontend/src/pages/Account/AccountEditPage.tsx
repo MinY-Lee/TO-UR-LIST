@@ -24,7 +24,7 @@ export default function AccountAddPage() {
         unit: "",
         currencyCode: "",
         payMethod: "",
-        payDatetime: new Date(),
+        payDatetime: "",
         payContent: "",
         payCategory: "",
         payerId: "",
@@ -65,12 +65,7 @@ export default function AccountAddPage() {
             <header>
                 <HeaderBar />
             </header>
-            <AccountAddModify
-                tourId={tourId}
-                tourData={tourData}
-                isModify={true}
-                data={data}
-            />
+            <AccountAddModify tourId={tourId} tourData={tourData} isModify={true} data={data} />
             <footer>
                 <TabBarTour tourId={tourId} tourMode={3} type="account" />
             </footer>
