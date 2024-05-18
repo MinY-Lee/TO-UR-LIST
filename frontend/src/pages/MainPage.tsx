@@ -159,11 +159,11 @@ export default function MainPage() {
 
     return (
         <section
-            className="w-full h-full overflow-y-auto flex flex-col flex-nowrap items-center bg-cover bg-right-top bg-no-repeat"
+            className="w-full h-full flex flex-col flex-nowrap items-center bg-cover bg-right-top bg-no-repeat"
             style={{ backgroundImage: `url(${mainBg})` }}
         >
             {isLoading ? <Loading /> : <></>}
-            <div className="w-[90%] h-35vw flex items-center justify-between py-2vw ">
+            <div className="w-[90%] h-[] flex items-center justify-between py-2vw ">
                 <div
                     style={{
                         textShadow:
@@ -190,8 +190,8 @@ export default function MainPage() {
                     <p>{today}</p>
                 </div>
             </div>
-            <div className="w-full h-full border-t-2 border-x bg-white bg-opacity-70 rounded-t-xl  p-5">
-                <div className="h-[65vh] overflow-y-scroll">
+            <div className="w-full h-full overflow-y-auto border-t-2 border-x bg-white bg-opacity-70 rounded-t-xl  p-5">
+                <div className="h-fit pb-20 overflow-y-auto">
                     {nowTourList.length > 0 ? (
                         <>
                             <p className="text-5vw my-vw">진행 중인 여행</p>
@@ -265,7 +265,9 @@ export default function MainPage() {
                     )}
                 </div>
             </div>
-            <TabBarMain tabMode={1} type="main" />
+            <div>
+                <TabBarMain tabMode={1} type="main" />
+            </div>
         </section>
     );
 }

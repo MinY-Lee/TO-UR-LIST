@@ -180,6 +180,7 @@ export default function ChecklistByDay(props: PropType) {
                         </div>
                         <div className="flex flex-col">
                             <ItemList
+                                tourId={props.tourId}
                                 data={data}
                                 daysList={daysList}
                                 placeData={placeData}

@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 
-import MyCheckList from './myChecklist';
-import ChecklistByDay from './checklistByDay';
+import MyCheckList from "./myChecklist";
+import ChecklistByDay from "./checklistByDay";
 
 interface PropType {
     tourId: string;
@@ -13,9 +13,9 @@ export default function ChecklistTab(props: PropType) {
 
     const getTabClass = (idx: number) => {
         if (idx != tabIdx) {
-            return '';
+            return "";
         }
-        return 'border-transparent bg-gradient-to-t from-[#559bd9] to-[#94cef2] text-white';
+        return "border-transparent bg-gradient-to-t from-[#559bd9] to-[#94cef2] text-white";
     };
 
     return (
@@ -43,8 +43,12 @@ export default function ChecklistTab(props: PropType) {
                 </ul>
             </div>
 
-            <div className="mb-6">
-                {tabIdx == 1 ? <MyCheckList tourId={props.tourId} /> : <ChecklistByDay tourId={props.tourId} />}
+            <div className="">
+                {tabIdx == 1 ? (
+                    <MyCheckList tourId={props.tourId} />
+                ) : (
+                    <ChecklistByDay tourId={props.tourId} />
+                )}
             </div>
         </div>
     );

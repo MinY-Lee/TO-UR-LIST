@@ -61,7 +61,7 @@ export default function ChecklistPage() {
             <header>
                 <HeaderBar />
             </header>
-            <div className="h-[85vh] overflow-y-scroll">
+            <div className="h-[85vh] overflow-y-auto">
                 <div>
                     {type == "default" ? (
                         <TourHeader

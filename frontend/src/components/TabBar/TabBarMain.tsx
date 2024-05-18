@@ -23,7 +23,7 @@ export default function TabBarMain(props: PropType) {
             <div
                 className={`${
                     type == "feed" ? selected : ""
-                }  w-[96%] grid grid-cols-3 absolute bottom-3 left-2  text-neutral-500 rounded-lg  justify-around items-center border-2 drop-shadow-md bg-white z-10`}
+                }  w-[96%] absolute bottom-1 right-2 grid grid-cols-3  text-neutral-500 rounded-lg  justify-around items-center border-2 drop-shadow-md bg-white z-10`}
             >
                 <div
                     className="hover:bg-[#d5e7f2] h-full rounded-l-lg flex pt-1 flex-col items-center justify-evenly"
