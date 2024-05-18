@@ -13,23 +13,23 @@ export default function MypageLike() {
 
     useEffect(() => {
         //넘어온 리스트 있으면 그걸로, 아니면 새로 api호출
-        if (state.length !== 0) {
-            setMyLikedList(state);
-        } else {
-            //api호출
-            getLikedFeed().then((res) => {
-                if (res.status === httpStatusCode.OK) {
-                    const likedFeed: Feed[] = res.data;
-                    likedFeed.sort((a, b) => {
-                        const dateA = new Date(a.createdAt);
-                        const dateB = new Date(b.createdAt);
-                        return dateB.getTime() - dateA.getTime();
-                    });
-
-                    setMyLikedList(likedFeed);
-                }
-            });
-        }
+        // if (state.length !== 0) {
+        //     setMyLikedList(state);
+        // } else {
+        //     //api호출
+        //     getLikedFeed().then((res) => {
+        //         if (res.status === httpStatusCode.OK) {
+        //             const likedFeed: Feed[] = res.data;
+        //             likedFeed.sort((a, b) => {
+        //                 const dateA = new Date(a.createdAt);
+        //                 const dateB = new Date(b.createdAt);
+        //                 return dateB.getTime() - dateA.getTime();
+        //             });
+        //
+        //             setMyLikedList(likedFeed);
+        //         }
+        //     });
+        // }
     }, []);
 
     return (
