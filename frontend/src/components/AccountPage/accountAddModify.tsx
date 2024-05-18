@@ -276,7 +276,6 @@ export default function AccountAddModify(props: PropType) {
                 .then((res) => {
                     if (res.status === httpStatusCode.OK) {
                         // payId 돌아옴
-                        console.log(res.data);
                         navigate(-1);
                     }
                 })

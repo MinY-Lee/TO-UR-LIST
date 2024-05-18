@@ -4,9 +4,11 @@ import HeaderBar from "../../components/HeaderBar/HeaderBar";
 import TabBarTour from "../../components/TabBar/TabBarTour";
 
 import getPayTourId from "../../dummy-data/get_pay_tourId.json";
-import { AccountInfo, PayMember } from "../../types/types";
+import { AccountInfo, PayMember, TourInfoDetail, UserInfo } from "../../types/types";
 import { getAccountList } from "../../util/api/pay";
 import { HttpStatusCode } from "axios";
+import { useSelector } from "react-redux";
+import { getTour } from "../../util/api/tour";
 
 interface MemberCharge {
     [memberId: string]: {
@@ -19,8 +21,17 @@ export default function AccountAddPage() {
     const [tourId, setTourId] = useState<string>("");
     const [tabIdx, setTabIdx] = useState<number>(1);
     const [data, setData] = useState<AccountInfo[]>([]);
+    const [tourData, setTourData] = useState<TourInfoDetail>({
+        tourTitle: "",
+        cityList: [],
+        startDate: "",
+        endDate: "",
+        memberList: [],
+    });
     const [acceptData, setAcceptData] = useState<MemberCharge>({});
     const [sendData, setSendData] = useState<MemberCharge>({});
+
+    const userInfo: UserInfo = useSelector((state: any) => state.userSlice);
 
     useEffect(() => {
         // 투어 아이디 불러오기
@@ -40,66 +51,66 @@ export default function AccountAddPage() {
                     }
                 })
                 .catch((err) => console.log(err));
+
+            getTour(tourId)
+                .then((res) => {
+                    setTourData(res.data);
+                })
+                .catch((err) => console.log(err));
         }
     }, [tourId]);
 
+    const idToName = (memberId: string): string => {
+        const member = tourData.memberList.find((member) => member.userId === memberId);
+
+        if (member) {
+            return member.userName;
+        } else {
+            return "";
+        }
+    };
+
     const calcAccept = () => {
         let acceptList: MemberCharge = {};
+        console.log("accept data = " + data);
         data.forEach((item) => {
-            if (item.payType == "public" && item.payerId == "1234") {
+            if (item.payType == "public" && item.payerId == userInfo.userId) {
                 item.payMemberList.forEach((member: PayMember) => {
                     const memberId: string = member.userId;
-                    if (memberId != "1234") {
+                    if (memberId != userInfo.userId) {
                         if (!acceptList[memberId]) {
                             acceptList[memberId] = [];
                         }
-
-                        let payAmountWon = 0;
-                        if (item.currencyCode == "JPY") {
-                            payAmountWon = member.payAmount * 8.9;
-                        } else {
-                            payAmountWon = member.payAmount;
-                        }
-
                         acceptList[memberId].push({
                             payContent: item.payContent,
-                            payAmount: payAmountWon,
+                            payAmount: member.payAmount,
                         });
                     }
                 });
             }
         });
-
         setAcceptData(acceptList);
     };
 
     const calcSend = () => {
         let sendList: MemberCharge = {};
         data.forEach((item) => {
-            if (item.payType == "public" && item.payerId != "1234") {
+            if (item.payType == "public" && item.payerId != userInfo.userId) {
                 item.payMemberList.forEach((member: PayMember) => {
                     const memberId: string = member.userId;
-                    if (memberId == "1234") {
+                    if (memberId == userInfo.userId) {
                         if (!sendList[memberId]) {
                             sendList[memberId] = [];
                         }
 
-                        let payAmountWon = 0;
-                        if (item.currencyCode == "JPY") {
-                            payAmountWon = member.payAmount * 8.9;
-                        } else {
-                            payAmountWon = member.payAmount;
-                        }
-
                         sendList[memberId].push({
                             payContent: item.payContent,
-                            payAmount: payAmountWon,
+                            payAmount: member.payAmount,
                         });
                     }
                 });
             }
         });
-
         setSendData(sendList);
     };
 
@@ -111,11 +122,12 @@ export default function AccountAddPage() {
     };
 
     const calcTotal = (isAccept: boolean, member: string) => {
+        console.log("total");
         let total = 0;
         if (isAccept) {
             acceptData[member].map((item) => (total += item.payAmount));
         } else {
-            // 보낼 금액 계산
+            sendData[member].map((item) => (total += item.payAmount));
         }
         return total;
     };
@@ -126,7 +138,7 @@ export default function AccountAddPage() {
             </header>
             <div className="flex flex-col items-center h-[80vh] p-5 overflow-y-scroll">
                 {/* 원화 현지화폐 토글 */}
-                <ul className="grid grid-cols-2 w-[30vw] border rounded-full color-bg-blue-4 mb-5">
+                {/* <ul className="grid grid-cols-2 w-[30vw] border rounded-full color-bg-blue-4 mb-5">
                     <li className="rounded-full" onClick={() => setTabIdx(1)}>
                         <div
                             className={`${getTabClass(
@@ -145,50 +157,38 @@ export default function AccountAddPage() {
                             현지화폐
                         </div>
                     </li>
-                </ul>
+                </ul> */}
                 <div className="flex flex-col w-full p-3 gap-10">
                     <div>
                         <div className="font-bold text-2xl">보낼 금액 💸</div>
                         <div className="border-t-2 border-neutral-500 flex flex-col gap-3 text-lg">
                             {Object.keys(sendData).length !== 0 ? (
                                 <div>
-                                    {Object.keys(sendData).map(
-                                        (member, index) => (
-                                            <div
-                                                key={index}
-                                                className="grid grid-cols-3 mt-5"
-                                            >
-                                                <div className="grid grid-cols-3">
-                                                    <div className="col-span-1 color-bg-blue-4 rounded-full text-white shadow-md font-bold w-8 h-8 justify-center items-center flex">
-                                                        {member[0]}
-                                                    </div>
-                                                    <div className="font-bold color-text-blue-1">
-                                                        {member}
-                                                    </div>
+                                    {Object.keys(sendData).map((member, index) => (
+                                        <div
+                                            key={index}
+                                            className="grid grid-cols-3 mt-5 justify-center gap-2"
+                                        >
+                                            <div className="grid grid-cols-3">
+                                                <div className="col-span-1 color-bg-blue-4 rounded-full text-white shadow-md font-bold w-8 h-8 justify-center items-center flex">
+                                                    {idToName(member)[0]}
                                                 </div>
-                                                <div className="text-neutral-500">
-                                                    {sendData[member].length > 1
-                                                        ? `${
-                                                              sendData[
-                                                                  member
-                                                              ][0].payContent
-                                                          } (+${
-                                                              sendData[member]
-                                                                  .length - 1
-                                                          })`
-                                                        : sendData[member][0]
-                                                              .payContent}
-                                                </div>
-                                                <div className="text-end">
-                                                    {calcTotal(
-                                                        false,
-                                                        member
-                                                    ).toLocaleString()}{" "}
-                                                    원
+                                                <div className="col-span-2 font-bold color-text-blue-1">
+                                                    {idToName(member)}
                                                 </div>
                                             </div>
-                                        )
-                                    )}
+                                            <div className="text-neutral-500  text-center">
+                                                {sendData[member].length > 1
+                                                    ? `${sendData[member][0].payContent} (+${
+                                                          sendData[member].length - 1
+                                                      })`
+                                                    : sendData[member][0].payContent}
+                                            </div>
+                                            <div className="text-end">
+                                                {calcTotal(false, member).toLocaleString()} 원
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             ) : (
                                 <div className="text-center m-10 text-lg">
@@ -202,44 +202,28 @@ export default function AccountAddPage() {
                         <div className="border-t-2 border-neutral-500 flex flex-col gap-3 text-lg">
                             {Object.keys(acceptData).length !== 0 ? (
                                 <div>
-                                    {Object.keys(acceptData).map(
-                                        (member, index) => (
-                                            <div
-                                                key={index}
-                                                className="grid grid-cols-3 mt-5"
-                                            >
-                                                <div className="grid grid-cols-3">
-                                                    <div className="col-span-1 color-bg-blue-4 rounded-full text-white shadow-md font-bold w-8 h-8 justify-center items-center flex">
-                                                        {member[0]}
-                                                    </div>
-                                                    <div className="font-bold color-text-blue-1">
-                                                        {member}
-                                                    </div>
+                                    {Object.keys(acceptData).map((member, index) => (
+                                        <div key={index} className="grid grid-cols-3 mt-5">
+                                            <div className="grid grid-cols-3 justify-center gap-2">
+                                                <div className="col-span-1 color-bg-blue-4 rounded-full text-white shadow-md font-bold w-8 h-8 justify-center items-center flex">
+                                                    {idToName(member)[0]}
                                                 </div>
-                                                <div className="text-neutral-500">
-                                                    {acceptData[member].length >
-                                                    1
-                                                        ? `${
-                                                              acceptData[
-                                                                  member
-                                                              ][0].payContent
-                                                          } (+${
-                                                              acceptData[member]
-                                                                  .length - 1
-                                                          })`
-                                                        : acceptData[member][0]
-                                                              .payContent}
-                                                </div>
-                                                <div className="text-end">
-                                                    {calcTotal(
-                                                        true,
-                                                        member
-                                                    ).toLocaleString()}{" "}
-                                                    원
+                                                <div className="col-span-2 font-bold color-text-blue-1">
+                                                    {idToName(member)}
                                                 </div>
                                             </div>
-                                        )
-                                    )}
+                                            <div className="text-neutral-500 text-center">
+                                                {acceptData[member].length > 1
+                                                    ? `${acceptData[member][0].payContent} (+${
+                                                          acceptData[member].length - 1
+                                                      })`
+                                                    : acceptData[member][0].payContent}
+                                            </div>
+                                            <div className="text-end">
+                                                {calcTotal(true, member).toLocaleString()} 원
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             ) : (
                                 <div className="text-center m-10 text-lg">

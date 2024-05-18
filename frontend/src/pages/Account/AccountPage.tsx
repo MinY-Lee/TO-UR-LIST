@@ -143,7 +143,7 @@ export default function AccountPage() {
     };
 
     return (
-        <div className="w-full flex flex-col items-center">
+        <div className="w-full flex flex-col">
             <header>
                 <HeaderBar />
             </header>
@@ -182,9 +182,9 @@ export default function AccountPage() {
                         <div className="p-8 text-center">{tapComponent(tapIdx)}</div>
                     </div>
                 </div>
-                <div className="w-fit">
+                <div className="w-full">
                     <AccountDetail data={data} tourData={tourData} currency={currency} />
-                    <div className="h-3"></div>
+                    <div className="h-10"></div>
                 </div>
             </div>
             <div className="absolute bottom-20 z-10 right-5">

@@ -25,7 +25,6 @@ export interface MemberInfo {
 }
 
 export interface TourInfoDetail {
-    tourId?: string; // 나중에는 없어도 됨
     tourTitle: string;
     cityList: City[];
     startDate: string;

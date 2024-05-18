@@ -96,7 +96,6 @@ export default function AccountDetail(props: PropType) {
                 groupedData.push(dataPerDay);
             }
         }
-        console.log(groupedData);
         // 날짜 순으로 정렬
         groupedData.sort(
             (a, b) => new Date(a.payDatetime).getTime() - new Date(b.payDatetime).getTime()
@@ -114,7 +113,6 @@ export default function AccountDetail(props: PropType) {
             setEndDate(new Date(props.tourData.endDate));
         }
         setRowData(props.data);
-        console.log(props.data);
         // 데이터 날짜별로 그룹핑
         DataPerDay(rowData);
     }, [tourId, props, rowData]);
@@ -198,7 +196,6 @@ export default function AccountDetail(props: PropType) {
     const getMyAmount = (info: AccountInfo): number => {
         let amount = 0;
         info.payMemberList.forEach((member) => {
-            console.log(member);
             if (member.userId == userInfo.userId) {
                 amount = member.payAmount;
             }
@@ -213,7 +210,6 @@ export default function AccountDetail(props: PropType) {
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
                         // 화면 상 반영
-                        console.log(deleteTarget);
                         let updatedData: DataPerDayInfo[] = [];
                         Object.keys(groupedData).map((date, index) => {
                             if (date == deleteTarget.payDatetime.split("T")[0]) {
@@ -263,8 +259,8 @@ export default function AccountDetail(props: PropType) {
             ) : (
                 <></>
             )}
-            <div>
-                <div className="px-5 flex justify-between items-center mt-3">
+            <div className="flex flex-col items-center">
+                <div className="px-5 flex justify-between w-full items-center mt-3">
                     {/* 내역 드롭다운 */}
                     <button
                         onClick={() => setIsClicked(!isClicked)}
@@ -336,13 +332,13 @@ export default function AccountDetail(props: PropType) {
                     <div className="text-neutral-500 underline">엑셀로 내보내기</div>
                 </div>
 
-                <div className="border-2 border-neutral-400 py-3 rounded-lg mx-8 mt-2">
+                <div className="border-2 border-neutral-400 py-3 rounded-lg mt-2 w-[90%]">
                     {groupedData.length == 0 ? (
                         <div className="h-[40vh] flex justify-center items-center text-xl">
                             아직 지출 내역이 없습니다.
                         </div>
                     ) : (
-                        <div>
+                        <div className="">
                             {groupedData.map((data, index) => (
                                 <div key={index} className="px-5 mb-5">
                                     <div className="border-b-2 text-lg text-neutral-500 mb-2">
