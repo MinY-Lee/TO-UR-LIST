@@ -61,7 +61,7 @@ export default function AccountPage() {
         if (tourData.tourTitle != "") {
             getCurrency(
                 tourData.cityList[0].countryCode,
-                new Date("2024-05-13").toISOString().split("T")[0] // 수정 필요
+                new Date().toISOString().split("T")[0]
             )
                 .then((res) => {
                     setCurrency({

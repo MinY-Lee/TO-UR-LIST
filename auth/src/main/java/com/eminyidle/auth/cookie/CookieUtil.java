@@ -1,6 +1,6 @@
-package com.eminyidle.auth.auth.cookie;
+package com.eminyidle.auth.cookie;
 
-import com.eminyidle.auth.auth.dto.TokenCookie;
+import com.eminyidle.auth.dto.TokenCookie;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,7 +15,9 @@ public class CookieUtil {
     }
 
     public static TokenCookie resolveToken(HttpServletRequest request) {
-        Cookie accessTokenCookie = null, refreshTokenCookie = null;
+        Cookie accessTokenCookie = null;
+        Cookie refreshTokenCookie = null;
+
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -30,19 +32,6 @@ public class CookieUtil {
             .accessTokenCookie(accessTokenCookie)
             .refreshTokenCookie(refreshTokenCookie)
             .build();
-    }
-
-    public static Cookie searchCookie(String cookieName, HttpServletRequest request) {
-        Cookie selectedCookie = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookieName.equals(cookie.getName())) {
-                    selectedCookie = cookie;
-                }
-            }
-        }
-        return selectedCookie;
     }
 
     public static void deleteTokenCookie(HttpServletRequest request,

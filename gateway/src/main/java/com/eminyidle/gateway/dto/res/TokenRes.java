@@ -1,4 +1,4 @@
-package com.eminyidle.auth.auth.dto.res;
+package com.eminyidle.gateway.dto.res;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

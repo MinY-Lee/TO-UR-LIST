@@ -1,5 +1,9 @@
-package com.eminyidle.auth.auth.service;
+package com.eminyidle.auth.service;
 
+import com.eminyidle.auth.oauth2.dto.Userinfo;
+import com.eminyidle.auth.oauth2.exception.UserNotExistException;
+import com.eminyidle.auth.oauth2.repository.GoogleRepository;
+import com.eminyidle.auth.oauth2.repository.UserinfoRepository;
 import com.eminyidle.auth.redis.RedisPrefix;
 import com.eminyidle.auth.redis.RedisService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthServiceImpl implements AuthService {
 
     private final RedisService redisService;
+    private final UserinfoRepository userinfoRepository;
 
     @Transactional
     public void logoutUser(String userId) {
@@ -21,6 +26,11 @@ public class AuthServiceImpl implements AuthService {
         String tokenKey = RedisPrefix.REFRESH_TOKEN.prefix() + userId;
         redisService.deleteValues(tokenKey);
         log.debug("Refresh 토큰 제거");
+    }
+
+    @Override
+    public void deleteUser(String userId) {
+        userinfoRepository.deleteByUserId(userId);
     }
 
 }

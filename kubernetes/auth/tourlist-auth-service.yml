@@ -41,4 +41,6 @@ spec:
                 name: tourlist-auth-config
             - secretRef:
                 name: tourlist-auth-secrets
+            - secretRef:
+                name: tourlist-common-secrets
 

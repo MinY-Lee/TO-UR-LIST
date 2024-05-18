@@ -1,4 +1,4 @@
-package com.eminyidle.auth.auth.dto;
+package com.eminyidle.auth.dto;
 
 import jakarta.servlet.http.Cookie;
 import lombok.AllArgsConstructor;

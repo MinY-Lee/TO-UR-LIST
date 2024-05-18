@@ -1,8 +1,7 @@
 package com.eminyidle.auth.oauth2;
 
-import com.eminyidle.auth.auth.jwt.JWTUtil;
+import com.eminyidle.auth.jwt.JWTUtil;
 import com.eminyidle.auth.oauth2.dto.CustomOAuth2User;
-import com.eminyidle.auth.oauth2.repository.UserinfoRepository;
 import com.eminyidle.auth.redis.RedisPrefix;
 import com.eminyidle.auth.redis.RedisService;
 import jakarta.servlet.ServletException;
@@ -58,7 +57,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         // 쿠키에 데이터 저장
         Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
         accessTokenCookie.setPath("/");
-//        accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setMaxAge(60 * 60 * 3);
         response.addCookie(accessTokenCookie);
 

@@ -1,6 +1,7 @@
 package com.eminyidle.payment.dto.res;
 
 import com.eminyidle.payment.dto.PaymentMember;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -21,8 +22,8 @@ public class PaymentInfoRes {
     private String payType;
     @NotBlank
     private String tourId;
-    @NotNull
-    private Integer payAmount;
+    @NotNull @Min(0)
+    private Long payAmount;
     @NotNull
     private Double exchangeRate;
     @NotBlank

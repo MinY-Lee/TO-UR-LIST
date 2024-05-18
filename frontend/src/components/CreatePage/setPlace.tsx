@@ -1,25 +1,25 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from "react";
 
-import SearchBar from '../../components/SearchBar/mySearchBar';
-import MyButton from '../../components/Buttons/myButton';
+import SearchBar from "../../components/SearchBar/mySearchBar";
+import MyButton from "../../components/Buttons/myButton";
 
-import { City, CountryMapping } from '../../types/types';
-import { GetCityList, GetCountryList } from '../../util/api/country';
-import Spinner from '../../assets/svg/spinner';
-import CountryCodeToName from '../TourPage/countryIdToName';
-import { HttpStatusCode } from 'axios';
+import { City, CountryMapping } from "../../types/types";
+import { GetCityList, GetCountryList } from "../../util/api/country";
+import Spinner from "../../assets/svg/spinner";
+import CountryCodeToName from "../TourPage/countryIdToName";
+import { HttpStatusCode } from "axios";
 
 interface PropType {
     onChangeSelected: (selectedCity: City[]) => void;
 }
 
 export default function SetPlace(props: PropType) {
-    const [query, setQuery] = useState<string>('');
+    const [query, setQuery] = useState<string>("");
     const [searchList, setSearchList] = useState<City[]>([]); // 실제 검색 결과
     const [resultList, setResultList] = useState<City[]>([]); // 화면에 보여줄 검색 결과
     const [selectedCity, setSelectedCity] = useState<City[]>([]);
     const [countryList, setCountryList] = useState<CountryMapping[]>([]);
-    const [countryName, setCountryName] = useState<string>('');
+    const [countryName, setCountryName] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false); // 로딩 상태 추가
 
     const topRef = useRef<HTMLDivElement>(null);
@@ -38,10 +38,12 @@ export default function SetPlace(props: PropType) {
 
     useEffect(() => {
         if (topRef.current) {
-            topRef.current.scrollIntoView({ behavior: 'smooth' });
+            topRef.current.scrollIntoView({ behavior: "smooth" });
         }
         // 선택된 도시가 변경될 때마다 resultList 업데이트
-        const updatedResultList = searchList.filter((city) => !selectedCity.includes(city));
+        const updatedResultList = searchList.filter(
+            (city) => !selectedCity.includes(city)
+        );
         setResultList(updatedResultList);
 
         // 부모 컴포넌트에 보내기
@@ -54,7 +56,9 @@ export default function SetPlace(props: PropType) {
         setSearchList([]);
         setQuery(data);
         // 나라 -> 도시 로직인 경우 검색어를 나라 코드로 치환
-        const foundCountry = countryList.find((country: any) => country.countryName === data);
+        const foundCountry = countryList.find(
+            (country: any) => country.countryName === data
+        );
 
         if (foundCountry) {
             setCountryName(foundCountry.countryName);
@@ -74,7 +78,12 @@ export default function SetPlace(props: PropType) {
                     setSearchList(CityList);
                     // 선택된 도시가 있을 때 결과를 업데이트
                     const updatedResultList = CityList.filter(
-                        (city) => !selectedCity.some((selected) => JSON.stringify(selected) === JSON.stringify(city))
+                        (city) =>
+                            !selectedCity.some(
+                                (selected) =>
+                                    JSON.stringify(selected) ===
+                                    JSON.stringify(city)
+                            )
                     );
                     setResultList(updatedResultList);
                 })
@@ -96,7 +105,9 @@ export default function SetPlace(props: PropType) {
             setSelectedCity([...selectedCity, city]);
         } else {
             // 이미 선택된 도시라면 제거
-            const updatedCities = selectedCity.filter((selected) => selected !== city);
+            const updatedCities = selectedCity.filter(
+                (selected) => selected !== city
+            );
             setSelectedCity(updatedCities);
         }
     };
@@ -104,34 +115,46 @@ export default function SetPlace(props: PropType) {
     return (
         <div className="flex flex-col items-center">
             <div className="text-2xl font-bold m-3">어디로 떠나시나요?</div>
-            <div id="search-container" className="w-[90%] shadow-md border border-black rounded-lg">
+            <div
+                id="search-container"
+                className="w-[90%] shadow-md border border-black rounded-lg"
+            >
                 <SearchBar onChange={handleDataFromChild} />
             </div>
-            <div id="city-list-container" className="m-2 h-[40vh] overflow-scroll w-[90%]">
+            <div
+                id="city-list-container"
+                className="m-2 h-[40vh] overflow-scroll w-[90%]"
+            >
                 <div ref={topRef}></div>
                 {selectedCity.length > 0 &&
                     selectedCity.map((res, index) => (
                         <div key={index} className="flex justify-between m-2">
                             <div className="text-lg">
-                                {CountryCodeToName(res.countryCode, countryList)}, {res.cityName}
+                                {CountryCodeToName(
+                                    res.countryCode,
+                                    countryList
+                                )}
+                                , {res.cityName}
                             </div>
                             <MyButton
                                 type="small"
-                                className="text-white color-bg-blue-2 font-medium"
+                                className="text-white color-bg-blue-6 font-medium"
                                 text="해제"
                                 isSelected={true}
                                 onClick={() => handleCitySelect(res)}
                             />
                         </div>
                     ))}
-                {query !== '' && searchList.length === 0 ? (
+                {query !== "" && searchList.length === 0 ? (
                     <>
                         {isLoading ? (
                             <div className="flex justify-center mt-5">
                                 <Spinner />
                             </div>
                         ) : (
-                            <div className="text-lg text-center text-gray-500">검색 결과가 없습니다.</div>
+                            <div className="text-lg text-center text-gray-500">
+                                검색 결과가 없습니다.
+                            </div>
                         )}
                     </>
                 ) : (
@@ -145,7 +168,7 @@ export default function SetPlace(props: PropType) {
                                 text="선택"
                                 isSelected={false}
                                 onClick={() => handleCitySelect(res)}
-                                className="color-text-blue-2"
+                                className="color-text-blue-6"
                             />
                         </div>
                     ))

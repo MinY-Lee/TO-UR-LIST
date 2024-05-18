@@ -1,11 +1,11 @@
 :root {
-    --color-blue-1: #2ba1f9;
-    --color-blue-2: #64bcfb;
+    --color-blue-1: #559bd9;
+    --color-blue-2: #5faad9;
     --color-blue-3: #94cef2;
-    --color-blue-4: #c8e7fe;
+    --color-blue-4: #d5e7f2;
     --color-blue-5: #a2dcf2;
-    --color-blue-6: #005ca0;
-    --color-green-1: #b1efab;
+    --color-blue-6: #2ba1f9;
+    --color-green-1: #eaffe8;
     --color-green-2: #5cd651;
 }
 
@@ -257,6 +257,11 @@
 .my-vw {
     margin-top: min(1vw, 4.8px);
     margin-bottom: min(1vw, 4.8px);
+}
+
+.my-2vw {
+    margin-top: min(2vw, 9.6x);
+    margin-bottom: min(2vw, 9.6px);
 }
 
 .mx-dot5vw {

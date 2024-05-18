@@ -8,7 +8,6 @@ import {
     TourPlaceItem,
 } from "../types/types";
 
-import tourPlaceTourId from "../dummy-data/get_tour_place_tourId.json";
 import { getTour } from "../util/api/tour";
 import { getPlaceList } from "../util/api/place";
 import { HttpStatusCode } from "axios";
@@ -24,7 +23,7 @@ interface Proptype {
 
 interface Group {
     [tourDay: number]: {
-        [placeName: string]: TourActivity[];
+        [placeName: string]: string[];
     };
 }
 
@@ -88,6 +87,7 @@ export default function SelectModal(props: Proptype) {
         });
 
         setGroupedPlaces(grouped);
+        console.log(grouped[1]);
     }, [data]);
 
     useEffect(() => {
@@ -121,7 +121,7 @@ export default function SelectModal(props: Proptype) {
     const handleCheckbox = (
         day: number,
         placeId: string,
-        activity?: TourActivity
+        activity?: string
     ) => {
         if (!activity) {
             if (
@@ -217,13 +217,13 @@ export default function SelectModal(props: Proptype) {
                                                                                                 item.activity
                                                                                         )
                                                                                         .includes(
-                                                                                            activity.activity
+                                                                                            activity
                                                                                         )}
                                                                                     className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
                                                                                 />
                                                                                 <label className="ms-2 text-lg w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
                                                                                     {
-                                                                                        activity.activity
+                                                                                        activity
                                                                                     }
                                                                                 </label>
                                                                             </div>
@@ -257,8 +257,7 @@ export default function SelectModal(props: Proptype) {
                                                                             className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
                                                                         />
                                                                         <label className="ms-2 text-lg w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
-                                                                            (장소에
-                                                                            추가하기)
+                                                                            (활동없음)
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -284,13 +283,14 @@ export default function SelectModal(props: Proptype) {
                         onClick={props.clickOK}
                         text="저장"
                         type="full"
-                        className="py-2"
+                        className="py-2 text-white h-full"
                     ></MyButton>
                     <MyButton
                         isSelected={false}
                         onClick={props.clickCancel}
                         text="취소"
                         type="full"
+                        className="py-2 color-text-blue-1"
                     ></MyButton>
                 </div>
             </div>

@@ -6,6 +6,7 @@ import { Item, ItemApi } from "../../types/types";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import { checkItem, getChecklist } from "../../util/api/checklist";
 import { HttpStatusCode } from "axios";
+import ActivityBadge from "./activityBadge";
 
 interface PropType {
     tourId: string;
@@ -15,35 +16,10 @@ interface CountItem {
     [key: string]: number;
 }
 
-interface Mapping {
-    [key: string]: string[];
-}
-
 export default function MyCheckList(props: PropType) {
     const [checklist, setChecklist] = useState<Item[]>([]);
     const [filteredChecklist, setFilteredChecklist] = useState<Item[]>([]);
     const [filteredGroup, setFilteredGroup] = useState<CountItem>({});
-
-    const mapping: Mapping = {
-        walking: ["👣 산책", "color-bg-blue-3"],
-        shopping: ["🛒 쇼핑", "bg-pink-100"],
-    };
-
-    // 활동 id 를 한글로 변환
-    const ActivityToKor = (activity: string): string => {
-        if (mapping[activity]) {
-            return mapping[activity][0];
-        }
-        return "활동 관련";
-    };
-
-    // 활동 id 별 색상 부여
-    const setColor = (activity: string): string => {
-        if (mapping[activity]) {
-            return mapping[activity][1];
-        }
-        return "color-bg-blue-3";
-    };
 
     useEffect(() => {
         if (props.tourId != "") {
@@ -118,9 +94,6 @@ export default function MyCheckList(props: PropType) {
                     updatedChecklist[index].isChecked =
                         !updatedChecklist[index].isChecked;
 
-                    // const movedItem = updatedChecklist.splice(index, 1)[0];
-                    // updatedChecklist.push(movedItem);
-
                     setFilteredChecklist(updatedChecklist);
                 }
             })
@@ -132,7 +105,7 @@ export default function MyCheckList(props: PropType) {
             <div className="w-full  justify-between items-end p-5 bak">
                 <div>
                     <div className=" border-2 border-blue-200 rounded-2xl p-3">
-                        <div className="flex w-full justify-end">
+                        <div className="flex w-full justify-end mb-2">
                             <MyButton
                                 type="small"
                                 className="text-white font-medium"
@@ -147,7 +120,7 @@ export default function MyCheckList(props: PropType) {
                             {filteredChecklist.map((item, index) => (
                                 <div
                                     key={index}
-                                    className="grid grid-cols-3 justify-center m-1"
+                                    className="grid grid-cols-3 justify-end m-1"
                                 >
                                     <div className="flex items-center col-span-2">
                                         <input
@@ -169,41 +142,15 @@ export default function MyCheckList(props: PropType) {
                                         </label>
                                     </div>
 
-                                    <div className="relative w-fit">
-                                        <div>
-                                            {item.activity ? (
-                                                <span
-                                                    className={`${setColor(
-                                                        item.activity
-                                                    )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
-                                                >
-                                                    {ActivityToKor(
-                                                        item.activity
-                                                    )}
-                                                </span>
-                                            ) : (
-                                                ""
-                                            )}
-                                        </div>
-                                        <div>
-                                            {item.activity &&
-                                            filteredGroup[item.item] > 1 ? (
-                                                <div>
-                                                    <span className="sr-only">
-                                                        Notifications
-                                                    </span>
-                                                    <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white color-bg-blue-1 border-2 border-white rounded-full -top-2 -end-[20%]">
-                                                        {
-                                                            filteredGroup[
-                                                                item.item
-                                                            ]
-                                                        }
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                ""
-                                            )}
-                                        </div>
+                                    <div className="relative text-end mr-3">
+                                        <ActivityBadge
+                                            hadNoContent={false}
+                                            item={item}
+                                            filteredChecklist={
+                                                filteredChecklist
+                                            }
+                                            filteredGroup={filteredGroup}
+                                        />
                                     </div>
                                 </div>
                             ))}

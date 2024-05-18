@@ -6,6 +6,7 @@ interface PropType {
     schedule: WebSockPlace[][];
     selectedDate: number;
     tourId: string;
+    selectedSchedule: WebSockPlace | undefined;
 }
 
 export default function Maps(props: PropType) {
@@ -25,7 +26,6 @@ export default function Maps(props: PropType) {
                 position: { lat: 37.5, lng: 127 },
                 map: initMap,
                 title: "Seoul",
-                label: "0일차 서울",
             });
 
             const arr: google.maps.Marker[] = [];
@@ -62,7 +62,6 @@ export default function Maps(props: PropType) {
                     ) {
                         // console.log(cache);
                         //정보가 없으면 api 호출
-
                         searchPlaceDetail(
                             props.tourId,
                             place.tourDay,
@@ -70,43 +69,74 @@ export default function Maps(props: PropType) {
                         ).then((res) => {
                             const result: PlaceInfoDetail = res.data.placeInfo;
 
-                            const lat = result.placeLatitude;
-                            const lng = result.placeLongitude;
-                            if (lat && lng) {
-                                //존재 시 추가
-                                const pos = new google.maps.LatLng(lat, lng);
+                            //선택된 지역이 있는가?
+                            if (props.selectedSchedule) {
+                                const lat = result.placeLatitude;
+                                const lng = result.placeLongitude;
+                                if (lat && lng) {
+                                    //존재 시 추가
+                                    const pos = new google.maps.LatLng(
+                                        lat,
+                                        lng
+                                    );
 
-                                if (place.tourDay !== 0) {
-                                    const marker = new google.maps.Marker({
-                                        position: { lat, lng },
-                                        map: googleMap,
-                                        title: place.placeName,
-                                        label:
-                                            place.tourDay +
-                                            "일차 " +
-                                            place.placeName,
-                                    });
+                                    //존재 시, 그리고 현재 위치가 우리가 찾던 위치
+                                    if (
+                                        props.selectedSchedule.placeId ===
+                                        result.placeId
+                                    ) {
+                                        //특별한 마커로
+                                        const marker = new google.maps.Marker({
+                                            position: { lat, lng },
+                                            map: googleMap,
+                                            title: place.placeName,
+                                        });
 
-                                    newMarkers.push(marker);
-                                } else {
-                                    const marker = new google.maps.Marker({
-                                        position: { lat, lng },
-                                        map: googleMap,
-                                        title: place.placeName,
-                                        label: "날짜없음 " + place.placeName,
-                                    });
+                                        newMarkers.push(marker);
+                                        //중앙으로 맞추기
+                                        googleMap.setCenter(pos);
+                                    } else {
+                                        //마커 (선택 안된 애들, 투명하게)
+                                        const marker = new google.maps.Marker({
+                                            position: { lat, lng },
+                                            map: googleMap,
+                                            title: place.placeName,
+                                            opacity: 0.3,
+                                        });
 
-                                    newMarkers.push(marker);
+                                        newMarkers.push(marker);
+                                    }
                                 }
+                            } else {
+                                //없으면 그냥 다 보여주기
 
-                                googleMap.setCenter(pos);
+                                const lat = result.placeLatitude;
+                                const lng = result.placeLongitude;
+                                if (lat && lng) {
+                                    //존재 시 추가
+                                    const pos = new google.maps.LatLng(
+                                        lat,
+                                        lng
+                                    );
+
+                                    //마커
+                                    const marker = new google.maps.Marker({
+                                        position: { lat, lng },
+                                        map: googleMap,
+                                        title: place.placeName,
+                                    });
+
+                                    newMarkers.push(marker);
+
+                                    googleMap.setCenter(pos);
+                                }
                             }
                         });
                     }
                 });
             });
         }
-    }, [googleMap, props.schedule, props.selectedDate]);
+    }, [googleMap, props.schedule, props.selectedDate, props.selectedSchedule]);
 
     return <div ref={googleMapRef} id="map" className="w-full h-[80%]"></div>;
 }

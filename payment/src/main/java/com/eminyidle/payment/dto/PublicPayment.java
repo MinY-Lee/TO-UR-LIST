@@ -1,5 +1,6 @@
 package com.eminyidle.payment.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -17,8 +18,8 @@ public class PublicPayment {
 //    @NotBlank
 //    private String publicPaymentId;
 
-    @NotNull
-    private Integer payAmount;
+    @NotNull @Min(0)
+    private Long payAmount;
 
     @NotNull
     private Double exchangeRate;
