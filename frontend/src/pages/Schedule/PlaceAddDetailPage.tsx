@@ -72,7 +72,7 @@ export default function PlaceAddDetailPage() {
         placeAddress: "",
         placeWeekdayDescriptions: [],
         placeAcceptCashOnly: false,
-        palceAcceptCreditCards: false,
+        placeAcceptCreditCards: false,
         placeOpenNow: false,
         placePhotoList: [],
     });
