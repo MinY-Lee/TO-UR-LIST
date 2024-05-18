@@ -91,7 +91,7 @@ export interface ItemApi {
 export interface Item {
     tourId: string;
     placeId: string;
-    placeName: String;
+    placeName: string;
     activity: string;
     item: string;
     tourDay: number;
@@ -140,6 +140,10 @@ export interface PlaceInfoDetail {
     placeLatitude: number;
     placeLongitude: number;
     placeAddress: string;
+    placeWeekdayDescriptions: string[];
+    placeAcceptCreditCards: boolean;
+    placeAcceptCashOnly: boolean;
+    placeOpenNow: boolean;
     placePhotoList: string[];
 }
 

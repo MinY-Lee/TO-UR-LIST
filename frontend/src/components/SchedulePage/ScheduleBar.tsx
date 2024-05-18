@@ -76,11 +76,11 @@ export default function ScheduleBar(props: PropType) {
                 style={{ transitionDuration: "1s" }}
             >
                 {/* 제목 */}
-                <div className="w-[30%] h-6vw text-5vw weight-text-semibold absolute left-[5%] top-2vw flex justify-between items-center">
+                <div className="w-[30%] h-6vw text-5vw weight-text-semibold absolute left-[5%] top-5vw flex justify-between items-center">
                     일정
                 </div>
                 {/* 추가 편집 버튼 */}
-                <div className="w-[30%] h-6vw absolute right-[5%] top-2vw flex justify-between items-center">
+                <div className="w-[30%] h-6vw absolute right-[5%] top-5vw flex justify-between items-center">
                     <div
                         className="w-[48%] h-full text-[#232323] bg-[#e7f4ff] border-rad-2dot5vw flex justify-center items-center"
                         style={{ boxShadow: "0px 2px 4px 1px #cecece" }}
@@ -112,7 +112,7 @@ export default function ScheduleBar(props: PropType) {
                 </div>
                 {/* 스크롤 */}
                 <div
-                    className="w-full h-10vw flex justify-center items-center"
+                    className="w-full h-12vw flex justify-center items-start"
                     draggable={true}
                     onDragStart={(e) => {
                         dragStartPosY = e.clientY;
@@ -162,7 +162,7 @@ export default function ScheduleBar(props: PropType) {
                     }}
                     ref={swipeRef}
                 >
-                    <div className="w-[20%] h-dot5vw bg-[#929292] border-rad-dot5vw"></div>
+                    <div className="w-[20%] h-dot5vw bg-[#929292] mt-3vw border-rad-dot5vw"></div>
                 </div>
                 {/* 일정 정보 표시 */}
                 <div className="w-full h-[85%] overflow-y-scroll flex flex-col">
