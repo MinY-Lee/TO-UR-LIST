@@ -9,3 +9,16 @@ self.addEventListener("fetch", (event) => {
         return false;
     }
 });
+
+//cache 날리기
+self.addEventListener("activate", (event) => {
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cahceName) => {
+                    return caches.delete(cahceName);
+                })
+            );
+        })
+    );
+});

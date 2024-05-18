@@ -124,7 +124,12 @@ export default function TourSchedulePage() {
                     period={period}
                     setSelectedSchedule={setSelectedSchedule}
                 />
-                <div className="w-full h-[64%] relative overflow-hidden">
+                <div
+                    className="w-full relative overflow-hidden"
+                    style={{
+                        height: "calc(80% - 80px - min(22vw, 105.6px))",
+                    }}
+                >
                     <Wrapper
                         apiKey={`${
                             import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY
