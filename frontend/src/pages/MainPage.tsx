@@ -153,7 +153,7 @@ export default function MainPage() {
     };
 
     return (
-        <section className="w-full h-[90%] overflow-y-scroll flex flex-col flex-nowrap items-center">
+        <section className="w-full h-[85vh] overflow-y-auto flex flex-col flex-nowrap items-center">
             {isLoading ? <Loading /> : <></>}
             <div className="w-[90%] h-35vw flex items-center justify-between py-2vw ">
                 <div className="text-6vw h-full flex flex-col justify-center items-start">
@@ -170,74 +170,77 @@ export default function MainPage() {
                     <p>{today}</p>
                 </div>
             </div>
-            {nowTourList.length > 0 ? (
-                <>
-                    <p className="w-[90%] text-5vw my-vw">진행 중인 여행</p>
-                    <div className="w-full flex flex-col gap-2 items-center">
-                        {nowTourList.map((tour) => {
-                            return (
-                                <TourCard
-                                    key={tour.tourId}
-                                    tourInfo={tour}
-                                    countryList={countryList}
-                                />
-                            );
-                        })}
-                    </div>
-                </>
-            ) : (
-                <div></div>
-            )}
-            {comingTourList.length > 0 ? (
-                <>
-                    <p className="w-[90%] text-5vw my-vw">다가오는 여행</p>
-                    <div className="w-full flex flex-col gap-2 items-center">
-                        {comingTourList.map((tour) => {
-                            return (
-                                <TourCard
-                                    key={tour.tourId}
-                                    tourInfo={tour}
-                                    countryList={countryList}
-                                />
-                            );
-                        })}
-                    </div>
-                </>
-            ) : (
-                <></>
-            )}
-            {passTourList.length > 0 ? (
-                <>
-                    <p className="w-[90%] text-5vw my-vw">지난 여행</p>
-                    <div className="w-full flex flex-col gap-2 items-center">
-                        {passTourList.map((tour) => {
-                            return (
-                                <TourCard
-                                    key={tour.tourId}
-                                    tourInfo={tour}
-                                    countryList={countryList}
-                                />
-                            );
-                        })}
-                    </div>
-                </>
-            ) : (
-                <></>
-            )}
+            <div className="w-[90%]">
+                {nowTourList.length > 0 ? (
+                    <>
+                        <p className="text-5vw my-vw">진행 중인 여행</p>
+                        <div className="w-full flex flex-col gap-2 items-center">
+                            {nowTourList.map((tour) => {
+                                return (
+                                    <TourCard
+                                        key={tour.tourId}
+                                        tourInfo={tour}
+                                        countryList={countryList}
+                                    />
+                                );
+                            })}
+                        </div>
+                    </>
+                ) : (
+                    <div></div>
+                )}
+                {comingTourList.length > 0 ? (
+                    <>
+                        <p className="text-5vw my-vw">다가오는 여행</p>
+                        <div className="w-full flex flex-col gap-2 items-center">
+                            {comingTourList.map((tour) => {
+                                return (
+                                    <TourCard
+                                        key={tour.tourId}
+                                        tourInfo={tour}
+                                        countryList={countryList}
+                                    />
+                                );
+                            })}
+                        </div>
+                    </>
+                ) : (
+                    <></>
+                )}
+                {passTourList.length > 0 ? (
+                    <>
+                        <p className="text-5vw my-vw">지난 여행</p>
+                        <div className="w-full flex flex-col gap-2 items-center">
+                            {passTourList.map((tour) => {
+                                return (
+                                    <TourCard
+                                        key={tour.tourId}
+                                        tourInfo={tour}
+                                        countryList={countryList}
+                                    />
+                                );
+                            })}
+                        </div>
+                    </>
+                ) : (
+                    <></>
+                )}
 
-            {nowTourList.length == 0 &&
-            comingTourList.length == 0 &&
-            passTourList.length == 0 ? (
-                <>
-                    <div className="text-md h-[65vh] w-[90%] flex flex-col justify-center items-center border">
-                        <div className="text-2xl">나의 여행이 없습니다.</div>
-                        <div>아래 + 버튼을 눌러 여행을 추가해보세요!</div>
-                    </div>
-                </>
-            ) : (
-                <></>
-            )}
-            <div className="h-16"></div>
+                {nowTourList.length == 0 &&
+                comingTourList.length == 0 &&
+                passTourList.length == 0 ? (
+                    <>
+                        <div className="text-md h-[65vh] w-[90%] flex flex-col justify-center items-center border">
+                            <div className="text-2xl">
+                                나의 여행이 없습니다.
+                            </div>
+                            <div>아래 + 버튼을 눌러 여행을 추가해보세요!</div>
+                        </div>
+                    </>
+                ) : (
+                    <></>
+                )}
+            </div>
             <TabBarMain tabMode={1} type="main" />
         </section>
     );

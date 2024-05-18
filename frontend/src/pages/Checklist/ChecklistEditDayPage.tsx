@@ -117,7 +117,7 @@ export default function ChecklistEditDayPage() {
             (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1
         );
         setDaysList(
-            Array.from({ length: daysDifference + 1 }, (_, index) => index)
+            Array.from({ length: daysDifference }, (_, index) => index + 1)
         );
 
         // 항목추가 활성화 유무 배열 만들기
@@ -261,7 +261,7 @@ export default function ChecklistEditDayPage() {
                     />
                 </div>
 
-                <div className="border border-black p-5 rounded-xl overflow-y-scroll h-[77vh]">
+                <div className="border color-border-blue-1 p-5 rounded-xl overflow-y-auto h-[70vh]">
                     <ItemListPerDay
                         data={data}
                         daysList={daysList}

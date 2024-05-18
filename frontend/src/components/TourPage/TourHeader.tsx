@@ -157,7 +157,7 @@ export default function TourHeader(props: PropType) {
                         props.tourInfo.startDate.split("T")[0]
                     }~${props.tourInfo.endDate.split("T")[0]}`}</div>
 
-                    <div className="flex items-center w-full mt-3 overflow-x-scroll h-[40%]">
+                    <div className="flex items-center w-full mt-3 overflow-x-auto h-[40%]">
                         {props.tourInfo.memberList.map(
                             (member: MemberInfo, index: number) => (
                                 <div

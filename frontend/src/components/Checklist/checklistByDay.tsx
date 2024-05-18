@@ -89,7 +89,7 @@ export default function ChecklistByDay(props: PropType) {
             (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24) + 1
         );
         setDaysList(
-            Array.from({ length: daysDifference + 1 }, (_, index) => index)
+            Array.from({ length: daysDifference }, (_, index) => index + 1)
         );
     }, [data, daysDifference]);
 

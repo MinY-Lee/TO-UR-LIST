@@ -148,6 +148,7 @@ export default function ChecklistEditItemPage() {
     const filterItem = () => {
         const dataList = data.filter(
             (item) => item.placeId != "" && item.item == editItem.item
+            // (item) => item.item == editItem.item
         );
         setFilteredData(dataList);
         console.log(dataList);
