@@ -17,12 +17,7 @@ export default {
         animation: {
             bounce: "bounce 0.5s 1", // 1s 동안 1회만 실행
         },
-        extend: {
-            backgroundImage: {
-                "custom-image":
-                    'url("../frontend/src/assets/image/mainBg.png")',
-            },
-        },
+        extend: {},
     },
     plugins: [],
 };

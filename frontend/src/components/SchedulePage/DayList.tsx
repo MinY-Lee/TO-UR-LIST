@@ -54,23 +54,27 @@ export default function DayList(props: PropType) {
         <>
             <div className="w-full flex flex-col px-[5%] my-vw">
                 {/* 날짜 있냐 없냐에 따라 조건문 */}
-                <div className="w-full flex justify-start text-5vw">
+                <div className="w-full flex justify-start items-end text-4vw">
                     {props.dayNumber === 0 ? (
                         <>
-                            <div className="w-dot5vw h-full bg-[#828282] mr-vw"></div>
+                            <div className="w-dot3vw h-6vw bg-[#828282] mr-vw"></div>
                             <p className="text-[#828282]">날짜 미 선택</p>
                         </>
                     ) : (
                         <>
-                            <p className="mr-vw">Day {props.dayNumber}</p>
-                            <div className="w-dot5vw h-full bg-[#828282] mr-vw"></div>
-                            <p className="">{dateToString(props.date)}</p>
+                            <p className="mr-vw text-5vw">
+                                Day {props.dayNumber}
+                            </p>
+                            <div className="w-dot3vw h-6vw bg-[#828282] mr-vw"></div>
+                            <p className="text-[#828282]">
+                                {dateToString(props.date)}
+                            </p>
                         </>
                     )}
                 </div>
                 <div className="w-full p-vw flex flex-col items-center">
                     {props.dailySchedule.length === 0 ? (
-                        <p className="text-6vw">일정 없음</p>
+                        <></>
                     ) : (
                         <>
                             {props.dailySchedule.map((schedule) => {

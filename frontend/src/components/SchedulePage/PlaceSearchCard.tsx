@@ -103,8 +103,16 @@ export default function PlaceSearchCard(props: PropType) {
                     ) : (
                         <div className="w-[30%] h-full aspect-square bg-white border-black border-dot3vw"></div>
                     )}
-                    <div className="w-[68%] h-full p-vw text-4vw">
-                        {props.placeInfo.placeAddress}
+                    <div className="w-[68%] h-full p-vw text-4vw flex flex-col justify-between">
+                        <p>{props.placeInfo.placeAddress}</p>
+                        <p className="text-3dot5vw text-[#7c7c7c]">
+                            {props.placeInfo.placePrimaryType !== ""
+                                ? props.placeInfo.placePrimaryType?.replaceAll(
+                                      "_",
+                                      " "
+                                  )
+                                : " "}
+                        </p>
                     </div>
                 </div>
             </div>

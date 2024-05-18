@@ -30,15 +30,15 @@ export default function TabBarTour(props: PropType) {
                         window.location.href = `/tour/${props.tourId}`;
                     }}
                 >
-                    <span className="material-symbols-outlined text-3xl h-[30px]">trip</span>
+                    <span className="material-symbols-outlined text-3xl h-[30px]">
+                        trip
+                    </span>
                     <div>여행</div>
                 </div>
                 <div
                     className="hover:bg-[#d5e7f2] w-full h-full"
                     onClick={() => {
-                        if (props.tourMode !== 3) {
-                            window.location.href = `/tour/${props.tourId}/checklist`;
-                        }
+                        window.location.href = `/tour/${props.tourId}/checklist`;
                     }}
                 >
                     <div
@@ -55,9 +55,7 @@ export default function TabBarTour(props: PropType) {
                 <div
                     className="hover:bg-[#d5e7f2] w-full h-full"
                     onClick={() => {
-                        if (props.tourMode !== 2) {
-                            window.location.href = `/tour/${props.tourId}/schedule`;
-                        }
+                        window.location.href = `/tour/${props.tourId}/schedule`;
                     }}
                 >
                     <div
@@ -74,9 +72,7 @@ export default function TabBarTour(props: PropType) {
                 <div
                     className="hover:bg-[#d5e7f2] w-full h-full"
                     onClick={() => {
-                        if (props.tourMode !== 1) {
-                            window.location.href = `/tour/${props.tourId}/account`;
-                        }
+                        window.location.href = `/tour/${props.tourId}/account`;
                     }}
                 >
                     <div

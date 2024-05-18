@@ -148,7 +148,7 @@ export default function TourHeader(props: PropType) {
             ) : (
                 <></>
             )}
-            <div className=" grid grid-cols-6 justify-between items-end p-7 bak">
+            <div className="bg-gradient-to-b from-blue-200 to-blue-0 grid grid-cols-6 justify-between items-end p-7 bak">
                 <div className="col-span-5 w-full">
                     <div className="text-7vw font-bold w-full overflow-ellipsis overflow-hidden whitespace-nowrap">
                         {props.tourInfo.tourTitle}
@@ -157,7 +157,7 @@ export default function TourHeader(props: PropType) {
                         props.tourInfo.startDate.split("T")[0]
                     }~${props.tourInfo.endDate.split("T")[0]}`}</div>
 
-                    <div className="flex items-center w-full mt-3 overflow-x-auto h-[40%]">
+                    <div className="flex items-center w-full mt-3 overflow-x-auto ">
                         {props.tourInfo.memberList.map(
                             (member: MemberInfo, index: number) => (
                                 <div
@@ -170,11 +170,11 @@ export default function TourHeader(props: PropType) {
                                 >
                                     <div className={`${isHost(member)}`}>
                                         {member.memberType !== "ghost" ? (
-                                            <div className="drop-shadow-lg m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-10 h-10 rounded-full flex justify-center items-center">
+                                            <div className="drop-shadow-md m-1 font-bold text-3xl text-blue-500 bg-blue-200 w-10 h-10 rounded-full flex justify-center items-center">
                                                 {member.userNickname[0]}
                                             </div>
                                         ) : (
-                                            <div className="drop-shadow-lg m-1 font-bold text-3xl p-2 bg-gray-400 w-10 h-10 rounded-full flex justify-center items-center">
+                                            <div className="drop-shadow-md m-1 font-bold text-3xl p-2 bg-gray-400 w-10 h-10 rounded-full flex justify-center items-center">
                                                 <img src={GhostProfile}></img>
                                             </div>
                                         )}
@@ -204,7 +204,7 @@ export default function TourHeader(props: PropType) {
                 </div>
                 <div
                     ref={dropdownRef}
-                    className="flex justify-end"
+                    className="flex justify-end relative"
                     onClick={() => setIsClicked(!isClicked)}
                 >
                     <MenuIcon />
@@ -213,10 +213,10 @@ export default function TourHeader(props: PropType) {
                         id="dropdown"
                         className={`${setDropdown(
                             isClicked
-                        )} absolute top-[25%] right-[10%] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow`}
+                        )} absolute top-7 right-[10%] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow`}
                     >
                         <ul
-                            className=" text-gray-700"
+                            className=" w-36 text-gray-700"
                             aria-labelledby="dropdown-button"
                         >
                             <li
@@ -229,7 +229,7 @@ export default function TourHeader(props: PropType) {
                                 </div>
                             </li>
                             <li
-                                className="hover:bg-[#94cef2] px-5 py-2 rounded-b-lg border"
+                                className="hover:bg-[#94cef2] px-5 py-2 border"
                                 onClick={() => handleTypeChange("out")}
                             >
                                 <div className="flex gap-2 items-center">

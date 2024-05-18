@@ -4,6 +4,7 @@ import UserSearch from "../TourPage/UserSearch";
 import { MemberInfo, TourInfoDetail, UserInfo } from "../../types/types";
 import { ghostInviteTour, userInviteTour } from "../../util/api/tour";
 import { HttpStatusCode } from "axios";
+import CalcelIcon from "../../assets/svg/cancelIcon";
 
 interface Proptype {
     tourId: string;
@@ -140,17 +141,19 @@ export default function AddMemberModal(props: Proptype) {
                 <div className="w-full">
                     <UserSearch onChange={onChange} memberList={memberList} />
                 </div>
-                <div className="flex gap-2 w-full px-2 flex-wrap max-h-[10vh] overflow-scroll">
+                <div className="flex gap-2 w-full px-2 flex-wrap max-h-[15vh] overflow-auto">
                     {updatedMemberList.map((member: MemberInfo) => (
                         <div
                             key={member.userId}
-                            className={`flex px-2 gap-3 ${
+                            className={`flex px-3 py-1 gap-3 ${
                                 member.memberType == "ghost"
                                     ? "bg-gray-300"
                                     : "color-bg-blue-3"
                             } rounded-full`}
                         >
-                            <div onClick={() => handleDelete(member)}>x</div>
+                            <div onClick={() => handleDelete(member)}>
+                                <CalcelIcon />
+                            </div>
                             <div className="whitespace-nowrap">
                                 {member.memberType == "ghost" ? (
                                     <div>{member.userNickname}</div>
@@ -181,7 +184,7 @@ export default function AddMemberModal(props: Proptype) {
                             className="border-neutral-400 border m-0 mr-0.5 px-2 flex-auto bg-clip-padding outline-none"
                             aria-label="GhostNickname"
                             aria-describedby="button-addon1"
-                            placeholder="고스트의 닉네임을 지어주세요."
+                            placeholder="고스트 닉네임을 입력하세요"
                         />
                     </div>
                 )}
@@ -198,7 +201,7 @@ export default function AddMemberModal(props: Proptype) {
                         onClick={() => handleDone()}
                         text="추가완료"
                         type="full"
-                        className="font-medium py-2"
+                        className="font-medium py-2 text-white"
                     />
                 </div>
             </div>

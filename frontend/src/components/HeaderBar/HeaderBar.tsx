@@ -15,7 +15,7 @@ export default function HeaderBar() {
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        stroke-width="1.5"
+                        stroke-width="2"
                         stroke="currentColor"
                         className="w-6 h-6 mr-2"
                         onClick={goBack}
@@ -27,7 +27,9 @@ export default function HeaderBar() {
                         />
                     </svg>
 
-                    <span className="text-5vw">TO-UR-LIST</span>
+                    <span className="text-5vw" onClick={goBack}>
+                        TO-UR-LIST
+                    </span>
                 </div>
             </div>
         </>

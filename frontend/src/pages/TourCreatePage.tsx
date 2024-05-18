@@ -141,14 +141,14 @@ export default function TourCreatePage() {
     }
 
     return (
-        <section className="grid grid-rows-8 h-[90vh]">
+        <section className="grid grid-rows-5 h-full items-stretch">
             {isLoading ? <Loading /> : <></>}
-            <header className="row-span-2">
+            <header className="row-span-1">
                 <HeaderBar />
-                <h1 className="m-3 text-3xl font-bold">여행 만들기</h1>
+                <h1 className="ml-5 m-3 text-2xl font-bold">여행 만들기</h1>
             </header>
 
-            <div className="mx-5 gap-3 row-span-8 text-center">
+            <div className="mx-5 gap-3 row-span-4 text-center">
                 {currentComponent}
             </div>
             <div className="m-5 row-span-1">
