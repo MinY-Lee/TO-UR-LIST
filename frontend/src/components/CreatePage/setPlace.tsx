@@ -41,9 +41,7 @@ export default function SetPlace(props: PropType) {
             topRef.current.scrollIntoView({ behavior: "smooth" });
         }
         // 선택된 도시가 변경될 때마다 resultList 업데이트
-        const updatedResultList = searchList.filter(
-            (city) => !selectedCity.includes(city)
-        );
+        const updatedResultList = searchList.filter((city) => !selectedCity.includes(city));
         setResultList(updatedResultList);
 
         // 부모 컴포넌트에 보내기
@@ -56,9 +54,7 @@ export default function SetPlace(props: PropType) {
         setSearchList([]);
         setQuery(data);
         // 나라 -> 도시 로직인 경우 검색어를 나라 코드로 치환
-        const foundCountry = countryList.find(
-            (country: any) => country.countryName === data
-        );
+        const foundCountry = countryList.find((country: any) => country.countryName === data);
 
         if (foundCountry) {
             setCountryName(foundCountry.countryName);
@@ -80,9 +76,7 @@ export default function SetPlace(props: PropType) {
                     const updatedResultList = CityList.filter(
                         (city) =>
                             !selectedCity.some(
-                                (selected) =>
-                                    JSON.stringify(selected) ===
-                                    JSON.stringify(city)
+                                (selected) => JSON.stringify(selected) === JSON.stringify(city)
                             )
                     );
                     setResultList(updatedResultList);
@@ -105,9 +99,7 @@ export default function SetPlace(props: PropType) {
             setSelectedCity([...selectedCity, city]);
         } else {
             // 이미 선택된 도시라면 제거
-            const updatedCities = selectedCity.filter(
-                (selected) => selected !== city
-            );
+            const updatedCities = selectedCity.filter((selected) => selected !== city);
             setSelectedCity(updatedCities);
         }
     };
@@ -115,26 +107,16 @@ export default function SetPlace(props: PropType) {
     return (
         <div className="flex flex-col items-center">
             <div className="text-2xl font-bold m-3">어디로 떠나시나요?</div>
-            <div
-                id="search-container"
-                className="w-[90%] shadow-md border border-black rounded-lg"
-            >
+            <div id="search-container" className="w-[90%] shadow-md border border-black rounded-lg">
                 <SearchBar onChange={handleDataFromChild} />
             </div>
-            <div
-                id="city-list-container"
-                className="m-2 h-[40vh] overflow-scroll w-[90%]"
-            >
+            <div id="city-list-container" className="m-2 h-[40vh] overflow-auto w-[90%]">
                 <div ref={topRef}></div>
                 {selectedCity.length > 0 &&
                     selectedCity.map((res, index) => (
                         <div key={index} className="flex justify-between m-2">
                             <div className="text-lg">
-                                {CountryCodeToName(
-                                    res.countryCode,
-                                    countryList
-                                )}
-                                , {res.cityName}
+                                {CountryCodeToName(res.countryCode, countryList)}, {res.cityName}
                             </div>
                             <MyButton
                                 type="small"

@@ -67,6 +67,10 @@
     background-color: var(--color-green-1);
 }
 
+.color-bg-green-2 {
+    background-color: var(--color-green-2);
+}
+
 /* border color */
 .color-border-blue-1 {
     border-color: var(--color-blue-1);

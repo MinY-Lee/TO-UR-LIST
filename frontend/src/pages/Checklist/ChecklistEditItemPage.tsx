@@ -8,9 +8,10 @@ import ChecklistInput from "../../components/Checklist/checklistInput";
 
 import CheckModal from "../../components/CheckModal";
 import SelectModal from "../../components/SelectModal";
-import { getChecklist, modifyItem } from "../../util/api/checklist";
+import { addChecklist, deleteChecklist, getChecklist, modifyItem } from "../../util/api/checklist";
 import { HttpStatusCode } from "axios";
 import { getPlaceList } from "../../util/api/place";
+import CancelIcon from "../../assets/svg/cancelIcon";
 
 export default function ChecklistEditItemPage() {
     const [tourId, setTourId] = useState<string>("");
@@ -36,7 +37,15 @@ export default function ChecklistEditItemPage() {
     const [filteredData, setFilteredData] = useState<Item[]>([]);
     const [checkModalActive, setCheckModalActive] = useState<boolean>(false);
     const [selectModalActive, setSelectModalActive] = useState<boolean>(false);
-    const [deleteItem, setDeleteItem] = useState<Item>();
+    const [deleteItem, setDeleteItem] = useState<Item>({
+        tourId: "",
+        placeId: "",
+        activity: "",
+        item: "",
+        tourDay: 0,
+        isChecked: false,
+        isPublic: false,
+    });
     const [placeData, setPlaceData] = useState<PlaceMapping>({});
 
     const location = useLocation();
@@ -80,30 +89,35 @@ export default function ChecklistEditItemPage() {
     }, [data, editItem]);
 
     const handleDone = () => {
-        modifyItem({
-            oldItem: {
-                tourId: editItem.tourId,
-                placeId: editItem.placeId,
-                activity: editItem.activity,
-                tourDay: editItem.tourDay,
-                item: editItem.item,
-                isChecked: editItem.isChecked,
-            },
-            newItem: {
-                tourId: newItem.tourId,
-                placeId: newItem.placeId,
-                activity: newItem.activity,
-                tourDay: newItem.tourDay,
-                item: newItem.item,
-                isChecked: newItem.isChecked,
-            },
-        })
-            .then((res) => {
-                if (res.status == HttpStatusCode.Ok && !res.data.isDuplicated) {
-                    navigate(-1);
-                }
+        // 이름 수정
+        if (newItem.item != "") {
+            modifyItem({
+                oldItem: {
+                    tourId: editItem.tourId,
+                    placeId: editItem.placeId,
+                    activity: editItem.activity,
+                    tourDay: editItem.tourDay,
+                    item: editItem.item,
+                    isChecked: editItem.isChecked,
+                },
+                newItem: {
+                    tourId: newItem.tourId,
+                    placeId: newItem.placeId,
+                    activity: newItem.activity,
+                    tourDay: newItem.tourDay,
+                    item: newItem.item,
+                    isChecked: newItem.isChecked,
+                },
             })
-            .catch((err) => console.log(err));
+                .then((res) => {
+                    if (res.status == HttpStatusCode.Ok && !res.data.isDuplicated) {
+                        navigate(-1);
+                    }
+                })
+                .catch((err) => console.log(err));
+        } else {
+            navigate(-1);
+        }
     };
 
     const closeModal = () => {
@@ -115,29 +129,19 @@ export default function ChecklistEditItemPage() {
     };
 
     const onUpdate = (item: Item) => {
+        // 제목 수정시
         setNewItem(item);
     };
 
     // 해당 아이템이 사용되는 장소/활동 필터링
     const filterItem = () => {
-        const dataList = data.filter(
-            (item) => item.placeId != "" && item.item == editItem.item
-        );
+        const dataList = data.filter((item) => item.placeId != "" && item.item == editItem.item);
         setFilteredData(dataList);
+        console.log(dataList);
     };
 
     const formatNumberToTwoDigits = (num: number): string => {
         return `${num < 10 && num > 0 ? "0" : ""}${num}`;
-    };
-
-    const handleDelete = () => {
-        if (deleteItem) {
-            const updatedActivity = filteredData.filter(
-                (item) => item !== deleteItem
-            );
-            setFilteredData(updatedActivity);
-            setCheckModalActive(false);
-        }
     };
 
     const handleDeleteModal = (item: Item) => {
@@ -145,28 +149,107 @@ export default function ChecklistEditItemPage() {
         setDeleteItem(item);
     };
 
-    const handleEdit = () => {
-        // 장소 및 활동 수정 api
-        // 삭제까지 반영??
-        // {
-        //     oldItem :  {
-        //         tourId : String,
-        //         placeId : String,
-        //         activity  : String,
-        //         tourDay : Number,
-        //         item :  String,
-        //         isChecked: Boolean
-        //     },
-        //     newItem : {
-        //         tourId : String,
-        //         placeId : String,
-        //         activity  : String,
-        //         tourDay : Number,
-        //         item :  String,
-        //         isChecked: Boolean
-        //     }
-        // }
+    const handleDelete = () => {
+        const { tourId, placeId, activity, item, tourDay, isChecked, isPublic } = deleteItem;
+        if (filteredData.length == 1) {
+            // 한 장소에서만 사용된 경우
+            deleteChecklist({
+                tourId: tourId,
+                placeId: placeId,
+                activity: activity,
+                item: item,
+                tourDay: tourDay,
+                isChecked: isChecked,
+            })
+                .then((res) => {
+                    if (res.status == HttpStatusCode.Ok) {
+                        addChecklist(isPublic ? "public" : "private", {
+                            tourId: tourId,
+                            placeId: "",
+                            activity: "",
+                            tourDay: 0,
+                            item: item,
+                            isChecked: isChecked,
+                        })
+                            .then((res) => {
+                                if (res.status == HttpStatusCode.Ok) {
+                                    const updatedActivity = filteredData.filter(
+                                        (item) => item !== deleteItem
+                                    );
+                                    setFilteredData(updatedActivity);
+                                    setCheckModalActive(false);
+                                }
+                            })
+                            .catch((err) => console.log(err));
+                    }
+                })
+                .catch((err) => console.log(err));
+        } else {
+            // item 중 장소 활동 일치하는 아이템 삭제
+            deleteChecklist({
+                tourId: tourId,
+                placeId: placeId,
+                activity: activity,
+                item: item,
+                tourDay: tourDay,
+                isChecked: isChecked,
+            }).then((res) => {
+                if (res.status == HttpStatusCode.Ok) {
+                    const updatedActivity = filteredData.filter((item) => item !== deleteItem);
+                    setFilteredData(updatedActivity);
+                    setCheckModalActive(false);
+                }
+            });
+        }
+    };
 
+    const handleEdit = (updatedChecklist: Item[]) => {
+        // 추가나 일부 삭제
+        console.log("전: " + filteredData);
+        console.log("후: " + updatedChecklist);
+
+        filteredData.map((item: Item) => {
+            const { tourId, placeId, activity, tourDay, isChecked, isPublic } = item;
+            if (!updatedChecklist.includes(item)) {
+                // 삭제
+                deleteChecklist({
+                    tourId: tourId,
+                    placeId: placeId,
+                    activity: activity,
+                    item: item.item,
+                    tourDay: tourDay,
+                    isChecked: isChecked,
+                })
+                    .then((res) => {
+                        if (res.status != HttpStatusCode.Ok) {
+                            if (res.status == HttpStatusCode.Ok) {
+                            }
+                        }
+                    })
+                    .catch((err) => console.log(err));
+            }
+        });
+
+        updatedChecklist.map((item: Item) => {
+            const { tourId, placeId, activity, tourDay, isChecked, isPublic } = item;
+            if (!filteredData.includes(item)) {
+                // 추가
+                addChecklist(isPublic ? "public" : "private", {
+                    tourId: tourId,
+                    placeId: placeId,
+                    activity: activity,
+                    tourDay: tourDay,
+                    item: item.item,
+                    isChecked: isChecked,
+                })
+                    .then((res) => {
+                        if (res.status == HttpStatusCode.Ok) {
+                        }
+                    })
+                    .catch((err) => console.log(err));
+            }
+        });
+        setFilteredData(updatedChecklist);
         setSelectModalActive(false);
     };
 
@@ -190,6 +273,7 @@ export default function ChecklistEditItemPage() {
                     item={editItem}
                     filteredData={filteredData}
                     tourId={tourId}
+                    placeData={placeData}
                     clickOK={handleEdit}
                     clickCancel={closeSelectModal}
                 />
@@ -212,11 +296,7 @@ export default function ChecklistEditItemPage() {
                     />
                 </div>
                 <div className="mb-5">
-                    <ChecklistInput
-                        tourId={tourId}
-                        onUpdate={onUpdate}
-                        default={editItem}
-                    />
+                    <ChecklistInput tourId={tourId} onUpdate={onUpdate} default={editItem} />
                 </div>
                 <div>
                     <div className="text-xl">사용되는 장소/활동</div>
@@ -233,8 +313,7 @@ export default function ChecklistEditItemPage() {
                                     </div>
                                     {item.activity != "" ? (
                                         <div className="col-span-3 text-lg">
-                                            {placeData[item.placeId]} /{" "}
-                                            {item.activity}
+                                            {placeData[item.placeId]} / {item.activity}
                                         </div>
                                     ) : (
                                         <div className="col-span-3 text-lg">
@@ -243,10 +322,10 @@ export default function ChecklistEditItemPage() {
                                     )}
 
                                     <div
-                                        className="col-span-1 text-end text-lg"
+                                        className="col-span-1 flex justify-end items-center"
                                         onClick={() => handleDeleteModal(item)}
                                     >
-                                        x
+                                        <CancelIcon className="w-5 h-5" />
                                     </div>
                                 </div>
                             ))

@@ -34,9 +34,7 @@ export default function ItemList(props: PropType) {
         const startDay = startDate.getDate();
         startDate.setDate(startDay + day - 1);
 
-        return `${startDate.getFullYear()}.${
-            startDate.getMonth() + 1
-        }.${startDate.getDate()}`;
+        return `${startDate.getFullYear()}.${startDate.getMonth() + 1}.${startDate.getDate()}`;
     };
 
     // 활동 id 별 색상 부여
@@ -48,7 +46,7 @@ export default function ItemList(props: PropType) {
     };
 
     return (
-        <>
+        <div className="">
             {props.daysList.map((day) => (
                 <div key={day}>
                     <div className="font-bold text-xl">
@@ -57,68 +55,52 @@ export default function ItemList(props: PropType) {
                     </div>
                     <div className="border-t-2 border-black mt-2 mb-2">
                         {props.groupedItems[day] ? (
-                            Object.keys(props.groupedItems[day]).map(
-                                (placeId, index) => (
-                                    <div className="ml-5" key={index}>
-                                        <div className="text-lg font-semibold">
-                                            {placeId != "" ? (
-                                                <div>
-                                                    {props.placeData[placeId]}{" "}
-                                                </div>
-                                            ) : (
-                                                ""
-                                            )}
-                                        </div>
-                                        <div>
-                                            {props.groupedItems[day][
-                                                placeId
-                                            ].map((item, index) => (
-                                                <div
-                                                    key={index}
-                                                    className=" grid grid-cols-3 justify-center m-1"
-                                                >
-                                                    <div className="flex items-center col-span-2">
-                                                        <input
-                                                            id={`checkbox-${index}`}
-                                                            type="checkbox"
-                                                            onChange={() =>
-                                                                props.handleCheckbox(
-                                                                    item
-                                                                )
-                                                            }
-                                                            checked={
-                                                                item.isChecked
-                                                            }
-                                                            className="w-5 h-5 bg-gray-100 border-gray-300 rounded "
-                                                        />
-                                                        <div className="ml-2">
-                                                            <PayTypeIcon
-                                                                isPublic={
-                                                                    item.isPublic
-                                                                }
-                                                            />
-                                                        </div>
-                                                        <label className="ms-2 text-lg w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
-                                                            {item.item}
-                                                        </label>
-                                                    </div>
-                                                    <div className="relative w-fit">
-                                                        {item.activity && (
-                                                            <span
-                                                                className={`${setColor(
-                                                                    item.activity
-                                                                )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
-                                                            >
-                                                                {item.activity}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
+                            Object.keys(props.groupedItems[day]).map((placeId, index) => (
+                                <div className="ml-5 mt-2" key={index}>
+                                    <div className="text-lg font-semibold">
+                                        {placeId != "" ? (
+                                            <div>{props.placeData[placeId]} </div>
+                                        ) : (
+                                            ""
+                                        )}
                                     </div>
-                                )
-                            )
+                                    <div className=" flex flex-col gap-1">
+                                        {props.groupedItems[day][placeId].map((item, index) => (
+                                            <div
+                                                key={index}
+                                                className=" grid grid-cols-3 justify-center m-1"
+                                            >
+                                                <div className="flex items-center col-span-2">
+                                                    <input
+                                                        id={`checkbox-${index}`}
+                                                        type="checkbox"
+                                                        onChange={() => props.handleCheckbox(item)}
+                                                        checked={item.isChecked}
+                                                        className="w-6 h-6 bg-gray-100 border-gray-300 rounded "
+                                                    />
+                                                    <div className="ml-2">
+                                                        <PayTypeIcon isPublic={item.isPublic} />
+                                                    </div>
+                                                    <label className="ms-2 text-lg w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
+                                                        {item.item}
+                                                    </label>
+                                                </div>
+                                                <div className="relative w-fit">
+                                                    {item.activity && (
+                                                        <span
+                                                            className={`${setColor(
+                                                                item.activity
+                                                            )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
+                                                        >
+                                                            {item.activity}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))
                         ) : (
                             <div className="flex justify-center items-center h-[7vh]">
                                 해당 날짜의 체크리스트가 없습니다.
@@ -127,6 +109,6 @@ export default function ItemList(props: PropType) {
                     </div>
                 </div>
             ))}
-        </>
+        </div>
     );
 }
