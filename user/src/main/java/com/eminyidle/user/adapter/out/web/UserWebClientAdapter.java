@@ -23,7 +23,7 @@ public class UserWebClientAdapter implements DeleteUserRequestPort {
 		WebClient webClient = WebClient.builder().baseUrl(AUTH_SERVICE_URL)
 			.defaultHeader("InternalKey", INTERNAL_KEY).build();
 
-		webClient.get().uri("/auth/user").header("UserId", userId).exchangeToMono(
+		webClient.delete().uri("/auth/user").header("UserId", userId).exchangeToMono(
 			clientResponse -> {
 				if (clientResponse.statusCode().is4xxClientError()) {
 					throw new SendRequestException();

@@ -5,7 +5,7 @@ import com.eminyidle.user.domain.User;
 import java.util.List;
 
 public interface LoadUserPort {
-	User load(String userId);
+	User loadActiveUser(String userId);
 
 	User loadByUserNickname(String userNickname);
 

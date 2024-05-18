@@ -35,7 +35,9 @@ export default function InfoPage() {
         getUserInfo()
             .then((res) => {
                 //회원정보 존재시 main으로
-                navigate("/main");
+                if(res.data.userId !== null){
+                    navigate("/main");
+                }
             })
             .catch((err) => {
                 console.log(err);

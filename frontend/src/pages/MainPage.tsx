@@ -42,6 +42,10 @@ export default function MainPage() {
                 // console.log(res);
 
                 if (res.data.userId !== "") {
+                    if(res.data.userId === null){
+                        window.location.href = '/info'
+                    }
+
                     const userInfo: UserInfo = {
                         userId: "",
                         userNickname: "",

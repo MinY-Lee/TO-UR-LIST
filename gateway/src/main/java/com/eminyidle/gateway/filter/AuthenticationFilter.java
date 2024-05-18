@@ -41,7 +41,7 @@ public class AuthenticationFilter implements GatewayFilter {
 	@Value("${INTERNAL_KEY}")
 	private String INTERNAL_KEY;
 
-	@Value("${AUTH_SERVER_URL")
+	@Value("${AUTH_SERVER_URL}")
 	private String AUTH_SERVER_URL;
 
 	@Override
@@ -75,6 +75,7 @@ public class AuthenticationFilter implements GatewayFilter {
 		// access token 만료, refresh token 유효
 		String userId = jwtUtil.getUserId(refreshTokenCookie.getValue());
 		log.info("refresh 유효");
+		log.info("auth server url: {}", AUTH_SERVER_URL);
 		WebClient webClient = WebClient.builder()
 			.baseUrl(AUTH_SERVER_URL)
 			.defaultHeader("InternalKey", INTERNAL_KEY)
@@ -88,9 +89,14 @@ public class AuthenticationFilter implements GatewayFilter {
 			.bodyToMono(TokenRes.class)
 			.flatMap(tokenRes -> {
 				updateResponse(exchange, tokenRes.getAccessToken(), tokenRes.getRefreshToken());
+				log.info(tokenRes.getAccessToken());
 				return continueWithUserIdHeader(exchange, chain, tokenRes.getAccessToken());
 			})
-			.onErrorResume(error -> this.onError(exchange, HttpStatus.UNAUTHORIZED));
+			.onErrorResume(error -> {
+				log.error("{}", error);
+				log.info("재발급 에러");
+				return this.onError(exchange, HttpStatus.UNAUTHORIZED);
+			});
 	}
 
 	private Mono<Void> continueWithUserIdHeader(ServerWebExchange exchange, GatewayFilterChain chain, String accessToken) {

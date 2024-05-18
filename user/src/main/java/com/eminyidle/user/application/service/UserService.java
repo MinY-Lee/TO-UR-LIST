@@ -37,6 +37,7 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 	public Boolean checkNicknameDuplication(String userNickname) {
 		// isDuplicated
 		// 중복시 true 반환
+		System.out.println(userNickname);
 		User user = loadUserPort.loadByUserNickname(userNickname);
 		return user.getUserId() != null;
 	}
@@ -66,7 +67,11 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 
 	@Override
 	public void updateUserNickname(String userId, String userNickname) {
-		User user = loadUserPort.load(userId);
+		User user = loadUserPort.loadActiveUser(userId);
+
+		if (user.getUserId() == null) {
+			throw new NoSuchElementException();
+		}
 
 		user.setUserNickname(userNickname);
 		saveUserPort.save(user);
@@ -75,7 +80,11 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 
 	@Override
 	public void updateUserName(String userId, String userName) {
-		User user = loadUserPort.load(userId);
+		User user = loadUserPort.loadActiveUser(userId);
+
+		if (user.getUserId() == null) {
+			throw new NoSuchElementException();
+		}
 
 		user.setUserName(userName);
 		saveUserPort.save(user);
@@ -84,7 +93,11 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 
 	@Override
 	public void updateUserBirth(String userId, LocalDateTime userBirth) {
-		User user = loadUserPort.load(userId);
+		User user = loadUserPort.loadActiveUser(userId);
+
+		if (user.getUserId() == null) {
+			throw new NoSuchElementException();
+		}
 
 		user.setUserBirth(userBirth);
 		saveUserPort.save(user);
@@ -93,7 +106,11 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 
 	@Override
 	public void updateUserGender(String userId, Integer userGender) {
-		User user = loadUserPort.load(userId);
+		User user = loadUserPort.loadActiveUser(userId);
+
+		if (user.getUserId() == null) {
+			throw new NoSuchElementException();
+		}
 
 		user.setUserGender(userGender);
 		saveUserPort.save(user);
@@ -102,7 +119,8 @@ public class UserService implements SearchUserUsecase, CreateUserUsecase, Delete
 
 	@Override
 	public User searchUser(String userId) {
-		return loadUserPort.load(userId);
+
+		return loadUserPort.loadActiveUser(userId);
 	}
 
 	@Override
