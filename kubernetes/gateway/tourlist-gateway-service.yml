@@ -41,4 +41,6 @@ spec:
                 name: tourlist-gateway-config
             - secretRef:
                 name: tourlist-gateway-secrets
+            - secretRef:
+                name: tourlist-common-secrets
 

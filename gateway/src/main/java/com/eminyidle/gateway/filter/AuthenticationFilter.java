@@ -6,12 +6,14 @@ import com.eminyidle.gateway.jwt.JWTUtil;
 import java.time.Duration;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.server.Cookie;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -31,6 +33,7 @@ import reactor.core.publisher.Mono;
 @RefreshScope
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationFilter implements GatewayFilter {
 
 	private final JWTUtil jwtUtil;
@@ -45,60 +48,63 @@ public class AuthenticationFilter implements GatewayFilter {
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		ServerHttpRequest serverHttpRequest = exchange.getRequest();
 
-		if (this.isAccessTokenMissing(serverHttpRequest)) {
+		// token이 둘 다 없을 경우
+		if (this.isAccessTokenMissing(serverHttpRequest) && this.isRefreshTokenMissing(serverHttpRequest)) {
+			log.info("access refresh 없음");
 			return this.onError(exchange, HttpStatus.UNAUTHORIZED);
 		}
 
-		MultiValueMap<String, ResponseCookie> cookies = exchange.getResponse().getCookies();
+		MultiValueMap<String, HttpCookie> cookies = exchange.getRequest().getCookies();
 
-		ResponseCookie accessTokenCookie = cookies.get("accessToken").get(0);
 
-		ResponseCookie refreshTokenCookie =
-			cookies.containsKey("refreshToken") ? cookies.get("refreshToken").get(0)
-				: ResponseCookie.from("refreshToken", "").build();
+		HttpCookie accessTokenCookie = this.isAccessTokenMissing(serverHttpRequest) ? new HttpCookie("accessToken", ""): cookies.getFirst("accessToken");
+		HttpCookie refreshTokenCookie = this.isRefreshTokenMissing(serverHttpRequest) ? new HttpCookie("refreshToken", ""): cookies.getFirst("refreshToken");
 
-		if (jwtUtil.isInvalid(accessTokenCookie.getValue())) {
-
-			if (jwtUtil.isInvalid(refreshTokenCookie.getValue())) {
-				return this.onError(exchange, HttpStatus.UNAUTHORIZED, accessTokenCookie,
-					refreshTokenCookie);
-			}
-
-			String userId = jwtUtil.getUserId(refreshTokenCookie.getValue());
-
-			WebClient webClient = WebClient.builder()
-				.baseUrl(AUTH_SERVER_URL)
-				.defaultHeader("InternalKey", INTERNAL_KEY)
-				.build();
-
-			TokenRes tokenRes = webClient.get().uri("/auth/token").header("UserId", userId)
-				.retrieve().bodyToMono(new ParameterizedTypeReference<TokenRes>() {
-				})
-				.timeout(Duration.ofMillis(2000))
-				.block();
-
-			if (tokenRes == null) {
-				return this.onError(exchange, HttpStatus.UNAUTHORIZED, accessTokenCookie,
-					refreshTokenCookie);
-			}
-
-			updateResponse(exchange, tokenRes.getAccessToken(), tokenRes.getRefreshToken());
+		// access token 유효
+		if (jwtUtil.isValid(accessTokenCookie.getValue())) {
+			log.info("access 토큰 유효");
+			return continueWithUserIdHeader(exchange, chain, accessTokenCookie.getValue());
 		}
 
-		this.updateRequest(exchange, accessTokenCookie.getValue());
+		// access token 만료, refresh token 만료
+		if (jwtUtil.isInvalid(refreshTokenCookie.getValue())) {
+			log.info("access, refresh 만료");
+			return this.onError(exchange, HttpStatus.UNAUTHORIZED);
+		}
 
-		return chain.filter(exchange);
+		// access token 만료, refresh token 유효
+		String userId = jwtUtil.getUserId(refreshTokenCookie.getValue());
+		log.info("refresh 유효");
+		WebClient webClient = WebClient.builder()
+			.baseUrl(AUTH_SERVER_URL)
+			.defaultHeader("InternalKey", INTERNAL_KEY)
+			.build();
+
+		return webClient.get()
+			.uri("/auth/token")
+			.header("UserId", userId)
+			.header("RefreshToken", refreshTokenCookie.getValue())
+			.retrieve()
+			.bodyToMono(TokenRes.class)
+			.flatMap(tokenRes -> {
+				updateResponse(exchange, tokenRes.getAccessToken(), tokenRes.getRefreshToken());
+				return continueWithUserIdHeader(exchange, chain, tokenRes.getAccessToken());
+			})
+			.onErrorResume(error -> this.onError(exchange, HttpStatus.UNAUTHORIZED));
 	}
 
-	private void updateRequest(ServerWebExchange exchange, String accessToken) {
+	private Mono<Void> continueWithUserIdHeader(ServerWebExchange exchange, GatewayFilterChain chain, String accessToken) {
 		String userId = jwtUtil.getUserId(accessToken);
-		exchange.getRequest().mutate().header("UserId", userId).build();
+		ServerHttpRequest updatedRequest = exchange.getRequest().mutate().header("UserId", userId).build();
+		ServerWebExchange updatedExchange = exchange.mutate().request(updatedRequest).build();
+
+		return chain.filter(updatedExchange);
 	}
 
 	private void updateResponse(ServerWebExchange exchange, String accessToken,
 		String refreshToken) {
 		ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken", accessToken)
-			.maxAge(1000 * 60 * 60L * 3).path("/").build();
+			.maxAge(60 * 60 * 30).path("/").build();
 		ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", refreshToken)
 			.maxAge(1000 * 60 * 60 * 24 * 14L).path("/").build();
 
@@ -106,18 +112,25 @@ public class AuthenticationFilter implements GatewayFilter {
 		exchange.getResponse().addCookie(refreshTokenCookie);
 	}
 
-	private Mono<Void> onError(ServerWebExchange exchange, HttpStatus httpStatus,
-		ResponseCookie... responseCookies) {
+	private Mono<Void> onError(ServerWebExchange exchange, HttpStatus httpStatus) {
+
+		ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken")
+			.maxAge(0).path("/").build();
+		ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken")
+			.maxAge(0).path("/").build();
 		ServerHttpResponse serverHttpResponse = exchange.getResponse();
 		serverHttpResponse.setStatusCode(httpStatus);
-		for (ResponseCookie r : responseCookies) {
-			exchange.getResponse().addCookie(r.mutate().maxAge(Duration.ZERO).build());
-		}
+		serverHttpResponse.addCookie(accessTokenCookie);
+		serverHttpResponse.addCookie(refreshTokenCookie);
 		return serverHttpResponse.setComplete();
 	}
 
 	private boolean isAccessTokenMissing(ServerHttpRequest serverHttpRequest) {
 		return !serverHttpRequest.getCookies().containsKey("accessToken");
+	}
+
+	private boolean isRefreshTokenMissing(ServerHttpRequest serverHttpRequest) {
+		return !serverHttpRequest.getCookies().containsKey("refreshToken");
 	}
 
 }

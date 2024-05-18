@@ -39,7 +39,7 @@ public class JWTUtil {
     }
 
     // 토큰 유효 확인
-    public Boolean isValid(String token) {
+    public boolean isValid(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
             return true;
