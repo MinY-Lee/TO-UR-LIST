@@ -153,7 +153,7 @@ export default function MainPage() {
     };
 
     return (
-        <section className="w-full h-[85vh] overflow-y-auto flex flex-col flex-nowrap items-center">
+        <section className="bg-custom-image bg-cover bg-center bg-no-repeat w-full h-[85vh] overflow-y-auto flex flex-col flex-nowrap items-center">
             {isLoading ? <Loading /> : <></>}
             <div className="w-[90%] h-35vw flex items-center justify-between py-2vw ">
                 <div className="text-6vw h-full flex flex-col justify-center items-start">
@@ -170,7 +170,7 @@ export default function MainPage() {
                     <p>{today}</p>
                 </div>
             </div>
-            <div className="w-[90%]">
+            <div className="w-full border-t-2 border-x bg-white bg-opacity-50 rounded-xl  p-5">
                 {nowTourList.length > 0 ? (
                     <>
                         <p className="text-5vw my-vw">진행 중인 여행</p>
