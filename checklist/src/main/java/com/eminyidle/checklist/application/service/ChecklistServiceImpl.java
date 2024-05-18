@@ -75,6 +75,13 @@ public class ChecklistServiceImpl implements ChecklistService, ChangeTourUsecase
         String itemType;
         if (isPublic) itemType = "public";
         else itemType = "private";
+        if ("".equals(item.getPlaceId()) && item.getTourDay()>0){
+            //장소 없음 추가
+            String tourPlaceIdOfTourDay="_"+item.getTourDay()+"_" + item.getTourId();
+            if(tourPlaceRepository.existsById(tourPlaceIdOfTourDay)){
+                createPlace(item.getTourId(),tourPlaceIdOfTourDay,"",item.getTourDay(),"");
+            }
+        }
 
         itemRepository.save(userId, item.getTourId(), item.getPlaceId(), item.getTourDay(), item.getActivity(), item.getItem(), itemType, createdAt, isChecked).orElseThrow(CreateItemException::new);
         return false;
