@@ -50,59 +50,55 @@ public class AuthenticationFilter implements GatewayFilter {
 
 		// token이 둘 다 없을 경우
 		if (this.isAccessTokenMissing(serverHttpRequest) && this.isRefreshTokenMissing(serverHttpRequest)) {
+			log.info("access refresh 없음");
 			return this.onError(exchange, HttpStatus.UNAUTHORIZED);
 		}
 
 		MultiValueMap<String, HttpCookie> cookies = exchange.getRequest().getCookies();
 
 
-		HttpCookie accessTokenCookie = new HttpCookie("accessToken", "");
-		HttpCookie refreshTokenCookie = new HttpCookie("refreshToken", "");
+		HttpCookie accessTokenCookie = this.isAccessTokenMissing(serverHttpRequest) ? new HttpCookie("accessToken", ""): cookies.getFirst("accessToken");
+		HttpCookie refreshTokenCookie = this.isRefreshTokenMissing(serverHttpRequest) ? new HttpCookie("refreshToken", ""): cookies.getFirst("refreshToken");
 
-		if(!this.isAccessTokenMissing(serverHttpRequest)) {
-			accessTokenCookie = cookies.get("accessToken").get(0);
+		// access token 유효
+		if (jwtUtil.isValid(accessTokenCookie.getValue())) {
+			log.info("access 토큰 유효");
+			return continueWithUserIdHeader(exchange, chain, accessTokenCookie.getValue());
 		}
 
-		if(!this.isRefreshTokenMissing(serverHttpRequest)) {
-			refreshTokenCookie = cookies.get("refreshToken").get(0);
+		// access token 만료, refresh token 만료
+		if (jwtUtil.isInvalid(refreshTokenCookie.getValue())) {
+			log.info("access, refresh 만료");
+			return this.onError(exchange, HttpStatus.UNAUTHORIZED);
 		}
 
-		if (jwtUtil.isInvalid(accessTokenCookie.getValue())) {
+		// access token 만료, refresh token 유효
+		String userId = jwtUtil.getUserId(refreshTokenCookie.getValue());
+		log.info("refresh 유효");
+		WebClient webClient = WebClient.builder()
+			.baseUrl(AUTH_SERVER_URL)
+			.defaultHeader("InternalKey", INTERNAL_KEY)
+			.build();
 
-			if (jwtUtil.isInvalid(refreshTokenCookie.getValue())) {
-				return this.onError(exchange, HttpStatus.UNAUTHORIZED, accessTokenCookie,
-					refreshTokenCookie);
-			}
-
-			String userId = jwtUtil.getUserId(refreshTokenCookie.getValue());
-
-			WebClient webClient = WebClient.builder()
-				.baseUrl(AUTH_SERVER_URL)
-				.defaultHeader("InternalKey", INTERNAL_KEY)
-				.build();
-
-			TokenRes tokenRes = webClient.get().uri("/auth/token").header("UserId", userId)
-				.retrieve().bodyToMono(new ParameterizedTypeReference<TokenRes>() {
-				})
-				.timeout(Duration.ofMillis(2000))
-				.block();
-
-			if (tokenRes == null) {
-				return this.onError(exchange, HttpStatus.UNAUTHORIZED, accessTokenCookie,
-					refreshTokenCookie);
-			}
-
-			updateResponse(exchange, tokenRes.getAccessToken(), tokenRes.getRefreshToken());
-		}
-
-		this.updateRequest(exchange, accessTokenCookie.getValue());
-
-		return chain.filter(exchange);
+		return webClient.get()
+			.uri("/auth/token")
+			.header("UserId", userId)
+			.header("RefreshToken", refreshTokenCookie.getValue())
+			.retrieve()
+			.bodyToMono(TokenRes.class)
+			.flatMap(tokenRes -> {
+				updateResponse(exchange, tokenRes.getAccessToken(), tokenRes.getRefreshToken());
+				return continueWithUserIdHeader(exchange, chain, tokenRes.getAccessToken());
+			})
+			.onErrorResume(error -> this.onError(exchange, HttpStatus.UNAUTHORIZED));
 	}
 
-	private void updateRequest(ServerWebExchange exchange, String accessToken) {
+	private Mono<Void> continueWithUserIdHeader(ServerWebExchange exchange, GatewayFilterChain chain, String accessToken) {
 		String userId = jwtUtil.getUserId(accessToken);
-		exchange.getRequest().mutate().header("UserId", userId).build();
+		ServerHttpRequest updatedRequest = exchange.getRequest().mutate().header("UserId", userId).build();
+		ServerWebExchange updatedExchange = exchange.mutate().request(updatedRequest).build();
+
+		return chain.filter(updatedExchange);
 	}
 
 	private void updateResponse(ServerWebExchange exchange, String accessToken,
@@ -116,13 +112,16 @@ public class AuthenticationFilter implements GatewayFilter {
 		exchange.getResponse().addCookie(refreshTokenCookie);
 	}
 
-	private Mono<Void> onError(ServerWebExchange exchange, HttpStatus httpStatus,
-		HttpCookie... responseCookies) {
+	private Mono<Void> onError(ServerWebExchange exchange, HttpStatus httpStatus) {
+
+		ResponseCookie accessTokenCookie = ResponseCookie.from("accessToken")
+			.maxAge(0).path("/").build();
+		ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken")
+			.maxAge(0).path("/").build();
 		ServerHttpResponse serverHttpResponse = exchange.getResponse();
 		serverHttpResponse.setStatusCode(httpStatus);
-		for (HttpCookie r : responseCookies) {
-			exchange.getResponse().addCookie(ResponseCookie.from(r.getName(), r.getValue()).maxAge(0).build());
-		}
+		serverHttpResponse.addCookie(accessTokenCookie);
+		serverHttpResponse.addCookie(refreshTokenCookie);
 		return serverHttpResponse.setComplete();
 	}
 
