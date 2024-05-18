@@ -35,7 +35,6 @@ interface PlaceMapping {
 export default function ChecklistByDay(props: PropType) {
     const [checklist, setChecklist] = useState<Item[]>([]);
     const [data, setData] = useState<TourInfoDetail>({
-        tourId: "",
         tourTitle: "",
         cityList: [],
         startDate: "",
