@@ -121,7 +121,7 @@ export default function UserSearch(props: ChildProps) {
                     <SearchIcon />
                 </button>
             </div>
-            <div className="m-2 h-[20vh] flex flex-col gap-2 overflow-scroll w-[90%]">
+            <div className="m-2 h-[20vh] flex flex-col gap-2 overflow-auto w-[90%]">
                 {resultList.length == 0 ? (
                     <div className=" text-lg text-center text-gray-500">
                         {hasSearched ? "검색 결과가 없습니다." : ""}
@@ -160,7 +160,6 @@ export default function UserSearch(props: ChildProps) {
                     ))
                 )}
             </div>
-            <div></div>
         </div>
     );
 }

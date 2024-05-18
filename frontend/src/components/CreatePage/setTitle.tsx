@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useState, useEffect } from 'react';
+import { BaseSyntheticEvent, useState, useEffect } from "react";
 
 interface PropType {
     onChangeTitle: (data: string) => void;
@@ -6,7 +6,7 @@ interface PropType {
 
 export default function SetTitle(props: PropType) {
     const { onChangeTitle } = props;
-    const [title, setTitle] = useState<string>('');
+    const [title, setTitle] = useState<string>("");
 
     useEffect(() => {
         // 부모 컴포넌트에 보내기
@@ -18,13 +18,13 @@ export default function SetTitle(props: PropType) {
     };
 
     return (
-        <div className=" flex flex-col items-center">
+        <div className=" flex flex-col items-center mt-10">
             <div className="m-3">
                 <div className="text-2xl font-bold">
                     여행의 제목을 지어주세요
                 </div>
                 <div className="text-lg">
-                    * 생략시 기본 이름으로 설정됩니다.{' '}
+                    * 생략시 기본 이름으로 설정됩니다.{" "}
                 </div>
             </div>
             <div

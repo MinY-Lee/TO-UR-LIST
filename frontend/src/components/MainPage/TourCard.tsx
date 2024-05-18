@@ -84,16 +84,13 @@ export default function TourCard(props: PropType) {
             <div
                 className={`${
                     props.className
-                } box-border w-[90%] h-[] m-2vw p-vw border-rad-2vw flex items-center flex-shrink-0 ${
+                } box-border w-[90%] m-2vw p-vw rounded-xl drop-shadow-lg flex items-center flex-shrink-0 ${
                     mode === 0
                         ? "color-bg-blue-3"
                         : mode === 1
-                        ? "color-bg-blue-4"
-                        : "bg-[#DADADA]"
+                        ? "color-border-blue-3 border-2 bg-white"
+                        : "border-[#DADADA] border-2 bg-white"
                 }`}
-                style={{
-                    boxShadow: "#EBEBEB 1vw 1vw ",
-                }}
                 onClick={() => {
                     window.location.href = `/tour/${props.tourInfo.tourId}`;
                 }}
