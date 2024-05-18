@@ -143,18 +143,18 @@ export default function AccountPage() {
     };
 
     return (
-        <>
+        <div className="w-full flex flex-col items-center">
             <header>
                 <HeaderBar />
             </header>
-            <div className="relative flex flex-col items-center h-[80vh] overflow-y-scroll">
+            <div className="relative flex flex-col items-center h-[85vh] overflow-y-auto">
                 <div id="tab-container" className="w-[90%] flex flex-col items-center">
                     <ul className="w-full grid grid-cols-3 text-sm text-center rounded-t-2xl">
                         <li className="border-r-black" onClick={() => setTabIdx(1)}>
                             <div
                                 className={`${
                                     tapIdx == 1 ? activeStyle : ""
-                                } border-r-2 color-border-blue-4 inline-block w-full py-2  rounded-tl-lg`}
+                                } border-r-2 color-border-blue-4 inline-block w-full py-2 rounded-tl-lg`}
                             >
                                 개인 지출
                             </div>
@@ -182,26 +182,25 @@ export default function AccountPage() {
                         <div className="p-8 text-center">{tapComponent(tapIdx)}</div>
                     </div>
                 </div>
-                <div className="w-full">
+                <div className="w-fit">
                     <AccountDetail data={data} tourData={tourData} currency={currency} />
                     <div className="h-3"></div>
                 </div>
-
-                <div className="w-[90%] sticky bottom-0">
-                    <MyButton
-                        isSelected={true}
-                        onClick={() => {
-                            window.location.href = `/tour/${tourId}/account/add`;
-                        }}
-                        text="기록하기"
-                        type="full"
-                        className="py-3 shadow-lg text-white text-xl"
-                    />
-                </div>
+            </div>
+            <div className="absolute bottom-20 z-10 right-5">
+                <MyButton
+                    isSelected={true}
+                    onClick={() => {
+                        window.location.href = `/tour/${tourId}/account/add`;
+                    }}
+                    text="+"
+                    type="circle"
+                    className=" w-14 h-14 rounded-full shadow-lg text-white text-3xl"
+                />
             </div>
             <footer>
                 <TabBarTour tourId={tourId} tourMode={3} type="account" />
             </footer>
-        </>
+        </div>
     );
 }

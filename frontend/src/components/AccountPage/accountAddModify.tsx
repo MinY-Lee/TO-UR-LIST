@@ -93,13 +93,12 @@ export default function AccountAddModify(props: PropType) {
     }, [payId, props]);
 
     useEffect(() => {
-        console.log(props.data);
         if (!props.isModify && userInfo) {
             // payer 디폴트는 현재 가계부 작성하는 사람
             setPayer(userInfo.userId);
             setUnit(currency.unit);
             setExchangeRate(currency.currencyRate);
-            setPayMember([{ payAmount: 0, userId: userInfo.userId }]);
+            setPayMember([]);
             setDate(GetISOStringKor());
         } else {
             if (props.data && props.data.payId != "") {
@@ -184,13 +183,11 @@ export default function AccountAddModify(props: PropType) {
 
     const handlePayMember = (memberId: string) => {
         let updatedMember: PayMember[] = [];
-        console.log(payMember);
-        console.log(memberId);
         const payMemberIds = payMember.map((member) => member.userId);
         if (payMemberIds.includes(memberId)) {
             updatedMember = payMember.filter((item) => item.userId != memberId);
         } else {
-            updatedMember.push({ userId: memberId, payAmount: 0 });
+            updatedMember = [...payMember, { userId: memberId, payAmount: 0 }];
         }
         setPayMember(updatedMember);
     };
@@ -424,14 +421,15 @@ export default function AccountAddModify(props: PropType) {
                                     <div
                                         className={`${
                                             payerDropdownClick ? "" : "hidden"
-                                        } absolute top-[36.5%] right-[16%] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-36`}
+                                        } absolute z-10 right-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-32`}
                                     >
                                         <ul
-                                            className="py-2 text-sm text-gray-700 max-h-[30vh] overflow-y-auto"
+                                            className="flex flex-col gap-2 py-2 text-sm text-gray-700 max-h-[30vh] overflow-y-auto"
                                             aria-labelledby="dropdown-button"
                                         >
                                             {props.tourData.memberList.map((member, index) => (
                                                 <li
+                                                    className=""
                                                     key={index}
                                                     onClick={() => handlePayerChange(member.userId)}
                                                 >
@@ -560,7 +558,7 @@ export default function AccountAddModify(props: PropType) {
                                 style={{ top: `${typeDropdownPosition}` }}
                                 className={`${
                                     typeDropdownClick ? "" : "hidden"
-                                } absolute bottom-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-48`}
+                                } absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44`}
                             >
                                 <ul
                                     className="py-2 text-sm text-gray-700 dark:text-gray-200"
