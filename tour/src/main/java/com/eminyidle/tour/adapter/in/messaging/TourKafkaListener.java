@@ -24,17 +24,25 @@ public class TourKafkaListener {
     private void consumeUserTopic(String kafkaMessage) {
         try {
             UserKafkaMessage message = objectMapper.readValue(kafkaMessage, UserKafkaMessage.class);
-            if (message.getType().equals("UPDATE")) {
-                UserNode user = message.getBody();
-                log.debug("변경사항: "+user.toString());
-                userService.updateUser(
-                        User.builder()
-                                .userId(user.getUserId())
-                                .userName(user.getUserName())
-                                .userNickname(user.getUserNickname())
-                                .build()
-                );
+            UserNode user = message.getBody();
+            switch(message.getType()){
+                case "UPDATE":
+                    log.debug("변경사항: "+user.toString());
+                    userService.updateUser(
+                            User.builder()
+                                    .userId(user.getUserId())
+                                    .userName(user.getUserName())
+                                    .userNickname(user.getUserNickname())
+                                    .build()
+                    );
+                    break;
+                case "DELETE":
+                    log.debug("탈퇴한 유저입니다.: "+user.toString());
+                    userService.deleteUser(user.getUserId());
+                    break;
+                default:
             }
+
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

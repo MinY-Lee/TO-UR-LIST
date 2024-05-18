@@ -358,4 +358,16 @@ public class TourServiceImpl implements TourService, MemberService, UserUpdateUs
     public void updateUser(User user) {
         userRepository.save(user);
     }
+
+    @Override
+    public void deleteUser(String userId) {
+        if(userRepository.existsById(userId)){
+            //연결된 tour에 대해 ..
+            //일단 탈퇴한 사용자로 바꾸고, 고스트로 변경
+            tourRepository.findAllToursByUserId(userId).stream().forEach(tour -> {
+                userRepository.updateMemberRelationshipExceptGhost(userId,tour.getTourId(),"ghost");
+                kafkaProducer.produceDeleteMember(userId, tour.getTourId());
+            });
+        }
+    }
 }

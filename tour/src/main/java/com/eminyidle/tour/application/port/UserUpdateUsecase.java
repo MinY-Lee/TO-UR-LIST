@@ -4,5 +4,7 @@ import com.eminyidle.tour.application.dto.User;
 
 public interface UserUpdateUsecase {
 
-    public void updateUser(User user);
+    void updateUser(User user);
+
+    void deleteUser(String userId);
 }
