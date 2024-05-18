@@ -74,32 +74,32 @@ export default function MyPage() {
     }, []);
 
     // useEffect(() => {
-        //최신순 정렬
-        // getPublishedFeed().then((res) => {
-        //     if (res.status === httpStatusCode.OK) {
-        //         const publishedFeed: Feed[] = res.data;
-        //         publishedFeed.sort((a, b) => {
-        //             const dateA = new Date(a.createdAt);
-        //             const dateB = new Date(b.createdAt);
-        //             return dateB.getTime() - dateA.getTime();
-        //         });
-        //
-        //         setMyPublishList(publishedFeed);
-        //     }
-        // });
+    //최신순 정렬
+    // getPublishedFeed().then((res) => {
+    //     if (res.status === httpStatusCode.OK) {
+    //         const publishedFeed: Feed[] = res.data;
+    //         publishedFeed.sort((a, b) => {
+    //             const dateA = new Date(a.createdAt);
+    //             const dateB = new Date(b.createdAt);
+    //             return dateB.getTime() - dateA.getTime();
+    //         });
+    //
+    //         setMyPublishList(publishedFeed);
+    //     }
+    // });
 
-        // getLikedFeed().then((res) => {
-        //     if (res.status === httpStatusCode.OK) {
-        //         const likedFeed: Feed[] = res.data;
-        //         likedFeed.sort((a, b) => {
-        //             const dateA = new Date(a.createdAt);
-        //             const dateB = new Date(b.createdAt);
-        //             return dateB.getTime() - dateA.getTime();
-        //         });
-        //
-        //         setMyLikedList(likedFeed);
-        //     }
-        // });
+    // getLikedFeed().then((res) => {
+    //     if (res.status === httpStatusCode.OK) {
+    //         const likedFeed: Feed[] = res.data;
+    //         likedFeed.sort((a, b) => {
+    //             const dateA = new Date(a.createdAt);
+    //             const dateB = new Date(b.createdAt);
+    //             return dateB.getTime() - dateA.getTime();
+    //         });
+    //
+    //         setMyLikedList(likedFeed);
+    //     }
+    // });
     // }, [user]);
 
     const proceedWithDrawal = () => {
@@ -147,63 +147,75 @@ export default function MyPage() {
             ) : (
                 <></>
             )}
-            <section className="w-full h-[90%] py-vw flex flex-col items-center flex-grow-0 flex-shrink-0 overflow-y-scroll">
+            <section className="w-full h-[85vh] py-vw flex flex-col items-center justify-between flex-grow-0 flex-shrink-0 overflow-y-scroll">
                 <HeaderBar />
                 <MyInfoCard />
-                <div className="w-[90%] border-b-dot5vw border-b-[#7E7E7E] flex justify-between items-end py-vw weight-text-semibold">
-                    <p className="text-6vw color-bg-blue-4 px-dot5vw">
-                        내가 게시한 여행
-                    </p>
-                    <p
-                        className="text-5vw cursor-pointer"
-                        onClick={() => {
-                            navigate(`/mypage/myfeed`, {
-                                state: myPublishList,
-                            });
-                        }}
-                    >
-                        더보기
-                    </p>
-                </div>
-                {myPublishList.length > 0 ? (
-                    myPublishList.map((feed, index) => {
-                        if (index > 1) {
-                            return <></>;
-                        }
-                        return <FeedCard feedInfo={feed} key={feed.feedId} />;
-                    })
-                ) : (
-                    <div className="w-full h-[10%] flex justify-center items-center text-4vw text-[#aeaeae]">
-                        게시한 피드가 없습니다.
+                <div className="w-full flex flex-col items-center h-full">
+                    <div className="w-[90%] border-b-dot5vw border-b-[#7E7E7E] flex justify-between items-end py-vw weight-text-semibold">
+                        <div className="relative px-2 flex justify-center">
+                            <p className="text-6vw px-dot5vw">
+                                내가 게시한 여행
+                            </p>
+                            <p className="absolute bottom-1 px-2 h-3 w-full color-bg-blue-4 opacity-80 -z-10 px-dot5vw" />
+                        </div>
+                        <p
+                            className="text-5vw cursor-pointer"
+                            onClick={() => {
+                                navigate(`/mypage/myfeed`, {
+                                    state: myPublishList,
+                                });
+                            }}
+                        >
+                            더보기
+                        </p>
                     </div>
-                )}
-                <div className="w-[90%] mt-2vw border-b-dot5vw border-b-[#7E7E7E] flex justify-between items-end py-vw weight-text-semibold">
-                    <p className="text-6vw color-bg-blue-4 px-dot5vw">
-                        내가 좋아요한 여행
-                    </p>
-                    <p
-                        className="text-5vw cursor-pointer"
-                        onClick={() => {
-                            navigate(`/mypage/like`, {
-                                state: myLikedList,
-                            });
-                        }}
-                    >
-                        더보기
-                    </p>
-                </div>
-                {myLikedList.length > 0 ? (
-                    myLikedList.map((feed, index) => {
-                        if (index > 1) {
-                            return <></>;
-                        }
-                        return <FeedCard feedInfo={feed} key={feed.feedId} />;
-                    })
-                ) : (
-                    <div className="w-full h-[10%] flex justify-center items-center text-4vw text-[#aeaeae]">
-                        좋아요한 피드가 없습니다.
+                    {myPublishList.length > 0 ? (
+                        myPublishList.map((feed, index) => {
+                            if (index > 1) {
+                                return <></>;
+                            }
+                            return (
+                                <FeedCard feedInfo={feed} key={feed.feedId} />
+                            );
+                        })
+                    ) : (
+                        <div className="my-5 w-full h-[10%] flex justify-center items-center text-4vw text-[#aeaeae]">
+                            게시한 피드가 없습니다.
+                        </div>
+                    )}
+                    <div className="w-[90%] mt-2vw border-b-dot5vw border-b-[#7E7E7E] flex justify-between items-end py-vw weight-text-semibold">
+                        <div className="relative px-2 flex justify-center">
+                            <p className="text-6vw px-dot5vw">
+                                내가 좋아요한 여행
+                            </p>
+                            <p className="absolute bottom-1 px-2 h-3 w-full color-bg-blue-4 opacity-80 -z-10 px-dot5vw" />
+                        </div>
+                        <p
+                            className="text-5vw cursor-pointer"
+                            onClick={() => {
+                                navigate(`/mypage/like`, {
+                                    state: myLikedList,
+                                });
+                            }}
+                        >
+                            더보기
+                        </p>
                     </div>
-                )}
+                    {myLikedList.length > 0 ? (
+                        myLikedList.map((feed, index) => {
+                            if (index > 1) {
+                                return <></>;
+                            }
+                            return (
+                                <FeedCard feedInfo={feed} key={feed.feedId} />
+                            );
+                        })
+                    ) : (
+                        <div className="my-5 w-full h-[10%] flex justify-center items-center text-4vw text-[#aeaeae]">
+                            좋아요한 피드가 없습니다.
+                        </div>
+                    )}
+                </div>
                 <p
                     className="text-red-400 underline mt-vw cursor-pointer"
                     onClick={proceedWithDrawal}

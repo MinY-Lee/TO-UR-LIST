@@ -75,13 +75,13 @@ export default function MyInfoCard() {
                 <></>
             )}
             <div
-                className="w-[90%] h-[40%] flex flex-col items-center px-1vw py-4vw my-1vw border-halfvw border-black"
+                className="w-[90%] h-[40%] flex flex-col items-center px-1vw py-4vw my-2vw border-halfvw border-black"
                 style={{
-                    borderRadius: "min(7vw, 33.6px)",
+                    borderRadius: "min(5vw, 33.6px)",
                 }}
             >
                 {/* 닉네임 */}
-                <p className="text-6vw h-[20%] weight-text-semibold mb-vw">
+                <p className="text-6vw h-[20%] weight-text-semibold mb-vw pb-5">
                     <span className="text-7vw mr-vw">
                         {userInfo.userNickname}
                     </span>
@@ -104,9 +104,9 @@ export default function MyInfoCard() {
                         <p>{gender}</p>
                     </div>
                 </div>
-                <div className="w-[90%] h-[20%] flex justify-between items-center">
+                <div className="mt-2 w-[90%] h-[20%] grid grid-cols-2 gap-2 items-center">
                     <div
-                        className="w-[45%] h-full color-bg-blue-2 text-white text-5vw weight-text-semibold flex justify-center items-center cursor-pointer"
+                        className=" h-full color-bg-blue-2 text-white text-5vw  flex justify-center items-center cursor-pointer"
                         style={{ borderRadius: `min(3vw, 14.4px)` }}
                         onClick={() => {
                             window.location.href = "/mypage/info";
@@ -115,7 +115,7 @@ export default function MyInfoCard() {
                         정보수정
                     </div>
                     <div
-                        className="w-[45%] h-full bg-[#D9D9D9] text-[#646464] text-5vw weight-text-semibold flex justify-center items-center cursor-pointer"
+                        className="h-full bg-[#D9D9D9] text-[#646464] text-5vw weight-text-semibold flex justify-center items-center cursor-pointer"
                         style={{ borderRadius: `min(3vw, 14.4px)` }}
                         onClick={() => {
                             setIsCheckModalActive(true);
