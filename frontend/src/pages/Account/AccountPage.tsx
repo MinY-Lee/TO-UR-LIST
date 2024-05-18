@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
 
-import { AccountInfo, CurrencyInfo, PayMember, TourInfoDetail, UserInfo } from "../../types/types";
+import {
+    AccountInfo,
+    CurrencyInfo,
+    PayMember,
+    TourInfoDetail,
+    UserInfo,
+} from "../../types/types";
 import MyButton from "../../components/Buttons/myButton";
 import TabBarTour from "../../components/TabBar/TabBarTour";
 import AccountDetail from "../../components/AccountPage/accountDetail";
@@ -54,7 +60,10 @@ export default function AccountPage() {
     useEffect(() => {
         // 환율 정보 가져오기
         if (tourData.tourTitle != "") {
-            getCurrency(tourData.cityList[0].countryCode, GetISOStringKor().split("T")[0])
+            getCurrency(
+                tourData.cityList[0].countryCode,
+                GetISOStringKor().split("T")[0]
+            )
                 .then((res) => {
                     setCurrency({
                         unit: res.data.unit,
@@ -136,7 +145,9 @@ export default function AccountPage() {
                     <div className="font-bold text-2xl">
                         1{currency.unit} = {currency.currencyRate.toString()} 원
                     </div>
-                    <div className="mt-3">*지출 내역 클릭시 환율 상세 지정이 가능합니다.</div>
+                    <div className="mt-3">
+                        *지출 내역 클릭시 환율 상세 지정이 가능합니다.
+                    </div>
                 </div>
             );
         }
@@ -148,9 +159,15 @@ export default function AccountPage() {
                 <HeaderBar />
             </header>
             <div className="relative flex flex-col items-center h-[85vh] overflow-y-auto">
-                <div id="tab-container" className="w-[90%] flex flex-col items-center">
+                <div
+                    id="tab-container"
+                    className="w-[90%] flex flex-col items-center"
+                >
                     <ul className="w-full grid grid-cols-3 text-sm text-center rounded-t-2xl">
-                        <li className="border-r-black" onClick={() => setTabIdx(1)}>
+                        <li
+                            className="border-r-black"
+                            onClick={() => setTabIdx(1)}
+                        >
                             <div
                                 className={`${
                                     tapIdx == 1 ? activeStyle : ""
@@ -179,12 +196,17 @@ export default function AccountPage() {
                         </li>
                     </ul>
                     <div className="w-full shadow-lg color-bg-blue-4 rounded-b-2xl">
-                        <div className="p-8 text-center">{tapComponent(tapIdx)}</div>
+                        <div className="p-8 text-center">
+                            {tapComponent(tapIdx)}
+                        </div>
                     </div>
                 </div>
                 <div className="w-full">
-                    <AccountDetail data={data} tourData={tourData} currency={currency} />
-                    <div className="h-10"></div>
+                    <AccountDetail
+                        data={data}
+                        tourData={tourData}
+                        currency={currency}
+                    />
                 </div>
             </div>
             <div className="absolute bottom-20 z-10 right-5">

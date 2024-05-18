@@ -124,6 +124,7 @@ export default function AccountDetail(props: PropType) {
             setEndDate(new Date(props.tourData.endDate));
         }
         setRowData(props.data);
+        console.log(props.data);
         // 데이터 날짜별로 그룹핑
         DataPerDay(rowData);
     }, [tourId, props, rowData]);
@@ -371,7 +372,7 @@ export default function AccountDetail(props: PropType) {
 
                 <div className="border-2 border-neutral-400 py-3 rounded-lg mt-2 w-[90%]">
                     {groupedData.length == 0 ? (
-                        <div className="h-[40vh] flex justify-center items-center text-xl">
+                        <div className="h-[50vh] flex justify-center items-center text-xl">
                             아직 지출 내역이 없습니다.
                         </div>
                     ) : (

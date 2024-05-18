@@ -106,6 +106,7 @@ export default function AccountAddModify(props: PropType) {
     }, [payId, props]);
 
     useEffect(() => {
+        console.log(props.data);
         if (!props.isModify && userInfo) {
             // payer 디폴트는 현재 가계부 작성하는 사람
             setPayer(userInfo.userId);
@@ -115,7 +116,13 @@ export default function AccountAddModify(props: PropType) {
             setDate(GetISOStringKor());
         } else {
             if (props.data && props.data.payId != "") {
-                setAmount(props.data.payAmount);
+                setAmount(
+                    unit != "₩"
+                        ? Math.floor(
+                              props.data.payAmount / props.data.exchangeRate
+                          )
+                        : props.data.payAmount
+                );
                 setDate(props.data.payDatetime);
                 setIsPublic(props.data.payType == "public" ? true : false);
                 setPayer(props.data.payerId);
@@ -169,6 +176,9 @@ export default function AccountAddModify(props: PropType) {
 
     const handleTypeChange = (type: string) => {
         setType(type);
+        if (type == "public" && props.data?.payType == "private") {
+            setPayer(userInfo.userId);
+        }
         setIsVaildPayType(true);
         setTypeDropdownClick(false);
     };
@@ -190,6 +200,7 @@ export default function AccountAddModify(props: PropType) {
     };
 
     const handlePayerChange = (payer: string) => {
+        console.log(payer);
         setPayer(payer);
         setPayerDropdownClick(false);
     };
@@ -400,7 +411,7 @@ export default function AccountAddModify(props: PropType) {
                         <div className="col-span-2 flex gap-2 items-center">
                             <div>
                                 {unit != "₩"
-                                    ? `약 ${Math.round(
+                                    ? `${Math.round(
                                           exchangeRate * amount
                                       ).toLocaleString()}`
                                     : amount}{" "}
