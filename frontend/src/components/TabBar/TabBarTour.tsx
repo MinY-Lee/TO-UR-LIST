@@ -30,9 +30,7 @@ export default function TabBarTour(props: PropType) {
                         window.location.href = `/tour/${props.tourId}`;
                     }}
                 >
-                    <span className="material-symbols-outlined text-3xl h-[30px]">
-                        trip
-                    </span>
+                    <span className="material-symbols-outlined text-3xl h-[30px]">trip</span>
                     <div>여행</div>
                 </div>
                 <div

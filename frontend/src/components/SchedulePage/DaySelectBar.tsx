@@ -6,9 +6,7 @@ interface PropType {
     selectedDate: number;
     setSelectedDate: React.Dispatch<React.SetStateAction<number>>;
     period: number;
-    setSelectedSchedule: React.Dispatch<
-        React.SetStateAction<WebSockPlace | undefined>
-    >;
+    setSelectedSchedule: React.Dispatch<React.SetStateAction<WebSockPlace | undefined>>;
 }
 
 export default function DaySelectBar(props: PropType) {
@@ -38,9 +36,7 @@ export default function DaySelectBar(props: PropType) {
                 >
                     <p
                         className={`flex w-[70%] aspect-square justify-center items-center flex-shrink-0 ${
-                            props.selectedDate === i
-                                ? "bg-[#c1edff] rounded-[50%]"
-                                : ""
+                            props.selectedDate === i ? "bg-[#c1edff] rounded-[50%]" : ""
                         }`}
                     >
                         {newDate.getDate()}
@@ -54,7 +50,7 @@ export default function DaySelectBar(props: PropType) {
     return (
         <>
             <div
-                className="w-[90%] h-10vw my-2vw flex items-center px-5vw overflow-x-scroll bg-white border-rad-2dot5vw"
+                className="w-[90%] h-10vw my-2vw flex items-center px-5vw overflow-x-auto bg-white border-rad-2dot5vw"
                 style={{ boxShadow: "0px 2px 4px 1px #cecece" }}
             >
                 {dates()}

@@ -9,8 +9,7 @@ interface ChildProps {
 }
 
 export default function myCalendar(props: ChildProps) {
-    const { weekCalendarList, currentDate, setCurrentDate, weekDayList } =
-        getCalendar();
+    const { weekCalendarList, currentDate, setCurrentDate, weekDayList } = getCalendar();
 
     const [startDate, setStartDate] = useState<Date | undefined>();
     const [endDate, setEndDate] = useState<Date | undefined>();
@@ -27,7 +26,6 @@ export default function myCalendar(props: ChildProps) {
         }
         if (isVaildDate && startDate && endDate) {
             props.checkValue(isVaildDate);
-            console.log(startDate, endDate);
             props.onChange([startDate, endDate]);
         }
     }, [startDate, endDate]);
@@ -71,14 +69,8 @@ export default function myCalendar(props: ChildProps) {
     };
 
     return (
-        <div
-            id="calendar-container"
-            className="flex flex-col items-center justify-center w-full"
-        >
-            <div
-                id="move-container"
-                className="flex justify-between w-[70%] m-5"
-            >
+        <div id="calendar-container" className="flex flex-col items-center justify-center w-full">
+            <div id="move-container" className="flex justify-between w-[70%] m-5">
                 <button
                     onClick={() => {
                         setCurrentDate(subMonths(currentDate, 1));
@@ -100,10 +92,7 @@ export default function myCalendar(props: ChildProps) {
                     &gt;
                 </button>
             </div>
-            <div
-                id="weekday-container"
-                className="grid grid-cols-7 h-10 w-full"
-            >
+            <div id="weekday-container" className="grid grid-cols-7 h-10 w-full">
                 {weekDayList.map((weekday, index) => (
                     <div key={index} className="col-span-1 text-center">
                         {weekday}
@@ -112,10 +101,7 @@ export default function myCalendar(props: ChildProps) {
             </div>
             <div id="day-container" className="w-full">
                 {weekCalendarList.map((item) => (
-                    <div
-                        className="grid grid-cols-7 text-center"
-                        key={Math.random()}
-                    >
+                    <div className="grid grid-cols-7 text-center" key={Math.random()}>
                         {item.map((day, index) => {
                             const selectedDate = new Date(
                                 currentDate.getFullYear(),
@@ -129,12 +115,10 @@ export default function myCalendar(props: ChildProps) {
                                 selectedDate < endDate;
                             const isStartOrEnd =
                                 (startDate?.getDate() === day &&
-                                    startDate.getMonth() ===
-                                        currentDate.getMonth()) ||
+                                    startDate.getMonth() === currentDate.getMonth()) ||
                                 (endDate &&
                                     endDate.getDate() === day &&
-                                    endDate.getMonth() ===
-                                        currentDate.getMonth());
+                                    endDate.getMonth() === currentDate.getMonth());
                             return (
                                 <button
                                     onClick={() => {
@@ -155,28 +139,18 @@ export default function myCalendar(props: ChildProps) {
                                     className={`
                                         col-span-1 h-14vw
                                         ${day === 0 ? " invisible " : ""}
+                                        ${isBetween || isStartOrEnd ? "color-bg-blue-4" : ""}
                                         ${
-                                            isBetween || isStartOrEnd
-                                                ? "color-bg-blue-4"
-                                                : ""
-                                        }
-                                        ${
-                                            selectedDate.getTime() ===
-                                            startDate?.getTime()
+                                            selectedDate.getTime() === startDate?.getTime()
                                                 ? "rounded-tl-full rounded-bl-full"
                                                 : ""
                                         }
                                         ${
-                                            selectedDate.getTime() ===
-                                            endDate?.getTime()
+                                            selectedDate.getTime() === endDate?.getTime()
                                                 ? "rounded-tr-full rounded-br-full"
                                                 : ""
                                         }
-                                        ${
-                                            startDate && endDate
-                                                ? ""
-                                                : "rounded-full"
-                                        }
+                                        ${startDate && endDate ? "" : "rounded-full"}
                                     `}
                                     key={index}
                                 >
@@ -185,8 +159,7 @@ export default function myCalendar(props: ChildProps) {
                                         className={`h-full flex justify-center items-center
                                         ${index === 0 ? "text-red-500" : ""}
                                         ${
-                                            currentDate.getMonth() ===
-                                                new Date().getMonth() &&
+                                            currentDate.getMonth() === new Date().getMonth() &&
                                             day === new Date().getDate()
                                                 ? "color-text-blue-1 font-bold"
                                                 : ""
@@ -196,9 +169,7 @@ export default function myCalendar(props: ChildProps) {
                                     `}
                                     >
                                         <div className="relative flex justify-center h-full items-center">
-                                            <div className="text-center">
-                                                {day}
-                                            </div>
+                                            <div className="text-center">{day}</div>
                                             {isStartOrEnd ? (
                                                 <div className="absolute bottom-0 color-text-blue-1">
                                                     ✦
@@ -219,9 +190,7 @@ export default function myCalendar(props: ChildProps) {
                     className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
                     role="alert"
                 >
-                    <div className="font-medium">
-                        ⚠️ 여행 날짜 설정은 오늘 이후만 가능해요!
-                    </div>
+                    <div className="font-medium">⚠️ 여행 날짜 설정은 오늘 이후만 가능해요!</div>
                 </div>
             ) : (
                 ""

@@ -2,22 +2,13 @@ import { useLocation } from "react-router-dom";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
 import { useCallback, useEffect, useState } from "react";
 import TabBarTour from "../../components/TabBar/TabBarTour";
-import {
-    TourEditDetail,
-    WebSockPlace,
-    TourInfoDetail,
-    PlaceInfoDetail,
-} from "../../types/types";
+import { TourEditDetail, WebSockPlace, TourInfoDetail, PlaceInfoDetail } from "../../types/types";
 
 //dummy data
 
 // import TestActivity from "../../dummy-data/test_activitylist.json";
 
-import {
-    getActivityList,
-    getPlaceList,
-    searchPlaceDetail,
-} from "../../util/api/place";
+import { getActivityList, getPlaceList, searchPlaceDetail } from "../../util/api/place";
 import { httpStatusCode } from "../../util/api/http-status";
 import WebSocket from "../../components/TabBar/WebSocket";
 import { getTour } from "../../util/api/tour";
@@ -149,13 +140,9 @@ export default function PlaceAddDetailPage() {
             getPlaceList(location.state.tourId)
                 .then((res) => {
                     const filtered = res.data.filter(
-                        (place: WebSockPlace) =>
-                            place.placeId === location.state.placeId
+                        (place: WebSockPlace) => place.placeId === location.state.placeId
                     );
-                    filtered.sort(
-                        (a: WebSockPlace, b: WebSockPlace) =>
-                            a.tourDay - b.tourDay
-                    );
+                    filtered.sort((a: WebSockPlace, b: WebSockPlace) => a.tourDay - b.tourDay);
                     setThisPlaceVisit(filtered);
                 })
                 .finally(() => {
@@ -172,9 +159,7 @@ export default function PlaceAddDetailPage() {
             const date = new Date(startDate.getTime() + (day - 1) * 86400000);
 
             return `${date.getFullYear()}.${
-                date.getMonth() + 1 >= 10
-                    ? date.getMonth() + 1
-                    : "0" + (date.getMonth() + 1)
+                date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : "0" + (date.getMonth() + 1)
             }.${date.getDate() >= 10 ? date.getDate() : "0" + date.getDate()}`;
         },
         [startDate]
@@ -199,12 +184,8 @@ export default function PlaceAddDetailPage() {
 
         //새로운 일정으로 업데이트
         // console.log(newSchedule);
-        const filtered = newSchedule.filter(
-            (place: WebSockPlace) => place.placeId === placeId
-        );
-        filtered.sort(
-            (a: WebSockPlace, b: WebSockPlace) => a.tourDay - b.tourDay
-        );
+        const filtered = newSchedule.filter((place: WebSockPlace) => place.placeId === placeId);
+        filtered.sort((a: WebSockPlace, b: WebSockPlace) => a.tourDay - b.tourDay);
         // console.log(filtered);
 
         setThisPlaceVisit(filtered);
@@ -234,11 +215,7 @@ export default function PlaceAddDetailPage() {
         setIsActivityModal(false);
     };
 
-    const addActivity = (
-        placeId: string,
-        tourDay: number,
-        activity: string
-    ) => {
+    const addActivity = (placeId: string, tourDay: number, activity: string) => {
         setIsLoading(true);
         if (wsClient) {
             wsClient.publish({
@@ -327,7 +304,7 @@ export default function PlaceAddDetailPage() {
                 <div className="flex flex-col w-full h-[93%] overflow-y-scroll p-vw">
                     <HeaderBar />
                     {/* 이미지 */}
-                    <div className="w-full h-[20%] flex overflow-x-scroll mb-2vw">
+                    <div className="w-full h-[20%] flex overflow-x-auto mb-2vw">
                         {placeInfo.placePhotoList.map((original) => {
                             const photoUrl = makePhotoUrl(original);
 
@@ -357,12 +334,8 @@ export default function PlaceAddDetailPage() {
                                                 type: "DELETE_PLACE",
                                                 body: {
                                                     tourId: tourId,
-                                                    placeId:
-                                                        tourDetail?.placeInfo
-                                                            .placeId,
-                                                    placeName:
-                                                        tourDetail?.placeInfo
-                                                            .placeName,
+                                                    placeId: tourDetail?.placeInfo.placeId,
+                                                    placeName: tourDetail?.placeInfo.placeName,
                                                     tourDay: tourDay,
                                                 },
                                             }),
@@ -385,12 +358,8 @@ export default function PlaceAddDetailPage() {
                                                 type: "ADD_PLACE",
                                                 body: {
                                                     tourId: tourId,
-                                                    placeId:
-                                                        tourDetail?.placeInfo
-                                                            .placeId,
-                                                    placeName:
-                                                        tourDetail?.placeInfo
-                                                            .placeName,
+                                                    placeId: tourDetail?.placeInfo.placeId,
+                                                    placeName: tourDetail?.placeInfo.placeName,
                                                     tourDay: tourDay,
                                                 },
                                             }),
@@ -402,9 +371,7 @@ export default function PlaceAddDetailPage() {
                             </div>
                         )}
                     </div>
-                    <div className="w-full text-4vw mb-vw">
-                        주소 : {placeInfo.placeAddress}
-                    </div>
+                    <div className="w-full text-4vw mb-vw">주소 : {placeInfo.placeAddress}</div>
                     <div className="w-full h-vw bg-[#828282]"></div>
 
                     {/* 활동목록 */}
@@ -430,12 +397,9 @@ export default function PlaceAddDetailPage() {
                                                             type: "DELETE_PLACE",
                                                             body: {
                                                                 tourId: tourId,
-                                                                placeId:
-                                                                    place.placeId,
-                                                                placeName:
-                                                                    place.placeName,
-                                                                tourDay:
-                                                                    place.tourDay,
+                                                                placeId: place.placeId,
+                                                                placeName: place.placeName,
+                                                                tourDay: place.tourDay,
                                                             },
                                                         }),
                                                     });
@@ -451,9 +415,7 @@ export default function PlaceAddDetailPage() {
                                                 setIsDayChange(true);
                                             }}
                                         >
-                                            <span>
-                                                {dateToString(place.tourDay)}
-                                            </span>
+                                            <span>{dateToString(place.tourDay)}</span>
                                             <span className="material-symbols-outlined">
                                                 calendar_today
                                             </span>
@@ -462,10 +424,8 @@ export default function PlaceAddDetailPage() {
                                             {place.activityList.length > 1
                                                 ? place.activityList[0] +
                                                   "+" +
-                                                  (place.activityList.length -
-                                                      1)
-                                                : place.activityList.length ===
-                                                  1
+                                                  (place.activityList.length - 1)
+                                                : place.activityList.length === 1
                                                 ? place.activityList[0]
                                                 : "활동없음"}
                                         </div>
@@ -487,9 +447,7 @@ export default function PlaceAddDetailPage() {
                     ) : (
                         // 안되어 있으면 추가부터 하도록
                         <>
-                            <div className="text-5vw">
-                                이 장소에서 추천하는 활동
-                            </div>
+                            <div className="text-5vw">이 장소에서 추천하는 활동</div>
                             <div className="flex items-center text-5vw text-[#afafaf]">
                                 {activityList.length > 0 ? (
                                     <span className="h-7vw px-3vw border-halfvw border-[#afafaf] border-rad-3dot5vw mx-vw flex justify-center items-center">
@@ -517,11 +475,7 @@ export default function PlaceAddDetailPage() {
                     )}
                 </div>
                 <TabBarTour tourId={tourId} tourMode={2} type="schedule" />
-                <WebSocket
-                    tourId={tourId}
-                    setWsClient={setWsClient}
-                    update={update}
-                />
+                <WebSocket tourId={tourId} setWsClient={setWsClient} update={update} />
             </section>
         </>
     );

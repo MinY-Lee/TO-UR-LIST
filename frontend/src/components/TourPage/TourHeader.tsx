@@ -149,8 +149,8 @@ export default function TourHeader(props: PropType) {
                 <></>
             )}
             <div className=" grid grid-cols-6 justify-between items-end p-7 bak">
-                <div className="col-span-5">
-                    <div className="text-7vw font-bold w-[100%] overflow-ellipsis overflow-hidden whitespace-nowrap">
+                <div className="col-span-5 w-full">
+                    <div className="text-7vw font-bold w-full overflow-ellipsis overflow-hidden whitespace-nowrap">
                         {props.tourInfo.tourTitle}
                     </div>
                     <div className="text-4vw">{`${
@@ -181,7 +181,7 @@ export default function TourHeader(props: PropType) {
                                     </div>
                                     {hoveredMember === member && (
                                         <div className="absolute whitespace-nowrap z-10 text-sm bottom-1 left-[40%] bg-gray-500 pl-1 pr-1 rounded-md text-white">
-                                            {member.userNickname}
+                                            {member.userName}
                                         </div>
                                     )}
                                 </div>

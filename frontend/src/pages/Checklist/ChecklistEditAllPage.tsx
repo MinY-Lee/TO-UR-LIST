@@ -39,6 +39,7 @@ export default function ChecklistEditAllPage() {
             getChecklist(tourId)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
+                        console.log(res.data);
                         const checklistData = res.data;
                         setData(checklistData);
                         // 중복 횟수 카운트
@@ -58,7 +59,6 @@ export default function ChecklistEditAllPage() {
         const itemGroups: CountItem = {};
 
         checklist.forEach((item) => {
-            console.log(item);
             const itemName = item.item;
             if (!itemGroups[itemName]) {
                 itemGroups[itemName] = 0;
@@ -102,8 +102,7 @@ export default function ChecklistEditAllPage() {
 
     const handleDelete = () => {
         if (deleteItem) {
-            const { activity, isChecked, item, placeId, tourDay, tourId } =
-                deleteItem;
+            const { activity, isChecked, item, placeId, tourDay, tourId } = deleteItem;
             const targetItem: ItemApi = {
                 activity: activity,
                 isChecked: !isChecked,
@@ -129,10 +128,7 @@ export default function ChecklistEditAllPage() {
         setIsCheckModalActive(false);
     };
 
-    const handleDeleteModal = (
-        item: Item,
-        event: React.MouseEvent<HTMLDivElement>
-    ) => {
+    const handleDeleteModal = (item: Item, event: React.MouseEvent<HTMLDivElement>) => {
         event.stopPropagation(); // 이벤트 버블링 중단
 
         setIsCheckModalActive(true);
@@ -175,8 +171,9 @@ export default function ChecklistEditAllPage() {
                         onUpdate={onUpdate}
                     />
                 </div>
-                <div className="flex flex-col justify-start items-center h-[65vh]  overflow-y-scroll pt-2">
+                <div className="flex flex-col justify-start items-center h-[65vh]  overflow-y-auto pt-2">
                     <ItemListAll
+                        checklist={data}
                         filteredChecklist={filteredChecklist}
                         filteredGroup={filteredGroup}
                         handleDeleteModal={handleDeleteModal}

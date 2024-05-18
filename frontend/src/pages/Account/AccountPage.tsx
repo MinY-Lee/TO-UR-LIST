@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
 
-import {
-    AccountInfo,
-    CurrencyInfo,
-    PayMember,
-    TourInfoDetail,
-    UserInfo,
-} from "../../types/types";
+import { AccountInfo, CurrencyInfo, PayMember, TourInfoDetail, UserInfo } from "../../types/types";
 import MyButton from "../../components/Buttons/myButton";
 import TabBarTour from "../../components/TabBar/TabBarTour";
 import AccountDetail from "../../components/AccountPage/accountDetail";
@@ -15,6 +9,7 @@ import AccountDetail from "../../components/AccountPage/accountDetail";
 import { getAccountList, getCurrency } from "../../util/api/pay";
 import { getCountry, getTour } from "../../util/api/tour";
 import { useSelector } from "react-redux";
+import GetISOStringKor from "../../components/AccountPage/getISOStringKor";
 
 export default function AccountPage() {
     const [tourId, setTourId] = useState<string>("");
@@ -59,10 +54,7 @@ export default function AccountPage() {
     useEffect(() => {
         // 환율 정보 가져오기
         if (tourData.tourTitle != "") {
-            getCurrency(
-                tourData.cityList[0].countryCode,
-                new Date().toISOString().split("T")[0]
-            )
+            getCurrency(tourData.cityList[0].countryCode, GetISOStringKor().split("T")[0])
                 .then((res) => {
                     setCurrency({
                         unit: res.data.unit,
@@ -144,33 +136,25 @@ export default function AccountPage() {
                     <div className="font-bold text-2xl">
                         1{currency.unit} = {currency.currencyRate.toString()} 원
                     </div>
-                    <div className="mt-3">
-                        *지출 내역 클릭시 환율 상세 지정이 가능합니다.
-                    </div>
+                    <div className="mt-3">*지출 내역 클릭시 환율 상세 지정이 가능합니다.</div>
                 </div>
             );
         }
     };
 
     return (
-        <>
+        <div className="w-full flex flex-col">
             <header>
                 <HeaderBar />
             </header>
-            <div className="flex flex-col items-center h-[75vh] overflow-y-scroll">
-                <div
-                    id="tab-container"
-                    className="w-[90%] flex flex-col items-center"
-                >
+            <div className="relative flex flex-col items-center h-[85vh] overflow-y-auto">
+                <div id="tab-container" className="w-[90%] flex flex-col items-center">
                     <ul className="w-full grid grid-cols-3 text-sm text-center rounded-t-2xl">
-                        <li
-                            className="border-r-black"
-                            onClick={() => setTabIdx(1)}
-                        >
+                        <li className="border-r-black" onClick={() => setTabIdx(1)}>
                             <div
                                 className={`${
                                     tapIdx == 1 ? activeStyle : ""
-                                } border-r-2 color-border-blue-4 inline-block w-full py-2  rounded-tl-lg`}
+                                } border-r-2 color-border-blue-4 inline-block w-full py-2 rounded-tl-lg`}
                             >
                                 개인 지출
                             </div>
@@ -195,31 +179,28 @@ export default function AccountPage() {
                         </li>
                     </ul>
                     <div className="w-full shadow-lg color-bg-blue-4 rounded-b-2xl">
-                        <div className="p-8 text-center">
-                            {tapComponent(tapIdx)}
-                        </div>
+                        <div className="p-8 text-center">{tapComponent(tapIdx)}</div>
                     </div>
                 </div>
                 <div className="w-full">
-                    <AccountDetail data={data} tourData={tourData} />
-                    <div className="h-[10vh]"></div>
+                    <AccountDetail data={data} tourData={tourData} currency={currency} />
+                    <div className="h-10"></div>
                 </div>
-
-                <div className="w-[90%] absolute bottom-28">
-                    <MyButton
-                        isSelected={true}
-                        onClick={() => {
-                            window.location.href = `/tour/${tourId}/account/add`;
-                        }}
-                        text="기록하기"
-                        type="full"
-                        className="py-3 shadow-lg text-white text-xl"
-                    />
-                </div>
+            </div>
+            <div className="absolute bottom-20 z-10 right-5">
+                <MyButton
+                    isSelected={true}
+                    onClick={() => {
+                        window.location.href = `/tour/${tourId}/account/add`;
+                    }}
+                    text="+"
+                    type="circle"
+                    className=" w-14 h-14 rounded-full shadow-lg text-white text-3xl"
+                />
             </div>
             <footer>
                 <TabBarTour tourId={tourId} tourMode={3} type="account" />
             </footer>
-        </>
+        </div>
     );
 }

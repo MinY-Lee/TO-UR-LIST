@@ -1,16 +1,10 @@
-import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { BaseSyntheticEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import MyButton from "../../components/Buttons/myButton";
 
 import CategoryToImg from "../../components/AccountPage/categoryToImg";
-import {
-    AccountInfo,
-    MemberInfo,
-    PayMember,
-    TourInfoDetail,
-    UserInfo,
-} from "../../types/types";
+import { AccountInfo, MemberInfo, PayMember, TourInfoDetail, UserInfo } from "../../types/types";
 
 import { useSelector } from "react-redux";
 import { addAccount, editAccount, getCurrency } from "../../util/api/pay";
@@ -18,6 +12,7 @@ import { httpStatusCode } from "../../util/api/http-status";
 import DropdownIcon from "../../assets/svg/dropdownIcon";
 import MemberList from "./memberList";
 import ButtonGroup from "./buttonGroup";
+import GetISOStringKor from "./getISOStringKor";
 
 interface PropType {
     tourId: string;
@@ -35,10 +30,8 @@ interface Currency {
 export default function AccountAddModify(props: PropType) {
     const [wonDropdownClick, setWonDropdownClick] = useState<boolean>(false);
     const [typeDropdownClick, setTypeDropdownClick] = useState<boolean>(false);
-    const [typeDropdownPosition, setTypeDropdownPosition] =
-        useState<string>("");
-    const [payerDropdownClick, setPayerDropdownClick] =
-        useState<boolean>(false);
+    const [typeDropdownPosition, setTypeDropdownPosition] = useState<string>("");
+    const [payerDropdownClick, setPayerDropdownClick] = useState<boolean>(false);
     const [currency, setCurrency] = useState<Currency>({
         unit: "",
         currencyCode: "",
@@ -51,8 +44,7 @@ export default function AccountAddModify(props: PropType) {
     const [category, setCategory] = useState<string>("");
     const [content, setContent] = useState<string>("");
     const [isPublic, setIsPublic] = useState<boolean>(false);
-    const [date, setDate] = useState<Date>(new Date());
-    const [dateStr, setDateStr] = useState<string>("");
+    const [date, setDate] = useState<string>("");
     const [payer, setPayer] = useState<string>("");
     const [payId, setPayId] = useState<string>("");
     const [payMember, setPayMember] = useState<PayMember[]>([]);
@@ -61,10 +53,15 @@ export default function AccountAddModify(props: PropType) {
 
     const navigate = useNavigate();
 
+    // 경고창 위치로 이동
+    const amountAlert = useRef<HTMLDivElement | null>(null);
+    const payTypeAlert = useRef<HTMLDivElement | null>(null);
+    const payContentAlert = useRef<HTMLDivElement | null>(null);
+    const payCategoryAlert = useRef<HTMLDivElement | null>(null);
+    const payMemberAlert = useRef<HTMLDivElement | null>(null);
+
     const idToName = (memberId: string): string => {
-        const member = props.tourData.memberList.find(
-            (member) => member.userId === memberId
-        );
+        const member = props.tourData.memberList.find((member) => member.userId === memberId);
 
         if (member) {
             return member.userName;
@@ -83,10 +80,7 @@ export default function AccountAddModify(props: PropType) {
         setPayId(address[address.length - 1]);
 
         if (props.tourData.cityList[0]) {
-            getCurrency(
-                props.tourData.cityList[0].countryCode,
-                new Date().toISOString().split("T")[0]
-            )
+            getCurrency(props.tourData.cityList[0].countryCode, GetISOStringKor().split("T")[0])
                 .then((res) => {
                     setCurrency({
                         unit: res.data.unit,
@@ -99,26 +93,17 @@ export default function AccountAddModify(props: PropType) {
     }, [payId, props]);
 
     useEffect(() => {
-        if (!props.isModify) {
+        if (!props.isModify && userInfo) {
             // payer 디폴트는 현재 가계부 작성하는 사람
             setPayer(userInfo.userId);
             setUnit(currency.unit);
             setExchangeRate(currency.currencyRate);
-            setPayMember([{ payAmount: 0, userId: userInfo.userId }]);
-            setDateStr(new Date().toISOString().split("T")[0]);
+            setPayMember([]);
+            setDate(GetISOStringKor());
         } else {
-            if (props.data) {
+            if (props.data && props.data.payId != "") {
                 setAmount(props.data.payAmount);
                 setDate(props.data.payDatetime);
-                if (
-                    props.data.payDatetime &&
-                    props.data.payDatetime instanceof Date
-                ) {
-                    const dateStr = props.data.payDatetime
-                        .toISOString()
-                        .split("T")[0];
-                    setDateStr(dateStr);
-                }
                 setIsPublic(props.data.payType == "public" ? true : false);
                 setPayer(props.data.payerId);
                 setPayMember(props.data.payMemberList);
@@ -143,13 +128,14 @@ export default function AccountAddModify(props: PropType) {
     }, [isPublic]);
 
     const handleUnit = (unit: string) => {
+        unit == "₩" ? setExchangeRate(1) : setExchangeRate(currency.currencyRate);
         setUnit(unit);
         setWonDropdownClick(false);
     };
 
     const handleAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = parseInt(event.target.value);
-        if (!isNaN(inputValue)) {
+        if (!isNaN(inputValue) && inputValue > 0) {
             setAmount(inputValue);
         } else {
             setAmount(0);
@@ -175,18 +161,14 @@ export default function AccountAddModify(props: PropType) {
     const categories = ["숙소", "교통", "식비", "쇼핑", "기타"];
 
     const setButtonProp = (input: string) => {
-        if (
-            (input == "public" && !isPublic) ||
-            (input == "private" && isPublic)
-        ) {
+        if ((input == "public" && !isPublic) || (input == "private" && isPublic)) {
             return "text-neutral-400 border-neutral-400";
         }
         return "color-text-blue-2";
     };
 
     const handleDateChange = (event: BaseSyntheticEvent) => {
-        setDate(new Date(event.target.value));
-        setDateStr(event.target.value);
+        setDate(new Date(event.target.value).toISOString());
     };
 
     const handlePayerChange = (payer: string) => {
@@ -215,26 +197,29 @@ export default function AccountAddModify(props: PropType) {
      */
 
     const [isVaildPayAmount, setIsVaildPayAmount] = useState<boolean>(true);
-    // const [isVaildPayCurrencyAmount, setIsVaildPayCurrencyAmount] = useState<boolean>(true);
     const [isVaildPayContent, setIsVaildPayContent] = useState<boolean>(true);
     const [isVaildPayCategory, setIsVaildPayCategory] = useState<boolean>(true);
+    const [isVaildPayMember, setIsVaildPayMember] = useState<boolean>(true);
     const [isVaildPayType, setIsVaildPayType] = useState<boolean>(true);
 
     const handleSave = () => {
         // N빵 후 보내
         let updatedMember: PayMember[] = [];
         payMember.map((member: PayMember) => {
-            const value = Math.ceil((amount * exchangeRate) / payMember.length);
+            const value =
+                unit != "₩"
+                    ? Math.ceil((amount * exchangeRate) / payMember.length)
+                    : Math.ceil(amount / payMember.length);
             updatedMember.push({ userId: member.userId, payAmount: value });
         });
 
         const newAccountItem: AccountInfo = {
             payType: isPublic ? "public" : "private",
             tourId: props.tourId,
-            payAmount: amount,
+            payAmount: unit == "₩" ? amount : Math.round(exchangeRate * amount),
             exchangeRate: exchangeRate,
             unit: unit,
-            currencyCode: currency.currencyCode,
+            currencyCode: currency.currencyCode, // 매핑 안됨
             payMethod: type,
             payDatetime: date,
             payContent: content,
@@ -245,21 +230,37 @@ export default function AccountAddModify(props: PropType) {
 
         if (newAccountItem.payAmount == 0) {
             setIsVaildPayAmount(false);
+            if (amountAlert.current) {
+                amountAlert.current.scrollIntoView({ behavior: "smooth" });
+            }
+            return;
+        }
+        if (newAccountItem.payType == "public" && newAccountItem.payMemberList.length == 0) {
+            setIsVaildPayMember(false);
+            if (payMemberAlert.current) {
+                payMemberAlert.current.scrollIntoView({ behavior: "smooth" });
+            }
             return;
         }
         if (!categories.includes(newAccountItem.payCategory)) {
             setIsVaildPayCategory(false);
+            if (payCategoryAlert.current) {
+                payCategoryAlert.current.scrollIntoView({ behavior: "smooth" });
+            }
             return;
         }
         if (!newAccountItem.payContent) {
             setIsVaildPayContent(false);
+            if (payContentAlert.current) {
+                payContentAlert.current.scrollIntoView({ behavior: "smooth" });
+            }
             return;
         }
-        if (
-            newAccountItem.payMethod != "카드" &&
-            newAccountItem.payMethod != "현금"
-        ) {
+        if (newAccountItem.payMethod != "카드" && newAccountItem.payMethod != "현금") {
             setIsVaildPayType(false);
+            if (payTypeAlert.current) {
+                payTypeAlert.current.scrollIntoView({ behavior: "smooth" });
+            }
             return;
         }
         if (props.isModify) {
@@ -275,7 +276,6 @@ export default function AccountAddModify(props: PropType) {
                 .then((res) => {
                     if (res.status === httpStatusCode.OK) {
                         // payId 돌아옴
-                        console.log(res.data);
                         navigate(-1);
                     }
                 })
@@ -287,9 +287,7 @@ export default function AccountAddModify(props: PropType) {
         <>
             <div className="w-full flex flex-col items-center h-[60vh] overflow-y-scroll mt-8 justify-between">
                 <div className="w-[70%]">
-                    <div className="text-sm mb-2 color-text-blue-1">
-                        *모든 항목 필수 입력
-                    </div>
+                    <div className="text-sm mb-2 color-text-blue-1">*모든 항목 필수 입력</div>
                     <div>
                         <div className="flex border border-black rounded-lg items-center">
                             <div className="relative w-full">
@@ -306,11 +304,9 @@ export default function AccountAddModify(props: PropType) {
                                 id="dropdown-button"
                                 className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 "
                                 type="button"
-                                onClick={() =>
-                                    setWonDropdownClick(!wonDropdownClick)
-                                }
+                                onClick={() => setWonDropdownClick(!wonDropdownClick)}
                             >
-                                {currency.unit}
+                                {unit}
                                 <DropdownIcon isClicked={wonDropdownClick} />
                             </button>
                             <div
@@ -323,45 +319,37 @@ export default function AccountAddModify(props: PropType) {
                                     aria-labelledby="dropdown-button"
                                 >
                                     {[currency.unit, "₩"].map((unit) => (
-                                        <li
-                                            key={unit}
-                                            onClick={() => handleUnit(unit)}
-                                        >
-                                            <div className="block px-4 py-2">
-                                                {unit}
-                                            </div>
+                                        <li key={unit} onClick={() => handleUnit(unit)}>
+                                            <div className="block px-4 py-2">{unit}</div>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="w-[70%] flex flex-col gap-5 justify-start h-full mx-10 my-5">
                     {!isVaildPayAmount ? (
                         <div
-                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                            className={`animate-bounce w-full pt-2 pl-2 text-sm text-gray-800`}
                             role="alert"
                         >
-                            <div className="font-medium">
+                            <div ref={amountAlert} className="font-medium text-red-500">
                                 ⚠️ 결제 금액을 입력해주세요!
                             </div>
                         </div>
                     ) : (
                         ""
                     )}
+                </div>
+                <div className="w-[70%] flex flex-col gap-5 justify-start h-full mx-10 my-5">
                     <div className="grid grid-cols-3">
                         <div className="col-span-1">적용환율</div>
                         <div className="col-span-2 flex gap-2 items-center">
                             <div>
                                 <div>
                                     <input
-                                        value={
-                                            exchangeRate == 0
-                                                ? ""
-                                                : exchangeRate
-                                        }
+                                        value={exchangeRate == 0 ? "" : exchangeRate}
                                         onChange={handleCurrencyRate}
+                                        disabled={unit == "₩"}
                                         type="number"
                                         className="block w-20 px-2 text-sm text-gray-900 border"
                                     />
@@ -375,9 +363,7 @@ export default function AccountAddModify(props: PropType) {
                         <div className="col-span-2 flex gap-2 items-center">
                             <div>
                                 {unit != "₩"
-                                    ? `약 ${Math.round(
-                                          exchangeRate * amount
-                                      ).toLocaleString()}`
+                                    ? `약 ${Math.round(exchangeRate * amount).toLocaleString()}`
                                     : amount}{" "}
                                 원
                             </div>
@@ -387,7 +373,7 @@ export default function AccountAddModify(props: PropType) {
                         <div className="col-span-1">결제날짜</div>
                         <div className="col-span-2">
                             <input
-                                value={dateStr}
+                                value={date.split("T")[0]}
                                 onChange={handleDateChange}
                                 type="date"
                                 className="w-full text-sm text-gray-900 border py-1 px-2 rounded-lg"
@@ -399,18 +385,14 @@ export default function AccountAddModify(props: PropType) {
                         <div className="col-span-1">분류</div>
                         <div className="col-span-2 flex gap-1">
                             <MyButton
-                                className={`${setButtonProp(
-                                    "private"
-                                )} rounded-[8px]`}
+                                className={`${setButtonProp("private")} rounded-[8px]`}
                                 isSelected={false}
                                 type="small"
                                 onClick={() => setIsPublic(false)}
                                 text="개인"
                             ></MyButton>
                             <MyButton
-                                className={`${setButtonProp(
-                                    "public"
-                                )} rounded-[8px]`}
+                                className={`${setButtonProp("public")} rounded-[8px]`}
                                 isSelected={false}
                                 type="small"
                                 onClick={() => setIsPublic(true)}
@@ -427,65 +409,65 @@ export default function AccountAddModify(props: PropType) {
                                         {idToName(payer)[0]}
                                     </div>
                                     <button
-                                        onClick={() =>
-                                            setPayerDropdownClick(
-                                                !payerDropdownClick
-                                            )
-                                        }
+                                        onClick={() => setPayerDropdownClick(!payerDropdownClick)}
                                         id="dropdown-button"
                                         className="flex col-span-3 items-center p-3 text-sm text-gray-900 border py-1 px-2 rounded-lg justify-between"
                                         type="button"
                                     >
-                                        {idToName(payer)}{" "}
-                                        {payer == userInfo.userId
-                                            ? " (나)"
-                                            : ""}
-                                        <DropdownIcon
-                                            isClicked={payerDropdownClick}
-                                        />
+                                        {idToName(payer)} {payer == userInfo.userId ? " (나)" : ""}
+                                        <DropdownIcon isClicked={payerDropdownClick} />
                                     </button>
                                     <div
                                         className={`${
                                             payerDropdownClick ? "" : "hidden"
-                                        } absolute top-[36.5%] right-[16%] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-36`}
+                                        } absolute z-10 right-16 bg-white divide-y divide-gray-100 rounded-lg shadow w-32`}
                                     >
                                         <ul
-                                            className="py-2 text-sm text-gray-700 max-h-[30vh] overflow-y-scroll"
+                                            className="flex flex-col gap-2 py-2 text-sm text-gray-700 max-h-[30vh] overflow-y-auto"
                                             aria-labelledby="dropdown-button"
                                         >
-                                            {props.tourData.memberList.map(
-                                                (member, index) => (
-                                                    <li
-                                                        key={index}
-                                                        onClick={() =>
-                                                            handlePayerChange(
-                                                                member.userName
-                                                            )
-                                                        }
-                                                    >
-                                                        <div className="block px-4">
-                                                            {member.userName}
-                                                            {userInfo.userId ==
-                                                            member.userId
-                                                                ? " (나)"
-                                                                : ""}
-                                                        </div>
-                                                    </li>
-                                                )
-                                            )}
+                                            {props.tourData.memberList.map((member, index) => (
+                                                <li
+                                                    className=""
+                                                    key={index}
+                                                    onClick={() => handlePayerChange(member.userId)}
+                                                >
+                                                    <div className="block px-4">
+                                                        {member.userName}
+                                                        {userInfo.userId == member.userId
+                                                            ? " (나)"
+                                                            : ""}
+                                                    </div>
+                                                </li>
+                                            ))}
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div className="grid grid-cols-3">
                                 <div className="col-span-1">정산멤버</div>
-                                <div className="col-span-2 flex max-h-[11vh] gap-2 overflow-y-scroll flex-col">
+                                <div className="col-span-2 flex max-h-[11vh] gap-2 overflow-y-auto flex-col">
                                     <MemberList
                                         handlePayMember={handlePayMember}
                                         memberList={props.tourData.memberList}
                                         payMember={payMember}
                                         userId={userInfo.userId}
                                     />
+                                    {!isVaildPayMember ? (
+                                        <div
+                                            className={`animate-bounce w-full pt-2 pl-2 text-sm text-gray-800`}
+                                            role="alert"
+                                        >
+                                            <div
+                                                ref={payMemberAlert}
+                                                className="font-medium text-red-500"
+                                            >
+                                                ⚠️ 정산 멤버를 추가해주세요!
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        ""
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -517,20 +499,24 @@ export default function AccountAddModify(props: PropType) {
                                     <div className="text-sm">{cat}</div>
                                 </div>
                             ))}
+                            {!isVaildPayCategory ? (
+                                <div
+                                    className={`col-span-full animate-bounce w-full pt-2 pl-2 text-sm text-gray-800`}
+                                    role="alert"
+                                >
+                                    <div
+                                        ref={payCategoryAlert}
+                                        className="font-medium text-red-500"
+                                    >
+                                        ⚠️ 카테고리를 추가해주세요!
+                                    </div>
+                                </div>
+                            ) : (
+                                ""
+                            )}
                         </div>
                     </div>
-                    {!isVaildPayCategory ? (
-                        <div
-                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
-                            role="alert"
-                        >
-                            <div className="font-medium">
-                                ⚠️ 카테고리를 선택해주세요!
-                            </div>
-                        </div>
-                    ) : (
-                        ""
-                    )}
+
                     <div className="grid grid-cols-3">
                         <div className="col-span-1">내용</div>
                         <div className="w-full col-span-2">
@@ -540,27 +526,25 @@ export default function AccountAddModify(props: PropType) {
                                 type="text"
                                 className="w-full text-sm text-gray-900 border py-1 px-2 rounded-lg"
                             />
+                            {!isVaildPayContent ? (
+                                <div
+                                    className={`animate-bounce w-full pt-2 pl-2 text-sm text-gray-800`}
+                                    role="alert"
+                                >
+                                    <div ref={payContentAlert} className="font-medium text-red-500">
+                                        ⚠️ 결제 내용을 입력해주세요!
+                                    </div>
+                                </div>
+                            ) : (
+                                ""
+                            )}
                         </div>
                     </div>
-                    {!isVaildPayContent ? (
-                        <div
-                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
-                            role="alert"
-                        >
-                            <div className="font-medium">
-                                ⚠️ 결제 내용을 입력해주세요!
-                            </div>
-                        </div>
-                    ) : (
-                        ""
-                    )}
                     <div className="grid grid-cols-3">
                         <div className="col-span-1">결제수단</div>
-                        <div className="flex col-span-2">
+                        <div className="flex flex-col col-span-2">
                             <button
-                                onClick={() =>
-                                    setTypeDropdownClick(!typeDropdownClick)
-                                }
+                                onClick={() => setTypeDropdownClick(!typeDropdownClick)}
                                 id="type-input"
                                 className={` flex items-center p-3 text-sm text-gray-900 border py-1 px-2 rounded-lg w-full justify-between`}
                                 type="button"
@@ -573,42 +557,38 @@ export default function AccountAddModify(props: PropType) {
                                 style={{ top: `${typeDropdownPosition}` }}
                                 className={`${
                                     typeDropdownClick ? "" : "hidden"
-                                } absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700`}
+                                } absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44`}
                             >
                                 <ul
                                     className="py-2 text-sm text-gray-700 dark:text-gray-200"
                                     aria-labelledby="dropdown-button"
                                 >
-                                    <li
-                                        onClick={() => handleTypeChange("카드")}
-                                    >
+                                    <li onClick={() => handleTypeChange("카드")}>
                                         <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             카드
                                         </div>
                                     </li>
-                                    <li
-                                        onClick={() => handleTypeChange("현금")}
-                                    >
+                                    <li onClick={() => handleTypeChange("현금")}>
                                         <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             현금
                                         </div>
                                     </li>
                                 </ul>
                             </div>
+                            {!isVaildPayType ? (
+                                <div
+                                    className={`animate-bounce w-full pt-2 pl-2 text-sm text-gray-800`}
+                                    role="alert"
+                                >
+                                    <div ref={payTypeAlert} className="font-medium text-red-500">
+                                        ⚠️ 결제 수단을 선택해주세요!
+                                    </div>
+                                </div>
+                            ) : (
+                                ""
+                            )}
                         </div>
                     </div>
-                    {!isVaildPayType ? (
-                        <div
-                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
-                            role="alert"
-                        >
-                            <div className="font-medium">
-                                ⚠️ 결제 수단을 선택해주세요!
-                            </div>
-                        </div>
-                    ) : (
-                        ""
-                    )}
                 </div>
 
                 <div className="absolute bottom-28 grid grid-cols-2 w-[90%] gap-2">

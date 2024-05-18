@@ -73,34 +73,34 @@ export default function MyPage() {
             });
     }, []);
 
-    useEffect(() => {
+    // useEffect(() => {
         //최신순 정렬
-        getPublishedFeed().then((res) => {
-            if (res.status === httpStatusCode.OK) {
-                const publishedFeed: Feed[] = res.data;
-                publishedFeed.sort((a, b) => {
-                    const dateA = new Date(a.createdAt);
-                    const dateB = new Date(b.createdAt);
-                    return dateB.getTime() - dateA.getTime();
-                });
+        // getPublishedFeed().then((res) => {
+        //     if (res.status === httpStatusCode.OK) {
+        //         const publishedFeed: Feed[] = res.data;
+        //         publishedFeed.sort((a, b) => {
+        //             const dateA = new Date(a.createdAt);
+        //             const dateB = new Date(b.createdAt);
+        //             return dateB.getTime() - dateA.getTime();
+        //         });
+        //
+        //         setMyPublishList(publishedFeed);
+        //     }
+        // });
 
-                setMyPublishList(publishedFeed);
-            }
-        });
-
-        getLikedFeed().then((res) => {
-            if (res.status === httpStatusCode.OK) {
-                const likedFeed: Feed[] = res.data;
-                likedFeed.sort((a, b) => {
-                    const dateA = new Date(a.createdAt);
-                    const dateB = new Date(b.createdAt);
-                    return dateB.getTime() - dateA.getTime();
-                });
-
-                setMyLikedList(likedFeed);
-            }
-        });
-    }, [user]);
+        // getLikedFeed().then((res) => {
+        //     if (res.status === httpStatusCode.OK) {
+        //         const likedFeed: Feed[] = res.data;
+        //         likedFeed.sort((a, b) => {
+        //             const dateA = new Date(a.createdAt);
+        //             const dateB = new Date(b.createdAt);
+        //             return dateB.getTime() - dateA.getTime();
+        //         });
+        //
+        //         setMyLikedList(likedFeed);
+        //     }
+        // });
+    // }, [user]);
 
     const proceedWithDrawal = () => {
         setIsWithdrawalProceeding(true);

@@ -33,7 +33,6 @@ export default function ChecklistEditDayPage() {
     const [tourId, setTourId] = useState<string>("");
     const [checklist, setChecklist] = useState<Item[]>([]);
     const [data, setData] = useState<TourInfoDetail>({
-        tourId: "",
         tourTitle: "",
         cityList: [],
         startDate: "",
@@ -208,28 +207,28 @@ export default function ChecklistEditDayPage() {
     };
 
     const onUpdate = (item: Item) => {
-        // if (groupedItems) {
-        //     const updatedChecklist = [
-        //         ...groupedItems[item.tourDay][item.placeId],
-        //         item,
-        //     ];
-        //     const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
-        //     Object.keys(updatedFullChecklist).forEach((dayString) => {
-        //         const day = Number(dayString);
-        //         Object.keys(updatedFullChecklist[day]).forEach((placeId) => {
-        //             if (day == item.tourDay && placeId == item.placeId) {
-        //                 updatedFullChecklist[day][placeId] = [
-        //                     ...updatedChecklist,
-        //                 ]; // 새로운 배열로 교체
-        //             } else {
-        //                 updatedFullChecklist[day][placeId] = [
-        //                     ...updatedFullChecklist[day][placeId],
-        //                 ];
-        //             }
-        //         });
-        //     });
-        //     setGroupedItems(updatedFullChecklist);
-        // }
+        if (groupedItems) {
+            const updatedChecklist = [
+                ...groupedItems[item.tourDay][item.placeId],
+                item,
+            ];
+            const updatedFullChecklist = { ...groupedItems }; // 원본 groupedItems를 복제하여 업데이트할 새 객체 생성
+            Object.keys(updatedFullChecklist).forEach((dayString) => {
+                const day = Number(dayString);
+                Object.keys(updatedFullChecklist[day]).forEach((placeId) => {
+                    if (day == item.tourDay && placeId == item.placeId) {
+                        updatedFullChecklist[day][placeId] = [
+                            ...updatedChecklist,
+                        ]; // 새로운 배열로 교체
+                    } else {
+                        updatedFullChecklist[day][placeId] = [
+                            ...updatedFullChecklist[day][placeId],
+                        ];
+                    }
+                });
+            });
+            setGroupedItems(updatedFullChecklist);
+        }
     };
 
     return (

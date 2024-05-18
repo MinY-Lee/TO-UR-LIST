@@ -2,7 +2,7 @@ interface PropType {
     width?: number;
     className?: string;
 }
-export default function calcelIcon(props: PropType) {
+export default function CalcelIcon(props: PropType) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

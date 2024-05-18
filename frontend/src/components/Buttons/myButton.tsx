@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ButtonGroup from "../AccountPage/buttonGroup";
 
 interface MyButtonProps {
     className?: string; // 추가 커스텀 사항
@@ -19,25 +20,42 @@ const MyButton: React.FC<MyButtonProps> = ({
     const buttonColor = isSelected
         ? "color-bg-blue-1"
         : "box-border color-border-blue-1 border-2";
-    return (
-        <div className="">
-            {type === "full" ? (
+
+    const buttonElement = () => {
+        if (type == "full") {
+            return (
                 <button
                     className={`rounded-lg w-full text-lg drop-shadow-md ${buttonColor} ${className} `}
                     onClick={onClick}
                 >
                     {text}
                 </button>
-            ) : (
+            );
+        }
+
+        if (type == "small") {
+            return (
                 <button
                     className={`rounded-xl px-6 py-1 ${buttonColor} ${className}`}
                     onClick={onClick}
                 >
                     {text}
                 </button>
-            )}
-        </div>
-    );
+            );
+        }
+
+        if (type == "circle") {
+            return (
+                <button
+                    className={`rounded-full ${buttonColor} ${className}`}
+                    onClick={onClick}
+                >
+                    {text}
+                </button>
+            );
+        }
+    };
+    return <div className="">{buttonElement()}</div>;
 };
 
 export default MyButton;
