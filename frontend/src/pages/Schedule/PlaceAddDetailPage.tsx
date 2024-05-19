@@ -348,7 +348,19 @@ export default function PlaceAddDetailPage() {
                     {/* 이미지 */}
                     <div className="w-full h-[20%] flex overflow-x-auto mb-2vw">
                         {placeInfo.placePhotoList.map((original) => {
-                            const photoUrl = makePhotoUrl(original);
+
+                            const [photoUrl, setPhotoUrl] = useState<string>("");
+
+                            useEffect(() => {
+                                const fetchPhotoUrl = async () => {
+                                    const url = await makePhotoUrl(original);
+                                    setPhotoUrl(url);
+                                };
+
+                                fetchPhotoUrl();
+                            }, [original]);
+
+                            // const photoUrl = makePhotoUrl(original);
 
                             return (
                                 <img
