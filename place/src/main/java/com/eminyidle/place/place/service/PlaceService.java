@@ -45,4 +45,6 @@ public interface PlaceService {
 
     // 투어 업데이트(기간 변경)
     void updateTour(String tourId, String tourName, LocalDateTime start, LocalDateTime end, Integer period);
+
+    String requestPhoto(String placeId, String photoResource);
 }
