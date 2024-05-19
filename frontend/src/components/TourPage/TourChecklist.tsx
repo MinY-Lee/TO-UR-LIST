@@ -174,28 +174,7 @@ export default function TourCheckList(props: PropType) {
                                                                 getActivity(
                                                                     item
                                                                 )
-                                                            )} ${
-                                                                setColor(
-                                                                    getActivity(
-                                                                        item
-                                                                    )
-                                                                ) ==
-                                                                    "bg-[#2BA1F9]" ||
-                                                                setColor(
-                                                                    getActivity(
-                                                                        item
-                                                                    )
-                                                                ) ==
-                                                                    "bg-[#5CD651]" ||
-                                                                setColor(
-                                                                    getActivity(
-                                                                        item
-                                                                    )
-                                                                ) ==
-                                                                    "bg-[#FF9315]"
-                                                                    ? "text-white"
-                                                                    : "text-gray-500"
-                                                            } drop-shadow-md px-2.5 py-0.5 rounded`}
+                                                            )} text-white drop-shadow-md px-2.5 py-0.5 rounded`}
                                                         >
                                                             {getActivity(item)}
                                                         </span>

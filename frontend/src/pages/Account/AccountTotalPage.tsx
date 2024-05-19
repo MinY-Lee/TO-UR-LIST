@@ -100,10 +100,10 @@ export default function AccountAddPage() {
                 item.payMemberList.forEach((member: PayMember) => {
                     const memberId: string = member.userId;
                     if (memberId === userInfo.userId) {
-                        if (!sendList[memberId]) {
-                            sendList[memberId] = [];
+                        if (!sendList[item.payerId]) {
+                            sendList[item.payerId] = [];
                         }
-                        sendList[memberId].push({
+                        sendList[item.payerId].push({
                             payContent: item.payContent,
                             payAmount: member.payAmount,
                         });
@@ -112,12 +112,6 @@ export default function AccountAddPage() {
             }
         });
         setSendData(sendList);
-    };
-
-    const getTabClass = (idx: number) => {
-        return idx === tabIdx
-            ? "border-transparent bg-gradient-to-t from-[#559bd9] to-[#94cef2] text-white"
-            : "";
     };
 
     const calcTotal = (isAccept: boolean, member: string) => {

@@ -35,15 +35,8 @@ export default function ActivityBadge(props: PropType) {
             <div>
                 {getActivity(props.item) ? (
                     <span
-                        className={`${setColor(getActivity(props.item))} ${
-                            setColor(getActivity(props.item)) ==
-                                "bg-[#2BA1F9]" ||
-                            setColor(getActivity(props.item)) ==
-                                "bg-[#5CD651]" ||
-                            setColor(getActivity(props.item)) == "bg-[#FF9315]"
-                                ? "text-white"
-                                : "text-gray-500"
-                        } drop-shadow-md px-2.5 py-0.5 rounded`}
+                        className={`${setColor(getActivity(props.item))} 
+                                text-white drop-shadow-md px-2.5 py-0.5 rounded`}
                     >
                         {getActivity(props.item)}
                     </span>

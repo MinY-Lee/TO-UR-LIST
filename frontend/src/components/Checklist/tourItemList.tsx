@@ -130,28 +130,7 @@ export default function ItemList(props: PropType) {
                                                             <span
                                                                 className={`${setColor(
                                                                     item.activity
-                                                                )} ${
-                                                                    setColor(
-                                                                        getActivity(
-                                                                            item
-                                                                        )
-                                                                    ) ==
-                                                                        "bg-[#2BA1F9]" ||
-                                                                    setColor(
-                                                                        getActivity(
-                                                                            item
-                                                                        )
-                                                                    ) ==
-                                                                        "bg-[#5CD651]" ||
-                                                                    setColor(
-                                                                        getActivity(
-                                                                            item
-                                                                        )
-                                                                    ) ==
-                                                                        "bg-[#FF9315]"
-                                                                        ? "text-white"
-                                                                        : "text-gray-500"
-                                                                } drop-shadow-md px-3 py-0.5 rounded`}
+                                                                )} text-white drop-shadow-md px-3 py-0.5 rounded`}
                                                             >
                                                                 {item.activity}
                                                             </span>
