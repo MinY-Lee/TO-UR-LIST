@@ -30,6 +30,10 @@ import MapLogo from "../../assets/image/map.svg";
 import ClockLogo from "../../assets/image/clock.svg";
 import TrashIcon from "../../assets/svg/trashIcon.tsx";
 import CalcelIcon from "../../assets/svg/cancelIcon.tsx";
+import ClockIcon from "../../assets/svg/clockIcon.tsx";
+import CreditCardIcon from "../../assets/svg/creditCardIcon.tsx";
+import MapIcon from "../../assets/svg/mapIcon";
+import PlaceMapIcon from "../../assets/svg/placeMapIcon.tsx";
 
 export default function PlaceAddDetailPage() {
     const location = useLocation();
@@ -413,12 +417,8 @@ export default function PlaceAddDetailPage() {
                             </div>
                         )}
                     </div>
-                    <div className="w-full text-4vw mb-vw flex justify-start items-center px-2vw">
-                        <img
-                            src={MapLogo}
-                            alt="주소"
-                            className="w-5vw aspect-square mr-vw"
-                        />
+                    <div className="w-full text-4vw mb-vw flex justify-start items-center px-vw ">
+                        <PlaceMapIcon className="mr-vw w-5vw "/>
                         <span>{placeInfo.placeAddress}</span>
                     </div>
                     <div className="w-full h-dot5vw bg-[#828282] mb-2vw"></div>
@@ -476,7 +476,7 @@ export default function PlaceAddDetailPage() {
                                         </div>
                                         {place.activityList.length >= 1 && place.activityList[0]
                                             && <div
-                                                className="w-[20%] text-4vw color-bg-blue-6 text-white color-border-blue-6 border-halfvw border-rad-2vw mr-1 py-0.5 flex justify-center items-center">
+                                                className="w-[20%] text-4vw color-bg-blue-6 text-white color-border-blue-6 border-halfvw border-rad-2vw mr-1 py-dot5vw flex justify-center items-center">
                                                 {place.activityList.length > 1
                                                     ? place.activityList[0] +
                                                     "+" +
@@ -486,7 +486,7 @@ export default function PlaceAddDetailPage() {
                                             </div>}
 
                                         <div
-                                            className="w-[20%] text-4vw color-text-blue-6 color-border-blue-6 border-halfvw border-rad-2vw px-vw  py-0.5 flex justify-center items-center border-dotted"
+                                            className="w-[20%] text-4vw color-text-blue-6 color-border-blue-6 border-halfvw border-rad-2vw px-vw  py-dot5vw flex justify-center items-center border-dotted"
                                             onClick={() => {
                                                 //활동 추가 로직
                                                 // console.log(place);
@@ -537,29 +537,21 @@ export default function PlaceAddDetailPage() {
                     <div className="w-full h-dot5vw bg-[#828282] my-2vw"></div>
 
                     {/* 장소 상세 정보 */}
-                    <div className="flex flex-col items-start text-5vw mb-2vw">
+                    <div className="flex flex-col items-start text-lg mb-2vw">
                         {/* 영업중 / 영업종료 */}
-                        <div className="flex weight-text-semibold">
+                        <div className="flex weight-text-semibold items-center mb-vw">
                             {placeInfo.placeOpenNow === null ? (
                                 <></>
                             ) : placeInfo.placeOpenNow ? (
                                 <>
-                                    <img
-                                        src={ClockLogo}
-                                        alt="시계"
-                                        className="w-5vw aspect-square mr-vw"
-                                    />
+                                    <ClockIcon className="w-5vw mr-vw pb-1"/>
                                     <span className="text-[#28a71d]">
                                         영업 중
                                     </span>
                                 </>
                             ) : (
                                 <>
-                                    <img
-                                        src={ClockLogo}
-                                        alt="시계"
-                                        className="w-5vw aspect-square mr-vw"
-                                    />
+                                    <ClockIcon className="w-5vw mr-vw pb-1"/>
                                     <span className="text-[#fa5d3b]">
                                         영업 종료
                                     </span>
@@ -568,7 +560,7 @@ export default function PlaceAddDetailPage() {
                         </div>
                         {/* 영업 시간 */}
                         <div
-                            className="flex flex-col weight-text-semibold"
+                            className="flex flex-col text-lg"
                             style={{
                                 wordSpacing: "min(1vw, 4.8px)",
                             }}
@@ -577,7 +569,7 @@ export default function PlaceAddDetailPage() {
                                 placeInfo.placeWeekdayDescriptions.map(
                                     (weekInfo) => {
                                         return (
-                                            <div className="mb-2vw pl-6vw">
+                                            <div className="mb-vw pl-6vw">
                                                 {weekInfo}
                                             </div>
                                         );
@@ -591,8 +583,9 @@ export default function PlaceAddDetailPage() {
                         {placeInfo.placeAcceptCreditCards === null ? (
                             <></>
                         ) : (
-                            <>
-                                <div className="weight-text-semibold pl-6vw">
+                            <div className="flex weight-text-semibold items-center my-vw">
+                                <CreditCardIcon className="w-5vw mr-vw"/>
+                                <div className="weight-text-semibold">
                                     카드 결제 :
                                     <>
                                         {placeInfo.placeAcceptCreditCards ? (
@@ -602,7 +595,7 @@ export default function PlaceAddDetailPage() {
                                         )}
                                     </>
                                 </div>
-                            </>
+                            </div>
                         )}
                     </div>
                 </div>
