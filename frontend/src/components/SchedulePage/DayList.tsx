@@ -58,7 +58,7 @@ export default function DayList(props: PropType) {
                     {props.dayNumber === 0 ? (
                         <>
                             <div className="w-dot3vw h-6vw bg-[#828282] mr-vw"></div>
-                            <p className="text-[#828282]">날짜 미 선택</p>
+                            <p className="text-[#828282]">날짜 미정</p>
                         </>
                     ) : (
                         <>
