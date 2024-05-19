@@ -14,7 +14,7 @@ import {
 // import TestActivity from "../../dummy-data/test_activitylist.json";
 
 import {
-    getActivityList,
+    getActivityList, getPhotoUrl,
     getPlaceList,
     searchPlaceDetail,
 } from "../../util/api/place";
@@ -237,9 +237,15 @@ export default function PlaceAddDetailPage() {
     }, [thisPlaceVisit]);
 
     const makePhotoUrl = (original: string) => {
-        const photoRefer = original.split("/")[3];
-        const apiKey = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
-        return `/maps/api/place/photo?maxwidth=400&photo_reference=${photoRefer}&key=${apiKey}`;
+        const photoRefer = original;
+        const result = getPhotoUrl(photoRefer).then((response) => {
+            return response.data
+        })
+        .catch((error) => {
+            console.error("Error fetching photo URL:", error);
+        })
+
+        return result;
     };
 
     /**활동 추가 모달 닫기 */
