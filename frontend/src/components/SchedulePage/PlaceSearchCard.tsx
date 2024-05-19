@@ -17,9 +17,9 @@ export default function PlaceSearchCard(props: PropType) {
             // ? props.placeInfo.placePhotoList[0].split("/")[3]
             ? props.placeInfo.placePhotoList[0]
             : "";
-    const photoUrl = `/v1/${photoReference}/media?key=${
+    const photoUrl = `https://places.googleapis.com/v1/${photoReference}/media?key=${
         import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY
-    }`;
+    }&maxWidthPx=400`;
 
     const wsClient = props.wsClient;
     const tourId = props.tourId;
