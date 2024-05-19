@@ -479,13 +479,13 @@ export default function TourEditHeader(props: PropType) {
                     )}
                     <div className="grid grid-cols-2 gap-2 my-3 justify-center">
                         <input
-                            className="px-[2vw] py-1 border border-neutral-300 rounded-lg"
+                            className="px-[10%] py-1 border border-neutral-300 rounded-lg"
                             type="date"
                             value={startDate}
                             onChange={handleStartDate}
                         ></input>
                         <input
-                            className="px-[2vw] py-1 border border-neutral-300 rounded-lg"
+                            className="px-[10%] py-1 border border-neutral-300 rounded-lg"
                             type="date"
                             value={endDate}
                             onChange={handleEndDate}

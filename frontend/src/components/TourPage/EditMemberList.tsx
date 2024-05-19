@@ -2,7 +2,6 @@ import { useState } from "react";
 import { MemberInfo } from "../../types/types";
 import GhostProfile from "../../assets/image/ghostProfile.png";
 import CancelIcon from "../../assets/svg/cancelIcon";
-import PlusIcon from "../../assets/svg/plusIcon";
 
 interface PropType {
     setAddModalClicked: (clicked: boolean) => void;
