@@ -30,3 +30,7 @@ export async function getPlaceList(tourId: string) {
 export async function getActivityList(placeId: string) {
     return await local.get(`/api/activity/${placeId}`);
 }
+
+export async function getPhotoUrl(photoName: string) {
+    return await local.get(`${photoName}`);
+}
