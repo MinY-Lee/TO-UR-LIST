@@ -117,6 +117,7 @@ public class PaymentServiceImpl implements PaymentService {
                 Set<String> prevMember = payment.getPublicPayment().get(payId).getPayMemberList().stream()
                         .map(PaymentMember::getUserId)
                         .collect(Collectors.toSet());
+                prevMember.add(payment.getPublicPayment().get(payId).getPayerId());
 
                 log.debug(prevMember.toString());
 
@@ -124,6 +125,7 @@ public class PaymentServiceImpl implements PaymentService {
                 Set<String> newMember = paymentInfo.getPayMemberList().stream()
                         .map(PaymentMember::getUserId)
                         .collect(Collectors.toSet());
+                newMember.add(paymentInfo.getPayerId());
 
                 log.debug(prevMember.toString());
 
