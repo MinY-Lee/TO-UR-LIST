@@ -19,6 +19,7 @@ import GetISOStringKor from "../../components/AccountPage/getISOStringKor";
 
 export default function AccountPage() {
     const [tourId, setTourId] = useState<string>("");
+    const [isChanged, setIsChanged] = useState<boolean>(false);
     const [data, setData] = useState<AccountInfo[]>([]);
     const [tourData, setTourData] = useState<TourInfoDetail>({
         tourTitle: "",
@@ -55,7 +56,7 @@ export default function AccountPage() {
                 })
                 .catch((err) => console.log(err));
         }
-    }, [tourId]);
+    }, [tourId, isChanged]);
 
     useEffect(() => {
         // 환율 정보 가져오기
@@ -74,6 +75,10 @@ export default function AccountPage() {
                 .catch((err) => console.log(err));
         }
     }, [tourData]);
+
+    const handleIsChanged = () => {
+        setIsChanged(!isChanged);
+    };
 
     const calcCurrency = (currencyRate: number) => {
         return Number((1 / currencyRate).toFixed(2));
@@ -206,6 +211,7 @@ export default function AccountPage() {
                         data={data}
                         tourData={tourData}
                         currency={currency}
+                        handleIsChanged={handleIsChanged}
                     />
                 </div>
             </div>

@@ -22,6 +22,7 @@ interface PropType {
     data: AccountInfo[];
     tourData: TourInfoDetail;
     currency: CurrencyInfo;
+    handleIsChanged: () => void;
 }
 
 interface DataPerDayInfo {
@@ -124,9 +125,8 @@ export default function AccountDetail(props: PropType) {
             setEndDate(new Date(props.tourData.endDate));
         }
         setRowData(props.data);
-        console.log(props.data);
         // 데이터 날짜별로 그룹핑
-        DataPerDay(rowData);
+        DataPerDay(props.data);
     }, [tourId, props, rowData]);
 
     const getTabClass = (idx: number) => {
@@ -214,6 +214,7 @@ export default function AccountDetail(props: PropType) {
     };
 
     const getMyAmount = (info: AccountInfo): number => {
+        console.log(info);
         let amount = 0;
         info.payMemberList.forEach((member) => {
             if (member.userId == userInfo.userId) {
@@ -229,29 +230,7 @@ export default function AccountDetail(props: PropType) {
             deleteAccount(deleteTarget.payId, tourId, deleteTarget.payType)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
-                        console.log(groupedData);
-                        // 화면 상 반영
-                        let updatedData: DataPerDayInfo[] = [];
-                        Object.keys(groupedData).map((date, index) => {
-                            if (
-                                groupedData[index].data.includes(deleteTarget)
-                            ) {
-                                // date = n일차임
-                                const filteredData = groupedData[
-                                    index
-                                ].data.filter((item) => item != deleteTarget);
-                                if (filteredData.length > 0) {
-                                    updatedData.push({
-                                        payDatetime: date,
-                                        data: filteredData,
-                                    });
-                                }
-                            } else {
-                                updatedData.push(groupedData[index]);
-                            }
-                        });
-                        console.log(updatedData);
-                        setGroupedData(updatedData);
+                        props.handleIsChanged();
                     }
                 })
                 .catch((err) => console.log(err));
