@@ -251,7 +251,7 @@ export default function MainPage() {
                     comingTourList.length == 0 &&
                     passTourList.length == 0 ? (
                         <>
-                            <div className="text-md h-[65vh] w-[90%] flex flex-col justify-center items-center border">
+                            <div className="text-md h-[75vh] flex flex-col justify-center items-center border">
                                 <div className="text-2xl">
                                     나의 여행이 없습니다.
                                 </div>
