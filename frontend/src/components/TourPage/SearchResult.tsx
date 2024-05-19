@@ -33,7 +33,7 @@ export default function SearchResult(props: PropType) {
             {props.searchbarClick ? (
                 <div
                     id="city-list-container"
-                    className="max-h-[20vh] overflow-y-auto p-2 w-full text-base"
+                    className="max-h-[15vh] overflow-y-auto p-2 w-full text-base"
                 >
                     {props.selectedCity.length > 0 &&
                         props.selectedCity.map((city, index) => (

@@ -1,29 +1,28 @@
-import { useState } from 'react';
+import { useState } from "react";
+import SearchIcon from "../../assets/svg/searchIcon";
 
 interface ChildProps {
     onChange: (data: string) => void;
 }
 
 export default function searchBar(props: ChildProps) {
-
     const [query, setQuery] = useState<string>(""); // 검색어
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(event.target.value);
-      };
+    };
 
     // 부모 컴포넌트로 검색어 보내기
-    const searchCity = (() => {
+    const searchCity = () => {
         props.onChange(query);
-    });
+    };
 
     // 엔터로 검색
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-          searchCity();
+        if (event.key === "Enter") {
+            searchCity();
         }
-      };
-
+    };
 
     return (
         <div className="">
@@ -43,17 +42,9 @@ export default function searchBar(props: ChildProps) {
                     className="relative z-[2] flex items-center px-3 py-2.5 text-xs font-medium"
                     onClick={searchCity}
                     type="button"
-                    id="button-addon1">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="black"
-                        className="h-5 w-5">
-                        <path
-                            fillRule="evenodd"
-                            d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-                            clipRule="evenodd" />
-                    </svg>
+                    id="button-addon1"
+                >
+                    <SearchIcon />
                 </button>
             </div>
         </div>

@@ -513,8 +513,8 @@ export default function TourEditHeader(props: PropType) {
                         />
                     </div>
 
-                    <div className="text-[5vw] flex flex-col items-center mt-3">
-                        <div className="grid grid-cols-10 w-full">
+                    <div className="text-[5vw] flex flex-col justify-start mt-3">
+                        <div className="h-full grid grid-cols-10 w-full justify-start">
                             <div className="relative col-span-1 top-[3px]">
                                 <MapIcon />
                             </div>
@@ -524,22 +524,22 @@ export default function TourEditHeader(props: PropType) {
                             >
                                 <div
                                     className="text-base"
-                                    onClick={() =>
-                                        setSearchbarClick(!searchbarClick)
-                                    }
+                                    // onClick={() =>
+                                    //     setSearchbarClick(!searchbarClick)
+                                    // }
                                 >
                                     <SearchBar onChange={handleQuery} />
+                                    <SearchResult
+                                        handleCitySelect={handleCitySelect}
+                                        query={query}
+                                        resultList={resultList}
+                                        searchList={searchList}
+                                        searchbarClick={searchbarClick}
+                                        selectedCity={selectedCity}
+                                    />
                                 </div>
-                                <SearchResult
-                                    handleCitySelect={handleCitySelect}
-                                    query={query}
-                                    resultList={resultList}
-                                    searchList={searchList}
-                                    searchbarClick={searchbarClick}
-                                    selectedCity={selectedCity}
-                                />
                             </div>
-                            <div className="col-span-2 pl-3 pt-1 justify-center">
+                            <div className="col-span-2 pl-3 pt-1 justify-start">
                                 <MyButton
                                     isSelected={true}
                                     text="적용"
