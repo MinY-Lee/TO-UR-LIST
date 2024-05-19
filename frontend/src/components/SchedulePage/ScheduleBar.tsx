@@ -169,7 +169,7 @@ export default function ScheduleBar(props: PropType) {
                     {props.selectedDate === -1 ? (
                         <>
                             {props.schedule.map((dailySchedule, index) => {
-                                if (index === 0) return <></>;
+                                if (index === 0) return <div key={0}></div>;
 
                                 const date = new Date(props.startDate);
                                 date.setDate(date.getDate() + index - 1);
