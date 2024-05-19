@@ -18,11 +18,11 @@ export default function ButtonGroup(props: PropType) {
                 className="py-1 text-white"
             ></MyButton>
             <MyButton
-                isSelected={true}
+                isSelected={false}
                 onClick={() => navigate(-1)}
                 text="취소"
                 type="full"
-                className="py-1 color-bg-blue-4 text-black"
+                className="py-1  color-text-blue-2"
             ></MyButton>
         </>
     );

@@ -1,8 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PayTypeIcon from "../../assets/svg/payTypeIcon";
 import { Item, TourInfoDetail } from "../../types/types";
 import { act } from "react-dom/test-utils";
 import ColorMapping from "../../assets/colorMapping";
+import { getChecklist } from "../../util/api/checklist";
+import { HttpStatusCode } from "axios";
 
 interface ItemPerPlace {
     [placeId: string]: Item[];
@@ -17,6 +19,7 @@ interface PlaceMapping {
 }
 
 interface PropType {
+    tourId: string;
     data: TourInfoDetail;
     daysList: number[];
     placeData: PlaceMapping;
@@ -25,6 +28,18 @@ interface PropType {
 }
 
 export default function ItemList(props: PropType) {
+    const [checklist, setChecklist] = useState<Item[]>([]);
+    useEffect(() => {
+        if (props.tourId) {
+            getChecklist(props.tourId)
+                .then((res) => {
+                    if (res.status == HttpStatusCode.Ok) {
+                        setChecklist(res.data);
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
+    }, [props]);
     const formatNumberToTwoDigits = (num: number): string => {
         return `${num < 10 && num > 0 ? "0" : ""}${num}`;
     };
@@ -34,7 +49,9 @@ export default function ItemList(props: PropType) {
         const startDay = startDate.getDate();
         startDate.setDate(startDay + day - 1);
 
-        return `${startDate.getFullYear()}.${startDate.getMonth() + 1}.${startDate.getDate()}`;
+        return `${startDate.getFullYear()}.${
+            startDate.getMonth() + 1
+        }.${startDate.getDate()}`;
     };
 
     // 활동 id 별 색상 부여
@@ -43,6 +60,14 @@ export default function ItemList(props: PropType) {
             return ColorMapping()[activity];
         }
         return "color-bg-blue-3";
+    };
+
+    const getActivity = (target: Item): string => {
+        const itemActivity = checklist.find(
+            (item) => item.item === target.item && item.activity != ""
+        );
+
+        return itemActivity ? itemActivity.activity : "";
     };
 
     return (
@@ -55,52 +80,89 @@ export default function ItemList(props: PropType) {
                     </div>
                     <div className="border-t-2 border-black mt-2 mb-2">
                         {props.groupedItems[day] ? (
-                            Object.keys(props.groupedItems[day]).map((placeId, index) => (
-                                <div className="ml-5 mt-2" key={index}>
-                                    <div className="text-lg font-semibold">
-                                        {placeId != "" ? (
-                                            <div>{props.placeData[placeId]} </div>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </div>
-                                    <div className=" flex flex-col gap-1">
-                                        {props.groupedItems[day][placeId].map((item, index) => (
-                                            <div
-                                                key={index}
-                                                className=" grid grid-cols-3 justify-center m-1"
-                                            >
-                                                <div className="flex items-center col-span-2">
-                                                    <input
-                                                        id={`checkbox-${index}`}
-                                                        type="checkbox"
-                                                        onChange={() => props.handleCheckbox(item)}
-                                                        checked={item.isChecked}
-                                                        className="w-6 h-6 bg-gray-100 border-gray-300 rounded "
-                                                    />
-                                                    <div className="ml-2">
-                                                        <PayTypeIcon isPublic={item.isPublic} />
+                            Object.keys(props.groupedItems[day]).map(
+                                (placeId, index) => (
+                                    <div className="ml-5 mt-2" key={index}>
+                                        <div className="text-lg font-semibold">
+                                            {placeId != "" ? (
+                                                <div>
+                                                    {props.placeData[placeId]}{" "}
+                                                </div>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </div>
+                                        <div className=" flex flex-col gap-1">
+                                            {props.groupedItems[day][
+                                                placeId
+                                            ].map((item, index) => (
+                                                <div
+                                                    key={index}
+                                                    className=" grid grid-cols-3 justify-center m-1"
+                                                >
+                                                    <div className="flex items-center col-span-2">
+                                                        <input
+                                                            id={`checkbox-${index}`}
+                                                            type="checkbox"
+                                                            onChange={() =>
+                                                                props.handleCheckbox(
+                                                                    item
+                                                                )
+                                                            }
+                                                            checked={
+                                                                item.isChecked
+                                                            }
+                                                            className="w-6 h-6 bg-gray-100 border-gray-300 rounded "
+                                                        />
+                                                        <div className="ml-2">
+                                                            <PayTypeIcon
+                                                                isPublic={
+                                                                    item.isPublic
+                                                                }
+                                                            />
+                                                        </div>
+                                                        <label className="ms-2 text-lg w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
+                                                            {item.item}
+                                                        </label>
                                                     </div>
-                                                    <label className="ms-2 text-lg w-[70%] overflow-ellipsis overflow-hidden whitespace-nowrap">
-                                                        {item.item}
-                                                    </label>
+                                                    <div className="relative w-full flex justify-end pr-3">
+                                                        {item.activity && (
+                                                            <span
+                                                                className={`${setColor(
+                                                                    item.activity
+                                                                )} ${
+                                                                    setColor(
+                                                                        getActivity(
+                                                                            item
+                                                                        )
+                                                                    ) ==
+                                                                        "bg-[#2BA1F9]" ||
+                                                                    setColor(
+                                                                        getActivity(
+                                                                            item
+                                                                        )
+                                                                    ) ==
+                                                                        "bg-[#5CD651]" ||
+                                                                    setColor(
+                                                                        getActivity(
+                                                                            item
+                                                                        )
+                                                                    ) ==
+                                                                        "bg-[#FF9315]"
+                                                                        ? "text-white"
+                                                                        : "text-gray-500"
+                                                                } drop-shadow-md px-3 py-0.5 rounded`}
+                                                            >
+                                                                {item.activity}
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                                <div className="relative w-fit">
-                                                    {item.activity && (
-                                                        <span
-                                                            className={`${setColor(
-                                                                item.activity
-                                                            )} text-gray-500 drop-shadow-md px-2.5 py-0.5 rounded`}
-                                                        >
-                                                            {item.activity}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ))}
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            ))
+                                )
+                            )
                         ) : (
                             <div className="flex justify-center items-center h-[7vh]">
                                 해당 날짜의 체크리스트가 없습니다.

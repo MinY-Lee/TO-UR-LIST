@@ -1,7 +1,12 @@
 import { memo, useEffect, useState } from "react";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
 import TabBarTour from "../../components/TabBar/TabBarTour";
-import { AccountInfo, PayMember, TourInfoDetail, UserInfo } from "../../types/types";
+import {
+    AccountInfo,
+    PayMember,
+    TourInfoDetail,
+    UserInfo,
+} from "../../types/types";
 import { getAccountList } from "../../util/api/pay";
 import { HttpStatusCode } from "axios";
 import { useSelector } from "react-redux";
@@ -61,7 +66,9 @@ export default function AccountAddPage() {
     }, [tourId]);
 
     const idToName = (memberId: string): string => {
-        const member = tourData.memberList.find((member) => member.userId === memberId);
+        const member = tourData.memberList.find(
+            (member) => member.userId === memberId
+        );
         return member ? member.userName : "";
     };
 
@@ -144,13 +151,22 @@ export default function AccountAddPage() {
                                         </div>
                                         <div className="text-neutral-500 text-center">
                                             {sendData[member].length > 1
-                                                ? `${sendData[member][0].payContent} (+${
-                                                      sendData[member].length - 1
-                                                  })`
-                                                : sendData[member][0].payContent}
+                                                ? `${
+                                                      sendData[member][0]
+                                                          .payContent
+                                                  } 외 ${
+                                                      sendData[member].length -
+                                                      1
+                                                  }건`
+                                                : sendData[member][0]
+                                                      .payContent}
                                         </div>
                                         <div className="text-end">
-                                            {calcTotal(false, member).toLocaleString()} 원
+                                            {calcTotal(
+                                                false,
+                                                member
+                                            ).toLocaleString()}{" "}
+                                            원
                                         </div>
                                     </div>
                                 ))
@@ -166,7 +182,10 @@ export default function AccountAddPage() {
                         <div className="border-t-2 border-neutral-500 flex flex-col text-lg">
                             {Object.keys(acceptData).length !== 0 ? (
                                 Object.keys(acceptData).map((member, index) => (
-                                    <div key={index} className="grid grid-cols-3 mt-5">
+                                    <div
+                                        key={index}
+                                        className="grid grid-cols-3 mt-5"
+                                    >
                                         <div className="grid grid-cols-3 justify-center gap-2">
                                             <div className="col-span-1 color-bg-blue-4 rounded-full text-white shadow-md font-bold w-8 h-8 justify-center items-center flex">
                                                 {idToName(member)[0]}
@@ -177,13 +196,22 @@ export default function AccountAddPage() {
                                         </div>
                                         <div className="text-neutral-500 text-center">
                                             {acceptData[member].length > 1
-                                                ? `${acceptData[member][0].payContent} (+${
-                                                      acceptData[member].length - 1
-                                                  })`
-                                                : acceptData[member][0].payContent}
+                                                ? `${
+                                                      acceptData[member][0]
+                                                          .payContent
+                                                  } 외 ${
+                                                      acceptData[member]
+                                                          .length - 1
+                                                  }건`
+                                                : acceptData[member][0]
+                                                      .payContent}
                                         </div>
                                         <div className="text-end">
-                                            {calcTotal(true, member).toLocaleString()} 원
+                                            {calcTotal(
+                                                true,
+                                                member
+                                            ).toLocaleString()}{" "}
+                                            원
                                         </div>
                                     </div>
                                 ))

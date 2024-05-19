@@ -39,6 +39,7 @@ export default function AccountAddPage() {
     });
 
     useEffect(() => {
+        console.log(location.state);
         // 투어 아이디 및 payId 불러오기
         const address: string[] = window.location.href.split("/");
         setTourId(address[address.length - 3]);
@@ -54,6 +55,7 @@ export default function AccountAddPage() {
 
             getAccount(payId, tourId, location.state.item.payType)
                 .then((res) => {
+                    console.log(res.data);
                     setData(res.data);
                 })
                 .catch((err) => console.log(err));
@@ -65,7 +67,12 @@ export default function AccountAddPage() {
             <header>
                 <HeaderBar />
             </header>
-            <AccountAddModify tourId={tourId} tourData={tourData} isModify={true} data={data} />
+            <AccountAddModify
+                tourId={tourId}
+                tourData={tourData}
+                isModify={true}
+                data={data}
+            />
             <footer>
                 <TabBarTour tourId={tourId} tourMode={3} type="account" />
             </footer>

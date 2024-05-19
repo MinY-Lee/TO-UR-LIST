@@ -18,7 +18,7 @@ const MyButton: React.FC<MyButtonProps> = ({
 }) => {
     // const [buttonColor, setButtonColor] = useState<String>(isSelected ? 'color-bg-blue-1 text-white text-bold' : 'color-bg-blue-5 text-white');
     const buttonColor = isSelected
-        ? "color-bg-blue-1"
+        ? "color-bg-blue-1 border-2 color-border-blue-1"
         : "box-border color-border-blue-1 border-2";
 
     const buttonElement = () => {
@@ -36,7 +36,7 @@ const MyButton: React.FC<MyButtonProps> = ({
         if (type == "small") {
             return (
                 <button
-                    className={`rounded-xl px-6 py-1 ${buttonColor} ${className}`}
+                    className={`rounded-xl px-6 py-0.5 ${buttonColor} ${className}`}
                     onClick={onClick}
                 >
                     {text}

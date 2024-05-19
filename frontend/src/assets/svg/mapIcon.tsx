@@ -1,10 +1,10 @@
-export default function mapIcon() {
+export default function MapIcon() {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="#B31512"
-            className="w-7 h-7"
+            className="w-7 h-7 mr-2"
         >
             <path
                 fillRule="evenodd"

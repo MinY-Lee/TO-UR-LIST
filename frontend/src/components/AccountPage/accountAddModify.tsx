@@ -19,6 +19,7 @@ import DropdownIcon from "../../assets/svg/dropdownIcon";
 import MemberList from "./memberList";
 import ButtonGroup from "./buttonGroup";
 import GetISOStringKor from "./getISOStringKor";
+import { combineSlices } from "@reduxjs/toolkit";
 
 interface PropType {
     tourId: string;
@@ -53,7 +54,7 @@ export default function AccountAddModify(props: PropType) {
     const [content, setContent] = useState<string>("");
     const [isPublic, setIsPublic] = useState<boolean>(false);
     const [date, setDate] = useState<string>("");
-    const [payer, setPayer] = useState<string>("");
+    const [payerId, setPayerId] = useState<string>("");
     const [payId, setPayId] = useState<string>("");
     const [payMember, setPayMember] = useState<PayMember[]>([]);
 
@@ -108,17 +109,23 @@ export default function AccountAddModify(props: PropType) {
     useEffect(() => {
         if (!props.isModify && userInfo) {
             // payer 디폴트는 현재 가계부 작성하는 사람
-            setPayer(userInfo.userId);
+            setPayerId(userInfo.userId);
             setUnit(currency.unit);
             setExchangeRate(currency.currencyRate);
             setPayMember([]);
             setDate(GetISOStringKor());
         } else {
             if (props.data && props.data.payId != "") {
-                setAmount(props.data.payAmount);
+                setAmount(
+                    unit != "₩"
+                        ? Math.floor(
+                              props.data.payAmount / props.data.exchangeRate
+                          )
+                        : props.data.payAmount
+                );
                 setDate(props.data.payDatetime);
                 setIsPublic(props.data.payType == "public" ? true : false);
-                setPayer(props.data.payerId);
+                setPayerId(props.data.payerId);
                 setPayMember(props.data.payMemberList);
                 setCategory(props.data.payCategory);
                 setContent(props.data.payContent);
@@ -190,7 +197,7 @@ export default function AccountAddModify(props: PropType) {
     };
 
     const handlePayerChange = (payer: string) => {
-        setPayer(payer);
+        setPayerId(payer);
         setPayerDropdownClick(false);
     };
 
@@ -221,15 +228,20 @@ export default function AccountAddModify(props: PropType) {
     const [isVaildPayType, setIsVaildPayType] = useState<boolean>(true);
 
     const handleSave = () => {
-        // N빵 후 보내
         let updatedMember: PayMember[] = [];
-        payMember.map((member: PayMember) => {
-            const value =
-                unit != "₩"
-                    ? Math.ceil((amount * exchangeRate) / payMember.length)
-                    : Math.ceil(amount / payMember.length);
-            updatedMember.push({ userId: member.userId, payAmount: value });
-        });
+        if (isPublic) {
+            // N빵 후 보내
+            payMember.map((member: PayMember) => {
+                const value =
+                    unit != "₩"
+                        ? Math.ceil(
+                              (amount * exchangeRate) / payMember.length / 100
+                          ) * 100
+                        : Math.ceil(amount / payMember.length / 100) * 100;
+                updatedMember.push({ userId: member.userId, payAmount: value });
+            });
+            setPayMember(updatedMember);
+        }
 
         const newAccountItem: AccountInfo = {
             payType: isPublic ? "public" : "private",
@@ -242,7 +254,7 @@ export default function AccountAddModify(props: PropType) {
             payDatetime: date,
             payContent: content,
             payCategory: category,
-            payerId: payer,
+            payerId: payerId,
             payMemberList: updatedMember,
         };
 
@@ -400,7 +412,7 @@ export default function AccountAddModify(props: PropType) {
                         <div className="col-span-2 flex gap-2 items-center">
                             <div>
                                 {unit != "₩"
-                                    ? `약 ${Math.round(
+                                    ? `${Math.round(
                                           exchangeRate * amount
                                       ).toLocaleString()}`
                                     : amount}{" "}
@@ -449,7 +461,7 @@ export default function AccountAddModify(props: PropType) {
                                 <div className="col-span-1">결제자</div>
                                 <div className="col-span-2 grid grid-cols-4 gap-1 items-center">
                                     <div className="text-white col-span-1 color-bg-blue-2 w-7 h-7 flex justify-center shadow-lg items-center rounded-full">
-                                        {idToName(payer)[0]}
+                                        {idToName(payerId)[0]}
                                     </div>
                                     <button
                                         onClick={() =>
@@ -461,8 +473,8 @@ export default function AccountAddModify(props: PropType) {
                                         className="flex col-span-3 items-center p-3 text-sm text-gray-900 border py-1 px-2 rounded-lg justify-between"
                                         type="button"
                                     >
-                                        {idToName(payer)}{" "}
-                                        {payer == userInfo.userId
+                                        {idToName(payerId)}{" "}
+                                        {payerId == userInfo.userId
                                             ? " (나)"
                                             : ""}
                                         <DropdownIcon

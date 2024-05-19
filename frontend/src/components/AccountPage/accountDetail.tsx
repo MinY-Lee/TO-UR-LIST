@@ -22,6 +22,7 @@ interface PropType {
     data: AccountInfo[];
     tourData: TourInfoDetail;
     currency: CurrencyInfo;
+    handleIsChanged: () => void;
 }
 
 interface DataPerDayInfo {
@@ -31,8 +32,8 @@ interface DataPerDayInfo {
 
 export default function AccountDetail(props: PropType) {
     const [tourId, setTourId] = useState<string>("");
-    const [startDate, setStartDate] = useState<Date | undefined>();
-    const [endDate, setEndDate] = useState<Date | undefined>(new Date());
+    const [startDate, setStartDate] = useState<Date>(new Date());
+    const [endDate, setEndDate] = useState<Date>(new Date());
     const [rowData, setRowData] = useState<AccountInfo[]>([]);
     const [tabIdx, setTabIdx] = useState<number>(1);
     const [isClicked, setIsClicked] = useState<boolean>(false); // 드롭다운 클릭 여부
@@ -74,24 +75,22 @@ export default function AccountDetail(props: PropType) {
             data.forEach((info: AccountInfo) => {
                 const date = info.payDatetime;
 
-                if (isPayMember(userInfo.userId, info)) {
-                    if (calcDay(new Date(date), new Date(tempDate)) < 0) {
-                        if (!groupedByDate[tempDate]) {
-                            groupedByDate[tempDate] = [];
-                        }
-                        groupedByDate[tempDate] = [
-                            info,
-                            ...groupedByDate[tempDate],
-                        ];
-                    } else {
-                        if (!groupedByDate[date.split("T")[0]]) {
-                            groupedByDate[date.split("T")[0]] = [];
-                        }
-                        groupedByDate[date.split("T")[0]] = [
-                            info,
-                            ...groupedByDate[date.split("T")[0]],
-                        ];
+                if (calcDay(new Date(date), new Date(tempDate)) < 0) {
+                    if (!groupedByDate[tempDate]) {
+                        groupedByDate[tempDate] = [];
                     }
+                    groupedByDate[tempDate] = [
+                        info,
+                        ...groupedByDate[tempDate],
+                    ];
+                } else {
+                    if (!groupedByDate[date.split("T")[0]]) {
+                        groupedByDate[date.split("T")[0]] = [];
+                    }
+                    groupedByDate[date.split("T")[0]] = [
+                        info,
+                        ...groupedByDate[date.split("T")[0]],
+                    ];
                 }
             });
         }
@@ -111,7 +110,6 @@ export default function AccountDetail(props: PropType) {
                 new Date(a.payDatetime).getTime() -
                 new Date(b.payDatetime).getTime()
         );
-
         setGroupedData(groupedData);
     };
 
@@ -125,7 +123,7 @@ export default function AccountDetail(props: PropType) {
         }
         setRowData(props.data);
         // 데이터 날짜별로 그룹핑
-        DataPerDay(rowData);
+        DataPerDay(props.data);
     }, [tourId, props, rowData]);
 
     const getTabClass = (idx: number) => {
@@ -180,11 +178,14 @@ export default function AccountDetail(props: PropType) {
     };
 
     const isPayMember = (userId: string, info: AccountInfo) => {
-        if (info.payerId === userId) {
+        if (info.payerId == userId) {
             return true;
         }
         info.payMemberList.forEach((member) => {
-            if (member.userId === userId) {
+            console.log(userId);
+            console.log(member.userId);
+
+            if (member.userId == userId) {
                 return true;
             }
         });
@@ -228,24 +229,7 @@ export default function AccountDetail(props: PropType) {
             deleteAccount(deleteTarget.payId, tourId, deleteTarget.payType)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
-                        // 화면 상 반영
-                        let updatedData: DataPerDayInfo[] = [];
-                        Object.keys(groupedData).map((date, index) => {
-                            if (
-                                date == deleteTarget.payDatetime.split("T")[0]
-                            ) {
-                                // date = n일차임
-                                updatedData.push({
-                                    payDatetime: date,
-                                    data: groupedData[index].data.filter(
-                                        (item) => item != deleteTarget
-                                    ),
-                                });
-                            } else {
-                                updatedData.push(groupedData[index]);
-                            }
-                        });
-                        setGroupedData(updatedData);
+                        props.handleIsChanged();
                     }
                 })
                 .catch((err) => console.log(err));
@@ -371,7 +355,7 @@ export default function AccountDetail(props: PropType) {
 
                 <div className="border-2 border-neutral-400 py-3 rounded-lg mt-2 w-[90%]">
                     {groupedData.length == 0 ? (
-                        <div className="h-[40vh] flex justify-center items-center text-xl">
+                        <div className="h-[50vh] flex justify-center items-center text-xl">
                             아직 지출 내역이 없습니다.
                         </div>
                     ) : (

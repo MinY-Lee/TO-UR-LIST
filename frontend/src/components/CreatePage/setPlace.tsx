@@ -123,7 +123,7 @@ export default function SetPlace(props: PropType) {
             </div>
             <div
                 id="city-list-container"
-                className="m-2 h-[45vh] overflow-auto w-[90%]"
+                className="m-2 h-[55vh] overflow-auto w-[90%]"
             >
                 <div ref={topRef}></div>
                 {selectedCity.length > 0 &&
@@ -138,7 +138,7 @@ export default function SetPlace(props: PropType) {
                             </div>
                             <MyButton
                                 type="small"
-                                className="text-white color-bg-blue-6 font-medium"
+                                className="text-white w-full color-bg-blue-6 font-medium"
                                 text="해제"
                                 isSelected={true}
                                 onClick={() => handleCitySelect(res)}
@@ -168,7 +168,7 @@ export default function SetPlace(props: PropType) {
                                 text="선택"
                                 isSelected={false}
                                 onClick={() => handleCitySelect(res)}
-                                className="color-text-blue-6"
+                                className="color-text-blue-6 w-full"
                             />
                         </div>
                     ))

@@ -75,7 +75,9 @@ export default function TourCheckList(props: PropType) {
             if (itemName && !seenItems.has(itemName)) {
                 seenItems.add(itemName);
                 // 체크 여부 구분
-                item.isChecked == true ? checked.push(item) : unchecked.push(item);
+                item.isChecked == true
+                    ? checked.push(item)
+                    : unchecked.push(item);
             }
         });
 
@@ -85,7 +87,8 @@ export default function TourCheckList(props: PropType) {
     };
 
     const handleCheckbox = (index: number) => {
-        const { activity, isChecked, item, placeId, tourDay, tourId } = filteredChecklist[index];
+        const { activity, isChecked, item, placeId, tourDay, tourId } =
+            filteredChecklist[index];
         const targetItem: ItemApi = {
             activity: activity,
             isChecked: !isChecked,
@@ -100,7 +103,8 @@ export default function TourCheckList(props: PropType) {
                 if (res.status == HttpStatusCode.Ok) {
                     // 화면상 반영 및 아래로 이동
                     const updatedChecklist = [...filteredChecklist];
-                    updatedChecklist[index].isChecked = !updatedChecklist[index].isChecked;
+                    updatedChecklist[index].isChecked =
+                        !updatedChecklist[index].isChecked;
 
                     setFilteredChecklist(updatedChecklist);
                 }
@@ -118,8 +122,8 @@ export default function TourCheckList(props: PropType) {
 
     return (
         <>
-            <div className="w-full  justify-between items-end p-5 bak">
-                <div className="text-xl font-bold mb-3">전체 체크리스트</div>
+            <div className="w-full justify-between items-end p-5 bak">
+                <div className="text-xl font-bold mb-3">여행 체크리스트</div>
                 <div>
                     <div className=" border-2 color-border-blue-1 rounded-2xl p-3">
                         <div className="flex w-full justify-end mb-2">
@@ -149,22 +153,46 @@ export default function TourCheckList(props: PropType) {
                                                 <input
                                                     id="default-checkbox"
                                                     type="checkbox"
-                                                    onChange={() => handleCheckbox(index)}
+                                                    onChange={() =>
+                                                        handleCheckbox(index)
+                                                    }
                                                     checked={item.isChecked}
                                                     className="w-6 h-6 bg-gray-100 border-gray-300 rounded "
                                                 />
-                                                <PayTypeIcon isPublic={item.isPublic} />
-                                                <label className="text-lg">{item.item}</label>
+                                                <PayTypeIcon
+                                                    isPublic={item.isPublic}
+                                                />
+                                                <label className="text-lg">
+                                                    {item.item}
+                                                </label>
                                             </div>
-                                            <div className="relative w-fit">
+                                            <div className="relative flex w-full justify-end pr-5">
                                                 <div>
                                                     {getActivity(item) ? (
                                                         <span
                                                             className={`${setColor(
-                                                                getActivity(item)
+                                                                getActivity(
+                                                                    item
+                                                                )
                                                             )} ${
-                                                                setColor(getActivity(item)) ==
-                                                                "bg-[#2BA1F9]"
+                                                                setColor(
+                                                                    getActivity(
+                                                                        item
+                                                                    )
+                                                                ) ==
+                                                                    "bg-[#2BA1F9]" ||
+                                                                setColor(
+                                                                    getActivity(
+                                                                        item
+                                                                    )
+                                                                ) ==
+                                                                    "bg-[#5CD651]" ||
+                                                                setColor(
+                                                                    getActivity(
+                                                                        item
+                                                                    )
+                                                                ) ==
+                                                                    "bg-[#FF9315]"
                                                                     ? "text-white"
                                                                     : "text-gray-500"
                                                             } drop-shadow-md px-2.5 py-0.5 rounded`}
@@ -177,17 +205,23 @@ export default function TourCheckList(props: PropType) {
                                                 </div>
                                                 <div>
                                                     {item.activity &&
-                                                    filteredGroup[item.item] > 1 ? (
+                                                    filteredGroup[item.item] >
+                                                        1 ? (
                                                         <div>
                                                             <span className="sr-only">
                                                                 Notifications
                                                             </span>
                                                             <div
-                                                                className={`absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white ${setColor(
+                                                                className={`absolute right-0 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white ${setColor(
                                                                     item.activity
                                                                 )} border-2 border-white rounded-full -top-2 -end-[35%]`}
                                                             >
-                                                                {filteredGroup[item.item]}
+                                                                {
+                                                                    filteredGroup[
+                                                                        item
+                                                                            .item
+                                                                    ]
+                                                                }
                                                             </div>
                                                         </div>
                                                     ) : (

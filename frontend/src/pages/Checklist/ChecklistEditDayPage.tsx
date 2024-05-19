@@ -261,10 +261,11 @@ export default function ChecklistEditDayPage() {
                     />
                 </div>
 
-                <div className="border color-border-blue-1 p-5 rounded-xl overflow-y-auto h-[70vh]">
+                <div className="border color-border-blue-1 p-5 rounded-xl overflow-y-auto h-[77vh]">
                     <ItemListPerDay
                         data={data}
                         daysList={daysList}
+                        checklist={checklist}
                         placeData={placeData}
                         groupedItems={groupedItems}
                         handleAddState={handleAddState}
