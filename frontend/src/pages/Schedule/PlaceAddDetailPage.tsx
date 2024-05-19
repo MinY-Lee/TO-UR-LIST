@@ -35,8 +35,8 @@ import ClockIcon from "../../assets/svg/clockIcon.tsx";
 import CreditCardIcon from "../../assets/svg/creditCardIcon.tsx";
 import MapIcon from "../../assets/svg/mapIcon";
 import PlaceMapIcon from "../../assets/svg/placeMapIcon.tsx";
-import ColorMapping from "../../assets/colorMapping.tsx";
 import { HttpStatusCode } from "axios";
+import ColorMapping from "../../assets/colorMapping.tsx";
 
 export default function PlaceAddDetailPage() {
     const location = useLocation();

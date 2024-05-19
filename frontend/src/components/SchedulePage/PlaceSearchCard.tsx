@@ -1,5 +1,7 @@
 import { Client } from "@stomp/stompjs";
 import { PlaceInfo } from "../../types/types";
+import {getPhotoUrl} from "../../util/api/place.ts";
+import {useEffect, useState} from "react";
 
 interface PropType {
     placeInfo: PlaceInfo;
@@ -12,14 +14,32 @@ interface PropType {
 }
 
 export default function PlaceSearchCard(props: PropType) {
+    // const photoReference =
+    //     props.placeInfo.placePhotoList.length >= 1
+    //         // ? props.placeInfo.placePhotoList[0].split("/")[3]
+    //         ? props.placeInfo.placePhotoList[0]
+    //         : "";
+    // const photoUrl = getPhotoUrl(`/api/place/v1/${photoReference}`);
+
+    const [photoUrl, setPhotoUrl] = useState<string>("");
+
     const photoReference =
         props.placeInfo.placePhotoList.length >= 1
-            ? // ? props.placeInfo.placePhotoList[0].split("/")[3]
-              props.placeInfo.placePhotoList[0]
+            ? props.placeInfo.placePhotoList[0]
             : "";
-    const photoUrl = `/v1/${photoReference}/media?maxWidthPx=400&key=${
-        import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY
-    }`;
+
+    useEffect(() => {
+        if (photoReference) {
+            getPhotoUrl(photoReference)
+                .then((response) => {
+                    // Assuming the URL is in response.data
+                    setPhotoUrl(response.data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching photo URL:", error);
+                });
+        }
+    }, [photoReference]);
 
     const wsClient = props.wsClient;
     const tourId = props.tourId;
