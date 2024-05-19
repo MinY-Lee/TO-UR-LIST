@@ -182,9 +182,6 @@ export default function AccountDetail(props: PropType) {
             return true;
         }
         info.payMemberList.forEach((member) => {
-            console.log(userId);
-            console.log(member.userId);
-
             if (member.userId == userId) {
                 return true;
             }
@@ -337,7 +334,7 @@ export default function AccountDetail(props: PropType) {
                     </div>
 
                     {/* 원화 현지화폐 토글 */}
-                    <ul className="grid grid-cols-2 w-[30vw] border rounded-full color-bg-blue-4">
+                    <ul className="grid grid-cols-2 border rounded-full color-bg-blue-4">
                         <li
                             className="rounded-full h-7"
                             onClick={() => setTabIdx(1)}

@@ -1,5 +1,10 @@
 import { BaseSyntheticEvent, useEffect, useState, useRef } from "react";
-import { TourInfoDetail, MemberInfo, City, CountryMapping } from "../../types/types";
+import {
+    TourInfoDetail,
+    MemberInfo,
+    City,
+    CountryMapping,
+} from "../../types/types";
 import MyButton from "../Buttons/myButton";
 import CheckModal from "../CheckModal";
 import MemberAddModal from "../TourPage/AddMemberModal";
@@ -106,7 +111,10 @@ export default function TourEditHeader(props: PropType) {
         // 검색 결과를 업데이트
         const updatedResultList = resultList.filter(
             (res) =>
-                !selectedCity.some((selected) => JSON.stringify(selected) === JSON.stringify(res))
+                !selectedCity.some(
+                    (selected) =>
+                        JSON.stringify(selected) === JSON.stringify(res)
+                )
         );
         setResultList(updatedResultList);
         if (updatedResultList.length > 0) {
@@ -228,7 +236,9 @@ export default function TourEditHeader(props: PropType) {
             }
         });
 
-        const foundCountry = countryList.find((country) => country.countryName === data);
+        const foundCountry = countryList.find(
+            (country) => country.countryName === data
+        );
 
         if (foundCountry) {
             // 코드로 도시 검색 및 결과 포맷팅
@@ -258,7 +268,8 @@ export default function TourEditHeader(props: PropType) {
             const updatedResultList = searchList.filter(
                 (city) =>
                     !selectedCity.some(
-                        (selected) => JSON.stringify(selected) === JSON.stringify(city)
+                        (selected) =>
+                            JSON.stringify(selected) === JSON.stringify(city)
                     )
             );
             setResultList(updatedResultList);
@@ -280,7 +291,9 @@ export default function TourEditHeader(props: PropType) {
             setSelectedCity([...selectedCity, city]);
         } else {
             // 이미 선택된 도시라면 제거
-            const updatedCities = selectedCity.filter((selected) => selected !== city);
+            const updatedCities = selectedCity.filter(
+                (selected) => selected !== city
+            );
             setSelectedCity(updatedCities);
         }
     };
@@ -292,7 +305,8 @@ export default function TourEditHeader(props: PropType) {
 
     const handleClickOutside = (event: Event) => {
         if (addMemberModalRef.current) {
-            const addMemberModalElement = addMemberModalRef.current as HTMLElement;
+            const addMemberModalElement =
+                addMemberModalRef.current as HTMLElement;
             if (
                 addModalClicked &&
                 addMemberModalElement &&
@@ -319,7 +333,9 @@ export default function TourEditHeader(props: PropType) {
             deleteMemberApi(target)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
-                        const updatedList = memberList.filter((mem) => mem !== deleteMember);
+                        const updatedList = memberList.filter(
+                            (mem) => mem !== deleteMember
+                        );
                         setMemberList(updatedList);
                         setMemberDeleteModal(false);
                     }
@@ -379,7 +395,9 @@ export default function TourEditHeader(props: PropType) {
             });
         } else {
             memberList.map((member) => {
-                member.userId == ghostId ? updateList.push(updatedMember) : updateList.push(member);
+                member.userId == ghostId
+                    ? updateList.push(updatedMember)
+                    : updateList.push(member);
             });
         }
         setMemberList(updateList);
@@ -437,7 +455,7 @@ export default function TourEditHeader(props: PropType) {
             )}
 
             <div className="w-full justify-between items-end p-7">
-                <div className="flex flex-col">
+                <div className="flex flex-col w-full">
                     <div className="w-full rounded-lg border border-solid border-neutral-300 text-3xl font-bold pl-5">
                         <input
                             value={title}
@@ -449,10 +467,12 @@ export default function TourEditHeader(props: PropType) {
                     </div>
                     {!isVaildTitle ? (
                         <div
-                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border-gray-300 rounded-lg bg-gray-50`}
+                            className={`animate-bounce w-full p-3 text-sm text-red-600 `}
                             role="alert"
                         >
-                            <div className="font-medium">⚠️ 제목을 입력해주세요!</div>
+                            <div className="font-medium">
+                                ⚠️ 제목을 입력해주세요!
+                            </div>
                         </div>
                     ) : (
                         ""
@@ -473,15 +493,17 @@ export default function TourEditHeader(props: PropType) {
                     </div>
                     {!isVaildDate ? (
                         <div
-                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                            className={`animate-bounce  p-3 text-sm text-red-600 `}
                             role="alert"
                         >
-                            <div className="font-medium">⚠️ 여행 날짜를 올바르게 설정해주세요!</div>
+                            <div className="font-medium">
+                                ⚠️ 여행 날짜를 올바르게 설정해주세요!
+                            </div>
                         </div>
                     ) : (
                         ""
                     )}
-                    <div className="flex items-center px-3 w-[90vw] overflow-x-auto gap-1">
+                    <div className="flex items-center px-3 w-full overflow-x-auto gap-1">
                         <EditMemberList
                             memberList={memberList}
                             handleGhostModal={handleGhostModal}
@@ -502,7 +524,9 @@ export default function TourEditHeader(props: PropType) {
                             >
                                 <div
                                     className="text-base"
-                                    onClick={() => setSearchbarClick(!searchbarClick)}
+                                    onClick={() =>
+                                        setSearchbarClick(!searchbarClick)
+                                    }
                                 >
                                     <SearchBar onChange={handleQuery} />
                                 </div>
@@ -528,10 +552,12 @@ export default function TourEditHeader(props: PropType) {
                     </div>
                     {!isVaildCityList ? (
                         <div
-                            className={`animate-bounce w-full flex items-center justify-center p-4 text-sm text-gray-800 border border-gray-300 rounded-lg bg-gray-50`}
+                            className={`animate-bounce w-full p-3 text-sm text-red-600`}
                             role="alert"
                         >
-                            <div className="font-medium">⚠️ 도시를 하나 이상 선택해주세요!</div>
+                            <div className="font-medium">
+                                ⚠️ 도시를 하나 이상 선택해주세요!
+                            </div>
                         </div>
                     ) : (
                         ""
