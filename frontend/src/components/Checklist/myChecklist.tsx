@@ -17,6 +17,7 @@ interface CountItem {
 }
 
 export default function MyCheckList(props: PropType) {
+    const [isUpdated, setIsUpdated] = useState<boolean>(false);
     const [checklist, setChecklist] = useState<Item[]>([]);
     const [filteredChecklist, setFilteredChecklist] = useState<Item[]>([]);
     const [filteredGroup, setFilteredGroup] = useState<CountItem>({});
@@ -35,7 +36,7 @@ export default function MyCheckList(props: PropType) {
                 })
                 .catch((err) => console.log(err));
         }
-    }, [props]);
+    }, [props, isUpdated]);
 
     // 같은 체크리스트 아이템 처리
     const prepareData = (checklist: Item[]) => {
@@ -58,45 +59,52 @@ export default function MyCheckList(props: PropType) {
     const filterUniqueItems = (checklist: Item[]): Item[] => {
         const seenItems = new Set<string>();
         let uniqueItems: Item[] = [];
-        let uncheck: Item[] = [];
-        let check: Item[] = [];
+        // let uncheck: Item[] = [];
+        // let check: Item[] = [];
 
         checklist.forEach((item) => {
             const itemName = item.item;
             if (itemName && !seenItems.has(itemName)) {
                 seenItems.add(itemName);
-                item.isChecked ? check.push(item) : uncheck.push(item);
+                uniqueItems.push(item);
+                // item.isChecked ? check.push(item) : uncheck.push(item);
             }
         });
-        uniqueItems = [...uncheck, ...check];
+        // uniqueItems = [...uncheck, ...check];
 
         return uniqueItems;
     };
 
-    const handleCheckbox = (index: number) => {
-        const { activity, isChecked, item, placeId, tourDay, tourId } =
-            filteredChecklist[index];
+    const handleCheckbox = (target: Item) => {
+        // 전체에서 체크 시 해당 아이템 모두 체킹
+        const targetItems: ItemApi[] = [];
 
-        const targetItem: ItemApi = {
-            activity: activity,
-            isChecked: !isChecked,
-            item: item,
-            placeId: placeId,
-            tourDay: tourDay,
-            tourId: tourId,
-        };
+        checklist.forEach((checkItem) => {
+            if (target.item == checkItem.item) {
+                const { activity, isChecked, item, placeId, tourDay, tourId } =
+                    checkItem;
+                targetItems.push({
+                    activity: activity,
+                    isChecked: !isChecked,
+                    item: item,
+                    placeId: placeId,
+                    tourDay: tourDay,
+                    tourId: tourId,
+                });
+            }
+        });
 
-        checkItem(targetItem)
-            .then((res) => {
-                if (res.status == HttpStatusCode.Ok) {
-                    const updatedChecklist = [...filteredChecklist];
-                    updatedChecklist[index].isChecked =
-                        !updatedChecklist[index].isChecked;
-
-                    setFilteredChecklist(updatedChecklist);
-                }
-            })
-            .catch((err) => console.log(err));
+        if (targetItems.length > 0) {
+            targetItems.forEach((targetItem) => {
+                checkItem(targetItem)
+                    .then((res) => {
+                        if (res.status == HttpStatusCode.Ok) {
+                            setIsUpdated(!isUpdated);
+                        }
+                    })
+                    .catch((err) => console.log(err));
+            });
+        }
     };
 
     return (
@@ -126,7 +134,7 @@ export default function MyCheckList(props: PropType) {
                                             id="default-checkbox"
                                             type="checkbox"
                                             onChange={() =>
-                                                handleCheckbox(index)
+                                                handleCheckbox(item)
                                             }
                                             checked={item.isChecked}
                                             className="w-6 h-6 bg-gray-100 border-gray-300 rounded "
