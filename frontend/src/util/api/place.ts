@@ -32,5 +32,5 @@ export async function getActivityList(placeId: string) {
 }
 
 export async function getPhotoUrl(photoName: string) {
-    return await local.get(`${photoName}`);
+    return await local.get(`/api/place/v1/${photoName}`);
 }
