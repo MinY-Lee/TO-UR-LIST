@@ -35,22 +35,21 @@ export default function TabBarMain(props: PropType) {
                     <div>피드</div>
                 </div>
                 <div className="hover:bg-[#d5e7f2] h-full  ">
-                    {/* {props.tabMode == 2 ? ( */}
-                    <div
-                        className={`${
-                            props.type == "main" ? selected : ""
-                        } mt-0 h-full  flex flex-col items-center justify-evenly rounded-full py-1 text-neutral-500`}
-                        onClick={() => {
-                            window.location.href = `/`;
-                        }}
-                    >
-                        <span className="material-symbols-outlined text-4xl ">
-                            home
-                        </span>
-                        <div>메인</div>
-                    </div>
-                    {/*)
-                     : (
+                    {props.tabMode == 2 || props.type == "feed" ? (
+                        <div
+                            className={`${
+                                props.type == "main" ? selected : ""
+                            } mt-0 h-full  flex flex-col items-center justify-evenly rounded-full py-1 text-neutral-500`}
+                            onClick={() => {
+                                window.location.href = `/`;
+                            }}
+                        >
+                            <span className="material-symbols-outlined text-4xl ">
+                                home
+                            </span>
+                            <div>메인</div>
+                        </div>
+                    ) : (
                         <div
                             className={`${
                                 type == "create" ? selected : ""
@@ -64,7 +63,7 @@ export default function TabBarMain(props: PropType) {
                             </span>
                             <div>여행추가</div>
                         </div>
-                    )} */}
+                    )}
                 </div>
                 <div className=" hover:bg-[#d5e7f2] h-full">
                     <div
