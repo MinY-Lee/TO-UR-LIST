@@ -8,6 +8,11 @@ self.addEventListener("fetch", (event) => {
         console.log("detected");
         return false;
     }
+
+    if (event.request.url.includes("v1")) {
+        console.log("detected");
+        return false;
+    }
 });
 
 //cache 날리기
