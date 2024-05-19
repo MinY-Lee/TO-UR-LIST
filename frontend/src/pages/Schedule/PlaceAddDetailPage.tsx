@@ -1,6 +1,6 @@
-import { useLocation } from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
-import { useCallback, useEffect, useState } from "react";
+import {useCallback, useEffect, useState} from "react";
 import TabBarTour from "../../components/TabBar/TabBarTour";
 import {
     TourEditDetail,
@@ -18,16 +18,18 @@ import {
     getPlaceList,
     searchPlaceDetail,
 } from "../../util/api/place";
-import { httpStatusCode } from "../../util/api/http-status";
+import {httpStatusCode} from "../../util/api/http-status";
 import WebSocket from "../../components/TabBar/WebSocket";
-import { getTour } from "../../util/api/tour";
-import { Client } from "@stomp/stompjs";
+import {getTour} from "../../util/api/tour";
+import {Client} from "@stomp/stompjs";
 import ActivityAddModal from "../../components/SchedulePage/ActivityAddModal";
 import DayChangeModal from "../../components/SchedulePage/DayChangeModal";
 import Loading from "../../components/Loading";
 
 import MapLogo from "../../assets/image/map.svg";
 import ClockLogo from "../../assets/image/clock.svg";
+import TrashIcon from "../../assets/svg/trashIcon.tsx";
+import CalcelIcon from "../../assets/svg/cancelIcon.tsx";
 
 export default function PlaceAddDetailPage() {
     const location = useLocation();
@@ -174,7 +176,7 @@ export default function PlaceAddDetailPage() {
     /**date to string */
     const dateToString = useCallback(
         (day: number) => {
-            if (day === 0) return "날짜 없음";
+            if (day === 0) return "-";
             //ms
             const date = new Date(startDate.getTime() + (day - 1) * 86400000);
 
@@ -329,9 +331,9 @@ export default function PlaceAddDetailPage() {
             ) : (
                 <></>
             )}
-            {isLoading ? <Loading /> : <></>}
+            {isLoading ? <Loading/> : <></>}
             <section className="w-full h-full text-[#353535]">
-                <HeaderBar />
+                <HeaderBar/>
                 <div className="flex flex-col w-full h-[93%] overflow-y-scroll py-vw px-3vw">
                     {/* 이미지 */}
                     <div className="w-full h-[20%] flex overflow-x-auto mb-2vw">
@@ -367,11 +369,11 @@ export default function PlaceAddDetailPage() {
                                                 body: {
                                                     tourId: tourId,
                                                     placeId:
-                                                        tourDetail?.placeInfo
-                                                            .placeId,
+                                                    tourDetail?.placeInfo
+                                                        .placeId,
                                                     placeName:
-                                                        tourDetail?.placeInfo
-                                                            .placeName,
+                                                    tourDetail?.placeInfo
+                                                        .placeName,
                                                     tourDay: tourDay,
                                                 },
                                             }),
@@ -395,11 +397,11 @@ export default function PlaceAddDetailPage() {
                                                 body: {
                                                     tourId: tourId,
                                                     placeId:
-                                                        tourDetail?.placeInfo
-                                                            .placeId,
+                                                    tourDetail?.placeInfo
+                                                        .placeId,
                                                     placeName:
-                                                        tourDetail?.placeInfo
-                                                            .placeName,
+                                                    tourDetail?.placeInfo
+                                                        .placeName,
                                                     tourDay: tourDay,
                                                 },
                                             }),
@@ -432,7 +434,7 @@ export default function PlaceAddDetailPage() {
                                         key={place.tourDay}
                                     >
                                         <div
-                                            className="w-[10%] flex justify-center items-center"
+                                            className="w-[6%] flex justify-center items-center"
                                             onClick={() => {
                                                 //삭제 요청
                                                 if (wsClient) {
@@ -445,18 +447,18 @@ export default function PlaceAddDetailPage() {
                                                             body: {
                                                                 tourId: tourId,
                                                                 placeId:
-                                                                    place.placeId,
+                                                                place.placeId,
                                                                 placeName:
-                                                                    place.placeName,
+                                                                place.placeName,
                                                                 tourDay:
-                                                                    place.tourDay,
+                                                                place.tourDay,
                                                             },
                                                         }),
                                                     });
                                                 }
                                             }}
                                         >
-                                            X
+                                            <CalcelIcon/>
                                         </div>
                                         <div
                                             className="w-[50%] text-4vw border-[#B5B5B5] border-dot3vw flex justify-between p-vw m-vw border-rad-2vw"
@@ -472,19 +474,19 @@ export default function PlaceAddDetailPage() {
                                                 calendar_today
                                             </span>
                                         </div>
-                                        <div className="w-[20%] text-4vw color-text-blue-6 color-border-blue-6 border-halfvw border-rad-2vw m-vw flex justify-center items-center">
-                                            {place.activityList.length > 1
-                                                ? place.activityList[0] +
-                                                  "+" +
-                                                  (place.activityList.length -
-                                                      1)
-                                                : place.activityList.length ===
-                                                  1
-                                                ? place.activityList[0]
-                                                : "활동없음"}
-                                        </div>
+                                        {place.activityList.length >= 1 && place.activityList[0]
+                                            && <div
+                                                className="w-[20%] text-4vw color-bg-blue-6 text-white color-border-blue-6 border-halfvw border-rad-2vw mr-1 py-0.5 flex justify-center items-center">
+                                                {place.activityList.length > 1
+                                                    ? place.activityList[0] +
+                                                    "+" +
+                                                    (place.activityList.length -
+                                                        1)
+                                                    : place.activityList[0]}
+                                            </div>}
+
                                         <div
-                                            className="w-[20%] text-4vw color-text-blue-6 color-border-blue-6 border-halfvw border-rad-2vw px-vw flex justify-center items-center border-dotted"
+                                            className="w-[20%] text-4vw color-text-blue-6 color-border-blue-6 border-halfvw border-rad-2vw px-vw  py-0.5 flex justify-center items-center border-dotted"
                                             onClick={() => {
                                                 //활동 추가 로직
                                                 // console.log(place);
@@ -506,21 +508,24 @@ export default function PlaceAddDetailPage() {
                             </div>
                             <div className="flex items-center text-5vw color-text-blue-6 weight-text-semibold">
                                 {activityList.length > 0 ? (
-                                    <span className="h-7vw px-3vw border-halfvw color-border-blue-6 border-rad-2dot5vw mr-2vw flex justify-center items-center">
+                                    <span
+                                        className="h-7vw px-3vw border-halfvw color-border-blue-6 border-rad-2dot5vw mr-2vw flex justify-center items-center">
                                         {activityList[0]}
                                     </span>
                                 ) : (
                                     <></>
                                 )}
                                 {activityList.length > 1 ? (
-                                    <span className="h-7vw px-3vw border-halfvw color-border-blue-6 border-rad-2dot5vw mr-2vw flex justify-center items-center">
+                                    <span
+                                        className="h-7vw px-3vw border-halfvw color-border-blue-6 border-rad-2dot5vw mr-2vw flex justify-center items-center">
                                         {activityList[1]}
                                     </span>
                                 ) : (
                                     <></>
                                 )}
                                 {activityList.length > 2 ? (
-                                    <span className="h-7vw px-3vw border-halfvw color-border-blue-6 border-rad-2dot5vw mr-2vw flex justify-center items-center">
+                                    <span
+                                        className="h-7vw px-3vw border-halfvw color-border-blue-6 border-rad-2dot5vw mr-2vw flex justify-center items-center">
                                         {activityList[2]}
                                     </span>
                                 ) : (
@@ -601,7 +606,7 @@ export default function PlaceAddDetailPage() {
                         )}
                     </div>
                 </div>
-                <TabBarTour tourId={tourId} tourMode={2} type="schedule" />
+                <TabBarTour tourId={tourId} tourMode={2} type="schedule"/>
                 <WebSocket
                     tourId={tourId}
                     setWsClient={setWsClient}
