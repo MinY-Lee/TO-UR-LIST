@@ -505,9 +505,23 @@ public class PaymentServiceImpl implements PaymentService {
                 }
             }
 
+            // payerId에 해당하는 곳에서도 제거
+            List<String> publicPaymentList = payment.getPrivatePayment()
+                    .get(payment.getPublicPayment().get(payId).getPayerId())
+                    .getPublicPaymentList();
+
+            for (String selectedPayId : publicPaymentList) {
+                if(selectedPayId.equals(payId)) {
+                    publicPaymentList.remove(payId);
+                    break;
+                }
+            }
+
             // 해당하는 지출 제거
             PublicPayment removedPayment = payment.getPublicPayment().remove(payId);
             log.debug(removedPayment.toString());
+
+
         } else {
             throw new PaymentNotExistException("해당하는 지출정보가 없습니다.");
         }
