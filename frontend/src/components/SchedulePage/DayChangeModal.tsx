@@ -14,7 +14,7 @@ export default function DayChangeModal(props: PropType) {
     const [daySelectBox, setDaySelectBox] = useState<string[]>([]);
 
     useEffect(() => {
-        const newSelect = ["날짜없음"];
+        const newSelect = ["(날짜 미정)"];
 
         const startDate = new Date(props.startDate);
 
@@ -36,12 +36,13 @@ export default function DayChangeModal(props: PropType) {
     return (
         <>
             <div className="w-full h-full absolute top-0 left-0 z-20 opacity-20 bg-black"></div>
-            <div className="w-[80%] h-[60%] absolute left-[10%] top-[20%] z-30 bg-white color-border-blue-2 border-halfvw border-rad-2vw flex flex-col justify-around items-center p-2vw">
+            <div className="w-[80%] h-[60%] absolute left-[10%] top-[20%] z-30 bg-white color-border-blue-6 border-halfvw border-rad-2vw flex flex-col justify-around items-start p-2vw">
+                <div className="pl-1.5 font-bold text-xl">방문 예정 날짜</div>
                 <div className="w-full h-[80%] flex flex-col items-center text-7vw overflow-y-scroll">
                     {daySelectBox.map((days, index) => {
                         return props.selectedDate !== index ? (
                             <div
-                                className="w-full h-[20%] flex-shrink-0 color-text-blue-2 color-border-blue-2 border-y-dot5vw flex items-center border-collapse"
+                                className="pl-2 w-full h-[14%] flex-shrink-0 color-text-blue-6 text-2xl color-border-blue-2 border-b flex items-center border-collapse"
                                 onClick={() =>
                                     props.changeDate(props.selectedDate, index)
                                 }
@@ -50,7 +51,7 @@ export default function DayChangeModal(props: PropType) {
                             </div>
                         ) : (
                             <div
-                                className="w-full h-[20%] flex-shrink-0 text-white color-border-blue-2 border-y-dot5vw color-bg-blue-2 flex items-center border-collapse"
+                                className="pl-2 w-full h-[14%] flex-shrink-0 text-white color-border-blue-2 text-2xl border-b color-bg-blue-6 flex items-center border-collapse"
                                 onClick={props.closeModal}
                             >
                                 {days}
@@ -60,7 +61,7 @@ export default function DayChangeModal(props: PropType) {
                 </div>
                 <div className="w-full h-[10%] flex justify-around items-center text-5vw">
                     <div
-                        className="w-full h-full color-bg-blue-2 text-white border-rad-2vw flex justify-center items-center"
+                        className="w-full h-full color-bg-blue-6 text-white border-rad-2vw flex justify-center items-center"
                         onClick={props.closeModal}
                     >
                         닫기
