@@ -151,7 +151,7 @@ export default function TourCreatePage() {
             <div className="mx-5 gap-3 row-span-4 text-center">
                 {currentComponent}
             </div>
-            <div className="m-5 row-span-1">
+            <div className="m-5 mb-20 row-span-1">
                 {step != 4 ? (
                     <MyButton
                         type="full"
