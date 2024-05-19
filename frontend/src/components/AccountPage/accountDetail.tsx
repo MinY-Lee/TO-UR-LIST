@@ -31,8 +31,8 @@ interface DataPerDayInfo {
 
 export default function AccountDetail(props: PropType) {
     const [tourId, setTourId] = useState<string>("");
-    const [startDate, setStartDate] = useState<Date | undefined>();
-    const [endDate, setEndDate] = useState<Date | undefined>(new Date());
+    const [startDate, setStartDate] = useState<Date>(new Date());
+    const [endDate, setEndDate] = useState<Date>(new Date());
     const [rowData, setRowData] = useState<AccountInfo[]>([]);
     const [tabIdx, setTabIdx] = useState<number>(1);
     const [isClicked, setIsClicked] = useState<boolean>(false); // 드롭다운 클릭 여부
@@ -229,23 +229,28 @@ export default function AccountDetail(props: PropType) {
             deleteAccount(deleteTarget.payId, tourId, deleteTarget.payType)
                 .then((res) => {
                     if (res.status == HttpStatusCode.Ok) {
+                        console.log(groupedData);
                         // 화면 상 반영
                         let updatedData: DataPerDayInfo[] = [];
                         Object.keys(groupedData).map((date, index) => {
                             if (
-                                date == deleteTarget.payDatetime.split("T")[0]
+                                groupedData[index].data.includes(deleteTarget)
                             ) {
                                 // date = n일차임
-                                updatedData.push({
-                                    payDatetime: date,
-                                    data: groupedData[index].data.filter(
-                                        (item) => item != deleteTarget
-                                    ),
-                                });
+                                const filteredData = groupedData[
+                                    index
+                                ].data.filter((item) => item != deleteTarget);
+                                if (filteredData.length > 0) {
+                                    updatedData.push({
+                                        payDatetime: date,
+                                        data: filteredData,
+                                    });
+                                }
                             } else {
                                 updatedData.push(groupedData[index]);
                             }
                         });
+                        console.log(updatedData);
                         setGroupedData(updatedData);
                     }
                 })

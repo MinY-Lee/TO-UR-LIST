@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { CountryMapping, TourCardInfo } from "../../types/types";
 import CountryCodeToName from "../TourPage/countryIdToName";
+import MapIcon from "../../assets/svg/mapIcon";
 
 interface PropType {
     tourInfo: TourCardInfo;
@@ -115,9 +116,7 @@ export default function TourCard(props: PropType) {
                         props.tourInfo.startDate
                     )}~${dateStringToString(props.tourInfo.endDate)}`}</p>
                     <div className="text-5vw flex items-center">
-                        <span className="material-symbols-outlined mr-vw">
-                            location_on
-                        </span>
+                        <MapIcon />
                         <p>{`${countryName}, ${props.tourInfo.cityList[0].cityName}`}</p>
                         <div>
                             {props.tourInfo.cityList.length >= 2

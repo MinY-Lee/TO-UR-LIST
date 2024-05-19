@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { TourInfoDetail, MemberInfo } from "../../types/types";
+import { TourInfoDetail, MemberInfo, CountryMapping } from "../../types/types";
 import CheckModal from "../CheckModal";
 
 import GhostProfile from "../../assets/image/ghostProfile.png";
@@ -11,6 +11,8 @@ import { HttpStatusCode } from "axios";
 import OutIcon from "../../assets/svg/outIcon";
 import PencilIcon from "../../assets/svg/pencilIcon";
 import TrashIcon from "../../assets/svg/trashIcon";
+import { GetCountryList } from "../../util/api/country";
+import CountryCodeToName from "./countryIdToName";
 
 interface PropType {
     tourId: string;
@@ -24,8 +26,22 @@ export default function TourHeader(props: PropType) {
 
     const [isClicked, setIsClicked] = useState<boolean>(false);
     const [hoveredMember, setHoveredMember] = useState<MemberInfo | null>(null);
+    const [countryList, setCountryList] = useState<CountryMapping[]>([]);
 
     const dropdownRef = useRef(null);
+
+    // 나라 코드 -> 나라 이름 매핑 위해 데이터 불러오기
+    useEffect(() => {
+        GetCountryList()
+            .then((res) => {
+                if (res.status === HttpStatusCode.Ok) {
+                    setCountryList(res.data);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
     const isHost = (member: MemberInfo): string => {
         if (member.memberType === "host") {
@@ -193,9 +209,13 @@ export default function TourHeader(props: PropType) {
                         <div className="flex flex-wrap">
                             {props.tourInfo.cityList.map((city, index) => (
                                 <div key={index} className="whitespace-pre">
-                                    {city.cityName}
+                                    {CountryCodeToName(
+                                        city.countryCode,
+                                        countryList
+                                    )}
+                                    , {city.cityName}
                                     {index != props.tourInfo.cityList.length - 1
-                                        ? ", "
+                                        ? " / "
                                         : ""}
                                 </div>
                             ))}

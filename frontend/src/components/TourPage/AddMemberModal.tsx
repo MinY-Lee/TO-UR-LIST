@@ -145,7 +145,7 @@ export default function AddMemberModal(props: Proptype) {
                     {updatedMemberList.map((member: MemberInfo) => (
                         <div
                             key={member.userId}
-                            className={`flex px-3 py-1 gap-3 ${
+                            className={`flex px-3 py-1 gap-3 items-center ${
                                 member.memberType == "ghost"
                                     ? "bg-gray-300"
                                     : "color-bg-blue-3"
@@ -170,18 +170,18 @@ export default function AddMemberModal(props: Proptype) {
                 {!addGhostState ? (
                     <div
                         onClick={() => setAddGhostState(true)}
-                        className="border-dashed border-black border-2 w-[90%] text-center py-1"
+                        className="border-dashed border-black border-2 w-[90%] text-center py-3"
                     >
                         + 고스트멤버 추가하기 👻
                     </div>
                 ) : (
-                    <div className="border-dashed border-black border-2 w-[90%] flex flex-col items-center justify-evenly gap-2 py-2">
+                    <div className="border-dashed border-black border-2 w-[90%] flex flex-col items-center justify-evenly gap-2 py-3">
                         + 고스트멤버 추가하기 👻
                         <input
                             value={ghostNickname}
                             onChange={handleInputChange}
                             onKeyDown={handleAddGhost}
-                            className="border-neutral-400 border m-0 mr-0.5 px-2 flex-auto bg-clip-padding outline-none"
+                            className="border-neutral-400 border w-[80%] px-2 flex-auto bg-clip-padding outline-none"
                             aria-label="GhostNickname"
                             aria-describedby="button-addon1"
                             placeholder="고스트 닉네임을 입력하세요"
