@@ -69,7 +69,7 @@ export default function TourSchedulePage() {
             const startDate = new Date(tourInfo.startDate);
             const endDate = new Date(tourInfo.endDate);
 
-            const calculated = endDate.getDate() - startDate.getDate() + 1;
+            const calculated = (endDate.getTime() - startDate.getTime())/ (1000 * 60 * 60 * 24) + 1;
             setPeriod(calculated);
 
             //스케줄 배열 초기화

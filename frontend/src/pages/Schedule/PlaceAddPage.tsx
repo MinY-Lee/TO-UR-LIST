@@ -232,7 +232,7 @@ export default function PlaceAddPage() {
                         </div>
                     ) : (
                         <div className="w-full h-6vw text-4vw px-2vw flex items-center">
-                            날짜 미 선택
+                            날짜 미정
                         </div>
                     )}
                     <Wrapper
