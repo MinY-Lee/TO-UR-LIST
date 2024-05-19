@@ -236,9 +236,9 @@ export default function PlaceAddDetailPage() {
         });
     }, [thisPlaceVisit]);
 
-    const makePhotoUrl = (original: string) => {
+    const makePhotoUrl = async (original: string) => {
         const photoRefer = original;
-        const result = getPhotoUrl(photoRefer).then((response) => {
+        const result = await getPhotoUrl(photoRefer).then((response) => {
             return response.data
         })
         .catch((error) => {
