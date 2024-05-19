@@ -184,6 +184,11 @@ public class PlaceController {
     public void testSearchPlace(@PathVariable String tourId, @PathVariable Integer tourDay, @PathVariable String placeId){
         placeService.checkPlaceDuplication(tourId, tourDay, placeId);
     }
+
+    @GetMapping("/place/v1/places/{placeId}/photos/{photoResource}")
+    public ResponseEntity<String> getPhoto(@PathVariable String placeId, @PathVariable String photoResource) {
+        return ResponseEntity.ok().body(placeService.requestPhoto(placeId, photoResource));
+    }
 }
 
 
