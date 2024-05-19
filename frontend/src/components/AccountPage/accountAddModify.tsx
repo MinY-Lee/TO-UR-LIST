@@ -232,12 +232,7 @@ export default function AccountAddModify(props: PropType) {
         if (isPublic) {
             // N빵 후 보내
             payMember.map((member: PayMember) => {
-                const value =
-                    unit != "₩"
-                        ? Math.ceil(
-                              (amount * exchangeRate) / payMember.length / 100
-                          ) * 100
-                        : Math.ceil(amount / payMember.length / 100) * 100;
+                const value = Math.ceil(amount / payMember.length);
                 updatedMember.push({ userId: member.userId, payAmount: value });
             });
             setPayMember(updatedMember);
@@ -246,10 +241,10 @@ export default function AccountAddModify(props: PropType) {
         const newAccountItem: AccountInfo = {
             payType: isPublic ? "public" : "private",
             tourId: props.tourId,
-            payAmount: unit == "₩" ? amount : Math.round(exchangeRate * amount),
+            payAmount: amount,
             exchangeRate: exchangeRate,
             unit: unit,
-            currencyCode: currency.currencyCode, // 매핑 안됨
+            currencyCode: unit == "₩" ? "KRW" : currency.currencyCode,
             payMethod: type,
             payDatetime: date,
             payContent: content,

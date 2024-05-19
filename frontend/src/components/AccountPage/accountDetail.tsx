@@ -270,7 +270,7 @@ export default function AccountDetail(props: PropType) {
                 <></>
             )}
             <div className="flex flex-col items-center">
-                <div className="px-5 flex justify-between w-full items-center mt-3">
+                <div className="px-5 grid grid-cols-3 justify-between w-full items-center mt-3">
                     {/* 내역 드롭다운 */}
                     <button
                         onClick={() => setIsClicked(!isClicked)}
@@ -323,25 +323,25 @@ export default function AccountDetail(props: PropType) {
                     {/* 원화 현지화폐 토글 */}
                     <ul className="grid grid-cols-2 w-[30vw] border rounded-full color-bg-blue-4">
                         <li
-                            className="rounded-full h-6"
+                            className="rounded-full h-7"
                             onClick={() => setTabIdx(1)}
                         >
                             <div
                                 className={`${getTabClass(
                                     1
-                                )} rounded-full h-6 flex justify-center items-center border-x-0 border-b-2 border-t-0 border-transparent leading-tight text-neutral-500 `}
+                                )} rounded-full h-7 flex justify-center items-center border-x-0 border-b-2 border-t-0 border-transparent leading-tight text-neutral-500 `}
                             >
                                 KRW
                             </div>
                         </li>
                         <li
-                            className="rounded-full h-6"
+                            className="rounded-full h-7"
                             onClick={() => setTabIdx(2)}
                         >
                             <div
                                 className={`${getTabClass(
                                     2
-                                )} rounded-full h-6 flex justify-center items-center border-x-0 border-b-2 border-t-0 border-transparent leading-tight text-neutral-500 `}
+                                )} rounded-full h-7 flex justify-center items-center border-x-0 border-b-2 border-t-0 border-transparent leading-tight text-neutral-500 `}
                             >
                                 원본
                             </div>
@@ -349,7 +349,7 @@ export default function AccountDetail(props: PropType) {
                     </ul>
                     {/* 엑셀로 내보내기 */}
                     <div className="text-neutral-500 underline">
-                        엑셀로 내보내기
+                        {/* 엑셀로 내보내기 */}
                     </div>
                 </div>
 
@@ -414,19 +414,8 @@ export default function AccountDetail(props: PropType) {
                                                         {item.payType ==
                                                         "private" ? (
                                                             <div>
-                                                                {tabIdx == 1 ? (
-                                                                    <>
-                                                                        {item.payAmount.toLocaleString()}{" "}
-                                                                        원
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        {item.payAmount.toLocaleString()}{" "}
-                                                                        {
-                                                                            item.unit
-                                                                        }
-                                                                    </>
-                                                                )}
+                                                                {item.payAmount.toLocaleString()}{" "}
+                                                                {item.unit}
                                                             </div>
                                                         ) : (
                                                             <div className="text-orange-500">
@@ -435,7 +424,9 @@ export default function AccountDetail(props: PropType) {
                                                                         {getMyAmount(
                                                                             item
                                                                         ).toLocaleString()}{" "}
-                                                                        원
+                                                                        {
+                                                                            item.unit
+                                                                        }
                                                                     </>
                                                                 ) : (
                                                                     <>
@@ -496,7 +487,9 @@ export default function AccountDetail(props: PropType) {
                                                                 {tabIdx == 1 ? (
                                                                     <>
                                                                         {item.payAmount.toLocaleString()}{" "}
-                                                                        원
+                                                                        {
+                                                                            item.unit
+                                                                        }
                                                                     </>
                                                                 ) : (
                                                                     <>

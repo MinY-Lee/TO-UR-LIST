@@ -84,7 +84,9 @@ export default function AccountAddPage() {
                         }
                         acceptList[memberId].push({
                             payContent: item.payContent,
-                            payAmount: member.payAmount,
+                            payAmount: Math.ceil(
+                                member.payAmount * item.exchangeRate
+                            ), // 원화는 어차피 rate = 1
                         });
                     }
                 });
@@ -105,7 +107,7 @@ export default function AccountAddPage() {
                         }
                         sendList[item.payerId].push({
                             payContent: item.payContent,
-                            payAmount: member.payAmount,
+                            payAmount: member.payAmount * item.exchangeRate,
                         });
                     }
                 });

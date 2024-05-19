@@ -30,3 +30,8 @@ export async function getPlaceList(tourId: string) {
 export async function getActivityList(placeId: string) {
     return await local.get(`/api/activity/${placeId}`);
 }
+
+// 사진 불러오기
+export async function getPhotoUrl(photoName: string) {
+    return await local.get(`/api/place/v1/${photoName}`);
+}

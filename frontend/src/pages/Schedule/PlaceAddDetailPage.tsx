@@ -1,6 +1,6 @@
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import TabBarTour from "../../components/TabBar/TabBarTour";
 import {
     TourEditDetail,
@@ -15,13 +15,14 @@ import {
 
 import {
     getActivityList,
+    getPhotoUrl,
     getPlaceList,
     searchPlaceDetail,
 } from "../../util/api/place";
-import {httpStatusCode} from "../../util/api/http-status";
+import { httpStatusCode } from "../../util/api/http-status";
 import WebSocket from "../../components/TabBar/WebSocket";
-import {getTour} from "../../util/api/tour";
-import {Client} from "@stomp/stompjs";
+import { getTour } from "../../util/api/tour";
+import { Client } from "@stomp/stompjs";
 import ActivityAddModal from "../../components/SchedulePage/ActivityAddModal";
 import DayChangeModal from "../../components/SchedulePage/DayChangeModal";
 import Loading from "../../components/Loading";
@@ -34,6 +35,7 @@ import ClockIcon from "../../assets/svg/clockIcon.tsx";
 import CreditCardIcon from "../../assets/svg/creditCardIcon.tsx";
 import MapIcon from "../../assets/svg/mapIcon";
 import PlaceMapIcon from "../../assets/svg/placeMapIcon.tsx";
+import { HttpStatusCode } from "axios";
 
 export default function PlaceAddDetailPage() {
     const location = useLocation();
@@ -114,6 +116,7 @@ export default function PlaceAddDetailPage() {
                     if (res.status === httpStatusCode.OK) {
                         setTourDetail(res.data);
                         setPlaceInfo(res.data.placeInfo);
+                        makePhotoUrl(res.data.placeInfo);
                     }
                 })
                 .catch((err) => {
@@ -236,10 +239,27 @@ export default function PlaceAddDetailPage() {
         });
     }, [thisPlaceVisit]);
 
-    const makePhotoUrl = (original: string) => {
-        const photoRefer = original.split("/")[3];
-        const apiKey = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
-        return `/maps/api/place/photo?maxwidth=400&photo_reference=${photoRefer}&key=${apiKey}`;
+    // const makePhotoUrl = (original: string) => {
+    //     const photoRefer = original.split("/")[3];
+    //     const apiKey = import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY;
+    //     return `/maps/api/place/photo?maxwidth=400&photo_reference=${photoRefer}&key=${apiKey}`;
+    // };
+
+    const [urlList, setUrlList] = useState<string[]>([]);
+    const makePhotoUrl = async (placeInfo: PlaceInfoDetail) => {
+        try {
+            const responses = await Promise.all(
+                placeInfo.placePhotoList.map((photoRefer) =>
+                    getPhotoUrl(photoRefer)
+                )
+            );
+            const urls = responses
+                .filter((response) => response.status === HttpStatusCode.Ok)
+                .map((response) => response.data);
+            setUrlList(urls);
+        } catch (error) {
+            console.error("Error fetching photo URLs:", error);
+        }
     };
 
     /**활동 추가 모달 닫기 */
@@ -335,21 +355,19 @@ export default function PlaceAddDetailPage() {
             ) : (
                 <></>
             )}
-            {isLoading ? <Loading/> : <></>}
+            {isLoading ? <Loading /> : <></>}
             <section className="w-full h-full text-[#353535]">
-                <HeaderBar/>
+                <HeaderBar />
                 <div className="flex flex-col w-full h-[93%] overflow-y-scroll py-vw px-3vw">
                     {/* 이미지 */}
                     <div className="w-full h-[20%] flex overflow-x-auto mb-2vw">
-                        {placeInfo.placePhotoList.map((original) => {
-                            const photoUrl = makePhotoUrl(original);
-
+                        {placeInfo.placePhotoList.map((original, index) => {
                             return (
                                 <img
                                     crossOrigin="anonymous"
-                                    className="w-[33%] h-full flex-shrink-0 px-dot5vw border-rad-2vw"
-                                    src={`${photoUrl}`}
-                                    key={`${photoUrl}`}
+                                    className=" h-full flex-shrink-0 px-dot5vw border-rad-2vw"
+                                    src={urlList[index]}
+                                    key={index}
                                 ></img>
                             );
                         })}
@@ -373,11 +391,11 @@ export default function PlaceAddDetailPage() {
                                                 body: {
                                                     tourId: tourId,
                                                     placeId:
-                                                    tourDetail?.placeInfo
-                                                        .placeId,
+                                                        tourDetail?.placeInfo
+                                                            .placeId,
                                                     placeName:
-                                                    tourDetail?.placeInfo
-                                                        .placeName,
+                                                        tourDetail?.placeInfo
+                                                            .placeName,
                                                     tourDay: tourDay,
                                                 },
                                             }),
@@ -401,11 +419,11 @@ export default function PlaceAddDetailPage() {
                                                 body: {
                                                     tourId: tourId,
                                                     placeId:
-                                                    tourDetail?.placeInfo
-                                                        .placeId,
+                                                        tourDetail?.placeInfo
+                                                            .placeId,
                                                     placeName:
-                                                    tourDetail?.placeInfo
-                                                        .placeName,
+                                                        tourDetail?.placeInfo
+                                                            .placeName,
                                                     tourDay: tourDay,
                                                 },
                                             }),
@@ -418,7 +436,7 @@ export default function PlaceAddDetailPage() {
                         )}
                     </div>
                     <div className="w-full text-4vw mb-vw flex justify-start items-center px-vw ">
-                        <PlaceMapIcon className="mr-vw w-5vw "/>
+                        <PlaceMapIcon className="mr-vw w-5vw " />
                         <span>{placeInfo.placeAddress}</span>
                     </div>
                     <div className="w-full h-dot5vw bg-[#828282] mb-2vw"></div>
@@ -447,18 +465,18 @@ export default function PlaceAddDetailPage() {
                                                             body: {
                                                                 tourId: tourId,
                                                                 placeId:
-                                                                place.placeId,
+                                                                    place.placeId,
                                                                 placeName:
-                                                                place.placeName,
+                                                                    place.placeName,
                                                                 tourDay:
-                                                                place.tourDay,
+                                                                    place.tourDay,
                                                             },
                                                         }),
                                                     });
                                                 }
                                             }}
                                         >
-                                            <CalcelIcon/>
+                                            <CalcelIcon />
                                         </div>
                                         <div
                                             className="w-[50%] text-4vw border-[#B5B5B5] border-dot3vw flex justify-between p-vw m-vw border-rad-2vw"
@@ -474,16 +492,20 @@ export default function PlaceAddDetailPage() {
                                                 calendar_today
                                             </span>
                                         </div>
-                                        {place.activityList.length >= 1 && place.activityList[0]
-                                            && <div
-                                                className="w-[20%] text-4vw color-bg-blue-6 text-white color-border-blue-6 border-halfvw border-rad-2vw mr-1 py-dot5vw flex justify-center items-center">
-                                                {place.activityList.length > 1
-                                                    ? place.activityList[0] +
-                                                    "+" +
-                                                    (place.activityList.length -
-                                                        1)
-                                                    : place.activityList[0]}
-                                            </div>}
+                                        {place.activityList.length >= 1 &&
+                                            place.activityList[0] && (
+                                                <div className="w-[20%] text-4vw color-bg-blue-6 text-white color-border-blue-6 border-halfvw border-rad-2vw mr-1 py-dot5vw flex justify-center items-center">
+                                                    {place.activityList.length >
+                                                    1
+                                                        ? place
+                                                              .activityList[0] +
+                                                          "+" +
+                                                          (place.activityList
+                                                              .length -
+                                                              1)
+                                                        : place.activityList[0]}
+                                                </div>
+                                            )}
 
                                         <div
                                             className="w-[20%] text-4vw color-text-blue-6 color-border-blue-6 border-halfvw border-rad-2vw px-vw  py-dot5vw flex justify-center items-center border-dotted"
@@ -508,24 +530,21 @@ export default function PlaceAddDetailPage() {
                             </div>
                             <div className="flex items-center text-5vw color-text-blue-6 weight-text-semibold">
                                 {activityList.length > 0 ? (
-                                    <span
-                                        className="h-7vw px-3vw border-halfvw color-border-blue-6 border-rad-2dot5vw mr-2vw flex justify-center items-center">
+                                    <span className="h-7vw px-3vw border-halfvw color-border-blue-6 border-rad-2dot5vw mr-2vw flex justify-center items-center">
                                         {activityList[0]}
                                     </span>
                                 ) : (
                                     <></>
                                 )}
                                 {activityList.length > 1 ? (
-                                    <span
-                                        className="h-7vw px-3vw border-halfvw color-border-blue-6 border-rad-2dot5vw mr-2vw flex justify-center items-center">
+                                    <span className="h-7vw px-3vw border-halfvw color-border-blue-6 border-rad-2dot5vw mr-2vw flex justify-center items-center">
                                         {activityList[1]}
                                     </span>
                                 ) : (
                                     <></>
                                 )}
                                 {activityList.length > 2 ? (
-                                    <span
-                                        className="h-7vw px-3vw border-halfvw color-border-blue-6 border-rad-2dot5vw mr-2vw flex justify-center items-center">
+                                    <span className="h-7vw px-3vw border-halfvw color-border-blue-6 border-rad-2dot5vw mr-2vw flex justify-center items-center">
                                         {activityList[2]}
                                     </span>
                                 ) : (
@@ -544,14 +563,14 @@ export default function PlaceAddDetailPage() {
                                 <></>
                             ) : placeInfo.placeOpenNow ? (
                                 <>
-                                    <ClockIcon className="w-5vw mr-vw pb-1"/>
+                                    <ClockIcon className="w-5vw mr-vw pb-1" />
                                     <span className="text-[#28a71d]">
                                         영업 중
                                     </span>
                                 </>
                             ) : (
                                 <>
-                                    <ClockIcon className="w-5vw mr-vw pb-1"/>
+                                    <ClockIcon className="w-5vw mr-vw pb-1" />
                                     <span className="text-[#fa5d3b]">
                                         영업 종료
                                     </span>
@@ -584,7 +603,7 @@ export default function PlaceAddDetailPage() {
                             <></>
                         ) : (
                             <div className="flex weight-text-semibold items-center my-vw">
-                                <CreditCardIcon className="w-5vw mr-vw"/>
+                                <CreditCardIcon className="w-5vw mr-vw" />
                                 <div className="weight-text-semibold">
                                     카드 결제 :
                                     <>
@@ -599,7 +618,7 @@ export default function PlaceAddDetailPage() {
                         )}
                     </div>
                 </div>
-                <TabBarTour tourId={tourId} tourMode={2} type="schedule"/>
+                <TabBarTour tourId={tourId} tourMode={2} type="schedule" />
                 <WebSocket
                     tourId={tourId}
                     setWsClient={setWsClient}
