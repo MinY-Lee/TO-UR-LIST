@@ -14,9 +14,10 @@ interface PropType {
 export default function PlaceSearchCard(props: PropType) {
     const photoReference =
         props.placeInfo.placePhotoList.length >= 1
-            ? props.placeInfo.placePhotoList[0].split("/")[3]
+            // ? props.placeInfo.placePhotoList[0].split("/")[3]
+            ? props.placeInfo.placePhotoList[0]
             : "";
-    const photoUrl = `/maps/api/place/photo?maxwidth=400&photo_reference=${photoReference}&key=${
+    const photoUrl = `/v1/${photoReference}/media?maxWidthPx=400&key=${
         import.meta.env.VITE_REACT_GOOGLE_MAPS_API_KEY
     }`;
 
