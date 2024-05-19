@@ -69,6 +69,7 @@ export default function AccountDetail(props: PropType) {
 
         // data를 날짜별로 그룹화
         if (startDate) {
+            console.log(data);
             const tempDate = GetISOStringKor(
                 new Date(startDate.getTime() - 9 * 60 * 60 * 1000)
             ).split("T")[0];
@@ -214,7 +215,6 @@ export default function AccountDetail(props: PropType) {
     };
 
     const getMyAmount = (info: AccountInfo): number => {
-        console.log(info);
         let amount = 0;
         info.payMemberList.forEach((member) => {
             if (member.userId == userInfo.userId) {
