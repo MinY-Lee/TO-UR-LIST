@@ -343,7 +343,7 @@ public class PaymentServiceImpl implements PaymentService {
                 for (PrivatePaymentInfo currPrivatePaymentInfo : privatePaymentList) {
                     if (currPrivatePaymentInfo.getPrivatePaymentId().equals(payId)) {
                         log.debug(currPrivatePaymentInfo.toString());
-                        return makePaymentInfoRes(tourId, payId, currPrivatePaymentInfo);
+                        return makePaymentInfoRes(tourId, userId, currPrivatePaymentInfo);
                     }
                 }
                 break;
