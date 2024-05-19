@@ -358,14 +358,14 @@ export default function PlaceAddDetailPage() {
             {isLoading ? <Loading /> : <></>}
             <section className="w-full h-full text-[#353535]">
                 <HeaderBar />
-                <div className="flex flex-col w-full h-[93%] overflow-y-scroll py-vw px-3vw">
+                <div className="flex flex-col w-full h-[85vh] overflow-y-auto py-vw px-3vw">
                     {/* 이미지 */}
-                    <div className="w-full h-[20%] flex overflow-x-auto mb-2vw">
+                    <div className="w-full min-h-[15vh] flex overflow-x-auto mb-2vw">
                         {placeInfo.placePhotoList.map((original, index) => {
                             return (
                                 <img
                                     crossOrigin="anonymous"
-                                    className=" h-full flex-shrink-0 px-dot5vw border-rad-2vw"
+                                    className="h-full flex-shrink-0 px-dot5vw border-rad-2vw"
                                     src={urlList[index]}
                                     key={index}
                                 ></img>

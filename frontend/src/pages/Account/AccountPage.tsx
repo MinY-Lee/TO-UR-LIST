@@ -90,11 +90,15 @@ export default function AccountPage() {
         // 개인 총 지출 계산
         data.forEach((item: AccountInfo) => {
             if (item.payType == "private" && item.payerId == userInfo.userId) {
-                total += item.payAmount;
+                if (item.currencyCode != "KRW") {
+                    total += item.payAmount * item.exchangeRate;
+                } else {
+                    total += item.payAmount;
+                }
             }
         });
 
-        return total;
+        return Math.ceil(total);
     };
 
     const calcPublicTotal = () => {
@@ -103,13 +107,17 @@ export default function AccountPage() {
             if (item.payType == "public") {
                 item.payMemberList.map((payMember: PayMember) => {
                     if (payMember.userId == userInfo.userId) {
-                        total += payMember.payAmount;
+                        if (item.currencyCode != "KRW") {
+                            total += payMember.payAmount * item.exchangeRate;
+                        } else {
+                            total += payMember.payAmount;
+                        }
                     }
                 });
             }
         });
 
-        return total;
+        return Math.ceil(total);
     };
 
     const activeStyle = "font-bold color-bg-blue-4";

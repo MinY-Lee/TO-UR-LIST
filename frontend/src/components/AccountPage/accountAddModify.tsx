@@ -116,13 +116,7 @@ export default function AccountAddModify(props: PropType) {
             setDate(GetISOStringKor());
         } else {
             if (props.data && props.data.payId != "") {
-                setAmount(
-                    unit != "₩"
-                        ? Math.floor(
-                              props.data.payAmount / props.data.exchangeRate
-                          )
-                        : props.data.payAmount
-                );
+                setAmount(props.data.payAmount);
                 setDate(props.data.payDatetime);
                 setIsPublic(props.data.payType == "public" ? true : false);
                 setPayerId(props.data.payerId);

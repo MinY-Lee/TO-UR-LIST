@@ -217,7 +217,11 @@ export default function AccountDetail(props: PropType) {
         let amount = 0;
         info.payMemberList.forEach((member) => {
             if (member.userId == userInfo.userId) {
-                amount = member.payAmount;
+                if (tabIdx == 1) {
+                    amount = Math.ceil(member.payAmount * info.exchangeRate);
+                } else {
+                    amount = member.payAmount;
+                }
             }
         });
 
@@ -254,6 +258,18 @@ export default function AccountDetail(props: PropType) {
         return Math.round(
             (date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24)
         );
+    };
+
+    const toWon = (item: AccountInfo) => {
+        if (tabIdx == 1) {
+            if (item.currencyCode == "KRW") {
+                return item.payAmount.toLocaleString();
+            }
+            return Math.ceil(
+                item.payAmount * item.exchangeRate
+            ).toLocaleString();
+        }
+        return item.payAmount.toLocaleString();
     };
     return (
         <>
@@ -414,8 +430,10 @@ export default function AccountDetail(props: PropType) {
                                                         {item.payType ==
                                                         "private" ? (
                                                             <div>
-                                                                {item.payAmount.toLocaleString()}{" "}
-                                                                {item.unit}
+                                                                {toWon(item)}{" "}
+                                                                {tabIdx == 1
+                                                                    ? "₩"
+                                                                    : item.unit}
                                                             </div>
                                                         ) : (
                                                             <div className="text-orange-500">
@@ -424,17 +442,12 @@ export default function AccountDetail(props: PropType) {
                                                                         {getMyAmount(
                                                                             item
                                                                         ).toLocaleString()}{" "}
-                                                                        {
-                                                                            item.unit
-                                                                        }
+                                                                        ₩
                                                                     </>
                                                                 ) : (
                                                                     <>
-                                                                        {Math.ceil(
-                                                                            getMyAmount(
-                                                                                item
-                                                                            ) /
-                                                                                item.exchangeRate
+                                                                        {getMyAmount(
+                                                                            item
                                                                         ).toLocaleString()}{" "}
                                                                         {
                                                                             item.unit
@@ -486,21 +499,16 @@ export default function AccountDetail(props: PropType) {
                                                             <div className=" text-neutral-500 ">
                                                                 {tabIdx == 1 ? (
                                                                     <>
-                                                                        {item.payAmount.toLocaleString()}{" "}
-                                                                        {
-                                                                            item.unit
-                                                                        }
+                                                                        {toWon(
+                                                                            item
+                                                                        )}{" "}
+                                                                        ₩
                                                                     </>
                                                                 ) : (
                                                                     <>
-                                                                        {(
-                                                                            item.payAmount /
-                                                                            item.exchangeRate
-                                                                        ).toLocaleString()}{" "}
+                                                                        {item.payAmount.toLocaleString()}{" "}
                                                                         {
-                                                                            props
-                                                                                .currency
-                                                                                .unit
+                                                                            item.unit
                                                                         }
                                                                     </>
                                                                 )}
