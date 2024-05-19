@@ -20,6 +20,7 @@ export default function TourCheckList(props: PropType) {
     const [checklist, setChecklist] = useState<Item[]>([]);
     const [filteredChecklist, setFilteredChecklist] = useState<Item[]>([]);
     const [filteredGroup, setFilteredGroup] = useState<CountItem>({});
+    const [isUpdated, setIsUpdated] = useState<boolean>(false);
 
     useEffect(() => {
         if (props.tourId) {
@@ -35,7 +36,7 @@ export default function TourCheckList(props: PropType) {
                 })
                 .catch((err) => console.log(err));
         }
-    }, [props]);
+    }, [props, isUpdated]);
 
     // 활동 id 별 색상 부여
     const setColor = (activity: string): string => {
@@ -67,49 +68,48 @@ export default function TourCheckList(props: PropType) {
     const filterUniqueItems = (checklist: Item[]): Item[] => {
         const seenItems = new Set<string>();
         let uniqueItems: Item[] = [];
-        let unchecked: Item[] = [];
-        let checked: Item[] = [];
 
         checklist.forEach((item) => {
             const itemName = item.item;
             if (itemName && !seenItems.has(itemName)) {
                 seenItems.add(itemName);
-                // 체크 여부 구분
-                item.isChecked == true
-                    ? checked.push(item)
-                    : unchecked.push(item);
+                uniqueItems.push(item);
             }
         });
-
-        uniqueItems = [...unchecked, ...checked];
 
         return uniqueItems;
     };
 
-    const handleCheckbox = (index: number) => {
-        const { activity, isChecked, item, placeId, tourDay, tourId } =
-            filteredChecklist[index];
-        const targetItem: ItemApi = {
-            activity: activity,
-            isChecked: !isChecked,
-            item: item,
-            placeId: placeId,
-            tourDay: tourDay,
-            tourId: tourId,
-        };
+    const handleCheckbox = (target: Item) => {
+        // 전체에서 체크 시 해당 아이템 모두 체킹
+        const targetItems: ItemApi[] = [];
 
-        checkItem(targetItem)
-            .then((res) => {
-                if (res.status == HttpStatusCode.Ok) {
-                    // 화면상 반영 및 아래로 이동
-                    const updatedChecklist = [...filteredChecklist];
-                    updatedChecklist[index].isChecked =
-                        !updatedChecklist[index].isChecked;
+        checklist.forEach((checkItem) => {
+            if (target.item == checkItem.item) {
+                const { activity, isChecked, item, placeId, tourDay, tourId } =
+                    checkItem;
+                targetItems.push({
+                    activity: activity,
+                    isChecked: !isChecked,
+                    item: item,
+                    placeId: placeId,
+                    tourDay: tourDay,
+                    tourId: tourId,
+                });
+            }
+        });
 
-                    setFilteredChecklist(updatedChecklist);
-                }
-            })
-            .catch((err) => console.log(err));
+        if (targetItems.length > 0) {
+            targetItems.forEach((targetItem) => {
+                checkItem(targetItem)
+                    .then((res) => {
+                        if (res.status == HttpStatusCode.Ok) {
+                            setIsUpdated(!isUpdated);
+                        }
+                    })
+                    .catch((err) => console.log(err));
+            });
+        }
     };
 
     const getActivity = (target: Item): string => {
@@ -154,7 +154,7 @@ export default function TourCheckList(props: PropType) {
                                                     id="default-checkbox"
                                                     type="checkbox"
                                                     onChange={() =>
-                                                        handleCheckbox(index)
+                                                        handleCheckbox(item)
                                                     }
                                                     checked={item.isChecked}
                                                     className="w-6 h-6 bg-gray-100 border-gray-300 rounded "
