@@ -431,6 +431,34 @@ public class PaymentServiceImpl implements PaymentService {
                 payment.setPrivatePayment(privatePayment);
             }
         }
+
+        boolean payerIdExists = payMemberList.stream()
+                .anyMatch(member -> member.getUserId().equals(paymentInfo.getPayerId()));
+
+        if (!payerIdExists) {
+            // Payer's payAmount is 0 as per the requirement that payer info shouldn't have payAmount
+            if (!payment.getPrivatePayment().containsKey(paymentInfo.getPayerId())) {
+                // 개인 지출 항목 생성
+                ArrayList<String> publicPaymentList = new ArrayList<>();
+                publicPaymentList.add(publicPaymentId);
+
+                PrivatePayment updatePrivatePayment = PrivatePayment.builder()
+                        .privatePaymentList(new ArrayList<>())
+                        .publicPaymentList(publicPaymentList)
+                        .build();
+                // 반영
+                Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
+                privatePayment.put(paymentInfo.getPayerId(), updatePrivatePayment);
+                payment.setPrivatePayment(privatePayment);
+            } else {
+                // 기존 항목에 추가
+                Map<String, PrivatePayment> privatePayment = payment.getPrivatePayment();
+                List<String> publicPaymentList = privatePayment.get(paymentInfo.getPayerId()).getPublicPaymentList();
+                publicPaymentList.add(publicPaymentId);
+                payment.setPrivatePayment(privatePayment);
+            }
+        }
+
         return publicPaymentId;
     }
 
