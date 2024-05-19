@@ -69,31 +69,28 @@ export default function AccountDetail(props: PropType) {
 
         // data를 날짜별로 그룹화
         if (startDate) {
-            console.log(data);
             const tempDate = GetISOStringKor(
                 new Date(startDate.getTime() - 9 * 60 * 60 * 1000)
             ).split("T")[0];
             data.forEach((info: AccountInfo) => {
                 const date = info.payDatetime;
 
-                if (isPayMember(userInfo.userId, info)) {
-                    if (calcDay(new Date(date), new Date(tempDate)) < 0) {
-                        if (!groupedByDate[tempDate]) {
-                            groupedByDate[tempDate] = [];
-                        }
-                        groupedByDate[tempDate] = [
-                            info,
-                            ...groupedByDate[tempDate],
-                        ];
-                    } else {
-                        if (!groupedByDate[date.split("T")[0]]) {
-                            groupedByDate[date.split("T")[0]] = [];
-                        }
-                        groupedByDate[date.split("T")[0]] = [
-                            info,
-                            ...groupedByDate[date.split("T")[0]],
-                        ];
+                if (calcDay(new Date(date), new Date(tempDate)) < 0) {
+                    if (!groupedByDate[tempDate]) {
+                        groupedByDate[tempDate] = [];
                     }
+                    groupedByDate[tempDate] = [
+                        info,
+                        ...groupedByDate[tempDate],
+                    ];
+                } else {
+                    if (!groupedByDate[date.split("T")[0]]) {
+                        groupedByDate[date.split("T")[0]] = [];
+                    }
+                    groupedByDate[date.split("T")[0]] = [
+                        info,
+                        ...groupedByDate[date.split("T")[0]],
+                    ];
                 }
             });
         }
@@ -113,7 +110,6 @@ export default function AccountDetail(props: PropType) {
                 new Date(a.payDatetime).getTime() -
                 new Date(b.payDatetime).getTime()
         );
-
         setGroupedData(groupedData);
     };
 
@@ -182,11 +178,14 @@ export default function AccountDetail(props: PropType) {
     };
 
     const isPayMember = (userId: string, info: AccountInfo) => {
-        if (info.payerId === userId) {
+        if (info.payerId == userId) {
             return true;
         }
         info.payMemberList.forEach((member) => {
-            if (member.userId === userId) {
+            console.log(userId);
+            console.log(member.userId);
+
+            if (member.userId == userId) {
                 return true;
             }
         });
