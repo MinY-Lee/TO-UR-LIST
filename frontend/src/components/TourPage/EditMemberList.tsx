@@ -35,9 +35,11 @@ export default function EditMemberList(props: PropType) {
         <>
             <div
                 onClick={() => props.setAddModalClicked(true)}
-                className="border-dashed border-2 color-text-blue-2 color-border-blue-2 m-1 font-bold text-3xl w-12 h-12 rounded-full flex justify-center items-center"
+                className="add-button border-dashed border-2 text-blue-500 border-blue-500 m-1 font-bold text-3xl  rounded-full flex justify-center items-center"
             >
-                +
+                <span className="w-12 h-12 flex justify-center items-center">
+                    +
+                </span>
             </div>
             {props.memberList &&
                 props.memberList?.length >= 1 &&

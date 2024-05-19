@@ -15,6 +15,7 @@ interface Proptype {
 }
 
 export default function AddMemberModal(props: Proptype) {
+    const [isOpen, setIsOpen] = useState<boolean>(true);
     const [topOffset, setTopOffset] = useState<number>(0);
     const [addGhostState, setAddGhostState] = useState<boolean>(false);
     const [ghostNickname, setGhostNickname] = useState<string>("");
@@ -127,13 +128,32 @@ export default function AddMemberModal(props: Proptype) {
         props.closeMemberModal();
     };
 
+    const handleClickOutside = (event: MouseEvent) => {
+        if (divRef.current && !divRef.current.contains(event.target as Node)) {
+            props.closeMemberModal();
+        }
+    };
+
+    useEffect(() => {
+        if (isOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+
+        // Cleanup the event listener on component unmount
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen]);
+
     return (
         <>
             <div className="absolute w-full h-full top-0 left-0 z-20 bg-black opacity-50"></div>
             <div
                 ref={divRef}
-                className={`absolute gap-2 p-5 w-[80%] left-[10%]  z-30 bg-white flex flex-col justify-evenly items-center border-[0.5vw] color-border-blue-2`}
-                style={{ borderRadius: "2vw", top: `${topOffset}px` }}
+                className={`absolute rounded-lg gap-2 p-5 w-[80%] left-[10%]  z-30 bg-white flex flex-col justify-evenly items-center `}
+                style={{ top: `${topOffset}px` }}
             >
                 <div className="w-full flex flex-col justify-center text-xl font-bold">
                     멤버 추가하기

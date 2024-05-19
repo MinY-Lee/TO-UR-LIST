@@ -35,7 +35,7 @@ export default function TabBarMain(props: PropType) {
                     <div>피드</div>
                 </div>
                 <div className="hover:bg-[#d5e7f2] h-full  ">
-                    {props.tabMode == 2 ? (
+                    {props.tabMode == 2 || props.type == "feed" ? (
                         <div
                             className={`${
                                 props.type == "main" ? selected : ""

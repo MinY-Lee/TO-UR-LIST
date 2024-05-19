@@ -204,9 +204,9 @@ export default function TourHeader(props: PropType) {
                             )
                         )}
                     </div>
-                    <div className="text-5vw flex items-center mt-3">
+                    <div className="text-5vw flex items-start mt-3">
                         <MapIcon />
-                        <div className="flex flex-wrap">
+                        <div className="flex flex-wrap w-[90%]">
                             {props.tourInfo.cityList.map((city, index) => (
                                 <div key={index} className="whitespace-pre">
                                     {CountryCodeToName(

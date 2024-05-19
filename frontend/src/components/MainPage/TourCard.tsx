@@ -100,14 +100,14 @@ export default function TourCard(props: PropType) {
                 <div
                     className={`${
                         mode === 2 ? "" : "w-[30%]"
-                    } h-full flex flex-col justify-center items-center p-[2vw]`}
+                    } h-full flex flex-col justify-center items-center p-[1vw]`}
                 >
                     {dayElement}
                 </div>
                 <div
                     className={`${
                         mode === 2 ? "w-full" : "w-[70%]"
-                    } h-full flex flex-col items-start justify-center p-[2vw]`}
+                    } h-full flex flex-col items-start justify-center p-[1vw]`}
                 >
                     <p className="text-6vw weight-text-semibold">
                         {props.tourInfo.tourTitle}

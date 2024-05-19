@@ -12,7 +12,11 @@ export default function CalcelIcon(props: PropType) {
             stroke="currentColor"
             className={`${props.className} w-3 h-3`}
         >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+            <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+            />
         </svg>
     );
 }
