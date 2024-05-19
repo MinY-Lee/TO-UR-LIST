@@ -131,11 +131,11 @@ export default function TourScheduleEditPage() {
             <section className="w-full h-full">
                 {isLoading ? <Loading /> : <></>}
                 <HeaderBar />
-                <div className="w-full h-[87%] px-2vw relative overflow-y-auto flex flex-col">
-                    <div className="w-full h-[10%] flex justify-between items-center">
-                        <p className="text-7vw">일정 편집</p>
+                <div className="w-full h-[calc(100vh-70px)] px-2vw relative flex flex-col">
+                    <div className="w-full h-[8%] flex justify-between items-center px-2vw">
+                        <p className="text-2xl">일정 편집</p>
                         <div
-                            className="w-[15%] h-6vw border-rad-3vw color-bg-blue-2 text-white flex justify-center items-center"
+                            className="w-[15%] h-6vw border-rad-3vw color-bg-blue-6 text-white flex justify-center items-center"
                             onClick={() => {
                                 window.location.href = `/tour/${tourId}/schedule`;
                             }}
@@ -143,7 +143,7 @@ export default function TourScheduleEditPage() {
                             완료
                         </div>
                     </div>
-                    <div className="w-full h-[90%] flex flex-col justify-between items-center">
+                    <div className="w-full h-[85%] flex flex-col justify-between items-center overflow-y-auto ">
                         {selectedDate === -1
                             ? schedule.map((dailySchedule, index) => {
                                   const date = new Date(tourInfo.startDate);

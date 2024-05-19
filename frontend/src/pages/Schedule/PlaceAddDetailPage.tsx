@@ -34,6 +34,7 @@ import ClockIcon from "../../assets/svg/clockIcon.tsx";
 import CreditCardIcon from "../../assets/svg/creditCardIcon.tsx";
 import MapIcon from "../../assets/svg/mapIcon";
 import PlaceMapIcon from "../../assets/svg/placeMapIcon.tsx";
+import ColorMapping from "../../assets/colorMapping.tsx";
 
 export default function PlaceAddDetailPage() {
     const location = useLocation();
@@ -461,7 +462,7 @@ export default function PlaceAddDetailPage() {
                                             <CalcelIcon/>
                                         </div>
                                         <div
-                                            className="w-[50%] text-4vw border-[#B5B5B5] border-dot3vw flex justify-between p-vw m-vw border-rad-2vw"
+                                            className="w-[65%] text-4vw border-[#B5B5B5] border-dot3vw flex justify-between p-vw m-vw border-rad-2vw mr-2vw"
                                             onClick={() => {
                                                 setSelectedDate(place.tourDay);
                                                 setIsDayChange(true);
@@ -474,28 +475,46 @@ export default function PlaceAddDetailPage() {
                                                 calendar_today
                                             </span>
                                         </div>
-                                        {place.activityList.length >= 1 && place.activityList[0]
-                                            && <div
-                                                className="w-[20%] text-4vw color-bg-blue-6 text-white color-border-blue-6 border-halfvw border-rad-2vw mr-1 py-dot5vw flex justify-center items-center">
+                                        {place.activityList.length >= 1 && place.activityList[0] ? (
+                                            <>
+                                                <div
+                                                    className={`w-[32%] text-4vw text-white border-rad-2vw py-dot5vw flex justify-center items-center mr-vw
+                                                                ${ColorMapping()[place.activityList[0]]}`}
+                                                    onClick={() => {
+                                                        //활동 추가 로직
+                                                        // console.log(place);
+                                                        setSelectedSchedule(place);
+                                                        setIsActivityModal(true);
+                                                    }}
+                                                >
+                                                    {place.activityList[0]}
+                                                </div>
                                                 {place.activityList.length > 1
-                                                    ? place.activityList[0] +
-                                                    "+" +
-                                                    (place.activityList.length -
-                                                        1)
-                                                    : place.activityList[0]}
-                                            </div>}
-
-                                        <div
-                                            className="w-[20%] text-4vw color-text-blue-6 color-border-blue-6 border-halfvw border-rad-2vw px-vw  py-dot5vw flex justify-center items-center border-dotted"
-                                            onClick={() => {
-                                                //활동 추가 로직
-                                                // console.log(place);
-                                                setSelectedSchedule(place);
-                                                setIsActivityModal(true);
-                                            }}
-                                        >
-                                            +
-                                        </div>
+                                                    ? (
+                                                        <div className="relative">
+                                                            <span className="sr-only">Notifications</span>
+                                                            <div
+                                                                className={`${ColorMapping()[place.activityList[0]]}
+                                                     absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white border-2 border-white rounded-full -top-7 -end-2.5 z-10`}
+                                                            >
+                                                                {place.activityList.length - 1}
+                                                            </div>
+                                                        </div>
+                                                    ) : ""}
+                                            </>
+                                        ) : (
+                                            <div
+                                                className="w-[32%] text-4vw color-text-blue-6 color-border-blue-6 border-halfvw border-rad-2vw px-vw  py-dot5vw flex justify-center items-center border-dotted mr-vw"
+                                                onClick={() => {
+                                                    //활동 추가 로직
+                                                    // console.log(place);
+                                                    setSelectedSchedule(place);
+                                                    setIsActivityModal(true);
+                                                }}
+                                            >
+                                                + 새 활동 추가
+                                            </div>
+                                        )}
                                     </div>
                                 );
                             })}

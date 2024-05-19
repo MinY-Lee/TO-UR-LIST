@@ -2,6 +2,7 @@ import { BaseSyntheticEvent, useEffect, useState } from "react";
 import { WebSockPlace } from "../../types/types";
 import CheckModal from "../CheckModal";
 import { Client } from "@stomp/stompjs";
+import ColorMapping from "../../assets/colorMapping.tsx";
 
 interface PropType {
     schedule: WebSockPlace;
@@ -91,12 +92,12 @@ export default function PlaceCard(props: PropType) {
                     )}
                 </div>
                 <div className="w-full flex">
-                    {schedule.activityList.map((activity, index) => {
+                    {schedule.activityList.map((activity) => {
                         return (
                             <p
                                 key={activity}
                                 className={`text-4vw text-white px-2vw mx-dot5vw border-rad-2vw ${
-                                    bgColor[index % 4]
+                                    ColorMapping()[activity]
                                 }`}
                                 style={{ boxShadow: "0px 2px 4px 1px #cecece" }}
                             >

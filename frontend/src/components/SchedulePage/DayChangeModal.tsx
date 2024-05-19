@@ -42,7 +42,7 @@ export default function DayChangeModal(props: PropType) {
                     {daySelectBox.map((days, index) => {
                         return props.selectedDate !== index ? (
                             <div
-                                className="pl-2 w-full h-[14%] flex-shrink-0 color-text-blue-6 text-2xl color-border-blue-2 border-b flex items-center border-collapse"
+                                className="pl-2 w-full h-[14%] flex-shrink-0 color-text-blue-6 text-xl color-border-blue-2 border-b flex items-center border-collapse"
                                 onClick={() =>
                                     props.changeDate(props.selectedDate, index)
                                 }
@@ -51,7 +51,7 @@ export default function DayChangeModal(props: PropType) {
                             </div>
                         ) : (
                             <div
-                                className="pl-2 w-full h-[14%] flex-shrink-0 text-white color-border-blue-2 text-2xl border-b color-bg-blue-6 flex items-center border-collapse"
+                                className="pl-2 w-full h-[14%] flex-shrink-0 text-white color-border-blue-2 text-xl border-b color-bg-blue-6 flex items-center border-collapse"
                                 onClick={props.closeModal}
                             >
                                 {days}
