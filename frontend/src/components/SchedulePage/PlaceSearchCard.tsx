@@ -30,7 +30,7 @@ export default function PlaceSearchCard(props: PropType) {
 
     useEffect(() => {
         if (photoReference) {
-            getPhotoUrl(`/api/place/v1/${photoReference}`)
+            getPhotoUrl(photoReference)
                 .then((response) => {
                     // Assuming the URL is in response.data
                     setPhotoUrl(response.data);
