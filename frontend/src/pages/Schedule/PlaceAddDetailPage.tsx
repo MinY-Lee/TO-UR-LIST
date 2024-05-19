@@ -238,12 +238,12 @@ export default function PlaceAddDetailPage() {
 
     const makePhotoUrl = async (original: string) => {
         const photoRefer = original;
-        const result = await getPhotoUrl(photoRefer).then((response) => {
+        const result = photoRefer ? await getPhotoUrl(photoRefer).then((response) => {
             return response.data
         })
         .catch((error) => {
             console.error("Error fetching photo URL:", error);
-        })
+        }) : ""
 
         return result;
     };
