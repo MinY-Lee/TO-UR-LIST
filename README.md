@@ -10,7 +10,8 @@ Created: 2024년 5월 20일 오전 7:29
 > **개발 인원**: 6인 (프론트엔드 2인 + 백엔드 4인)  
 > **배포 URL**: [tourlist.me](https://tourlist.me/)
 
-[https://www.notion.so](https://www.notion.so)
+<img title="시작화면" src="Readme_assets/01_start_tourlist.jpg" alt="시작화면" height="300">
+<img title="메인화면" src="Readme_assets/01_main_tourlist.jpg" alt="메인화면" height="300">
 
 TOURLIST는 여행에 필요한 체크 리스트, 일정, 가계부를 쉽게 관리하도록 돕는 통합 관리 서비스입니다.
 
@@ -251,7 +252,7 @@ TOURLIST는 여행에 필요한 체크 리스트, 일정, 가계부를 쉽게 �
 
 ### 아키텍쳐 구조
 
-[https://www.notion.so](https://www.notion.so)
+![아키텍쳐 구조도](Readme_assets/05_architecture_diagram.png)
 
 ### API 명세
 
@@ -314,19 +315,19 @@ TOURLIST는 여행에 필요한 체크 리스트, 일정, 가계부를 쉽게 �
 
 -   공통 데이터 베이스
     -   mariaDB
-        ![Untitled](README%203d1db0ae1fc04ca8a73fd2241ddb01b6/Untitled.png)
+        ![공통 데이터베이스 erd](Readme_assets/05_common_erd.png)
 -   유저/인증 서버
     -   mariadb
-        ![Untitled](README%203d1db0ae1fc04ca8a73fd2241ddb01b6/Untitled%201.png)
+        ![유저 데이터베이스 erd](Readme_assets/05_user_erd.png)
 -   여행 관리 서버
     -   neo4j
-        ![Untitled](README%203d1db0ae1fc04ca8a73fd2241ddb01b6/Untitled%202.png)
+        ![여행 데이터베이스 구조](Readme_assets/05_tour_diagram.png)
 -   체크리스트 서버
     -   neo4j
-        ![Untitled](README%203d1db0ae1fc04ca8a73fd2241ddb01b6/Untitled%203.png)
+        ![체크리스트 데이터베이스 구조](Readme_assets/05_checklist_diagram.png)
 -   일정 서버 (장소, 활동)
     -   neo4j
-        ![Untitled](README%203d1db0ae1fc04ca8a73fd2241ddb01b6/Untitled%204.png)
+        ![일정_데이터베이스_구조](Readme_assets/05_place_diagram.png)
 -   가계부 서버
     -   mongoDB collections 구조
         ```json
