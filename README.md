@@ -1,5 +1,3 @@
-Created: 2024년 5월 20일 오전 7:29
-
 # TOURLIST
 
 **: 모든 투어리스트(Tourist)를 위한 단 하나의 투어리스트(TourList)✈✅**
@@ -55,63 +53,64 @@ TOURLIST는 여행에 필요한 체크 리스트, 일정, 가계부를 쉽게 �
     -   공동 지출 내역을 바탕으로 여행 내 정산 내역(누가 누구에게 얼마를 보내야하는지) 제공
 
 ## ⛑개발환경
+### IDE
 
-### Frontend
-
--   HTML5
--   CSS3
--   JavaScript
--   TypeScript
--   React
--   vite
--   axios
--   Tailwind CSS
--   Redux
--   PWA
--   stompjs
-
-### Backend
-
--   Java 17
--   SpringBoot 3.2.4
--   spring jpa
--   Spring Cloud API Gateway
--   websocket
--   mariadb
--   redis
--   mongodb
--   neo4j
--   kafka
-
-### Infra
-
--   jenkins
--   docker
--   nginx
--   kubernetes
--   istio
--   amazon ec2
--   AWS EKS
+![VS-CODE](https://img.shields.io/badge/Visual%20Studio%20Code-007ACC.svg?&style=for-the-badge&logo=Visual%20Studio%20Code&logoColor=white)
+![IntelliJ](https://img.shields.io/badge/IntelliJ%20IDEA-000000.svg?&style=for-the-badge&logo=IntelliJ%20IDEA&logoColor=white)
 
 ### Management Tool
 
--   git / gitlab
--   jira
--   mattermost
--   notion
--   figma
+![Git-F05032.svg](https://img.shields.io/badge/Git-F05032.svg?&style=for-the-badge&logo=Git&logoColor=white)
+![GitLab-FC6D26.svg](https://img.shields.io/badge/GitLab-FC6D26.svg?&style=for-the-badge&logo=GitLab&logoColor=white)
+![Jira Software-0052CC.svg](https://img.shields.io/badge/Jira_Software-0052CC.svg?&style=for-the-badge&logo=JiraSoftware&logoColor=white)
+![Mattermost-0058CC.svg](https://img.shields.io/badge/Mattermost-0058CC.svg?&style=for-the-badge&logo=Mattermost&logoColor=white)
+![Notion-000000.svg](https://img.shields.io/badge/Notion-000000.svg?&style=for-the-badge&logo=Notion&logoColor=white)
+![Figma-F24E1E.svg](https://img.shields.io/badge/Figma-F24E1E.svg?&style=for-the-badge&logo=Figma&logoColor=white)
 
-### IDE
+### Frontend
 
--   vsc
--   intellij
--   pycharm
+![HTML5](https://img.shields.io/badge/HTML5-E34F26.svg?&style=for-the-badge&logo=HTML5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6.svg?&style=for-the-badge&logo=CSS3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?&style=for-the-badge&logo=JavaScript&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3172C6.svg?&style=for-the-badge&logo=TypeScript&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB.svg?&style=for-the-badge&logo=React&logoColor=white)
+![NodeJS](https://img.shields.io/badge/Amazon%20EC2-FF9900.svg?&style=for-the-badge&logo=Amazon%20EC2&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF.svg?&style=for-the-badge&logo=Vite&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-5A29E4.svg?&style=for-the-badge&logo=Axios&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4.svg?&style=for-the-badge&logo=TailwindCSS&logoColor=white)
+![ReduxToolkit](https://img.shields.io/badge/Redux_Toolkit-764ABC.svg?&style=for-the-badge&logo=Redux&logoColor=white)
+![PWA](https://img.shields.io/badge/PWA-5A0FC8.svg?&style=for-the-badge&logo=PWA&logoColor=white)
+![StompJS](https://img.shields.io/badge/StompJS-000000.svg?&style=for-the-badge)
+
+### Backend
+
+![Java17](https://img.shields.io/badge/Java17-000000.svg?&style=for-the-badge)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F.svg?&style=for-the-badge&logo=SpringBoot&logoColor=white)
+![Spring Boot Cloud](https://img.shields.io/badge/Spring_Boot-6DB33F.svg?&style=for-the-badge&logo=SpringBoot&logoColor=white)
+![Spring Security](https://img.shields.io/badge/Spring_Security-6DB33F.svg?&style=for-the-badge&logo=SpringSecurity&logoColor=white)
+![SpringJPA](https://img.shields.io/badge/Spring_JPA-6DB33F.svg?&style=for-the-badge)
+![WebSocket](https://img.shields.io/badge/WebSocket-000000.svg?&style=for-the-badge)
+![MariaDB](https://img.shields.io/badge/MariaDB-003545.svg?&style=for-the-badge&logo=MariaDB&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248.svg?&style=for-the-badge&logo=MongoDB&logoColor=white)
+![Apache_Kafka](https://img.shields.io/badge/Apache_Kafka-231F20.svg?&style=for-the-badge&logo=ApacheKafka&logoColor=white)
+![redis](https://img.shields.io/badge/redis-DC382D.svg?&style=for-the-badge&logo=redis&logoColor=white)
+![neo4j](https://img.shields.io/badge/neo4j-4581C3.svg?&style=for-the-badge&logo=neo4j&logoColor=white)
+
+### Infra
+
+![jenkins](https://img.shields.io/badge/jenkins-D24939.svg?&style=for-the-badge&logo=jenkins&logoColor=white)
+![docker](https://img.shields.io/badge/docker-2496ED.svg?&style=for-the-badge&logo=docker&logoColor=white)
+![nginx](https://img.shields.io/badge/nginx-009639.svg?&style=for-the-badge&logo=nginx&logoColor=white)
+![kubernetes](https://img.shields.io/badge/kubernetes-326CE5.svg?&style=for-the-badge&logo=kubernetes&logoColor=white)
+![istio](https://img.shields.io/badge/istio-466BB0.svg?&style=for-the-badge&logo=istio&logoColor=white)
+![Amazon EKS](https://img.shields.io/badge/Amazon_EKS-FF9900.svg?&style=for-the-badge&logo=AmazonEKS&logoColor=white)
 
 ### 외부 API
 
--   Google Map API
--   ExchangeRate-API
--   ChatGPT API
+![Google Maps](https://img.shields.io/badge/Google_Maps-4285F4.svg?&style=for-the-badge&logo=GoogleMaps&logoColor=white)
+![ExchangeRate API](https://img.shields.io/badge/ExchangeRate_API-ECD53F.svg?&style=for-the-badge&logo=GoogleMaps&logoColor=white)
+![Open AI API](https://img.shields.io/badge/Open_AI_API-412991.svg?&style=for-the-badge&logo=OpenAI&logoColor=white)
+
 
 ## 📱 서비스 화면 및 기능
 
