@@ -8,8 +8,8 @@
 > **개발 인원**: 6인 (프론트엔드 2인 + 백엔드 4인)  
 > **배포 URL**: [tourlist.me](https://tourlist.me/)
 
-<img title="시작화면" src="Readme_assets/01_start_tourlist.jpg" alt="시작화면" height="300">
-<img title="메인화면" src="Readme_assets/01_main_tourlist.jpg" alt="메인화면" height="300">
+
+<img title="시작화면" src="Readme_assets/01_start_tourlist.jpg" alt="시작화면" height="300"> | <img title="메인화면" src="Readme_assets/01_main_tourlist.jpg" alt="메인화면" height="300"> | <img title="main" src="Readme_assets/tour.PNG" alt="" height="300">
 
 TOURLIST는 여행에 필요한 체크 리스트, 일정, 가계부를 쉽게 관리하도록 돕는 통합 관리 서비스입니다.
 
